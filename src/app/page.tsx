@@ -1,5 +1,6 @@
 import About from "@/components/about";
 import { NotFound404 } from "@/components/common/404";
+import Contact from "@/components/contact";
 import Intro from "@/components/intro";
 import Projects from "@/components/projects";
 import SkillMap from "@/components/skillmap";
@@ -11,6 +12,7 @@ export default function Home() {
       <About />
       <Projects />
       <SkillMap />
+      <Contact />
     </main>
   );
 }
