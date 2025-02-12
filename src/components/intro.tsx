@@ -88,7 +88,7 @@ export default function Intro() {
       >
         <Link
           href="#contact"
-          className="group bg-gray-900 text-white px-6 py-1 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 hover:bg-white hover:text-black dark:bg-white/10 active:scale-105 transition"
+          className="group bg-gray-900 text-white px-6 py-1 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 hover:bg-white hover:text-black dark:bg-white/10 dark:text-white/60 active:scale-105 transition"
         >
           Connect <Mail color={"grey"} />
         </Link>

@@ -41,7 +41,7 @@ export default function LearningProgress({
           <div className="absolute top-2 right-2 opacity-10 text-sm">
             Hover for more detail～
           </div>
-          <div className="absolute top-4 left-4 text-3xl opacity-5 z-[-1] pointer-events-none font-mono">
+          <div className="absolute top-4 left-4 text-3xl opacity-5 z-[-1] pointer-events-none font-mono dark:text-white dark:opacity-10">
             {name}
           </div>
 
