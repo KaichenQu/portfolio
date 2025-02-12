@@ -57,7 +57,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ links }) => {
               >
                 <NextLink
                   className={clsx(
-                    "flex w-full items-center justify-center px-3 py-3 hover:text-gray-950 transition dark:text-gray-500 dark:hover:text-gray-300 cursor-pointer",
+                    "flex w-full items-center justify-center px-3 py-3 hover:text-gray-950 transition dark:text-white/60 dark:hover:text-gray-200 cursor-pointer",
                     {
                       "text-gray-950 bg-slate-200 dark:text-gray-200 dark:bg-gray-700 rounded":
                         activeSection === link.hash,

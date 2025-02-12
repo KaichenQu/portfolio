@@ -2,9 +2,10 @@
 import { SectionName } from "@/lib/types";
 import React, { useState, createContext, useContext } from "react";
 
-type ActiveSectionContextProvideProps = {
+type ActiveSectionContextProviderProps = {
   children: React.ReactNode;
 };
+
 type ActiveSectionContextType = {
   activeSection: SectionName;
   setActiveSection: React.Dispatch<React.SetStateAction<SectionName>>;
@@ -17,9 +18,10 @@ export const ActiveSectionContext =
 
 export default function ActiveSectionContextProvider({
   children,
-}: ActiveSectionContextProvideProps) {
+}: ActiveSectionContextProviderProps) {
   const [activeSection, setActiveSection] = useState<SectionName>("#home");
-  const [timeOfLastClick, setTimeOfLastClick] = useState<number>(Date.now()); // set date now for current time
+  const [timeOfLastClick, setTimeOfLastClick] = useState(0);
+
   return (
     <ActiveSectionContext.Provider
       value={{
@@ -33,12 +35,15 @@ export default function ActiveSectionContextProvider({
     </ActiveSectionContext.Provider>
   );
 }
+
 export function useActiveSectionContext() {
   const context = useContext(ActiveSectionContext);
-  if (!context) {
+
+  if (context === null) {
     throw new Error(
-      "useActiveSection must be used within an ActiveSectionProvider"
+      "useActiveSectionContext must be used within an ActiveSectionContextProvider"
     );
   }
+
   return context;
 }

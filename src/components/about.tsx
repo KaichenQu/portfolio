@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import SectionHeading from "./section-heading";
+
 import { Fade } from "react-awesome-reveal";
 import { useSectionInView } from "@/lib/useInView";
 import LearningProgress from "./learningprogress";
@@ -37,9 +37,9 @@ export default function About() {
     >
       <div className="container mx-auto">
         <TextShimmerWave
-          className="text-4xl [--base-color:#0D74CE] [--base-gradient-color:#5EB1EF]"
-          duration={1}
-          spread={1}
+          className="text-4xl [--base-color:#0D74CE] [--base-gradient-color:#5EB1EF] dark:text-white/60"
+          duration={1.25}
+          spread={0.7}
           zDistance={1}
           scaleDistance={1.1}
           rotateYDistance={20}
@@ -49,94 +49,57 @@ export default function About() {
 
         <div className="grid xl:grid-cols-2 lg:text-start">
           <div className="flex-1">
+            {/* Content */}
             <div className="text-lg mt-12 xl:mt-3">
-              <Fade
-                direction="up"
-                delay={400}
-                cascade
-                damping={0.1}
-                triggerOnce
-              >
-                <h3 className="font-bold mt-6">Our Mission</h3>
-              </Fade>
-              <Fade
-                direction="up"
-                delay={600}
-                cascade
-                damping={0.1}
-                triggerOnce
-              >
-                <p className="mt-2 leading-relaxed text-sm text-gray-700 dark:text-white/70">
-                  We believe that a website is the foundation of a successful
-                  online presence...
-                </p>
-              </Fade>
-            </div>
-          </div>
-          <div>
-            <Fade direction="up" delay={1200} cascade damping={0.1} triggerOnce>
-              <h3 className="font-bold mt-6 text-center">Skills Map</h3>
-            </Fade>
-            <motion.section
-              className="max-w-[75rem] text-center leading-8 mb-28 sm:mb-40 scroll-mt-28"
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.175 }}
-              ref={ref}
-              id="about"
-            >
-              <div className="container mx-auto px-4 w-full">
-                {isMobile ? (
-                  <select
-                    className="w-full border rounded p-2"
-                    value={selectedSkill}
-                    onChange={(e) => setSelectedSkill(e.target.value)}
-                  >
-                    {skills.map((skill) => (
-                      <option key={skill.name} value={skill.name}>
-                        {skill.name}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <div
-                    className={cn(
-                      "grid gap-6",
-                      "grid-cols-1",
-                      getGridColumns(skills.length)
-                    )}
-                  >
-                    {skills.map((skill, index) => (
-                      <div key={index} className="transition-all duration-300">
-                        <LearningProgress
-                          name={skill.name}
-                          description={skill.description}
-                          progress={skill.progress}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {isMobile && (
-                  <div className="mt-4">
-                    {skills.find((skill) => skill.name === selectedSkill) && (
-                      <LearningProgress
-                        name={selectedSkill}
-                        description={
-                          skills.find((skill) => skill.name === selectedSkill)
-                            ?.description || ""
-                        }
-                        progress={
-                          skills.find((skill) => skill.name === selectedSkill)
-                            ?.progress || 0
-                        }
-                      />
-                    )}
-                  </div>
-                )}
+              <div className="flex justify-start flex-col">
+                <Fade
+                  direction="up"
+                  delay={400}
+                  cascade
+                  damping={1e-1}
+                  triggerOnce={true}
+                >
+                  <h3 className="font-bold mt-6">Our Mission</h3>
+                </Fade>
+                <Fade
+                  direction="up"
+                  delay={600}
+                  cascade
+                  damping={1e-1}
+                  triggerOnce={true}
+                >
+                  <p className="mt-2 leading-relaxed text-sm text-gray-700 dark:text-white/70">
+                    We believe that a website is the foundation of a successful
+                    online presence, and our goal is to help businesses
+                    establish a strong digital presence. Our process begins with
+                    understanding your business goals.
+                  </p>
+                </Fade>
+                <Fade
+                  direction="up"
+                  delay={800}
+                  cascade
+                  damping={1e-1}
+                  triggerOnce={true}
+                >
+                  <h3 className="font-bold mt-6">Our Vision</h3>
+                </Fade>
+                <Fade
+                  direction="up"
+                  delay={1000}
+                  cascade
+                  damping={1e-1}
+                  triggerOnce={true}
+                >
+                  <p className="mt-2 leading-relaxed text-sm text-gray-700 dark:text-white/70">
+                    We then use this information to create a custom website that
+                    not only reflects your brand but also helps you achieve your
+                    business objectives. From responsive design to intuitive
+                    navigation, we focus on every detail.
+                  </p>
+                </Fade>
               </div>
-            </motion.section>
+            </div>
           </div>
         </div>
       </div>
