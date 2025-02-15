@@ -8,6 +8,8 @@ export type ProjectInfo = {
   tags: string[];
   imageUrl: string;
   link: string;
+  githubUrl: string;
+  demoUrl: string;
 };
 
 export type Link = {
@@ -27,4 +29,11 @@ type About = {
 };
 export type Texts = {
   about: About;
+};
+
+export type Education = {
+  startYear: string;
+  endYear: string;
+  school: string;
+  degree?: string;
 };

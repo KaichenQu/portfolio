@@ -37,7 +37,7 @@ export default function LearningProgress({
         className="relative overflow-visible group w-full"
       >
         <Card className="w-full p-4 relative bg-gradient-to-br from-white/80 to-white/60 dark:from-gray-900/90 dark:to-gray-800/90 backdrop-blur-md shadow-lg hover:shadow-xl transition-all duration-300">
-          <h3 className="font-mono text-xl">{name}</h3>
+          <h3 className="font-mono text-xl ml-5">{name}</h3>
           <div className="absolute top-2 right-2 opacity-10 text-sm">
             Hover for more detail～
           </div>

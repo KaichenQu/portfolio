@@ -15,25 +15,25 @@ import { InfiniteSlider } from "@/components/ui/infinite-slider";
 import { Divide } from "lucide-react";
 
 export default function SkillMap() {
-  const { ref } = useSectionInView("#about");
+  const { ref } = useSectionInView("#skills");
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [selectedSkill, setSelectedSkill] = useState<string>(
     skills[0]?.name || ""
   );
 
   const getGridColumns = (skillsCount: number) => {
-    if (skillsCount <= 4) return "md:grid-cols-1";
-    if (skillsCount <= 8) return "md:grid-cols-2";
-    if (skillsCount <= 12) return "md:grid-cols-3";
+    if (skillsCount <= 3) return "md:grid-cols-1";
+    if (skillsCount <= 6) return "md:grid-cols-2";
+    if (skillsCount <= 9) return "md:grid-cols-3";
     return "md:grid-cols-4";
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div className="w-full max-w-7xl mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <TextShimmerWave
-            className="text-4xl [--base-color:#0D74CE] [--base-gradient-color:#5EB1EF] dark:text-white/60"
+            className="text-5xl [--base-color:#374151] [--base-gradient-color:#111827] dark:text-white/60"
             duration={1.25}
             spread={0.7}
             zDistance={1}
@@ -44,12 +44,12 @@ export default function SkillMap() {
           </TextShimmerWave>
         </div>
         <motion.section
-          className="w-full mb-28 sm:mb-40 scroll-mt-28"
+          className="w-full mb-16 sm:mb-20 scroll-mt-28"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.175 }}
           ref={ref}
-          id="about"
+          id="skills"
         >
           <div className="container mx-auto px-4 w-full">
             {isMobile ? (
@@ -104,7 +104,7 @@ export default function SkillMap() {
           </div>
         </motion.section>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mt-4">
         <InfiniteSlider gap={24} duration={80}>
           <img
             src="/skills-icons/Java-Dark.svg"

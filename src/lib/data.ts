@@ -1,29 +1,26 @@
-import { Link, ProjectInfo } from "./types";
+import { Education, Link, ProjectInfo } from "./types";
 
 export const links: Link[] = [
   {
     nameEng: "Home",
-    hash: "#home",
+    hash: "/",
   },
   {
     nameEng: "About",
-    hash: "#about",
+    hash: "/about",
   },
   {
-    nameEng: "Projects",
-    hash: "#projects",
+    nameEng: "Showcases",
+    hash: "/showcase",
   },
+
   {
-    nameEng: "Skills",
-    hash: "#skills",
+    nameEng: "Contact",
+    hash: "/contact",
   },
   {
     nameEng: "Blog",
-    hash: "#Blog",
-  },
-  {
-    nameEng: "Contact",
-    hash: "#contact",
+    hash: "/blog",
   },
 ];
 
@@ -35,6 +32,8 @@ export const projectsData: ProjectInfo[] = [
     tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
     imageUrl: "/image1.png",
     link: "https://www.google.com",
+    githubUrl: "https://www.google.com",
+    demoUrl: "https://www.google.com",
   },
   {
     title: "Career Fair Registration System",
@@ -43,6 +42,8 @@ export const projectsData: ProjectInfo[] = [
     tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
     imageUrl: "/image2.png",
     link: "https://www.google.com",
+    githubUrl: "https://www.google.com",
+    demoUrl: "https://www.google.com",
   },
   {
     title: "Storage App",
@@ -51,6 +52,8 @@ export const projectsData: ProjectInfo[] = [
     tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
     imageUrl: "/image3.png",
     link: "https://www.google.com",
+    githubUrl: "https://www.google.com",
+    demoUrl: "https://www.google.com",
   },
   {
     title: "Missio Theme",
@@ -59,6 +62,8 @@ export const projectsData: ProjectInfo[] = [
     tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
     imageUrl: "/image4.png",
     link: "https://www.google.com",
+    githubUrl: "https://www.google.com",
+    demoUrl: "https://www.google.com",
   },
 ];
 
@@ -77,4 +82,43 @@ export const skillsData = [
   "Redux Toolkit",
   "Express",
   "Framer Motion",
+];
+
+export const educationData: Education[] = [
+  {
+    school: "Northeastern University",
+    degree: "Master of Science in Computer Science",
+    startYear: "2023",
+    endYear: "2026",
+  },
+  {
+    school: "East China University of Science and Technology",
+    degree: "Bachelor of Engineering in Energy and Power Engineering",
+    startYear: "2019",
+    endYear: "2023",
+  },
+];
+
+export const timelineYears = [
+  "2026",
+  "2025",
+  "2024",
+  "2023",
+  "2022",
+  "2021",
+  "2020",
+  "2019",
+];
+
+export const workExperience = [
+  {
+    company: "BMW Group",
+    role: "R&D Department of New Technology",
+    startDate: "2023",
+  },
+  {
+    company: "CDP Group",
+    role: "Development Department",
+    startDate: "2021",
+  },
 ];

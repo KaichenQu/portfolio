@@ -6,6 +6,7 @@ import { useSectionInView } from "@/lib/useInView";
 import SubmitBtn from "./submit-btn";
 import { TextShimmerWave } from "./ui/text-shimmer-wave";
 import { toast } from "react-hot-toast";
+import SectionTitle from "./common/sectiontitle";
 
 export default function Contact() {
   const { ref } = useSectionInView("#contact");
@@ -58,27 +59,15 @@ export default function Contact() {
         once: true,
       }}
     >
-      <TextShimmerWave
-        className="text-4xl [--base-color:#0D74CE] [--base-gradient-color:#5EB1EF] dark:text-white/60"
-        duration={1.25}
-        spread={0.7}
-        zDistance={1}
-        scaleDistance={1.1}
-        rotateYDistance={20}
-      >
-        Contact Me
-      </TextShimmerWave>
+      <SectionTitle>Contact Me</SectionTitle>
 
-      <p className="mt-10 text-gray-700  dark:text-white/80">
+      <p className="mt-10 text-gray-700 dark:text-white/80">
         {"Feel free to contact me directly through this form"}
       </p>
 
-      <form
-        onSubmit={handleSubmit}
-        className="mt-10 flex flex-col dark:text-black"
-      >
+      <form onSubmit={handleSubmit} className="mt-10 flex flex-col">
         <input
-          className="h-14 px-4 rounded-lg borderBlack dark:bg-white dark:bg-opacity-20 dark:focus:bg-opacity-10 transition-all dark:outline-none"
+          className="h-14 px-4 rounded-lg borderBlack bg-white dark:bg-white/10 dark:text-white/80 transition-all dark:outline-none"
           name="senderEmail"
           type="email"
           required
@@ -86,7 +75,7 @@ export default function Contact() {
           placeholder={"Your email"}
         />
         <textarea
-          className="h-52 my-3 rounded-lg resize-none borderBlack p-4 dark:bg-white dark:bg-opacity-20 dark:focus:bg-opacity-10 transition-all dark:outline-none"
+          className="h-56 my-3 rounded-lg resize-none borderBlack p-4 bg-white dark:bg-white/10 dark:text-white/80 transition-all dark:outline-none"
           name="message"
           placeholder={"Message"}
           required

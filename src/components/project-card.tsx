@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
+import { FaGithub } from "react-icons/fa";
+import { BiLinkExternal } from "react-icons/bi";
 import { ProjectInfo } from "@/lib/types";
 
 type ProjectProps = ProjectInfo;
@@ -12,62 +14,73 @@ export default function Project({
   description,
   tags,
   imageUrl,
+  githubUrl,
+  demoUrl,
 }: ProjectProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["0 1", "1.33 1"],
   });
-  const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-  const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
+  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
 
   return (
     <motion.div
       ref={ref}
       style={{
-        scale: scaleProgess,
-        opacity: opacityProgess,
+        scale: scaleProgress,
+        opacity: opacityProgress,
       }}
-      className="group mb-3 sm:mb-8 last:mb-0"
+      className="group w-full max-w-2xl mb-8"
     >
-      <section className="bg-white max-w-[42rem] border border-black/5 rounded-lg overflow-hidden sm:pr-8 relative sm:h-[20rem] hover:bg-gray-200 transition sm:group-even:pl-8 dark:text-white dark:bg-white/10 dark:hover:bg-white/20">
-        <div className="pt-4 pb-7 px-5 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[50%] flex flex-col h-full sm:group-even:ml-[18rem]">
-          <h3 className="text-2xl font-semibold">{title}</h3>
-          <p className="mt-2 leading-relaxed text-gray-700 dark:text-white/70">
-            {description}
-          </p>
-          <ul className="flex flex-wrap mt-4 gap-2 sm:mt-auto">
-            {tags.map((tag, index) => (
-              <li
-                className="bg-black/[0.7] px-3 py-1 text-[0.7rem] uppercase tracking-wider text-white rounded-full dark:text-white/70"
-                key={index}
+      <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col dark:bg-white/10">
+        <div className="relative h-48 w-full overflow-hidden">
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            className="object-cover transform group-hover:scale-110 transition-transform duration-500"
+          />
+          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+            {githubUrl && (
+              <a
+                href={githubUrl}
+                target="_blank"
+                className="text-white hover:text-blue-400 transition-colors"
               >
-                {tag}
-              </li>
-            ))}
-          </ul>
+                <FaGithub className="w-8 h-8" />
+              </a>
+            )}
+            {demoUrl && (
+              <a
+                href={demoUrl}
+                target="_blank"
+                className="text-white hover:text-blue-400 transition-colors"
+              >
+                <BiLinkExternal className="w-8 h-8" />
+              </a>
+            )}
+          </div>
         </div>
 
-        <Image
-          src={imageUrl}
-          alt="Project I worked on"
-          quality={95}
-          width={400}
-          height={100}
-          className="absolute hidden sm:block top-8 -right-40 rounded-t-lg shadow-2xl
-        transition 
-        group-hover:scale-[1.04]
-        group-hover:-translate-x-3
-        group-hover:translate-y-3
-        group-hover:-rotate-2
-
-        group-even:group-hover:translate-x-3
-        group-even:group-hover:translate-y-3
-        group-even:group-hover:rotate-2
-
-        group-even:right-[initial] group-even:-left-40"
-        />
-      </section>
+        <div className="p-6 flex flex-col flex-grow">
+          <h3 className="text-xl font-semibold mb-2 line-clamp-1">{title}</h3>
+          <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow line-clamp-3">
+            {description}
+          </p>
+          <div className="flex flex-wrap gap-2 mt-auto">
+            {tags.map((tag, index) => (
+              <span
+                key={index}
+                className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 rounded-full text-gray-800 dark:text-gray-200"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 }

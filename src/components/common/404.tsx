@@ -7,7 +7,7 @@ export const NotFound404: React.FC<{ children?: React.ReactNode }> = ({
     <div className="min-h-[500px]">
       <div className="fixed inset-0 flex flex-col space-y-6 center">
         <$404SVG className="size-[400px]" />
-        <p>Haven't Done Yet!!!</p>
+        <p className="text-2xl font-bold text-center">To be continued...</p>
         {children}
       </div>
     </div>
@@ -286,7 +286,7 @@ const $404SVG: React.FC<{ className?: string }> = ({ className }) => {
         />
       </g>
       <g
-        clipPath="url(cordClip)"
+        clipPath="url(#cordClip)"
         style={{
           transformOrigin: "0 0",
         }}

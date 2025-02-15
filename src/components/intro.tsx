@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Fade } from "react-awesome-reveal";
 import Link from "next/link";
 import { BsLinkedin } from "react-icons/bs";
-import { FaGithubSquare } from "react-icons/fa";
 import { TextRoll } from "./ui/text-roll";
 import { TextEffect } from "./ui/text-effect";
 
@@ -13,6 +12,7 @@ import { Mail } from "lucide-react";
 import { useSectionInView } from "@/lib/useInView";
 import { useActiveSectionContext } from "@/containers/active-section";
 import { GitHubBrandIcon } from "./icons/GitHubBrandIcon";
+import { HiOutlineDocumentText } from "react-icons/hi";
 
 export default function Intro() {
   const { ref } = useSectionInView("#home", 0.5);
@@ -87,7 +87,7 @@ export default function Intro() {
         }}
       >
         <Link
-          href="#contact"
+          href="/contact"
           className="group bg-gray-900 text-white px-6 py-1 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 hover:bg-white hover:text-black dark:bg-white/10 dark:text-white/60 active:scale-105 transition"
         >
           Connect <Mail color={"grey"} />
@@ -107,6 +107,14 @@ export default function Intro() {
           target="_blank"
         >
           <GitHubBrandIcon />
+        </a>
+
+        <a
+          className="bg-gray-900 p-3 text-white flex items-center gap-2 text-[1.35rem] rounded-full focus:scale-[1.4] hover:scale-[1.4] hover:text-black hover:bg-white active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"
+          href="/KaichenQu-Resume_A.pdf"
+          target="_blank"
+        >
+          <HiOutlineDocumentText />
         </a>
       </motion.div>
     </section>
