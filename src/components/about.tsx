@@ -110,7 +110,7 @@ export default function About() {
                       <p>
                         As a{" "}
                         <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          full-stack developer
+                          Full-Stack Developer
                         </span>{" "}
                         with a backend focus, I specialize in{" "}
                         <span className="font-semibold text-purple-600 dark:text-purple-400">
@@ -119,25 +119,41 @@ export default function About() {
                         .
                       </p>
                       <p>
-                        I have experience building scalable microservices,
-                        optimizing high-performance architectures, and
-                        leveraging cloud platforms like{" "}
+                        Proficient in popular frameworks like{" "}
                         <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          AWS
+                          Spring Framework, MyBatis
+                        </span>{" "}
+                        and experienced with Microservices Architecture.
+                      </p>
+                      <p>
+                        Strong expertise in{" "}
+                        <span className="font-semibold text-purple-600 dark:text-purple-400">
+                          Distributed Systems, Message Queues (Kafka, RabbitMQ)
                         </span>{" "}
                         and{" "}
                         <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          GCP
+                          Caching Solutions (Redis)
                         </span>
                         .
                       </p>
                       <p>
-                        On the frontend, I am proficient in{" "}
+                        Experienced with cloud platforms like{" "}
                         <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          React, Next.js, and Tailwind CSS
+                          AWS, Docker, Kubernetes
+                        </span>{" "}
+                        and CI/CD tools.
+                      </p>
+                      <p>
+                        On the frontend, proficient in{" "}
+                        <span className="font-semibold text-purple-600 dark:text-purple-400">
+                          React, Next.js, TypeScript
+                        </span>{" "}
+                        and{" "}
+                        <span className="font-semibold text-purple-600 dark:text-purple-400">
+                          Tailwind CSS
                         </span>
-                        , enabling me to build modern, responsive, and
-                        high-performance user interfaces.
+                        , enabling me to build modern, responsive web
+                        applications.
                       </p>
                     </div>
                   </Fade>

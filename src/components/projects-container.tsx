@@ -10,12 +10,12 @@ export default function ProjectsContainer() {
   return (
     <div className="relative w-full max-w-7xl mx-auto px-4">
       <motion.div
-        className="grid grid-cols-[1fr,2fr] gap-8"
+        className="grid grid-cols-1 lg:grid-cols-[1fr,2fr] gap-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div>
+        <div className="order-1 lg:order-1">
           <div className="flex justify-center mb-8">
             <TextShimmerWave
               className="text-3xl [--base-color:#374151] [--base-gradient-color:#111827] dark:text-white/60"
@@ -34,7 +34,7 @@ export default function ProjectsContainer() {
             ))}
           </div>
         </div>
-        <div>
+        <div className="order-2 lg:order-2 mt-12 lg:mt-0">
           <div className="flex justify-center mb-8">
             <TextShimmerWave
               className="text-3xl [--base-color:#374151] [--base-gradient-color:#111827] dark:text-white/60"
@@ -47,7 +47,7 @@ export default function ProjectsContainer() {
               Timeline
             </TextShimmerWave>
           </div>
-          <div className="sticky top-24 h-[calc(100vh-6rem)]">
+          <div className="lg:sticky lg:top-24 h-[calc(100vh-6rem)]">
             <Timeline />
           </div>
         </div>
