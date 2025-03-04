@@ -72,8 +72,7 @@ export default function Intro() {
             preset="blur"
             delay={1.5}
           >
-            Resonance is a full-service creative studio creating beautiful
-            digital experiences and products.
+            Do something great and enjoy the process!
           </TextEffect>
         </h1>
       </Fade>

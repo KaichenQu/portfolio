@@ -26,11 +26,11 @@ export default function LearningProgress({
 
   const [isHovered, setIsHovered] = useState(false);
   return (
-    <div className="my-4 relative w-full">
+    <div className="my-4 relative w-full min-h-[180px]">
       <motion.div
         whileHover={{
-          scale: 1.1,
-          transition: { duration: 1, ease: "easeOut" },
+          scale: 1.0,
+          transition: { duration: 0.5, ease: "easeOut" },
         }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
@@ -39,7 +39,7 @@ export default function LearningProgress({
         <Card className="w-full p-4 relative bg-gradient-to-br from-white/80 to-white/60 dark:from-gray-900/90 dark:to-gray-800/90 backdrop-blur-md shadow-lg hover:shadow-xl transition-all duration-300">
           <h3 className="font-mono text-xl ml-5">{name}</h3>
           <div className="absolute top-2 right-2 opacity-10 text-sm">
-            Hover for more detail～
+            Hover for more ~
           </div>
           <div className="absolute top-4 left-4 text-3xl opacity-5 z-[-1] pointer-events-none font-mono dark:text-white dark:opacity-10">
             {name}
@@ -52,7 +52,7 @@ export default function LearningProgress({
               height: isHovered ? "auto" : 0,
             }}
             transition={{
-              duration: 0.3,
+              duration: 0.5,
               ease: "easeInOut",
             }}
             className="overflow-hidden mt-2"
