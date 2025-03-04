@@ -1,6 +1,5 @@
 export const skillCategories = [
   {
-    name: "Languages",
     skills: [
       {
         name: "Java",
@@ -10,91 +9,11 @@ export const skillCategories = [
       {
         name: "Python",
         description: "Django, Flask, Data Analysis, Automation Scripts",
-        progress: 85,
-      },
-      {
-        name: "Go",
-        description: "Microservices, gRPC, Concurrent Programming",
         progress: 80,
       },
       {
         name: "TypeScript",
         description: "Modern JavaScript, Type Safety, Node.js",
-        progress: 85,
-      },
-    ],
-  },
-  {
-    name: "Backend",
-    skills: [
-      {
-        name: "Microservices",
-        description: "Service Discovery, API Gateway, Load Balancing",
-        progress: 85,
-      },
-      {
-        name: "Databases",
-        description: "MySQL, PostgreSQL, MongoDB, Redis",
-        progress: 90,
-      },
-      {
-        name: "Message Queue",
-        description: "Kafka, RabbitMQ, RocketMQ",
-        progress: 85,
-      },
-      {
-        name: "Cloud Native",
-        description: "Docker, Kubernetes, Service Mesh",
-        progress: 80,
-      },
-    ],
-  },
-  {
-    name: "Frontend",
-    skills: [
-      {
-        name: "React",
-        description: "Next.js, Redux, React Query",
-        progress: 85,
-      },
-      {
-        name: "UI/UX",
-        description: "Tailwind CSS, Material-UI, Framer Motion",
-        progress: 80,
-      },
-      {
-        name: "Build Tools",
-        description: "Webpack, Vite, ESBuild",
-        progress: 75,
-      },
-      {
-        name: "Testing",
-        description: "Jest, React Testing Library, Cypress",
-        progress: 75,
-      },
-    ],
-  },
-  {
-    name: "DevOps",
-    skills: [
-      {
-        name: "CI/CD",
-        description: "Jenkins, GitHub Actions, GitLab CI",
-        progress: 80,
-      },
-      {
-        name: "Cloud",
-        description: "AWS, GCP, Azure",
-        progress: 75,
-      },
-      {
-        name: "Monitoring",
-        description: "Prometheus, Grafana, ELK Stack",
-        progress: 75,
-      },
-      {
-        name: "Security",
-        description: "OAuth2.0, JWT, SSL/TLS",
         progress: 80,
       },
     ],

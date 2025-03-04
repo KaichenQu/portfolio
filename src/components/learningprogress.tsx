@@ -26,7 +26,7 @@ export default function LearningProgress({
 
   const [isHovered, setIsHovered] = useState(false);
   return (
-    <div className="my-4 relative w-full">
+    <div className="my-4 relative w-full min-h-[180px]">
       <motion.div
         whileHover={{
           scale: 1.0,

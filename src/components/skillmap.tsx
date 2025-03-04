@@ -41,11 +41,7 @@ export default function SkillMap() {
 
       <div className="w-full space-y-8">
         {skillCategories.map((category, categoryIndex) => (
-          <div key={categoryIndex} className="relative">
-            <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">
-              {category.name}
-            </h3>
-
+          <div key={categoryIndex} className="relative min-h-[220px]">
             {/* Scroll Hint */}
             {showScrollHints[categoryIndex] && (
               <div className="absolute -top-8 right-0 flex items-center gap-2 text-gray-500 dark:text-gray-400 animate-pulse">
