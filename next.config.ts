@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
     domains: ["fonts.googleapis.com"],
   },
   /* config options here */
+  async redirects() {
+    return [
+      {
+        source: "www.kelsonqu.com",
+        destination: "https://kelsonqu.com",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
