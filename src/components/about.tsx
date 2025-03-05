@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -64,12 +64,13 @@ export default function About() {
                     triggerOnce={true}
                   >
                     <p className="font-mono text-left mt-4 leading-relaxed text-m text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors duration-300">
-                      2019 - 2023, I earned my bachelor's degree from{" "}
+                      2019 - 2023, I earned my bachelor&apos;s degree from{" "}
                       <span className="font-semibold text-blue-600 dark:text-blue-400">
                         East China University of Science and Technology
                       </span>{" "}
                       <span className="block mt-2">
-                        2023 - 2026, I'm now pursuing my master's degree from{" "}
+                        2023 - 2026, I&apos;m now pursuing my master&apos;s
+                        degree from{" "}
                         <span className="font-semibold text-blue-600 dark:text-blue-400">
                           Northeastern University
                         </span>{" "}
