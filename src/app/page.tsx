@@ -1,4 +1,9 @@
-import Intro from "@/components/intro";
+import dynamic from "next/dynamic";
+
+// Lazy loading the Intro component
+const Intro = dynamic(() => import("@/components/intro"), {
+  loading: () => <div>Loading...</div>,
+});
 
 export default function Home() {
   return (

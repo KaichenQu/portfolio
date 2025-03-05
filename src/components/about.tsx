@@ -15,6 +15,7 @@ import {
   CarouselIndicator,
   CarouselItem,
 } from "@/components/ui/carousel";
+
 export default function About() {
   const { ref } = useSectionInView("/src/app/page.tsx");
 

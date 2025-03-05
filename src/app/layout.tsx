@@ -26,6 +26,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="!scroll-smooth">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
         className={`${sora.variable} font-Sora min-h-screen flex flex-col bg-gray-50 text-gray-950 relative dark:bg-gray-900 dark:text-gray-100 dark:text-opacity-90`}
       >

@@ -1,4 +1,11 @@
-import ProjectsContainer from "@/components/projects-container";
+import dynamic from "next/dynamic";
+
+const ProjectsContainer = dynamic(
+  () => import("@/components/projects-container"),
+  {
+    loading: () => <div>Loading...</div>,
+  }
+);
 
 export default function ProjectsPage() {
   return (
