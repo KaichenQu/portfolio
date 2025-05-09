@@ -69,16 +69,19 @@ export default function SkillMap() {
               ref={(el) => {
                 scrollRefs.current[categoryIndex] = el;
               }}
-              className="overflow-x-auto scrollbar-hide"
+              className="overflow-x-auto scrollbar-hide lg:overflow-visible"
               onScroll={() => {
                 const newHints = [...showScrollHints];
                 newHints[categoryIndex] = false;
                 setShowScrollHints(newHints);
               }}
             >
-              <div className="flex gap-4 pb-4 min-w-max">
+              <div className="flex gap-4 pb-4 min-w-max lg:min-w-0 lg:grid lg:grid-cols-4 lg:gap-6">
                 {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="w-[300px] flex-shrink-0">
+                  <div
+                    key={skillIndex}
+                    className="w-[300px] flex-shrink-0 lg:w-full"
+                  >
                     <LearningProgress
                       name={skill.name}
                       description={skill.description}
@@ -91,7 +94,7 @@ export default function SkillMap() {
           </div>
         ))}
         <div className="flex flex-col gap-2 mt-4">
-          <InfiniteSlider gap={24} duration={80}>
+          <InfiniteSlider gap={15} duration={120}>
             {skillIcons.map((icon, index) => (
               <img
                 key={index}

@@ -16,6 +16,7 @@ export default function Project({
   imageUrl,
   githubUrl,
   demoUrl,
+  link,
 }: ProjectProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -77,8 +78,15 @@ export default function Project({
               >
                 {tag}
               </span>
+              
             ))}
           </div>
+          <a
+            href={link || "#"}
+            className="self-end mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition-colors text-sm"
+          >
+            View more
+          </a>
         </div>
       </div>
     </motion.div>

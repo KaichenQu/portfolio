@@ -55,7 +55,24 @@ export default function LearningProgress({
               duration: 0.5,
               ease: "easeInOut",
             }}
-            className="overflow-hidden mt-2"
+            className="overflow-hidden mt-2 md:hidden"
+          >
+            <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+              {description}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{
+              opacity: isHovered ? 1 : 0,
+              height: isHovered ? "auto" : 0,
+            }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
+            className="overflow-hidden mt-2 hidden md:block"
           >
             <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
               {description}

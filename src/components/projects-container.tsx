@@ -25,7 +25,7 @@ export default function ProjectsContainer() {
               scaleDistance={1.1}
               rotateYDistance={20}
             >
-              My Projects
+              Projects
             </TextShimmerWave>
           </div>
           <div className="space-y-8">

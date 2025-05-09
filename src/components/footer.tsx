@@ -31,7 +31,7 @@ export default function Footer() {
             <Mail className="h-6 w-6" />
           </a>
           <a
-            href="/KaichenQu-Resume_A.pdf"
+            href="/KaichenQu-Resume.pdf"
             target="_blank"
             className="text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
           >

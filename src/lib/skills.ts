@@ -2,19 +2,47 @@ export const skillCategories = [
   {
     skills: [
       {
+        name: "C++",
+        description: "STL, Smart Pointers, Templates, Modern C++, Memory Management",
+        progress: 50,
+      },
+      {
         name: "Java",
-        description: "Expert in Java, Spring Boot, Spring Cloud, MyBatis",
+        description:
+          "Spring Boot, Spring Cloud, MyBatis, Hibernate, Netty, JUnit",
         progress: 90,
       },
       {
         name: "Python",
-        description: "Django, Flask, Data Analysis, Automation Scripts",
-        progress: 80,
+        description:
+          "Django, PyTorch, TensorFlow, Automation Scripts, Data Processing",
+        progress: 85,
+      },
+      {
+        name: "Go",
+        description: "Goroutines, Channels, Bitcask, TCP, Concurrency",
+        progress: 60,
       },
       {
         name: "TypeScript",
-        description: "Modern JavaScript, Type Safety, Node.js",
+        description: "Modern ES6+, Node.js, Nest.js, Express.js",
+        progress: 90,
+      },
+      {
+        name: "Database",
+        description: "MySQL, MongoDB, Redis, Apache ShardingSphere",
         progress: 80,
+      },
+      {
+        name: "Distributed Systems",
+        description:
+          "Zookeeper, Kafka, RocketMQ, gRPC, Circuit Breaker, Load Balancing",
+        progress: 80,
+      },
+      {
+        name: "DevOps & Cloud",
+        description: "Docker, Kubernetes, Jenkins, AWS (EC2, S3, ELB), GCP",
+        progress: 20,
       },
     ],
   },
@@ -23,6 +51,14 @@ export const skillCategories = [
 export type SkillCategory = (typeof skillCategories)[number];
 
 export const skillIcons = [
+  {
+    src: "/skills-icons/CPP.svg",
+    alt: "C++",
+  },
+  {
+    src: "/skills-icons/C.svg",
+    alt: "C",
+  },
   {
     src: "/skills-icons/Java-Dark.svg",
     alt: "Java",
@@ -35,13 +71,30 @@ export const skillIcons = [
     src: "/skills-icons/Golang.svg",
     alt: "Go",
   },
+
+  {
+    src: "/skills-icons/TypeScript.svg",
+    alt: "TypeScript",
+  },
   {
     src: "/skills-icons/React-Dark.svg",
     alt: "React",
   },
   {
-    src: "/skills-icons/TypeScript.svg",
-    alt: "TypeScript",
+    src: "/skills-icons/nextjs.jpeg",
+    alt: "Next.js",
+  },
+  {
+    src: "/skills-icons/Spring-Dark.svg",
+    alt: "Spring",
+  },
+  {
+    src: "/skills-icons/FastAPI.svg",
+    alt: "FastAPI",
+  },
+  {
+    src: "/skills-icons/Nodejs-Dark.svg",
+    alt: "Node.js",
   },
   {
     src: "/skills-icons/MySQL-Dark.svg",
@@ -80,6 +133,11 @@ export const skillIcons = [
     alt: "Docker",
   },
   {
+    src: "/skills-icons/Elasticsearch-Dark.svg",
+    alt: "Elasticsearch",
+  },
+
+  {
     src: "/skills-icons/AWS-Dark.svg",
     alt: "AWS",
   },
@@ -94,5 +152,22 @@ export const skillIcons = [
   {
     src: "/skills-icons/Jenkins-Dark.svg",
     alt: "Jenkins",
+  },
+  {
+    src: "/skills-icons/linux.jpeg",
+    alt: "Linux",
+  },
+  {
+    src: "/skills-icons/prometheus.png",
+    alt: "Prometheus",
+  },
+
+  {
+    src: "/skills-icons/Kotlin-Dark.svg",
+    alt: "Kotlin",
+  },
+  {
+    src: "/skills-icons/Git.svg",
+    alt: "Git",
   },
 ] as const;

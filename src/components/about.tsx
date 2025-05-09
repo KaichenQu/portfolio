@@ -65,25 +65,86 @@ export default function About() {
                     triggerOnce={true}
                   >
                     <p className="font-mono text-left mt-4 leading-relaxed text-m text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors duration-300">
-                      2019 - 2023, I earned my bachelor&apos;s degree from{" "}
+                      My journey began at{" "}
                       <span className="font-semibold text-blue-600 dark:text-blue-400">
                         East China University of Science and Technology
-                      </span>{" "}
-                      <span className="block mt-2">
-                        2023 - 2026, I&apos;m now pursuing my master&apos;s
-                        degree from{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          Northeastern University
-                        </span>{" "}
                       </span>
-                      <span>
-                        My journey has taken me across global tech environments,
-                        from leading startup collaborations
-                      </span>{" "}
-                      to developing innovative software solutions.
+                      , where I earned my bachelor&apos;s in Energy and Power Engineering. Driven by my passion for software development, I transitioned to{" "}
+                      <span className="font-semibold text-blue-600 dark:text-blue-400">
+                        Computer Science
+                      </span>
+                      {" "}and am now pursuing my master&apos;s at{" "}
+                      <span className="font-semibold text-blue-600 dark:text-blue-400">
+                        Northeastern University in San Jose
+                      </span>
+                      .
+
+                      <span className="block mt-2">
+                        My professional experience spans from{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          BMW Group
+                        </span>
+                        {" "}and{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          CDP Group
+                        </span>
+                        {" "}to current research at{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          MIG Lab
+                        </span>
+                        . At BMW, I developed{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          PyQt-based testing frameworks
+                        </span>
+                        ; at CDP, I built{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          web apps and WeChat mini programs
+                        </span>
+                        ; and at MIG Lab, I focus on{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          deep learning for medical imaging
+                        </span>
+                        .
+                      </span>
+
+                      <span className="block mt-2">
+                        I&apos;ve led several significant projects, including a{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          high-performance SaaS platform
+                        </span>
+                        {" "}with{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          RocketMQ
+                        </span>
+                        , a{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          distributed RPC framework
+                        </span>
+                        {" "}using{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          Netty
+                        </span>
+                        , and a{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          career fair system
+                        </span>
+                        {" "}with{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          Django and Next.js
+                        </span>
+                        . I also developed{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          LiteKV
+                        </span>
+                        , a high-performance key-value store in{" "}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          Go
+                        </span>
+                        .
+                      </span>
+
                       <span className="italic block mt-2">
-                        Passionate about bridging technology and business, I
-                        thrive in dynamic and fast-paced settings.
+                        I thrive in dynamic environments that combine engineering excellence with innovative solutions, focusing on high performance and reliability.
                       </span>
                     </p>
                   </Fade>
@@ -113,49 +174,45 @@ export default function About() {
                         As a{" "}
                         <span className="font-semibold text-purple-600 dark:text-purple-400">
                           Full-Stack Developer
-                        </span>{" "}
-                        with a backend focus, I specialize in{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          Java, Python, and Go
                         </span>
-                        .
-                      </p>
-                      <p>
-                        Proficient in popular frameworks like{" "}
+                        , I specialize in{" "}
                         <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          Spring Framework, MyBatis
-                        </span>{" "}
-                        and experienced with Microservices Architecture.
-                      </p>
-                      <p>
-                        Strong expertise in{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          Distributed Systems, Message Queues (Kafka, RabbitMQ)
-                        </span>{" "}
-                        and{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          Caching Solutions (Redis)
+                          Java, Python, Go, and TypeScript
                         </span>
-                        .
+                        {" "}for building scalable systems.
                       </p>
                       <p>
-                        Experienced with cloud platforms like{" "}
+                        Backend expertise includes{" "}
                         <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          AWS, Docker, Kubernetes
-                        </span>{" "}
-                        and CI/CD tools.
-                      </p>
-                      <p>
-                        On the frontend, proficient in{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          React, Next.js, TypeScript
-                        </span>{" "}
-                        and{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          Tailwind CSS
+                          Spring Boot, Django, and gRPC
                         </span>
-                        , enabling me to build modern, responsive web
-                        applications.
+                        {" "}for microservices, along with{" "}
+                        <span className="font-semibold text-purple-600 dark:text-purple-400">
+                          RocketMQ, Netty, and Zookeeper
+                        </span>
+                        {" "}for distributed systems.
+                      </p>
+                      <p>
+                        Frontend development with{" "}
+                        <span className="font-semibold text-purple-600 dark:text-purple-400">
+                          React, Next.js, and Redux
+                        </span>
+                        {" "}for modern web applications, backed by{" "}
+                        <span className="font-semibold text-purple-600 dark:text-purple-400">
+                          MySQL, MongoDB, and Redis
+                        </span>
+                        {" "}for data management.
+                      </p>
+                      <p>
+                        Cloud and DevOps experience with{" "}
+                        <span className="font-semibold text-purple-600 dark:text-purple-400">
+                          AWS, GCP, Docker, and Kubernetes
+                        </span>
+                        {" "}for deployment and scaling, plus{" "}
+                        <span className="font-semibold text-purple-600 dark:text-purple-400">
+                          PyTorch and TensorFlow
+                        </span>
+                        {" "}for AI/ML research.
                       </p>
                     </div>
                   </Fade>
