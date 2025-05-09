@@ -121,7 +121,7 @@ export const skillIcons = [
     alt: "RocketMQ",
   },
   {
-    src: "/skills-icons/Zookeeper.png",
+    src: "/skills-icons/zookeeper.png",
     alt: "Zookeeper",
   },
   {
