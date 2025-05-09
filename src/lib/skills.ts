@@ -68,7 +68,7 @@ export const skillIcons = [
     alt: "Python",
   },
   {
-    src: "/skills-icons/Golang.svg",
+    src: "/skills-icons/GoLang.svg",
     alt: "Go",
   },
 
@@ -93,7 +93,7 @@ export const skillIcons = [
     alt: "FastAPI",
   },
   {
-    src: "/skills-icons/Nodejs-Dark.svg",
+    src: "/skills-icons/NodeJS-Dark.svg",
     alt: "Node.js",
   },
   {
@@ -117,7 +117,7 @@ export const skillIcons = [
     alt: "RabbitMQ",
   },
   {
-    src: "/skills-icons/RocketMQ.png",
+    src: "/skills-icons/rocketmq.png",
     alt: "RocketMQ",
   },
   {
