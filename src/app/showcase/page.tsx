@@ -1,9 +1,10 @@
 import dynamic from "next/dynamic";
+import Loading from "@/components/ui/Loading";
 
 const ProjectsContainer = dynamic(
   () => import("@/components/projects-container"),
   {
-    loading: () => <div>Loading...</div>,
+    loading: () => <Loading />,
   }
 );
 

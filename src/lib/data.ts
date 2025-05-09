@@ -28,61 +28,46 @@ export const projectsData: ProjectInfo[] = [
   {
     title: "Shortlink Platform",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
+      "Shortlink Platform is a full-stack web app enabling users to create shortlinks for their links. It is built with Java, Spring Boot, Spring Cloud, Redis, MySQL, RocketMQ, Apache ShardingSphere, Sentinel.",
+    tags: ["Java", "Spring Boot", "Spring Cloud", "Redis", "MySQL", "RocketMQ"],
     imageUrl: "/image1.png",
-    link: "https://www.google.com",
-    githubUrl: "https://www.google.com",
-    demoUrl: "https://www.google.com",
+    link: "",
+    githubUrl: "https://github.com/KaichenQu/shortlink",
+    demoUrl: "",
   },
   {
     title: "Career Fair Registration System",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "The Career Fair Registration System is a full-stack web app enabling students to register, apply for jobs, and track applications. Companies can post openings and review applicants. Admins manage users and announcements. Built with Django and Next.js, it integrates OpenAI LLM for automated, intelligent user support.",
     tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
-    imageUrl: "/image2.png",
-    link: "https://www.google.com",
-    githubUrl: "https://www.google.com",
-    demoUrl: "https://www.google.com",
+    imageUrl: "/careerfair.png",
+    link: "https://career-deploy.vercel.app/",
+    githubUrl: "https://github.com/KaichenQu/frontend/tree/2f1a2de2330635f3699b97b68697d93846e16480",
+    demoUrl: "https://career-deploy.vercel.app/",
   },
   {
-    title: "Storage App",
+    title: "LiteKV – Lightweight Key-Value Database",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
+      "LiteKV is a lightweight key-value database written in Go. It is designed to be simple and easy to use. It is a good choice for small projects and embedded systems.",
+    tags: ["Go", "Goroutines", "Channels", "TCP", "Bitcask"],
     imageUrl: "/image3.png",
-    link: "https://www.google.com",
-    githubUrl: "https://www.google.com",
-    demoUrl: "https://www.google.com",
+    link: "",
+    githubUrl: "https://github.com/KaichenQu/LiteKV",
+    demoUrl: "",
   },
   {
-    title: "Missio Theme",
+    title: "Kanbas React Web App",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Kanbas is a Canvas like website for creating and managing courses, includes functions like chat, file storage, and quizzes.",
     tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
-    imageUrl: "/image4.png",
-    link: "https://www.google.com",
-    githubUrl: "https://www.google.com",
-    demoUrl: "https://www.google.com",
+    imageUrl: "/kanbas.png",
+    link: "https://kanbas-react-web-app-kaichen.netlify.app",
+    githubUrl: "https://github.com/KaichenQu/kanbas-react-web-app",
+    demoUrl: "https://kanbas-react-web-app-kaichen.netlify.app",
   },
 ];
 
-export const skillsData = [
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "Git",
-  "Tailwind",
-  "Prisma",
-  "MongoDB",
-  "Redux Toolkit",
-  "Express",
-  "Framer Motion",
-];
+
 
 export const educationData: Education[] = [
   {
@@ -99,16 +84,13 @@ export const educationData: Education[] = [
   },
 ];
 
-export const timelineYears = [
-  "2026",
-  "2025",
-  "2024",
-  "2023",
-  "2022",
-  "2021",
-  "2020",
-  "2019",
-];
+// Generate timeline years from 2019 to current year + 1
+const startYear = 2019;
+const endYear = new Date().getFullYear() + 1;
+export const timelineYears = Array.from(
+  { length: endYear - startYear + 1 },
+  (_, i) => (endYear - i).toString()
+);
 
 export const workExperience = [
   {

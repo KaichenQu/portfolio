@@ -21,14 +21,14 @@ export default function Timeline() {
         const startPercentage = (startIndex * 100) / (timelineYears.length - 1);
         const endPercentage = (endIndex * 100) / (timelineYears.length - 1);
 
-        // 为不同的教育阶段设置不同的颜色
+        // Set different colors for different education stages
         const colors = [
           { line: "bg-blue-500", bg: "bg-blue-50 dark:bg-blue-950/30" },
           { line: "bg-purple-500", bg: "bg-purple-50 dark:bg-purple-950/30" },
         ];
 
-        // 添加一点间隔，让每个线段的起始位置稍微往下一点
-        const gap = 1; // 1% 的间隔
+        // Add a small gap to each line segment to slightly move the starting position
+        const gap = 1; // 1% gap
 
         segments.push({
           start: Math.min(startPercentage, endPercentage) + gap,
@@ -46,7 +46,7 @@ export default function Timeline() {
   return (
     <div className="relative h-[calc(100vh-8rem)] min-h-[600px]">
       <div className="flex h-full">
-        {/* 左侧工作经历 */}
+        {/* Left work experience */}
         <div className="w-[300px] mr-8 relative h-full">
           {workExperience.map((work, index) => {
             const yearIndex = timelineYears.indexOf(work.startDate);
@@ -55,7 +55,7 @@ export default function Timeline() {
             return (
               <motion.div
                 key={index}
-                className="absolute right-0 w-full transform -translate-y-1/2"
+                className="absolute right-0 w-full transform -translate-y-1/2 z-10"
                 style={{
                   top: `${position}%`,
                 }}
@@ -68,11 +68,13 @@ export default function Timeline() {
                     <h3 className="font-semibold text-gray-800 dark:text-gray-200">
                       {work.company}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                      {work.role}
-                    </p>
+                    <div className="hidden md:block">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {work.role}
+                      </p>
+                    </div>
                   </div>
-                  {/* 三角形指示器 */}
+                  {/* Triangle indicator */}
                   <div
                     className="w-0 h-0 
                     border-t-[6px] border-t-transparent 
@@ -89,10 +91,10 @@ export default function Timeline() {
         </div>
 
         <div className="relative flex-1 h-full">
-          {/* 灰色背景线 */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700 transform -translate-x-1/2" />
+          {/* Gray background line */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700 transform -translate-x-1/2 z-20" />
 
-          {/* 教育时间段的彩色线 */}
+          {/* Education colored lines */}
           {educationSegments.map((segment, index) => (
             <motion.div
               key={index}
@@ -152,7 +154,7 @@ export default function Timeline() {
           })}
         </div>
 
-        {/* 右侧教育经历卡片 */}
+        {/* Right education experience cards */}
         <div className="w-[300px] ml-8 relative h-full">
           {educationData.map((edu, index) => {
             const segment = educationSegments[index];
@@ -162,7 +164,7 @@ export default function Timeline() {
               <motion.div
                 key={index}
                 className={cn(
-                  "p-4 rounded-lg shadow-lg absolute w-full transform -translate-y-1/2",
+                  "p-4 rounded-lg shadow-lg absolute w-full transform -translate-y-1/2 z-10",
                   segment.bgColor
                 )}
                 style={{
@@ -173,14 +175,21 @@ export default function Timeline() {
                 transition={{ duration: 0.5, delay: index * 0.2 }}
               >
                 <h3 className="font-semibold text-gray-800 dark:text-gray-200">
-                  {edu.school}
+                  <span className="block md:hidden">
+                    {edu.school === 'Northeastern University' ? '@ NEU' : edu.school === 'East China University of Science and Technology' ? '@ ECUST' : edu.school}
+                  </span>
+                  <span className="hidden md:block">
+                    {edu.school}
+                  </span>
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                  {edu.degree}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
-                  {edu.startYear} - {edu.endYear}
-                </p>
+                <div className="hidden md:block">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    {edu.degree}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+                    {edu.startYear} - {edu.endYear}
+                  </p>
+                </div>
               </motion.div>
             );
           })}

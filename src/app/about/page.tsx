@@ -1,12 +1,13 @@
 import dynamic from "next/dynamic";
+import Loading from "@/components/ui/Loading";
 
 // Dynamically import components
 const About = dynamic(() => import("@/components/about"), {
-  loading: () => <div>Loading...</div>,
+  loading: () => <Loading />,
 });
 
 const SkillMap = dynamic(() => import("@/components/skillmap"), {
-  loading: () => <div>Loading...</div>,
+  loading: () => <Loading />,
 });
 
 export default function AboutPage() {
