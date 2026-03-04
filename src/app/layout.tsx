@@ -15,8 +15,34 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "I am @KelsonQu",
-  description: "This is a personal website of KelsonQu.",
+  title: "Kelson Qu | Full-Stack Developer",
+  description:
+    "Kelson Qu is a Full-Stack Developer and CS graduate student at Northeastern University, specializing in Java, Go, TypeScript, and distributed systems.",
+  metadataBase: new URL("https://www.kelsonqu.com"),
+  openGraph: {
+    title: "Kelson Qu | Full-Stack Developer",
+    description:
+      "Full-Stack Developer specializing in Java, Go, TypeScript, and distributed systems.",
+    url: "https://www.kelsonqu.com",
+    siteName: "Kelson Qu Portfolio",
+    images: [
+      {
+        url: "/Kelson.Q-black.jpg",
+        width: 800,
+        height: 600,
+        alt: "Kelson Qu",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kelson Qu | Full-Stack Developer",
+    description:
+      "Full-Stack Developer specializing in Java, Go, TypeScript, and distributed systems.",
+    images: ["/Kelson.Q-black.jpg"],
+  },
 };
 
 export default function RootLayout({
@@ -26,12 +52,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="!scroll-smooth">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body
         className={`${sora.variable} font-Sora min-h-screen flex flex-col bg-gray-50 text-gray-950 relative dark:bg-gray-900 dark:text-gray-100 dark:text-opacity-90`}
       >

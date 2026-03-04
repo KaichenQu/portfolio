@@ -9,7 +9,8 @@ export const skillCategories = [
       },
       {
         name: "Spring Ecosystem",
-        description: "Spring Security · Spring Gateway · Spring Data JPA · OpenFeign · Actuator",
+        description:
+          "Spring Security · Spring Gateway · Spring Data JPA · OpenFeign · Actuator",
         progress: 85,
       },
       {
@@ -24,12 +25,14 @@ export const skillCategories = [
     skills: [
       {
         name: "TypeScript",
-        description: "Strict mode · Generics · Decorators · Zod · type-safe APIs",
+        description:
+          "Strict mode · Generics · Decorators · Zod · type-safe APIs",
         progress: 90,
       },
       {
         name: "React & Next.js",
-        description: "React 19 · Next.js 15 · App Router · Server Components · TailwindCSS",
+        description:
+          "React 19 · Next.js 15 · App Router · Server Components · TailwindCSS",
         progress: 85,
       },
       {
@@ -44,17 +47,19 @@ export const skillCategories = [
     skills: [
       {
         name: "Go",
-        description: "WebSocket (5K+ concurrent/2vCPU) · Goroutines · gRPC/Protobuf · Bitcask engine",
+        description: "WebSocket · Goroutines · gRPC/Protobuf · Bitcask engine",
         progress: 75,
       },
       {
         name: "Distributed Systems",
-        description: "Kafka · RocketMQ · Zookeeper · consistent hashing · Sentinel · at-least-once delivery",
+        description:
+          "Kafka · RocketMQ · Zookeeper · consistent hashing · Sentinel · at-least-once delivery",
         progress: 80,
       },
       {
         name: "Python",
-        description: "Django · FastAPI · PyTorch · TensorFlow · OpenAI LLM · PyQt",
+        description:
+          "Django · FastAPI · PyTorch · TensorFlow · OpenAI LLM · PyQt",
         progress: 75,
       },
     ],

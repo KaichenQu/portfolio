@@ -10,7 +10,7 @@ export default function ProjectsContainer() {
   return (
     <div className="relative w-full max-w-7xl mx-auto px-4">
       <motion.div
-        className="grid grid-cols-1 lg:grid-cols-[1fr,2fr] gap-8"
+        className="grid grid-cols-1 lg:grid-cols-[3fr,2fr] gap-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -29,8 +29,8 @@ export default function ProjectsContainer() {
             </TextShimmerWave>
           </div>
           <div className="space-y-8">
-            {projectsData.map((project, index) => (
-              <Project key={index} {...project} />
+            {projectsData.map((project) => (
+              <Project key={project.title} {...project} />
             ))}
           </div>
         </div>
