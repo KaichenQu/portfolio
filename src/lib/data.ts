@@ -89,18 +89,29 @@ const startYear = 2019;
 const endYear = new Date().getFullYear() + 1;
 export const timelineYears = Array.from(
   { length: endYear - startYear + 1 },
-  (_, i) => (endYear - i).toString()
+  (_, i) => (startYear + i).toString()
 );
 
 export const workExperience = [
   {
+    company: "Evenness Inc.",
+    role: "Backend Engineer Intern",
+    location: "Cupertino, CA",
+    period: "Jul 2025 – Dec 2025",
+    startDate: "2025",
+  },
+  {
     company: "BMW Group",
-    role: "R&D Department of New Technology",
+    role: "R&D Engineer Intern",
+    location: "Shanghai, China",
+    period: "Jul 2022 – May 2023",
     startDate: "2023",
   },
   {
     company: "CDP Group",
-    role: "Development Department",
+    role: "R&D Engineer Intern",
+    location: "Shanghai, China",
+    period: "Jul 2021 – Oct 2021",
     startDate: "2021",
   },
 ];

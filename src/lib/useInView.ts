@@ -1,7 +1,6 @@
 import { useActiveSectionContext } from "../containers/active-section";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import type { SectionName } from "./types";
 
 export function useSectionInView(sectionName: string, threshold = 0.75) {
   const { ref, inView } = useInView({

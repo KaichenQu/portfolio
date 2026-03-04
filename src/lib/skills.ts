@@ -1,48 +1,61 @@
 export const skillCategories = [
   {
+    label: "Java Stack",
     skills: [
       {
-        name: "C++",
-        description: "STL, Smart Pointers, Templates, Modern C++, Memory Management",
-        progress: 50,
-      },
-      {
         name: "Java",
-        description:
-          "Spring Boot, Spring Cloud, MyBatis, Hibernate, Netty, JUnit",
+        description: "Spring Boot · Spring Cloud · Netty · MyBatis · JUnit",
         progress: 90,
       },
       {
-        name: "Python",
-        description:
-          "Django, PyTorch, TensorFlow, Automation Scripts, Data Processing",
+        name: "Spring Ecosystem",
+        description: "Spring Security · Spring Gateway · Spring Data JPA · OpenFeign · Actuator",
         progress: 85,
       },
       {
-        name: "Go",
-        description: "Goroutines, Channels, Bitcask, TCP, Concurrency",
-        progress: 60,
+        name: "Database & Cache",
+        description: "MySQL · Redis · MongoDB · ShardingSphere · ElasticSearch",
+        progress: 82,
       },
+    ],
+  },
+  {
+    label: "TypeScript Stack",
+    skills: [
       {
         name: "TypeScript",
-        description: "Modern ES6+, Node.js, Nest.js, Express.js",
+        description: "Strict mode · Generics · Decorators · Zod · type-safe APIs",
         progress: 90,
       },
       {
-        name: "Database",
-        description: "MySQL, MongoDB, Redis, Apache ShardingSphere",
-        progress: 80,
+        name: "React & Next.js",
+        description: "React 19 · Next.js 15 · App Router · Server Components · TailwindCSS",
+        progress: 85,
+      },
+      {
+        name: "Node.js & Backend",
+        description: "Nest.js · Express.js · REST · WebSocket · JWT · OAuth",
+        progress: 78,
+      },
+    ],
+  },
+  {
+    label: "Go & Systems",
+    skills: [
+      {
+        name: "Go",
+        description: "WebSocket (5K+ concurrent/2vCPU) · Goroutines · gRPC/Protobuf · Bitcask engine",
+        progress: 75,
       },
       {
         name: "Distributed Systems",
-        description:
-          "Zookeeper, Kafka, RocketMQ, gRPC, Circuit Breaker, Load Balancing",
+        description: "Kafka · RocketMQ · Zookeeper · consistent hashing · Sentinel · at-least-once delivery",
         progress: 80,
       },
       {
-        name: "DevOps & Cloud",
-        description: "Docker, Kubernetes, Jenkins, AWS (EC2, S3, ELB), GCP",
-        progress: 20,
+        name: "Python",
+        description: "Django · FastAPI · PyTorch · TensorFlow · OpenAI LLM · PyQt",
+        progress: 75,
       },
     ],
   },
@@ -165,9 +178,5 @@ export const skillIcons = [
   {
     src: "/skills-icons/Kotlin-Dark.svg",
     alt: "Kotlin",
-  },
-  {
-    src: "/skills-icons/Git.svg",
-    alt: "Git",
   },
 ] as const;
