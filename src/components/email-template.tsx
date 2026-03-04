@@ -34,7 +34,7 @@ const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
               </Heading>
               <Text>{message}</Text>
               <Hr />
-              <Text>The sender's email is: {senderEmail}</Text>
+              <Text>{"The sender's email is: "}{senderEmail}</Text>
             </Section>
           </Container>
         </Body>
