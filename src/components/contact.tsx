@@ -131,7 +131,7 @@ export default function Contact() {
               <div>
                 <p className="text-xs text-gray-400 dark:text-white/40 mb-0.5">Location</p>
                 <span className="text-sm font-medium text-gray-700 dark:text-white/80">
-                  Boston, MA · Northeastern University
+                  San Francisco Bay Area, CA
                 </span>
               </div>
             </div>
