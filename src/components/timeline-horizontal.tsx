@@ -100,11 +100,6 @@ const DATE_CLS: Record<EventType, string> = {
   work: "text-blue-500 dark:text-blue-400",
   current: "text-yellow-500 dark:text-yellow-400",
 };
-const CARD_BORDER: Record<EventType, string> = {
-  education: "border-red-100 dark:border-red-500/15",
-  work: "border-blue-100 dark:border-blue-500/15",
-  current: "border-yellow-100 dark:border-yellow-400/20",
-};
 const DOT_MINI: Record<EventType, string> = {
   education: "bg-red-500",
   work: "bg-blue-500",

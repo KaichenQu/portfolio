@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useId } from 'react';
+import { useEffect } from 'react';
 import {
   MotionValue,
   motion,
@@ -36,7 +36,6 @@ function Digit({ value, place }: { value: number; place: number }) {
 }
 
 function Number({ mv, number }: { mv: MotionValue<number>; number: number }) {
-  const uniqueId = useId();
   const [ref, bounds] = useMeasure();
 
   const y = useTransform(mv, (latest) => {
