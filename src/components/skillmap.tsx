@@ -1,32 +1,74 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, GripHorizontal } from "lucide-react";
-import { skillCategories, skillIcons } from "@/lib/skills";
-import LearningProgress from "./learningprogress";
+import React from "react";
+import Image from "next/image";
+import { skillCategories } from "@/lib/skills";
 import { TextShimmerWave } from "./ui/text-shimmer-wave";
 import { InfiniteSlider } from "./ui/infinite-slider";
 
-export default function SkillMap() {
-  const scrollRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [showScrollHints, setShowScrollHints] = useState<boolean[]>(
-    new Array(skillCategories.length).fill(true)
-  );
+// Only icons that map to actual skill cards
+const sliderIcons = [
+  { src: "/skills-icons/Java-Dark.svg", alt: "Java" },
+  { src: "/skills-icons/Spring-Dark.svg", alt: "Spring" },
+  { src: "/skills-icons/MySQL-Dark.svg", alt: "MySQL" },
+  { src: "/skills-icons/Redis-Dark.svg", alt: "Redis" },
+  { src: "/skills-icons/MongoDB.svg", alt: "MongoDB" },
+  { src: "/skills-icons/PostgreSQL-Dark.svg", alt: "PostgreSQL" },
+  { src: "/skills-icons/Elasticsearch-Dark.svg", alt: "ElasticSearch" },
+  { src: "/skills-icons/TypeScript.svg", alt: "TypeScript" },
+  { src: "/skills-icons/React-Dark.svg", alt: "React" },
+  { src: "/skills-icons/nextjs.jpeg", alt: "Next.js" },
+  { src: "/skills-icons/NodeJS-Dark.svg", alt: "Node.js" },
+  { src: "/skills-icons/GoLang.svg", alt: "Go" },
+  { src: "/skills-icons/rocketmq.png", alt: "RocketMQ" },
+  { src: "/skills-icons/zookeeper.png", alt: "Zookeeper" },
+  { src: "/skills-icons/Python-Dark.svg", alt: "Python" },
+];
 
-  const scroll = (index: number, direction: "left" | "right") => {
-    if (scrollRefs.current[index]) {
-      const scrollAmount = direction === "left" ? -300 : 300;
-      scrollRefs.current[index]?.scrollBy({
-        left: scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+function getBarColor(progress: number) {
+  if (progress >= 80) return "from-pink-400 to-violet-400";
+  if (progress >= 65) return "from-blue-400 to-cyan-400";
+  return "from-amber-400 to-orange-300";
+}
 
+function SkillCard({
+  name,
+  description,
+  progress,
+}: {
+  name: string;
+  description: string;
+  progress: number;
+}) {
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-7xl mx-auto px-4">
-      <div className="text-center mb-8">
+    <div className="group p-3.5 rounded-xl border border-gray-200/70 dark:border-white/[0.07] bg-white/40 dark:bg-white/[0.02] hover:bg-white/75 dark:hover:bg-white/[0.05] hover:border-gray-300/80 dark:hover:border-white/[0.12] hover:shadow-sm transition-all duration-200">
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-[15px] font-semibold text-gray-800 dark:text-white/90 tracking-tight leading-none">
+          {name}
+        </h3>
+        <span className="text-[11px] font-mono tabular-nums text-gray-400 dark:text-white/25 ml-2 flex-shrink-0">
+          {progress}%
+        </span>
+      </div>
+
+      <div className="h-[2px] rounded-full bg-gray-100 dark:bg-white/[0.07] mb-2.5">
+        <div
+          className={`h-full rounded-full bg-gradient-to-r ${getBarColor(progress)}`}
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      <p className="text-xs leading-relaxed text-gray-500 dark:text-white/35 group-hover:text-gray-600 dark:group-hover:text-white/50 transition-colors duration-200">
+        {description}
+      </p>
+    </div>
+  );
+}
+
+export default function SkillMap() {
+  return (
+    <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-4 pb-16">
+      <div className="text-center mb-10">
         <TextShimmerWave
           className="text-5xl [--base-color:#374151] [--base-gradient-color:#111827] dark:text-white/60"
           duration={1.25}
@@ -39,68 +81,36 @@ export default function SkillMap() {
         </TextShimmerWave>
       </div>
 
-      <div className="w-full space-y-8">
+      <div className="w-full space-y-6">
         {skillCategories.map((category, categoryIndex) => (
-          <div key={categoryIndex} className="relative min-h-[220px]">
-            {/* Scroll Hint */}
-            {showScrollHints[categoryIndex] && (
-              <div className="absolute -top-8 right-0 flex items-center gap-2 text-gray-500 dark:text-gray-400 animate-pulse">
-                <GripHorizontal className="w-5 h-5" />
-                <span className="text-sm">Scroll to see more</span>
-              </div>
-            )}
+          <div key={categoryIndex}>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-[12px] font-mono font-bold uppercase tracking-[0.14em] text-gray-500 dark:text-white/40 whitespace-nowrap">
+                {category.label}
+              </span>
+              <div className="flex-1 h-px bg-gray-100 dark:bg-white/[0.06]" />
+            </div>
 
-            {/* Navigation Buttons */}
-            <button
-              onClick={() => scroll(categoryIndex, "left")}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white dark:bg-gray-800 rounded-full p-2 shadow-lg"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => scroll(categoryIndex, "right")}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white dark:bg-gray-800 rounded-full p-2 shadow-lg"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-
-            {/* Skills Container */}
-            <div
-              ref={(el) => {
-                scrollRefs.current[categoryIndex] = el;
-              }}
-              className="overflow-x-auto scrollbar-hide lg:overflow-visible"
-              onScroll={() => {
-                const newHints = [...showScrollHints];
-                newHints[categoryIndex] = false;
-                setShowScrollHints(newHints);
-              }}
-            >
-              <div className="flex gap-4 pb-4 min-w-max lg:min-w-0 lg:grid lg:grid-cols-4 lg:gap-6">
-                {category.skills.map((skill, skillIndex) => (
-                  <div
-                    key={skillIndex}
-                    className="w-[300px] flex-shrink-0 lg:w-full"
-                  >
-                    <LearningProgress
-                      name={skill.name}
-                      description={skill.description}
-                      progress={skill.progress}
-                    />
-                  </div>
-                ))}
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {category.skills.map((skill, skillIndex) => (
+                <SkillCard key={skillIndex} {...skill} />
+              ))}
             </div>
           </div>
         ))}
-        <div className="flex flex-col gap-2 mt-4">
-          <InfiniteSlider gap={15} duration={120}>
-            {skillIcons.map((icon, index) => (
-              <img
-                key={index}
+
+        {/* Slim icon slider — only relevant tech */}
+        <div className="pt-6">
+          <InfiniteSlider gap={24} duration={80}>
+            {sliderIcons.map((icon, index) => (
+              <Image
+                key={`${icon.alt}-${index}`}
                 src={icon.src}
                 alt={icon.alt}
-                className="h-[60px] w-auto dark:invert"
+                width={32}
+                height={32}
+                style={{ width: "auto", height: "32px" }}
+                className="dark:invert opacity-40 hover:opacity-70 transition-opacity"
               />
             ))}
           </InfiniteSlider>

@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Fade } from "react-awesome-reveal";
 import Link from "next/link";
@@ -14,7 +14,17 @@ import { GitHubBrandIcon } from "./icons/GitHubBrandIcon";
 import { HiOutlineDocumentText, HiArrowLeft } from "react-icons/hi";
 
 export default function Intro() {
-  const { ref } = useSectionInView("#home", 0.5);
+  const { ref } = useSectionInView("/", 0.5);
+  const [resumeUrl, setResumeUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/resume")
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (data?.filename) setResumeUrl(`/resume/${data.filename}`);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section
@@ -62,7 +72,7 @@ export default function Intro() {
               },
             }}
           >
-            Kelson's Website
+            {"Kelson's Website"}
           </TextRoll>
           <TextEffect
             className="text-xl delay-1000"
@@ -95,6 +105,8 @@ export default function Intro() {
           className="bg-gray-900 p-3 text-white flex items-center gap-2 rounded-full focus:scale-[1.4] hover:scale-[1.4] hover:bg-white hover:text-black active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60 dark:hover:bg-white dark:hover:text-black"
           href="https://www.linkedin.com/in/kelsonqu/"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn profile"
         >
           <BsLinkedin />
         </a>
@@ -103,18 +115,23 @@ export default function Intro() {
           className="bg-gray-900 p-3 text-white flex items-center gap-2 text-[1.35rem] rounded-full focus:scale-[1.4] hover:scale-[1.4] hover:text-black hover:bg-white active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60 dark:hover:bg-white dark:hover:text-black"
           href="https://github.com/KaichenQu"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub profile"
         >
           <GitHubBrandIcon />
         </a>
 
         <div className="relative inline-block group">
-          <a
+          <button
             className="bg-gray-900 p-3 text-white flex items-center gap-2 text-[1.35rem] rounded-full focus:scale-[1.4] hover:scale-[1.4] hover:text-black hover:bg-white active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60 dark:hover:bg-white dark:hover:text-black"
-            href="/KaichenQu-Resume.pdf"
-            target="_blank"
+            aria-label="View resume"
+            onClick={() => {
+              const url = resumeUrl ?? "/resume/KaichenQu-Resume.pdf";
+              window.open(url, "_blank", "noopener,noreferrer");
+            }}
           >
             <HiOutlineDocumentText />
-          </a>
+          </button>
 
           <div className="absolute left-16 top-1/2 -translate-y-1/2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
             <HiArrowLeft className="text-xl text-blue-600 dark:text-blue-400 animate-bounce-x-reverse" />
