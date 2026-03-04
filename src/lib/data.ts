@@ -46,13 +46,13 @@ export const projectsData: ProjectInfo[] = [
     demoUrl: "https://career-deploy.vercel.app/",
   },
   {
-    title: "LiteKV – Lightweight Key-Value Database",
+    title: "Distributed Real-Time Messaging Platform",
     description:
-      "LiteKV is a lightweight key-value database written in Go. It is designed to be simple and easy to use. It is a good choice for small projects and embedded systems.",
-    tags: ["Go", "Goroutines", "Channels", "TCP", "Bitcask"],
+      "Built distributed IM backend in Go with WebSocket connections and Kafka message relay, supporting 1:1 chat, group messaging, and file transfer with 5K+ concurrent connections per 2vCPU node and at-least-once delivery. Designed inter-service layer via gRPC/Protobuf for user, group, and message microservices, enabling horizontal scaling across 4 nodes with consistent hashing and Nginx load balancing. Implemented MySQL write-ahead persistence and Redis hot-path caching at 15ms p95 retrieval; deployed with Docker Compose and Prometheus/Grafana observability stack.",
+    tags: ["Go", "WebSocket", "Kafka", "gRPC", "Redis", "MySQL"],
     imageUrl: "/image3.png",
     link: "",
-    githubUrl: "https://github.com/KaichenQu/LiteKV",
+    githubUrl: "",
     demoUrl: "",
   },
   {
