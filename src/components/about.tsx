@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/carousel";
 
 export default function About() {
-  const { ref } = useSectionInView("/src/app/page.tsx");
+  const { ref } = useSectionInView("/about");
 
   return (
     <motion.section
@@ -65,87 +65,23 @@ export default function About() {
                     triggerOnce={true}
                   >
                     <p className="font-mono text-left mt-4 leading-relaxed text-m text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors duration-300">
-                      My journey began at{" "}
+                      B.E. in Energy Engineering at{" "}
                       <span className="font-semibold text-blue-600 dark:text-blue-400">
-                        East China University of Science and Technology
+                        ECUST
                       </span>
-                      , where I earned my bachelor&apos;s in Energy and Power Engineering. Driven by my passion for software development, I transitioned to{" "}
+                      , then pivoted to CS — now finishing my M.S. at{" "}
                       <span className="font-semibold text-blue-600 dark:text-blue-400">
-                        Computer Science
+                        Northeastern University
                       </span>
-                      {" "}and am now pursuing my master&apos;s at{" "}
+                      {" "}(Aug 2026). Worked at{" "}
                       <span className="font-semibold text-blue-600 dark:text-blue-400">
-                        Northeastern University in San Jose
+                        BMW Group
                       </span>
-                      .
-
-                      <span className="block mt-2">
-                        My professional experience spans from{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          BMW Group
-                        </span>
-                        {" "}and{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          CDP Group
-                        </span>
-                        {" "}to current research at{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          MIG Lab
-                        </span>
-                        . At BMW, I developed{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          PyQt-based testing frameworks
-                        </span>
-                        ; at CDP, I built{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          web apps and WeChat mini programs
-                        </span>
-                        ; and at MIG Lab, I focus on{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          deep learning for medical imaging
-                        </span>
-                        .
+                      {" "}and{" "}
+                      <span className="font-semibold text-blue-600 dark:text-blue-400">
+                        Evenness Inc.
                       </span>
-
-                      <span className="block mt-2">
-                        I&apos;ve led several significant projects, including a{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          high-performance SaaS platform
-                        </span>
-                        {" "}with{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          RocketMQ
-                        </span>
-                        , a{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          distributed RPC framework
-                        </span>
-                        {" "}using{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          Netty
-                        </span>
-                        , and a{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          career fair system
-                        </span>
-                        {" "}with{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          Django and Next.js
-                        </span>
-                        . I also developed{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          LiteKV
-                        </span>
-                        , a high-performance key-value store in{" "}
-                        <span className="font-semibold text-blue-600 dark:text-blue-400">
-                          Go
-                        </span>
-                        .
-                      </span>
-
-                      <span className="italic block mt-2">
-                        I thrive in dynamic environments that combine engineering excellence with innovative solutions, focusing on high performance and reliability.
-                      </span>
+                      , building backend systems focused on distributed architecture and high performance.
                     </p>
                   </Fade>
                 </div>
@@ -169,52 +105,17 @@ export default function About() {
                     damping={1e-1}
                     triggerOnce={true}
                   >
-                    <div className="font-mono text-left mt-4 leading-relaxed text-m text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors duration-300 space-y-3">
-                      <p>
-                        As a{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          Full-Stack Developer
-                        </span>
-                        , I specialize in{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          Java, Python, Go, and TypeScript
-                        </span>
-                        {" "}for building scalable systems.
-                      </p>
-                      <p>
-                        Backend expertise includes{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          Spring Boot, Django, and gRPC
-                        </span>
-                        {" "}for microservices, along with{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          RocketMQ, Netty, and Zookeeper
-                        </span>
-                        {" "}for distributed systems.
-                      </p>
-                      <p>
-                        Frontend development with{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          React, Next.js, and Redux
-                        </span>
-                        {" "}for modern web applications, backed by{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          MySQL, MongoDB, and Redis
-                        </span>
-                        {" "}for data management.
-                      </p>
-                      <p>
-                        Cloud and DevOps experience with{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          AWS, GCP, Docker, and Kubernetes
-                        </span>
-                        {" "}for deployment and scaling, plus{" "}
-                        <span className="font-semibold text-purple-600 dark:text-purple-400">
-                          PyTorch and TensorFlow
-                        </span>
-                        {" "}for AI/ML research.
-                      </p>
-                    </div>
+                    <p className="font-mono text-left mt-4 leading-relaxed text-m text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors duration-300">
+                      Core stack:{" "}
+                      <span className="font-semibold text-purple-600 dark:text-purple-400">
+                        Java
+                      </span>
+                      {" "}(Spring Boot, distributed systems) ·{" "}
+                      <span className="font-semibold text-purple-600 dark:text-purple-400">
+                        TypeScript
+                      </span>
+                      {" "}(React, Next.js) · Go · Python. Details in Skill Map below.
+                    </p>
                   </Fade>
                 </div>
               </div>
@@ -231,6 +132,7 @@ export default function About() {
                         alt="About"
                         width={400}
                         height={400}
+                        sizes="(max-width: 768px) 90vw, 320px"
                       />
                     </div>
                   </CarouselItem>
@@ -241,6 +143,7 @@ export default function About() {
                         alt="About"
                         width={400}
                         height={400}
+                        sizes="(max-width: 768px) 90vw, 320px"
                       />
                     </div>
                   </CarouselItem>
@@ -251,6 +154,7 @@ export default function About() {
                         alt="About"
                         width={800}
                         height={450}
+                        sizes="(max-width: 768px) 90vw, 320px"
                       />
                     </div>
                   </CarouselItem>
@@ -261,6 +165,7 @@ export default function About() {
                         alt="About"
                         width={800}
                         height={450}
+                        sizes="(max-width: 768px) 90vw, 320px"
                       />
                     </div>
                   </CarouselItem>
