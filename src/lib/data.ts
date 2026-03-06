@@ -40,9 +40,10 @@ export const projectsData: ProjectInfo[] = [
     description:
       "The Career Fair Registration System is a full-stack web app enabling students to register, apply for jobs, and track applications. Companies can post openings and review applicants. Admins manage users and announcements. Built with Django and Next.js, it integrates OpenAI LLM for automated, intelligent user support.",
     tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
-    imageUrl: "/careerfair.png",
+    imageUrl: "/careerfair.jpg",
     link: "https://career-deploy.vercel.app/",
-    githubUrl: "https://github.com/KaichenQu/frontend/tree/2f1a2de2330635f3699b97b68697d93846e16480",
+    githubUrl:
+      "https://github.com/KaichenQu/frontend/tree/2f1a2de2330635f3699b97b68697d93846e16480",
     demoUrl: "https://career-deploy.vercel.app/",
   },
   {
@@ -60,7 +61,7 @@ export const projectsData: ProjectInfo[] = [
     description:
       "Kanbas is a Canvas like website for creating and managing courses, includes functions like chat, file storage, and quizzes.",
     tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
-    imageUrl: "/kanbas.png",
+    imageUrl: "/kanbas.jpg",
     link: "https://kanbas-react-web-app-kaichen.netlify.app",
     githubUrl: "https://github.com/KaichenQu/kanbas-react-web-app",
     demoUrl: "https://kanbas-react-web-app-kaichen.netlify.app",
