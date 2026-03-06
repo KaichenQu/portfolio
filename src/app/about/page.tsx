@@ -1,10 +1,6 @@
 import dynamic from "next/dynamic";
 import Loading from "@/components/ui/Loading";
-
-// Dynamically import components
-const About = dynamic(() => import("@/components/about"), {
-  loading: () => <Loading />,
-});
+import About from "@/components/about";
 
 const SkillMap = dynamic(() => import("@/components/skillmap"), {
   loading: () => <Loading />,

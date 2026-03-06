@@ -1,9 +1,6 @@
 import dynamic from "next/dynamic";
 import Loading from "@/components/ui/Loading";
-
-const Intro = dynamic(() => import("@/components/intro"), {
-  loading: () => <Loading />,
-});
+import Intro from "@/components/intro";
 
 const PostsPreview = dynamic(() => import("@/components/posts-preview"), {
   loading: () => <Loading />,
