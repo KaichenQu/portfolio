@@ -11,15 +11,15 @@ export default function SubmitBtn({ text }: SubmitBtnProps) {
   return (
     <button
       type="submit"
-      className="group flex items-center justify-center gap-2 h-[3rem] w-[8rem] bg-gray-900 text-white rounded-full outline-none transition-all focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105 dark:bg-white dark:bg-opacity-10 disabled:scale-100 disabled:bg-opacity-65"
+      className="group flex items-center justify-center gap-2 px-6 h-[2.75rem] bg-pink-500 hover:bg-pink-600 dark:bg-pink-500/90 dark:hover:bg-pink-500 text-white text-sm font-medium rounded-xl outline-none transition-all hover:scale-[1.03] active:scale-100 disabled:opacity-60 disabled:scale-100 disabled:cursor-not-allowed whitespace-nowrap"
       disabled={pending}
     >
       {pending ? (
-        <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-white"></div>
+        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
       ) : (
         <>
-          {text}{" "}
-          <FaPaperPlane className="text-xs opacity-70 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />{" "}
+          {text}
+          <FaPaperPlane className="text-xs opacity-80 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </>
       )}
     </button>

@@ -219,6 +219,7 @@ export default function TimelineHorizontal() {
           <div
             className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500"
             style={{ width: `${TODAY_PCT}%` }}
+            suppressHydrationWarning
           />
 
           {/* Draggable dot — pointer-events-none, moved via motion value */}

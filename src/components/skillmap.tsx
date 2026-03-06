@@ -70,7 +70,7 @@ export default function SkillMap() {
     <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-4 pb-16">
       <div className="text-center mb-10">
         <TextShimmerWave
-          className="text-5xl [--base-color:#374151] [--base-gradient-color:#111827] dark:text-white/60"
+          className="text-5xl [--base-color:#374151] [--base-gradient-color:#111827] dark:[--base-color:rgba(255,255,255,0.45)] dark:[--base-gradient-color:#ffffff]"
           duration={1.25}
           spread={0.7}
           zDistance={1}
@@ -110,7 +110,7 @@ export default function SkillMap() {
                 width={32}
                 height={32}
                 style={{ width: "auto", height: "32px" }}
-                className="dark:invert opacity-40 hover:opacity-70 transition-opacity"
+                className="opacity-50 dark:opacity-60 hover:opacity-90 dark:brightness-110 transition-all duration-200"
               />
             ))}
           </InfiniteSlider>

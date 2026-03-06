@@ -30,7 +30,7 @@ export default function About() {
     >
       <div className="container mx-auto">
         <TextShimmerWave
-          className="text-5xl [--base-color:#374151] [--base-gradient-color:#111827] dark:text-white/60"
+          className="text-5xl [--base-color:#374151] [--base-gradient-color:#111827] dark:[--base-color:rgba(255,255,255,0.45)] dark:[--base-gradient-color:#ffffff]"
           duration={1.25}
           spread={0.8}
           zDistance={1}
@@ -53,7 +53,7 @@ export default function About() {
                     damping={1e-1}
                     triggerOnce={true}
                   >
-                    <h3 className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent inline-block">
+                    <h3 className="font-bold text-2xl bg-gradient-to-r from-blue-500 to-cyan-400 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent inline-block">
                       My Journey
                     </h3>
                   </Fade>
@@ -94,7 +94,7 @@ export default function About() {
                     damping={1e-1}
                     triggerOnce={true}
                   >
-                    <h3 className="font-bold text-2xl bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent inline-block">
+                    <h3 className="font-bold text-2xl bg-gradient-to-r from-purple-500 to-pink-400 dark:from-purple-400 dark:to-pink-300 bg-clip-text text-transparent inline-block">
                       Tech Stack
                     </h3>
                   </Fade>

@@ -18,7 +18,7 @@ export default function ProjectsContainer() {
         <div className="order-1 lg:order-1">
           <div className="flex justify-center mb-8">
             <TextShimmerWave
-              className="text-3xl [--base-color:#374151] [--base-gradient-color:#111827] dark:text-white/60"
+              className="text-3xl [--base-color:#374151] [--base-gradient-color:#111827] dark:[--base-color:rgba(255,255,255,0.45)] dark:[--base-gradient-color:#ffffff]"
               duration={1.25}
               spread={0.7}
               zDistance={1}
@@ -37,7 +37,7 @@ export default function ProjectsContainer() {
         <div className="order-2 lg:order-2 mt-12 lg:mt-0">
           <div className="flex justify-center mb-8">
             <TextShimmerWave
-              className="text-3xl [--base-color:#374151] [--base-gradient-color:#111827] dark:text-white/60"
+              className="text-3xl [--base-color:#374151] [--base-gradient-color:#111827] dark:[--base-color:rgba(255,255,255,0.45)] dark:[--base-gradient-color:#ffffff]"
               duration={1.25}
               spread={0.7}
               zDistance={1}
