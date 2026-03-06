@@ -19,7 +19,7 @@ export const ActiveSectionContext =
 export default function ActiveSectionContextProvider({
   children,
 }: ActiveSectionContextProviderProps) {
-  const [activeSection, setActiveSection] = useState<string>("/");
+  const [activeSection, setActiveSection] = useState<SectionName>("/");
   const [timeOfLastClick, setTimeOfLastClick] = useState(0);
 
   return (

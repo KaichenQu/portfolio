@@ -61,7 +61,7 @@ export default function RootLayout({
         </div>
         <Providers>
           <Navbar />
-          <main className="flex-grow relative z-10">{children}</main>
+          <div className="flex-grow relative z-10">{children}</div>
           <ThemeSwitch />
           <Footer />
         </Providers>

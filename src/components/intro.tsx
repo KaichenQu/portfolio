@@ -41,7 +41,7 @@ export default function Intro() {
             width={250}
             height={250}
             alt="portrait"
-            quality="100"
+            quality={100}
             priority={true}
             className="rounded-full object-cover shadow-xl"
           />

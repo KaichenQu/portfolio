@@ -41,7 +41,7 @@ export default function About() {
         </TextShimmerWave>
 
         <div className="grid xl:grid-cols-2 gap-8 xl:gap-4 items-center">
-          <div className="flex-1 order-1 xl:order-1">
+          <div className="flex-1 order-1">
             {/* Content */}
             <div className="text-lg mt-12 xl:mt-3">
               <div className="flex justify-start flex-col space-y-8">
@@ -121,12 +121,12 @@ export default function About() {
               </div>
             </div>
           </div>
-          <div className="order-2 xl:order-2 flex justify-center xl:justify-center">
+          <div className="order-2 flex justify-center">
             <div className="relative w-full max-w-xs">
               <Carousel>
                 <CarouselContent>
                   <CarouselItem className="p-4">
-                    <div className="flex  items-center justify-center border border-zinc-200 dark:border-zinc-800">
+                    <div className="flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
                       <Image
                         src="/me/me-1.JPG"
                         alt="About"
@@ -137,7 +137,7 @@ export default function About() {
                     </div>
                   </CarouselItem>
                   <CarouselItem className="p-4">
-                    <div className="flex  items-center justify-center border border-zinc-200 dark:border-zinc-800">
+                    <div className="flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
                       <Image
                         src="/me/me-4.JPG"
                         alt="About"
@@ -148,7 +148,7 @@ export default function About() {
                     </div>
                   </CarouselItem>
                   <CarouselItem className="p-4">
-                    <div className="flex  items-center justify-center border border-zinc-200 dark:border-zinc-800">
+                    <div className="flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
                       <Image
                         src="/me/me-2.JPG"
                         alt="About"
@@ -159,7 +159,7 @@ export default function About() {
                     </div>
                   </CarouselItem>
                   <CarouselItem className="p-4">
-                    <div className="flex  items-center justify-center border border-zinc-200 dark:border-zinc-800">
+                    <div className="flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
                       <Image
                         src="/me/me-3.JPG"
                         alt="About"

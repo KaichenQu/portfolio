@@ -1,4 +1,4 @@
-import { Education, Link, ProjectInfo } from "./types";
+import { Link, ProjectInfo } from "./types";
 
 export const links: Link[] = [
   {
@@ -64,54 +64,5 @@ export const projectsData: ProjectInfo[] = [
     link: "https://kanbas-react-web-app-kaichen.netlify.app",
     githubUrl: "https://github.com/KaichenQu/kanbas-react-web-app",
     demoUrl: "https://kanbas-react-web-app-kaichen.netlify.app",
-  },
-];
-
-
-
-export const educationData: Education[] = [
-  {
-    school: "Northeastern University",
-    degree: "Master of Science in Computer Science",
-    startYear: "2023",
-    endYear: "2026",
-  },
-  {
-    school: "East China University of Science and Technology",
-    degree: "Bachelor of Engineering in Energy and Power Engineering",
-    startYear: "2019",
-    endYear: "2023",
-  },
-];
-
-// Generate timeline years from 2019 to current year + 1
-const startYear = 2019;
-const endYear = new Date().getFullYear() + 1;
-export const timelineYears = Array.from(
-  { length: endYear - startYear + 1 },
-  (_, i) => (startYear + i).toString()
-);
-
-export const workExperience = [
-  {
-    company: "Evenness Inc.",
-    role: "Backend Engineer Intern",
-    location: "Cupertino, CA",
-    period: "Jul 2025 – Dec 2025",
-    startDate: "2025",
-  },
-  {
-    company: "BMW Group",
-    role: "R&D Engineer Intern",
-    location: "Shanghai, China",
-    period: "Jul 2022 – May 2023",
-    startDate: "2023",
-  },
-  {
-    company: "CDP Group",
-    role: "R&D Engineer Intern",
-    location: "Shanghai, China",
-    period: "Jul 2021 – Oct 2021",
-    startDate: "2021",
   },
 ];
