@@ -32,8 +32,8 @@ export default function Intro() {
       {/* Avatar */}
       <div className="flex items-center justify-center">
         <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ scale: 0.7 }}
+          animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 150, damping: 10 }}
         >
           <Image
@@ -51,8 +51,8 @@ export default function Intro() {
       {/* Heading */}
       <motion.div
         className="mt-6 mb-8 px-4"
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ y: 12 }}
+        animate={{ y: 0 }}
         transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
       >
         <h1 className="text-4xl sm:text-5xl font-bold text-zinc-800 dark:text-white/90 leading-tight">
@@ -75,8 +75,8 @@ export default function Intro() {
       {/* Buttons */}
       <motion.div
         className="flex items-center justify-center gap-2.5 px-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ y: 16 }}
+        animate={{ y: 0 }}
         transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
       >
         {/* GitHub — brand: charcoal → hover white+charcoal icon */}

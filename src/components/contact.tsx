@@ -10,8 +10,8 @@ import { BsLinkedin } from "react-icons/bs";
 import { HiOutlineDocumentText } from "react-icons/hi";
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { y: 30 },
+  visible: { y: 0 },
 };
 
 export default function Contact() {
@@ -55,8 +55,8 @@ export default function Contact() {
       id="contact"
       ref={ref}
       className="mt-10 mb-20 sm:mb-28 scroll-mt-28 w-full max-w-5xl"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
+      initial={{ y: 20 }}
+      whileInView={{ y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
     >
