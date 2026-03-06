@@ -4,7 +4,6 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-import { Fade } from "react-awesome-reveal";
 import { useSectionInView } from "@/lib/useInView";
 import { TextShimmerWave } from "@/components/ui/text-shimmer-wave";
 
@@ -46,77 +45,69 @@ export default function About() {
             <div className="text-lg mt-12 xl:mt-3">
               <div className="flex justify-start flex-col space-y-8">
                 <div className="group">
-                  <Fade
-                    direction="up"
-                    delay={100}
-                    cascade
-                    damping={1e-1}
-                    triggerOnce={true}
+                  <motion.h3
+                    className="font-bold text-2xl bg-gradient-to-r from-blue-500 to-cyan-400 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent inline-block"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                    viewport={{ once: true }}
                   >
-                    <h3 className="font-bold text-2xl bg-gradient-to-r from-blue-500 to-cyan-400 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent inline-block">
-                      My Journey
-                    </h3>
-                  </Fade>
-                  <Fade
-                    direction="up"
-                    delay={300}
-                    cascade
-                    damping={1e-1}
-                    triggerOnce={true}
+                    My Journey
+                  </motion.h3>
+                  <motion.p
+                    className="font-mono text-left mt-4 leading-relaxed text-m text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors duration-300"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
+                    viewport={{ once: true }}
                   >
-                    <p className="font-mono text-left mt-4 leading-relaxed text-m text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors duration-300">
-                      B.E. in Energy Engineering at{" "}
-                      <span className="font-semibold text-blue-600 dark:text-blue-400">
-                        ECUST
-                      </span>
-                      , then pivoted to CS — now finishing my M.S. at{" "}
-                      <span className="font-semibold text-blue-600 dark:text-blue-400">
-                        Northeastern University
-                      </span>
-                      {" "}(Aug 2026). Worked at{" "}
-                      <span className="font-semibold text-blue-600 dark:text-blue-400">
-                        BMW Group
-                      </span>
-                      {" "}and{" "}
-                      <span className="font-semibold text-blue-600 dark:text-blue-400">
-                        Evenness Inc.
-                      </span>
-                      , building backend systems focused on distributed architecture and high performance.
-                    </p>
-                  </Fade>
+                    B.E. in Energy Engineering at{" "}
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">
+                      ECUST
+                    </span>
+                    , then pivoted to CS — now finishing my M.S. at{" "}
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">
+                      Northeastern University
+                    </span>
+                    {" "}(Aug 2026). Worked at{" "}
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">
+                      BMW Group
+                    </span>
+                    {" "}and{" "}
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">
+                      Evenness Inc.
+                    </span>
+                    , building backend systems focused on distributed architecture and high performance.
+                  </motion.p>
                 </div>
 
                 <div className="group">
-                  <Fade
-                    direction="up"
-                    delay={500}
-                    cascade
-                    damping={1e-1}
-                    triggerOnce={true}
+                  <motion.h3
+                    className="font-bold text-2xl bg-gradient-to-r from-purple-500 to-pink-400 dark:from-purple-400 dark:to-pink-300 bg-clip-text text-transparent inline-block"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.3 }}
+                    viewport={{ once: true }}
                   >
-                    <h3 className="font-bold text-2xl bg-gradient-to-r from-purple-500 to-pink-400 dark:from-purple-400 dark:to-pink-300 bg-clip-text text-transparent inline-block">
-                      Tech Stack
-                    </h3>
-                  </Fade>
-                  <Fade
-                    direction="up"
-                    delay={700}
-                    cascade
-                    damping={1e-1}
-                    triggerOnce={true}
+                    Tech Stack
+                  </motion.h3>
+                  <motion.p
+                    className="font-mono text-left mt-4 leading-relaxed text-m text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors duration-300"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.4 }}
+                    viewport={{ once: true }}
                   >
-                    <p className="font-mono text-left mt-4 leading-relaxed text-m text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors duration-300">
-                      Core stack:{" "}
-                      <span className="font-semibold text-purple-600 dark:text-purple-400">
-                        Java
-                      </span>
-                      {" "}(Spring Boot, distributed systems) ·{" "}
-                      <span className="font-semibold text-purple-600 dark:text-purple-400">
-                        TypeScript
-                      </span>
-                      {" "}(React, Next.js) · Go · Python. Details in Skill Map below.
-                    </p>
-                  </Fade>
+                    Core stack:{" "}
+                    <span className="font-semibold text-purple-600 dark:text-purple-400">
+                      Java
+                    </span>
+                    {" "}(Spring Boot, distributed systems) ·{" "}
+                    <span className="font-semibold text-purple-600 dark:text-purple-400">
+                      TypeScript
+                    </span>
+                    {" "}(React, Next.js) · Go · Python. Details in Skill Map below.
+                  </motion.p>
                 </div>
               </div>
             </div>
