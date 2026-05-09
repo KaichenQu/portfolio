@@ -16,16 +16,16 @@ import {
 } from "@/components/ui/carousel";
 
 export default function About() {
-  const { ref } = useSectionInView("/about");
+  const { ref } = useSectionInView("/#about");
 
   return (
     <motion.section
-      className="w-full max-w-6xl text-center mt-16 leading-8 mb-16 sm:mb-24 scroll-mt-28 px-4 mx-auto"
+      className="w-full max-w-6xl text-center leading-8 mb-16 sm:mb-20 px-4 mx-auto"
       initial={{ y: 40 }}
-      animate={{ y: 0 }}
-      transition={{ delay: 0.175 }}
+      whileInView={{ y: 0 }}
+      transition={{ delay: 0.1, duration: 0.5 }}
+      viewport={{ once: true }}
       ref={ref}
-      id="about"
     >
       <div className="container mx-auto">
         <TextShimmerWave

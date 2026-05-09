@@ -3,20 +3,19 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useSectionInView } from "@/lib/useInView";
-import SubmitBtn from "./submit-btn";
 import { toast } from "react-hot-toast";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin, ArrowUpRight, Send } from "lucide-react";
 import { BsLinkedin } from "react-icons/bs";
+import { FaGithub } from "react-icons/fa";
 import { HiOutlineDocumentText } from "react-icons/hi";
 
-const cardVariants = {
-  hidden: { y: 30 },
-  visible: { y: 0 },
-};
+const cardBase =
+  "rounded-2xl border border-gray-200/70 dark:border-white/[0.08] bg-white/50 dark:bg-white/[0.02] transition-all duration-300";
 
 export default function Contact() {
-  const { ref } = useSectionInView("/contact");
+  const { ref } = useSectionInView("/#contact");
   const [resumeUrl, setResumeUrl] = React.useState<string | null>(null);
+  const [sending, setSending] = React.useState(false);
 
   React.useEffect(() => {
     fetch("/api/resume")
@@ -34,201 +33,193 @@ export default function Contact() {
     const name = formData.get("name");
     const message = formData.get("message");
 
+    setSending(true);
     try {
       const res = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, message }),
       });
-
-      if (!res.ok) throw new Error("Failed to send message");
-
+      if (!res.ok) throw new Error("Failed to send");
       form.reset();
       toast.success("Message sent successfully!");
     } catch {
       toast.error("Something went wrong!");
+    } finally {
+      setSending(false);
     }
   }
 
   return (
-    <motion.section
-      id="contact"
+    <motion.div
       ref={ref}
-      className="mt-10 mb-20 sm:mb-28 scroll-mt-28 w-full max-w-5xl"
-      initial={{ y: 20 }}
-      whileInView={{ y: 0 }}
-      transition={{ duration: 0.6 }}
+      className="space-y-3"
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
     >
-      {/* Heading */}
-      <div className="text-center mb-12">
-        <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-transparent mb-4">
-          Get In Touch
-        </h2>
-        <p className="text-gray-600 dark:text-white/60 text-lg">
-          Have a project in mind or just want to say hi? I&apos;d love to hear
-          from you.
-        </p>
+      {/* Heading card */}
+      <div className={`${cardBase} p-5`}>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white tracking-tight">
+              Let&apos;s build something together
+            </h3>
+            <p className="mt-1.5 text-xs text-gray-500 dark:text-white/50 leading-relaxed">
+              Open to full-time roles and interesting projects. My inbox is
+              always open.
+            </p>
+          </div>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 flex-shrink-0">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
+            </span>
+            <span className="text-[10px] font-medium text-green-700 dark:text-green-400">
+              Available
+            </span>
+          </span>
+        </div>
       </div>
 
-      {/* Resume card — above the grid, same entrance timing */}
-      <motion.div
-        variants={cardVariants}
-        initial="hidden"
-        whileInView="visible"
-        transition={{ duration: 0.5, delay: 0.1 }}
-        viewport={{ once: true }}
-        className="mb-8 flex flex-col sm:flex-row items-center gap-5 p-5 rounded-2xl bg-gradient-to-r from-violet-50 to-fuchsia-50 dark:from-violet-900/10 dark:to-fuchsia-900/10 border border-violet-100 dark:border-violet-500/15 backdrop-blur-sm"
-      >
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-500/15 border border-violet-200/70 dark:border-violet-500/20">
-            <HiOutlineDocumentText className="w-[18px] h-[18px] text-violet-600 dark:text-violet-400" />
-          </div>
-          <div className="min-w-0">
-            <p className="text-sm font-semibold text-gray-800 dark:text-white/85">
-              My Resume
-            </p>
-            <p className="text-xs text-gray-500 dark:text-white/40 mt-0.5">
-              Backend &amp; full-stack · Java · TypeScript · Go · Distributed
-              Systems · Open to full-time roles
-            </p>
-          </div>
-        </div>
+      {/* Contact bento grid */}
+      <div className="grid grid-cols-2 gap-3">
         <a
-          href={resumeUrl ?? "#"}
+          href="mailto:kelsonqu@gmail.com"
+          className={`${cardBase} group p-4 hover:border-pink-300/60 dark:hover:border-pink-500/30 hover:bg-white dark:hover:bg-white/[0.04]`}
+        >
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-pink-50 dark:bg-pink-500/10 border border-pink-100 dark:border-pink-500/20">
+              <Mail className="w-3.5 h-3.5 text-pink-500 dark:text-pink-400" />
+            </div>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 dark:text-white/30">
+              Email
+            </span>
+            <ArrowUpRight className="ml-auto h-3 w-3 text-gray-300 dark:text-white/25 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+          </div>
+          <p className="text-xs font-medium text-gray-700 dark:text-white/80 group-hover:text-pink-500 dark:group-hover:text-pink-400 transition-colors break-all">
+            kelsonqu@gmail.com
+          </p>
+        </a>
+
+        <a
+          href="https://www.linkedin.com/in/kelsonqu/"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-shrink-0 flex items-center gap-2 px-5 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 dark:bg-violet-600 dark:hover:bg-violet-500 text-white text-sm font-medium transition-all hover:scale-[1.03] active:scale-100 shadow-sm shadow-violet-200/60 dark:shadow-violet-900/30 whitespace-nowrap"
+          className={`${cardBase} group p-4 hover:border-blue-300/60 dark:hover:border-blue-500/30 hover:bg-white dark:hover:bg-white/[0.04]`}
         >
-          <HiOutlineDocumentText className="w-4 h-4" />
-          View Resume
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20">
+              <BsLinkedin className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            </div>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 dark:text-white/30">
+              LinkedIn
+            </span>
+            <ArrowUpRight className="ml-auto h-3 w-3 text-gray-300 dark:text-white/25 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+          </div>
+          <p className="text-xs font-medium text-gray-700 dark:text-white/80 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            in/kelsonqu
+          </p>
         </a>
-      </motion.div>
 
-      {/* Two-column grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Left: Info card */}
-        <motion.div
-          variants={cardVariants}
-          initial="hidden"
-          whileInView="visible"
-          transition={{ duration: 0.5, delay: 0.1 }}
-          viewport={{ once: true }}
-          className="flex flex-col gap-8 p-8 rounded-2xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 dark:border-white/10 shadow-lg"
+        <a
+          href="https://github.com/KaichenQu"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${cardBase} group p-4 hover:border-gray-400/60 dark:hover:border-white/30 hover:bg-white dark:hover:bg-white/[0.04]`}
         >
-          {/* Availability badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/20 w-fit">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-sm font-medium text-green-700 dark:text-green-400">
-              Open to New Opportunities
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 dark:bg-white/10 border border-gray-200 dark:border-white/15">
+              <FaGithub className="w-3.5 h-3.5 text-gray-700 dark:text-white/80" />
+            </div>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 dark:text-white/30">
+              GitHub
+            </span>
+            <ArrowUpRight className="ml-auto h-3 w-3 text-gray-300 dark:text-white/25 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+          </div>
+          <p className="text-xs font-medium text-gray-700 dark:text-white/80 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+            @KaichenQu
+          </p>
+        </a>
+
+        <div className={`${cardBase} p-4`}>
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20">
+              <MapPin className="w-3.5 h-3.5 text-sky-500 dark:text-sky-400" />
+            </div>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 dark:text-white/30">
+              Location
             </span>
           </div>
+          <p className="text-xs font-medium text-gray-700 dark:text-white/80">
+            SF Bay Area, CA
+          </p>
+        </div>
+      </div>
 
-          {/* Intro text */}
-          <div>
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white/90 mb-2">
-              Let&apos;s build something great together
-            </h3>
-            <p className="text-gray-600 dark:text-white/50 text-sm leading-relaxed">
-              I&apos;m currently open to full-time roles and interesting
-              projects. Whether you have a question or just want to connect — my
-              inbox is always open.
+      {/* Resume CTA */}
+      {resumeUrl && (
+        <a
+          href={resumeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${cardBase} group flex items-center gap-3 p-4 hover:border-sky-300/60 dark:hover:border-sky-500/30 hover:bg-sky-50/30 dark:hover:bg-sky-500/[0.04]`}
+        >
+          <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20 flex-shrink-0">
+            <HiOutlineDocumentText className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">
+              View My Resume
+            </p>
+            <p className="text-[11px] text-gray-500 dark:text-white/40 mt-0.5">
+              Backend · Full-Stack · Distributed Systems
             </p>
           </div>
+          <ArrowUpRight className="h-4 w-4 text-gray-400 dark:text-white/40 group-hover:text-sky-500 dark:group-hover:text-sky-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+        </a>
+      )}
 
-          {/* Divider */}
-          <div className="h-px bg-gray-200 dark:bg-white/10" />
-
-          {/* Contact info */}
-          <div className="flex flex-col gap-5">
-            <a
-              href="mailto:kelsonqu@gmail.com"
-              className="flex items-center gap-3 group"
-            >
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-pink-50 dark:bg-pink-500/10 border border-pink-100 dark:border-pink-500/20 group-hover:scale-110 transition-transform">
-                <Mail className="w-4 h-4 text-pink-500 dark:text-pink-400" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-400 dark:text-white/40 mb-0.5">
-                  Email
-                </p>
-                <span className="text-sm font-medium text-gray-700 dark:text-white/80 group-hover:text-pink-500 dark:group-hover:text-pink-400 transition-colors">
-                  kelsonqu@gmail.com
-                </span>
-              </div>
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/kelsonqu/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 group"
-            >
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 group-hover:scale-110 transition-transform">
-                <BsLinkedin className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-400 dark:text-white/40 mb-0.5">
-                  LinkedIn
-                </p>
-                <span className="text-sm font-medium text-gray-700 dark:text-white/80 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  linkedin.com/in/kelsonqu
-                </span>
-              </div>
-            </a>
-
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-violet-50 dark:bg-violet-500/10 border border-violet-100 dark:border-violet-500/20">
-                <MapPin className="w-4 h-4 text-violet-500 dark:text-violet-400" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-400 dark:text-white/40 mb-0.5">
-                  Location
-                </p>
-                <span className="text-sm font-medium text-gray-700 dark:text-white/80">
-                  San Francisco Bay Area, CA
-                </span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Right: Form card */}
-        <motion.div
-          variants={cardVariants}
-          initial="hidden"
-          whileInView="visible"
-          transition={{ duration: 0.5, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="p-8 rounded-2xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 dark:border-white/10 shadow-lg"
-        >
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90 mb-6">
-            Send me a message
-          </h3>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-            <input
-              className="px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 text-gray-800 dark:text-white/80 placeholder:text-gray-400 dark:placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500/40 transition-all text-sm"
-              name="name"
-              type="text"
-              maxLength={100}
-              required
-              placeholder="Your name or company(if applicable)"
-              aria-label="Your name or company (if applicable)"
-            />
-            <textarea
-              className="min-h-[240px] px-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/5 text-gray-800 dark:text-white/80 placeholder:text-gray-400 dark:placeholder:text-white/25 resize-none focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500/40 transition-all text-sm leading-relaxed"
-              name="message"
-              placeholder="Your message..."
-              required
-              maxLength={5000}
-              aria-label="Your message"
-            />
-            <div className="flex justify-end">
-              <SubmitBtn text="Send Message" />
-            </div>
-          </form>
-        </motion.div>
-      </div>
-    </motion.section>
+      {/* Compact form */}
+      <form
+        onSubmit={handleSubmit}
+        className={`${cardBase} p-4 space-y-2.5`}
+      >
+        <div className="flex items-center gap-2 mb-1">
+          <Send className="h-3.5 w-3.5 text-sky-500 dark:text-sky-400" />
+          <h4 className="text-xs font-mono font-bold uppercase tracking-[0.15em] text-gray-700 dark:text-white/70">
+            Drop a message
+          </h4>
+        </div>
+        <input
+          name="name"
+          type="text"
+          maxLength={100}
+          required
+          placeholder="Your name or company"
+          aria-label="Your name"
+          className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.03] text-sm text-gray-800 dark:text-white/85 placeholder:text-gray-400 dark:placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500/40 transition-all"
+        />
+        <textarea
+          name="message"
+          required
+          maxLength={5000}
+          placeholder="Tell me about your project, role, or just say hi..."
+          aria-label="Your message"
+          className="w-full min-h-[110px] px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.03] text-sm text-gray-800 dark:text-white/85 placeholder:text-gray-400 dark:placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500/40 transition-all resize-none leading-relaxed"
+        />
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={sending}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-700 dark:bg-sky-600 dark:hover:bg-sky-500 text-white text-xs font-medium transition-all hover:scale-[1.02] active:scale-100 disabled:opacity-60 disabled:cursor-not-allowed shadow-sm shadow-sky-500/20"
+          >
+            {sending ? "Sending…" : "Send"}
+            <Send className="h-3 w-3" />
+          </button>
+        </div>
+      </form>
+    </motion.div>
   );
 }
