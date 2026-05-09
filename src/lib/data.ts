@@ -7,20 +7,19 @@ export const links: Link[] = [
   },
   {
     nameEng: "About",
-    hash: "/about",
+    hash: "/#about",
   },
   {
-    nameEng: "Showcases",
-    hash: "/showcase",
+    nameEng: "Projects",
+    hash: "/#projects",
   },
-
   {
     nameEng: "Contact",
-    hash: "/contact",
+    hash: "/#contact",
   },
   {
     nameEng: "Blog",
-    hash: "/blog",
+    hash: "https://blog.kelsonqu.com",
   },
 ];
 
@@ -40,7 +39,7 @@ export const projectsData: ProjectInfo[] = [
     description:
       "The Career Fair Registration System is a full-stack web app enabling students to register, apply for jobs, and track applications. Companies can post openings and review applicants. Admins manage users and announcements. Built with Django and Next.js, it integrates OpenAI LLM for automated, intelligent user support.",
     tags: ["React", "Next.js", "MongoDB", "Tailwind", "NodeJS"],
-    imageUrl: "/careerfair.jpg",
+    imageUrl: "/careerfair.png",
     link: "https://career-deploy.vercel.app/",
     githubUrl:
       "https://github.com/KaichenQu/frontend/tree/2f1a2de2330635f3699b97b68697d93846e16480",
