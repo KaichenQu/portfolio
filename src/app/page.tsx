@@ -223,14 +223,14 @@ function Sidebar({ resumeUrl }: { resumeUrl: string | null }) {
         </motion.h1>
 
         {/* Role */}
-        <motion.h2
+        <motion.p
           className="mt-2 text-[13px] font-mono uppercase tracking-[0.18em] text-sky-600 dark:text-sky-400"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.12 }}
         >
           Full-Stack Developer
-        </motion.h2>
+        </motion.p>
 
         {/* Tagline */}
         <motion.p
@@ -261,95 +261,98 @@ function Sidebar({ resumeUrl }: { resumeUrl: string | null }) {
       </div>
 
       <div className="mt-10 lg:mt-0 flex flex-col items-center gap-6">
-      {/* Social links */}
-      <motion.ul
-        className="flex items-center justify-center gap-5 text-gray-500 dark:text-white/55"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
-        <li>
-          <a
-            href="https://github.com/KaichenQu"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="inline-block hover:text-gray-900 dark:hover:text-white hover:-translate-y-0.5 transition-all"
-          >
-            <GitHubBrandIcon className="h-5 w-5" />
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/kelsonqu/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="inline-block hover:text-gray-900 dark:hover:text-white hover:-translate-y-0.5 transition-all"
-          >
-            <BsLinkedin className="h-5 w-5" />
-          </a>
-        </li>
-        <li>
-          <a
-            href="mailto:kelsonqu@gmail.com"
-            aria-label="Email"
-            className="inline-block hover:text-gray-900 dark:hover:text-white hover:-translate-y-0.5 transition-all"
-          >
-            <Mail className="h-5 w-5" />
-          </a>
-        </li>
-        {resumeUrl && (
+        {/* Social links */}
+        <motion.ul
+          className="flex items-center justify-center gap-5 text-gray-500 dark:text-white/55"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
           <li>
             <a
-              href={resumeUrl}
+              href="https://github.com/KaichenQu"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Resume"
+              aria-label="GitHub"
               className="inline-block hover:text-gray-900 dark:hover:text-white hover:-translate-y-0.5 transition-all"
             >
-              <HiOutlineDocumentText className="h-5 w-5" />
+              <GitHubBrandIcon className="h-5 w-5" />
             </a>
           </li>
-        )}
-      </motion.ul>
+          <li>
+            <a
+              href="https://www.linkedin.com/in/kelsonqu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="inline-block hover:text-gray-900 dark:hover:text-white hover:-translate-y-0.5 transition-all"
+            >
+              <BsLinkedin className="h-5 w-5" />
+            </a>
+          </li>
+          <li>
+            <a
+              href="mailto:kelsonqu@gmail.com"
+              aria-label="Email"
+              className="inline-block hover:text-gray-900 dark:hover:text-white hover:-translate-y-0.5 transition-all"
+            >
+              <Mail className="h-5 w-5" />
+            </a>
+          </li>
+          {resumeUrl && (
+            <li>
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Resume"
+                className="inline-block hover:text-gray-900 dark:hover:text-white hover:-translate-y-0.5 transition-all"
+              >
+                <HiOutlineDocumentText className="h-5 w-5" />
+              </a>
+            </li>
+          )}
+        </motion.ul>
 
-      {/* Footer */}
-      <div className="w-full text-center text-[11px] text-gray-500 dark:text-white/45 leading-relaxed space-y-1.5">
-        <div>
-          &copy; {new Date().getFullYear()} Kelson Qu. Built with{" "}
-          <a
-            href="https://nextjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-700 dark:hover:text-white/80 underline-offset-2 hover:underline transition-colors"
-          >
-            Next.js
-          </a>{" "}
-          &amp;{" "}
-          <a
-            href="https://tailwindcss.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-700 dark:hover:text-white/80 underline-offset-2 hover:underline transition-colors"
-          >
-            Tailwind
-          </a>
-          .
+        {/* Footer */}
+        <div className="w-full text-center text-[11px] text-gray-500 dark:text-white/45 leading-relaxed space-y-1.5">
+          <div>
+            &copy; {new Date().getFullYear()} Kelson Qu. Built with{" "}
+            <a
+              href="https://nextjs.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-700 dark:hover:text-white/80 underline-offset-2 hover:underline transition-colors"
+            >
+              Next.js
+            </a>{" "}
+            &amp;{" "}
+            <a
+              href="https://tailwindcss.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-700 dark:hover:text-white/80 underline-offset-2 hover:underline transition-colors"
+            >
+              Tailwind
+            </a>
+            .
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-mono">
+            <span className="inline-flex items-center gap-1.5">
+              <MapPin className="h-3 w-3 text-sky-500/70" />
+              <span className="uppercase tracking-[0.18em]">Bay Area</span>
+              <Clock timeZone="America/Los_Angeles" />
+            </span>
+            <span className="text-gray-300 dark:text-white/20">·</span>
+            <span
+              className="inline-flex items-center gap-1.5"
+              title="Your local time"
+            >
+              <span className="uppercase tracking-[0.18em]">You</span>
+              <Clock />
+            </span>
+          </div>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-mono">
-          <span className="inline-flex items-center gap-1.5">
-            <MapPin className="h-3 w-3 text-sky-500/70" />
-            <span className="uppercase tracking-[0.18em]">Bay Area</span>
-            <Clock timeZone="America/Los_Angeles" />
-          </span>
-          <span className="text-gray-300 dark:text-white/20">·</span>
-          <span className="inline-flex items-center gap-1.5" title="Your local time">
-            <span className="uppercase tracking-[0.18em]">You</span>
-            <Clock />
-          </span>
-        </div>
-      </div>
       </div>
     </header>
   );
@@ -576,7 +579,9 @@ function AboutSection({ resumeUrl }: { resumeUrl: string | null }) {
                 <div className="hidden sm:inline-flex items-center gap-0.5 mr-2 rounded-md border border-gray-200 dark:border-white/10 bg-white dark:bg-white/[0.03] p-0.5">
                   <button
                     type="button"
-                    onClick={() => setZoom((z) => Math.max(0.5, +(z - 0.1).toFixed(2)))}
+                    onClick={() =>
+                      setZoom((z) => Math.max(0.5, +(z - 0.1).toFixed(2)))
+                    }
                     aria-label="Zoom out"
                     className="inline-flex items-center justify-center w-6 h-6 rounded text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-colors"
                   >
@@ -593,7 +598,9 @@ function AboutSection({ resumeUrl }: { resumeUrl: string | null }) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setZoom((z) => Math.min(2.5, +(z + 0.1).toFixed(2)))}
+                    onClick={() =>
+                      setZoom((z) => Math.min(2.5, +(z + 0.1).toFixed(2)))
+                    }
                     aria-label="Zoom in"
                     className="inline-flex items-center justify-center w-6 h-6 rounded text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-colors"
                   >
@@ -606,7 +613,12 @@ function AboutSection({ resumeUrl }: { resumeUrl: string | null }) {
                   className="group/dl inline-flex items-center gap-1.5 text-[11.5px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md text-gray-600 dark:text-white/60 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
                   aria-label="Download resume"
                 >
-                  <span aria-hidden className="inline-block transition-transform group-hover/dl:translate-y-0.5">↓</span>
+                  <span
+                    aria-hidden
+                    className="inline-block transition-transform group-hover/dl:translate-y-0.5"
+                  >
+                    ↓
+                  </span>
                   Download
                 </a>
                 <a
@@ -879,7 +891,9 @@ export default function Home() {
     <>
       <ScrollProgress />
       <CursorGlow />
-      <div className="mx-auto min-h-screen max-w-screen-xl px-6 lg:flex lg:gap-x-12 lg:px-12">
+      {/* lg:px-20 keeps the right column clear of the fixed theme toggle
+          (right-5 + 48px button) on 1024–1340px viewports. */}
+      <div className="mx-auto min-h-screen max-w-screen-xl px-6 lg:flex lg:gap-x-12 lg:px-20">
         <div className="lg:w-2/5 xl:w-[38%]">
           <Sidebar resumeUrl={resumeUrl} />
         </div>

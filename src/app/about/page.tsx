@@ -8,7 +8,7 @@ const SkillMap = dynamic(() => import("@/components/skillmap"), {
 
 export default function AboutPage() {
   return (
-    <main className="flex flex-col items-center px-4 min-h-screen overflow-x-hidden">
+    <main className="flex flex-col items-center pt-20 md:pt-28 px-4 min-h-screen overflow-x-hidden">
       <About />
       <SkillMap />
     </main>

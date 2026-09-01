@@ -18,6 +18,7 @@ export default function ProjectsContainer() {
         <div className="order-1 lg:order-1">
           <div className="flex justify-center mb-8">
             <TextShimmerWave
+              as="h1"
               className="text-3xl [--base-color:#374151] [--base-gradient-color:#111827] dark:[--base-color:rgba(255,255,255,0.45)] dark:[--base-gradient-color:#ffffff]"
               duration={1.25}
               spread={0.7}
@@ -37,6 +38,7 @@ export default function ProjectsContainer() {
         <div className="order-2 lg:order-2 mt-12 lg:mt-0">
           <div className="flex justify-center mb-8">
             <TextShimmerWave
+              as="h2"
               className="text-3xl [--base-color:#374151] [--base-gradient-color:#111827] dark:[--base-color:rgba(255,255,255,0.45)] dark:[--base-gradient-color:#ffffff]"
               duration={1.25}
               spread={0.7}
@@ -47,7 +49,9 @@ export default function ProjectsContainer() {
               Timeline
             </TextShimmerWave>
           </div>
-          <div className="lg:sticky lg:top-24 h-[calc(100vh-6rem)]">
+          {/* Height leaves ~2rem slack under top-24 so the footer can't push the
+              stuck panel up under the fixed nav pill at page end. */}
+          <div className="lg:sticky lg:top-24 lg:h-[calc(100vh-8rem)] lg:overflow-y-auto">
             <Timeline />
           </div>
         </div>
