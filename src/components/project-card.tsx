@@ -48,6 +48,7 @@ export default function Project({
               <a
                 href={githubUrl}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-white hover:text-blue-400 transition-colors"
               >
                 <FaGithub className="w-8 h-8" />
@@ -57,6 +58,7 @@ export default function Project({
               <a
                 href={demoUrl}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-white hover:text-blue-400 transition-colors"
               >
                 <BiLinkExternal className="w-8 h-8" />
@@ -81,12 +83,16 @@ export default function Project({
               
             ))}
           </div>
-          <a
-            href={link || "#"}
-            className="self-end mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition-colors text-sm"
-          >
-            View more
-          </a>
+          {link && (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="self-end mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition-colors text-sm"
+            >
+              View more
+            </a>
+          )}
         </div>
       </div>
     </motion.div>

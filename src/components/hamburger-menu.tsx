@@ -33,7 +33,7 @@ function MenuIcon({ isOpen }: { isOpen: boolean }) {
 
 const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ links }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const { activeSection, setActiveSection, setTimeOfLastClick } =
     useActiveSectionContext();
 
@@ -49,12 +49,15 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ links }) => {
   }, []);
 
   return (
-    <div
+    <nav
       ref={ref}
+      aria-label="Menu"
       className="md:hidden fixed top-4 right-4 z-[999] flex flex-col items-end gap-2"
     >
       {/* Trigger button */}
       <motion.button
+        type="button"
+        aria-expanded={isOpen}
         className="flex items-center justify-center w-9 h-9 rounded-full bg-white/90 dark:bg-gray-950/90 border border-gray-200/60 dark:border-white/[0.09] backdrop-blur-md shadow-sm text-gray-600 dark:text-gray-300"
         onClick={() => setIsOpen((o) => !o)}
         whileTap={{ scale: 0.9 }}
@@ -100,7 +103,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ links }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </nav>
   );
 };
 

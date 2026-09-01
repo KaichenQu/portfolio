@@ -25,12 +25,12 @@ export function Clock({ timeZone }: { timeZone?: string } = {}) {
   if (!time) return <span className="font-mono opacity-0">00:00:00</span>;
 
   return (
-    <div className="flex items-center gap-0.5 font-mono">
+    <span className="inline-flex items-center gap-0.5 font-mono">
       <SlidingNumber value={time.h} padStart={true} />
       <span className="text-zinc-500">:</span>
       <SlidingNumber value={time.m} padStart={true} />
       <span className="text-zinc-500">:</span>
       <SlidingNumber value={time.s} padStart={true} />
-    </div>
+    </span>
   );
 }

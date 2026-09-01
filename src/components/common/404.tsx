@@ -20,6 +20,7 @@ const $404SVG: React.FC<{ className?: string }> = ({ className }) => {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       viewBox="0 0 800 600"
+      aria-hidden="true"
     >
       <defs>
         <clipPath id="a">

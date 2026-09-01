@@ -20,7 +20,7 @@ export default function Header({ links }: HeaderProps) {
   if (pathname === "/") return null;
 
   return (
-    <header className="hidden md:flex items-center justify-center fixed z-[999] w-full mt-3">
+    <nav aria-label="Main" className="hidden md:flex items-center justify-center fixed z-[999] w-full mt-3">
       <motion.div
         className="flex p-[3px] rounded-full border border-white/40 bg-white/85 shadow-md shadow-black/[0.05] backdrop-blur-[0.5rem] dark:bg-gray-950/80 dark:border-white/[0.08]"
         initial={{ y: -100, opacity: 0 }}
@@ -69,6 +69,6 @@ export default function Header({ links }: HeaderProps) {
           })}
         </ul>
       </motion.div>
-    </header>
+    </nav>
   );
 }

@@ -59,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="!scroll-smooth">
+    <html lang="en" className="scroll-smooth">
       <body
         className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen flex flex-col bg-gray-50 text-gray-950 relative dark:bg-gray-900 dark:text-gray-100 dark:text-opacity-90`}
       >

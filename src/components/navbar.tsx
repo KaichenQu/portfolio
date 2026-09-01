@@ -5,9 +5,9 @@ import { links } from "@/lib/data";
 
 export default function Navbar() {
   return (
-    <nav>
+    <>
       <HamburgerMenu links={links} />
       <Header links={links} />
-    </nav>
+    </>
   );
 }

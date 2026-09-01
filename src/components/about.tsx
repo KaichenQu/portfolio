@@ -29,6 +29,7 @@ export default function About() {
     >
       <div className="container mx-auto">
         <TextShimmerWave
+          as="h1"
           className="text-5xl [--base-color:#374151] [--base-gradient-color:#111827] dark:[--base-color:rgba(255,255,255,0.45)] dark:[--base-gradient-color:#ffffff]"
           duration={1.25}
           spread={0.8}
@@ -120,7 +121,7 @@ export default function About() {
                     <div className="flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
                       <Image
                         src="/me/me-1.JPG"
-                        alt="About"
+                        alt="Kelson Qu"
                         width={400}
                         height={400}
                         sizes="(max-width: 768px) 90vw, 320px"
@@ -131,7 +132,7 @@ export default function About() {
                     <div className="flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
                       <Image
                         src="/me/me-4.JPG"
-                        alt="About"
+                        alt="Kelson Qu"
                         width={400}
                         height={400}
                         sizes="(max-width: 768px) 90vw, 320px"
@@ -142,7 +143,7 @@ export default function About() {
                     <div className="flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
                       <Image
                         src="/me/me-2.JPG"
-                        alt="About"
+                        alt="Kelson Qu"
                         width={800}
                         height={450}
                         sizes="(max-width: 768px) 90vw, 320px"
@@ -153,7 +154,7 @@ export default function About() {
                     <div className="flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
                       <Image
                         src="/me/me-3.JPG"
-                        alt="About"
+                        alt="Kelson Qu"
                         width={800}
                         height={450}
                         sizes="(max-width: 768px) 90vw, 320px"
