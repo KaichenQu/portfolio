@@ -3,8 +3,8 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { FaGithub } from "react-icons/fa";
-import { BiLinkExternal } from "react-icons/bi";
+import { ExternalLink } from "lucide-react";
+import { GitHubBrandIcon } from "@/components/icons/GitHubBrandIcon";
 import { ProjectInfo } from "@/lib/types";
 
 type ProjectProps = ProjectInfo;
@@ -51,7 +51,7 @@ export default function Project({
                 rel="noopener noreferrer"
                 className="text-white hover:text-blue-400 transition-colors"
               >
-                <FaGithub className="w-8 h-8" />
+                <GitHubBrandIcon className="w-8 h-8" />
               </a>
             )}
             {demoUrl && (
@@ -61,7 +61,7 @@ export default function Project({
                 rel="noopener noreferrer"
                 className="text-white hover:text-blue-400 transition-colors"
               >
-                <BiLinkExternal className="w-8 h-8" />
+                <ExternalLink className="w-8 h-8" />
               </a>
             )}
           </div>
@@ -80,7 +80,6 @@ export default function Project({
               >
                 {tag}
               </span>
-              
             ))}
           </div>
           {link && (

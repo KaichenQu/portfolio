@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { motion, Transition, useMotionValue } from "motion/react";
+import { motion, Transition, useMotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -21,7 +21,7 @@ export type CarouselContextType = {
 };
 
 const CarouselContext = createContext<CarouselContextType | undefined>(
-  undefined
+  undefined,
 );
 
 function useCarousel() {
@@ -130,7 +130,7 @@ function CarouselNavigation({
     <div
       className={cn(
         "pointer-events-none absolute left-[-12.5%] top-1/2 flex w-[125%] -translate-y-1/2 justify-between px-2",
-        className
+        className,
       )}
     >
       <button
@@ -144,7 +144,7 @@ function CarouselNavigation({
           alwaysShow
             ? "disabled:opacity-40"
             : "group-hover/hover:disabled:opacity-40",
-          classNameButton
+          classNameButton,
         )}
         disabled={index === 0}
         onClick={() => {
@@ -168,7 +168,7 @@ function CarouselNavigation({
           alwaysShow
             ? "disabled:opacity-40"
             : "group-hover/hover:disabled:opacity-40",
-          classNameButton
+          classNameButton,
         )}
         aria-label="Next slide"
         disabled={index + 1 === itemsCount}
@@ -202,7 +202,7 @@ function CarouselIndicator({
     <div
       className={cn(
         "absolute bottom-0 z-10 flex w-full items-center justify-center",
-        className
+        className,
       )}
     >
       <div className="flex space-x-2">
@@ -217,7 +217,7 @@ function CarouselIndicator({
               index === i
                 ? "bg-zinc-950 dark:bg-zinc-50"
                 : "bg-zinc-900/50 dark:bg-zinc-100/50",
-              classNameButton
+              classNameButton,
             )}
           />
         ))}
@@ -255,7 +255,7 @@ function CarouselContent({
 
     const observer = new IntersectionObserver((entries) => {
       const visibleCount = entries.filter(
-        (entry) => entry.isIntersecting
+        (entry) => entry.isIntersecting,
       ).length;
       setVisibleItemsCount(visibleCount);
     }, options);
@@ -314,7 +314,7 @@ function CarouselContent({
       className={cn(
         "flex items-center",
         !disableDrag && "cursor-grab active:cursor-grabbing",
-        className
+        className,
       )}
       ref={containerRef}
     >
@@ -333,7 +333,7 @@ function CarouselItem({ children, className }: CarouselItemProps) {
     <motion.div
       className={cn(
         "w-full min-w-0 shrink-0 grow-0 overflow-hidden",
-        className
+        className,
       )}
     >
       {children}

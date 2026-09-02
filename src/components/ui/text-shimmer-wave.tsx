@@ -1,6 +1,6 @@
 "use client";
 import { type JSX } from "react";
-import { motion, Transition } from "motion/react";
+import { motion, Transition } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export type TextShimmerWaveProps = {
@@ -31,7 +31,7 @@ export function TextShimmerWave({
   transition,
 }: TextShimmerWaveProps) {
   const MotionComponent = motion.create(
-    Component as keyof JSX.IntrinsicElements
+    Component as keyof JSX.IntrinsicElements,
   );
 
   return (
@@ -40,7 +40,7 @@ export function TextShimmerWave({
         "relative inline-block [perspective:500px]",
         "[--base-color:#a1a1aa] [--base-gradient-color:#000]",
         "dark:[--base-color:#71717a] dark:[--base-gradient-color:#ffffff]",
-        className
+        className,
       )}
       style={{ color: "var(--base-color)" }}
     >
@@ -51,7 +51,7 @@ export function TextShimmerWave({
           <motion.span
             key={i}
             className={cn(
-              "inline-block whitespace-pre [transform-style:preserve-3d]"
+              "inline-block whitespace-pre [transform-style:preserve-3d]",
             )}
             initial={{
               translateZ: 0,

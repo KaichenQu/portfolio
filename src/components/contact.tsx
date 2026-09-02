@@ -4,10 +4,15 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useSectionInView } from "@/lib/useInView";
 import { toast } from "react-hot-toast";
-import { Mail, MapPin, ArrowUpRight, Send } from "lucide-react";
-import { BsLinkedin } from "react-icons/bs";
-import { FaGithub } from "react-icons/fa";
-import { HiOutlineDocumentText } from "react-icons/hi";
+import {
+  Mail,
+  MapPin,
+  ArrowUpRight,
+  Send,
+  Linkedin,
+  FileText,
+} from "lucide-react";
+import { GitHubBrandIcon } from "@/components/icons/GitHubBrandIcon";
 
 const cardBase =
   "rounded-2xl border border-gray-200/70 dark:border-white/[0.08] bg-white/50 dark:bg-white/[0.02] transition-all duration-300";
@@ -111,7 +116,7 @@ export default function Contact() {
         >
           <div className="flex items-center gap-2.5 mb-2">
             <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20">
-              <BsLinkedin className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+              <Linkedin className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
             </div>
             <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 dark:text-white/30">
               LinkedIn
@@ -131,7 +136,7 @@ export default function Contact() {
         >
           <div className="flex items-center gap-2.5 mb-2">
             <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 dark:bg-white/10 border border-gray-200 dark:border-white/15">
-              <FaGithub className="w-3.5 h-3.5 text-gray-700 dark:text-white/80" />
+              <GitHubBrandIcon className="w-3.5 h-3.5 text-gray-700 dark:text-white/80" />
             </div>
             <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 dark:text-white/30">
               GitHub
@@ -167,7 +172,7 @@ export default function Contact() {
           className={`${cardBase} group flex items-center gap-3 p-4 hover:border-sky-300/60 dark:hover:border-sky-500/30 hover:bg-sky-50/30 dark:hover:bg-sky-500/[0.04]`}
         >
           <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20 flex-shrink-0">
-            <HiOutlineDocumentText className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+            <FileText className="w-4 h-4 text-sky-600 dark:text-sky-400" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-gray-900 dark:text-white">
@@ -182,10 +187,7 @@ export default function Contact() {
       )}
 
       {/* Compact form */}
-      <form
-        onSubmit={handleSubmit}
-        className={`${cardBase} p-4 space-y-2.5`}
-      >
+      <form onSubmit={handleSubmit} className={`${cardBase} p-4 space-y-2.5`}>
         <div className="flex items-center gap-2 mb-1">
           <Send className="h-3.5 w-3.5 text-sky-500 dark:text-sky-400" />
           <h4 className="text-xs font-mono font-bold uppercase tracking-[0.15em] text-gray-700 dark:text-white/70">

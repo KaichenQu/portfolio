@@ -5,11 +5,14 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import clsx from "clsx";
-import { BsLinkedin } from "react-icons/bs";
-import { FaGithub } from "react-icons/fa";
-import { BiLinkExternal } from "react-icons/bi";
-import { HiOutlineDocumentText } from "react-icons/hi";
-import { Mail, ArrowUpRight, MapPin } from "lucide-react";
+import {
+  Mail,
+  ArrowUpRight,
+  MapPin,
+  Linkedin,
+  ExternalLink,
+  FileText,
+} from "lucide-react";
 
 import { GitHubBrandIcon } from "@/components/icons/GitHubBrandIcon";
 import { Clock } from "@/components/timer";
@@ -287,7 +290,7 @@ function Sidebar({ resumeUrl }: { resumeUrl: string | null }) {
               aria-label="LinkedIn"
               className="inline-block hover:text-gray-900 dark:hover:text-white hover:-translate-y-0.5 transition-all"
             >
-              <BsLinkedin className="h-5 w-5" />
+              <Linkedin className="h-5 w-5" />
             </a>
           </li>
           <li>
@@ -308,7 +311,7 @@ function Sidebar({ resumeUrl }: { resumeUrl: string | null }) {
                 aria-label="Resume"
                 className="inline-block hover:text-gray-900 dark:hover:text-white hover:-translate-y-0.5 transition-all"
               >
-                <HiOutlineDocumentText className="h-5 w-5" />
+                <FileText className="h-5 w-5" />
               </a>
             </li>
           )}
@@ -497,7 +500,7 @@ function AboutSection({ resumeUrl }: { resumeUrl: string | null }) {
         transition={{ duration: 0.5, delay: 0.2 }}
       >
         <div className="inline-flex items-center gap-2.5 text-[18px] sm:text-[22px] font-mono font-bold uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400">
-          <HiOutlineDocumentText className="h-6 w-6" />
+          <FileText className="h-6 w-6" />
           Resume
         </div>
         <button
@@ -571,7 +574,7 @@ function AboutSection({ resumeUrl }: { resumeUrl: string | null }) {
               </div>
 
               <div className="absolute left-1/2 -translate-x-1/2 inline-flex items-center gap-2 text-[12.5px] font-mono text-gray-600 dark:text-white/60 max-w-[60%] truncate">
-                <HiOutlineDocumentText className="h-3.5 w-3.5 text-sky-500 dark:text-sky-400 flex-shrink-0" />
+                <FileText className="h-3.5 w-3.5 text-sky-500 dark:text-sky-400 flex-shrink-0" />
                 <span className="truncate">KaichenQu — Resume.pdf</span>
               </div>
 
@@ -789,7 +792,7 @@ function ProjectsSection() {
                         aria-label="Source code"
                         className="p-1.5 rounded-lg bg-black/60 backdrop-blur-sm text-white/90 hover:text-white hover:bg-black/80 transition-all"
                       >
-                        <FaGithub className="h-3.5 w-3.5" />
+                        <GitHubBrandIcon className="h-3.5 w-3.5" />
                       </a>
                     )}
                     {p.demoUrl && (
@@ -800,7 +803,7 @@ function ProjectsSection() {
                         aria-label="Live demo"
                         className="p-1.5 rounded-lg bg-black/60 backdrop-blur-sm text-white/90 hover:text-white hover:bg-black/80 transition-all"
                       >
-                        <BiLinkExternal className="h-3.5 w-3.5" />
+                        <ExternalLink className="h-3.5 w-3.5" />
                       </a>
                     )}
                   </div>
