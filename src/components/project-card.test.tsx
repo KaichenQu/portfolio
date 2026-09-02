@@ -7,7 +7,8 @@ const base: ProjectInfo = {
   title: "Shortlink Platform",
   description: "A full-stack shortlink service.",
   tags: ["Java", "Redis"],
-  imageUrl: "/image1.png",
+  imageUrl: "/projects/shortlink-light.png",
+  imageUrlDark: "/projects/shortlink-dark.png",
   link: "",
   githubUrl: "",
   demoUrl: "",
@@ -17,16 +18,22 @@ describe("Project card", () => {
   it("renders the title, description, tags and image", () => {
     render(<Project {...base} />);
 
-    expect(screen.getByRole("heading", { name: base.title })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: base.title }),
+    ).toBeInTheDocument();
     expect(screen.getByText(base.description)).toBeInTheDocument();
-    for (const tag of base.tags) expect(screen.getByText(tag)).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: base.title })).toBeInTheDocument();
+    for (const tag of base.tags)
+      expect(screen.getByText(tag)).toBeInTheDocument();
+    // One <img> per theme; Tailwind's dark:hidden / dark:block picks the visible one.
+    expect(screen.getAllByRole("img", { name: base.title })).toHaveLength(2);
   });
 
   it("omits 'View more' when no link is given", () => {
     render(<Project {...base} />);
 
-    expect(screen.queryByRole("link", { name: "View more" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "View more" }),
+    ).not.toBeInTheDocument();
   });
 
   it("renders 'View more' pointing at the link when one is given", () => {

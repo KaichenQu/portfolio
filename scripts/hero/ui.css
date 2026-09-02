@@ -1,0 +1,237 @@
+/* Product-UI building blocks shared by the hero mockups (browser window, app bar, cards). */
+.win {
+  position: absolute;
+  background: var(--panel);
+  border: 1px solid var(--panel-b);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.chrome {
+  height: 44px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--line2);
+  background: var(--bg2);
+}
+.chrome i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--fg3);
+  opacity: 0.35;
+}
+.chrome .url {
+  margin-left: 12px;
+  flex: 1;
+  max-width: 440px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  font:
+    500 12px "JetBrains Mono",
+    monospace;
+  color: var(--fg3);
+}
+.chrome .url svg {
+  width: 12px;
+  height: 12px;
+}
+.appbar {
+  height: 56px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--line2);
+}
+.appbar .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.appbar .logo i {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: grid;
+  place-items: center;
+  color: var(--accent-fg);
+  font-style: normal;
+}
+.appbar .logo i svg {
+  width: 15px;
+  height: 15px;
+}
+.appbar nav {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: var(--fg2);
+  font-weight: 500;
+}
+.appbar nav b {
+  color: var(--fg);
+  font-weight: 600;
+  position: relative;
+}
+.appbar nav b::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -19px;
+  height: 2px;
+  background: var(--accent);
+}
+.appbar .crumb {
+  font:
+    500 13px "JetBrains Mono",
+    monospace;
+  color: var(--fg3);
+  white-space: nowrap;
+}
+.sp {
+  flex: 1;
+}
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: var(--accent-fg);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex: none;
+}
+.body {
+  flex: 1;
+  min-height: 0;
+  padding: 18px 22px;
+  display: flex;
+  gap: 18px;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line2);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.dark .card {
+  background: rgba(255, 255, 255, 0.025);
+}
+.card h4 {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0 6px 0 14px;
+  font:
+    500 13.5px "JetBrains Mono",
+    monospace;
+  color: var(--fg3);
+  background: var(--panel);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.field .btn {
+  margin-left: auto;
+  padding: 8px 14px;
+  font-size: 13px;
+  flex: none;
+}
+.big {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.hl {
+  position: absolute;
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  white-space: nowrap;
+}
+.hl em {
+  font-style: normal;
+  color: var(--accent);
+}
+.lead {
+  position: absolute;
+  font-size: 16px;
+  color: var(--fg2);
+  line-height: 1.55;
+}
+.bub {
+  padding: 10px 13px;
+  border-radius: 14px 14px 14px 4px;
+  background: var(--chip);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.bub.me {
+  border-radius: 14px 14px 4px 14px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  align-self: flex-end;
+  max-width: 92%;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--line2);
+  overflow: hidden;
+  flex: 1;
+}
+.bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+.ok-t {
+  color: var(--ok);
+}
+.warn-t {
+  color: var(--warn);
+}
+.acc-t {
+  color: var(--accent);
+}

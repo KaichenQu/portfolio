@@ -774,13 +774,23 @@ function ProjectsSection() {
             >
               {/* Image */}
               <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100 dark:bg-white/[0.04]">
+                {/* Themed heroes ship a light and a dark render; swap them in CSS so SSR never flashes the wrong one. */}
                 <Image
                   src={p.imageUrl}
                   alt={p.title}
                   fill
                   sizes="(max-width: 640px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover/card:scale-[1.04]"
+                  className={`object-cover transition-transform duration-500 group-hover/card:scale-[1.04] ${p.imageUrlDark ? "dark:hidden" : ""}`}
                 />
+                {p.imageUrlDark && (
+                  <Image
+                    src={p.imageUrlDark}
+                    alt={p.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover/card:scale-[1.04] hidden dark:block"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300" />
                 {(p.githubUrl || p.demoUrl) && (
                   <div className="absolute top-2.5 right-2.5 flex items-center gap-1.5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">

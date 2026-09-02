@@ -7,6 +7,7 @@ export type ProjectInfo = {
   description: string;
   tags: string[];
   imageUrl: string;
+  imageUrlDark?: string;
   link: string;
   githubUrl: string;
   demoUrl: string;
@@ -16,4 +17,3 @@ export type Link = {
   nameEng: string;
   hash: string;
 };
-

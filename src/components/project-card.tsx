@@ -14,6 +14,7 @@ export default function Project({
   description,
   tags,
   imageUrl,
+  imageUrlDark,
   githubUrl,
   demoUrl,
   link,
@@ -36,13 +37,24 @@ export default function Project({
       className="group w-full max-w-2xl mb-8"
     >
       <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col dark:bg-white/10">
-        <div className="relative h-48 w-full overflow-hidden">
+        {/* Heroes are rendered 16:10 per theme; the CSS swap avoids a hydration flash. */}
+        <div className="relative aspect-[16/10] w-full overflow-hidden">
           <Image
             src={imageUrl}
             alt={title}
             fill
-            className="object-cover transform group-hover:scale-110 transition-transform duration-500"
+            sizes="(min-width: 1024px) 42rem, 100vw"
+            className={`object-cover transform group-hover:scale-110 transition-transform duration-500 ${imageUrlDark ? "dark:hidden" : ""}`}
           />
+          {imageUrlDark && (
+            <Image
+              src={imageUrlDark}
+              alt={title}
+              fill
+              sizes="(min-width: 1024px) 42rem, 100vw"
+              className="object-cover transform group-hover:scale-110 transition-transform duration-500 hidden dark:block"
+            />
+          )}
           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
             {githubUrl && (
               <a

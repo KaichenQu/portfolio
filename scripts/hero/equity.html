@@ -1,0 +1,405 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="hero.css" />
+    <link rel="stylesheet" href="ui.css" />
+    <style>
+      :root {
+        --accent: #047857;
+        --accent2: #34d399;
+        --accent-soft: rgba(4, 120, 87, 0.12);
+        --accent-glow: rgba(16, 185, 129, 0.26);
+        --accent2-glow: rgba(245, 158, 11, 0.14);
+      }
+      .dark {
+        --accent: #34d399;
+        --accent2: #a7f3d0;
+        --accent-soft: rgba(52, 211, 153, 0.14);
+        --accent-glow: rgba(52, 211, 153, 0.2);
+        --accent2-glow: rgba(245, 158, 11, 0.12);
+      }
+      .chrome {
+        height: 50px;
+      }
+      .chrome .url {
+        height: 30px;
+        font-size: 13px;
+        max-width: 520px;
+      }
+      .appbar {
+        height: 64px;
+        gap: 22px;
+      }
+      .appbar .logo {
+        font-size: 18px;
+      }
+      .appbar .logo i {
+        width: 32px;
+        height: 32px;
+      }
+      .appbar nav {
+        font-size: 15.5px;
+      }
+      .appbar nav b::after {
+        bottom: -21px;
+      }
+      .avatar {
+        width: 34px;
+        height: 34px;
+      }
+      .chip {
+        font-size: 13.5px;
+        padding: 6px 13px;
+      }
+      .tk {
+        display: flex;
+        align-items: baseline;
+        gap: 14px;
+      }
+      .tk b {
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .tk span {
+        font-size: 15px;
+        color: var(--fg2);
+      }
+      .tk .px {
+        margin-left: auto;
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .chart {
+        padding: 18px 22px 14px;
+        gap: 10px;
+      }
+      .chart h4 {
+        font-size: 17px;
+      }
+      .chart svg {
+        width: 100%;
+        height: 230px;
+        overflow: visible;
+      }
+      .ax {
+        display: flex;
+        justify-content: space-between;
+        font:
+          500 12px "JetBrains Mono",
+          monospace;
+        color: var(--fg3);
+      }
+      .scores {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .sc {
+        padding: 16px 18px;
+        gap: 8px;
+      }
+      .sc span {
+        font-size: 14px;
+        color: var(--fg2);
+      }
+      .sc b {
+        font-size: 38px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .sc .bar {
+        height: 8px;
+        border-radius: 4px;
+      }
+      .call {
+        position: absolute;
+        left: 1140px;
+        top: 470px;
+        width: 380px;
+        height: 280px;
+        padding: 24px 24px;
+        gap: 12px;
+      }
+      .call .t {
+        font-size: 38px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+      }
+      .call .t em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      .eval {
+        position: absolute;
+        left: 1140px;
+        top: 780px;
+        width: 380px;
+        height: 120px;
+        padding: 18px 22px;
+        flex-direction: row;
+        align-items: center;
+        gap: 18px;
+      }
+      .eval svg {
+        width: 100px;
+        height: 60px;
+        overflow: visible;
+        flex: none;
+      }
+      .eval b {
+        display: block;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .eval small {
+        display: block;
+        font:
+          600 11.5px "JetBrains Mono",
+          monospace;
+        letter-spacing: 0.08em;
+        color: var(--fg3);
+        margin-top: 6px;
+      }
+      .st-acc {
+        stroke: var(--accent);
+      }
+      .st-line {
+        stroke: var(--line);
+      }
+      .st-warn {
+        stroke: var(--warn);
+      }
+      .fl-acc {
+        fill: var(--accent);
+      }
+    </style>
+    <script>
+      if (location.search.includes("dark"))
+        document.documentElement.classList.add("dark");
+    </script>
+  </head>
+  <body>
+    <div class="glow"></div>
+    <div class="glow2"></div>
+
+    <div
+      class="win"
+      style="left: 80px; top: 120px; width: 1000px; height: 960px"
+    >
+      <div class="chrome">
+        <i></i><i></i><i></i>
+        <div class="url">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg
+          >desk.equity-agents.ai/NVDA
+        </div>
+      </div>
+      <div class="appbar">
+        <div class="logo">
+          <i
+            ><svg viewBox="0 0 24 24">
+              <path d="M3 17l6-6 4 4 8-8" />
+              <path d="M14 7h7v7" /></svg></i
+          >Research Desk
+        </div>
+        <nav>
+          <b>Desk</b><span>Runs</span><span>Evals</span><span>Traces</span>
+        </nav>
+        <span class="sp"></span>
+        <span class="chip"
+          ><span class="dot" style="color: var(--ok)"></span>run 0x91c · 11.4
+          s</span
+        >
+        <span class="avatar">KQ</span>
+      </div>
+      <div
+        class="body"
+        style="flex-direction: column; gap: 18px; padding: 22px 24px"
+      >
+        <div class="tk">
+          <b>NVDA</b><span>NVIDIA Corp · NASDAQ</span
+          ><span class="px">$132.40</span><span class="chip ok">+2.1%</span>
+        </div>
+        <div class="card chart">
+          <h4>
+            Price · 6 months<span class="sp"></span
+            ><span class="chip acc"
+              ><span class="dot"></span>trade call drafted</span
+            >
+          </h4>
+          <svg viewBox="0 0 900 150" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="0"
+                  style="stop-color: var(--accent); stop-opacity: 0.3"
+                />
+                <stop
+                  offset="1"
+                  style="stop-color: var(--accent); stop-opacity: 0"
+                />
+              </linearGradient>
+            </defs>
+            <g
+              class="st-line"
+              stroke-width="1"
+              vector-effect="non-scaling-stroke"
+            >
+              <path d="M0,30 H900 M0,70 H900 M0,110 H900" />
+            </g>
+            <path
+              d="M0,118 C60,112 90,124 140,104 S220,96 260,88 S330,102 380,78 S450,60 500,66 S570,44 620,50 S690,28 740,36 S820,14 900,22 V150 H0 Z"
+              fill="url(#area)"
+            />
+            <path
+              d="M0,118 C60,112 90,124 140,104 S220,96 260,88 S330,102 380,78 S450,60 500,66 S570,44 620,50 S690,28 740,36 S820,14 900,22"
+              class="st-acc"
+              stroke-width="3"
+              vector-effect="non-scaling-stroke"
+            />
+            <circle cx="740" cy="36" r="10" class="fl-acc" opacity=".25" />
+            <circle cx="740" cy="36" r="5" class="fl-acc" />
+          </svg>
+          <div class="ax">
+            <span>Apr</span><span>May</span><span>Jun</span><span>Jul</span
+            ><span>Aug</span><span>Sep</span>
+          </div>
+        </div>
+        <div class="scores">
+          <div class="card sc">
+            <span>Fundamentals</span><b>8.4</b
+            ><span class="bar"><i style="width: 84%"></i></span>
+          </div>
+          <div class="card sc">
+            <span>Technicals</span><b>7.9</b
+            ><span class="bar"><i style="width: 79%"></i></span>
+          </div>
+          <div class="card sc">
+            <span>Sentiment</span><b>6.8</b
+            ><span class="bar"
+              ><i style="width: 68%; background: var(--warn)"></i
+            ></span>
+          </div>
+          <div class="card sc">
+            <span>Risk</span><b>7.2</b
+            ><span class="bar"><i style="width: 72%"></i></span>
+          </div>
+        </div>
+        <div
+          class="card"
+          style="
+            padding: 16px 20px;
+            gap: 10px;
+            font-size: 14.5px;
+            color: var(--fg2);
+          "
+        >
+          <div class="row">
+            <span class="chip ok">fundamentals ✓</span
+            ><span class="chip ok">technicals ✓</span
+            ><span class="chip warn">news · retry 1/3</span
+            ><span class="chip ok">risk ✓</span><span class="sp"></span
+            ><span class="mono" style="font-size: 13px"
+              >schema-checked hand-off</span
+            >
+          </div>
+        </div>
+        <div class="card" style="padding: 16px 20px; gap: 8px">
+          <h4 style="font-size: 16px">
+            Run log<span class="sp"></span
+            ><span class="chip">Langfuse · 38.2k tokens</span>
+          </h4>
+          <div
+            class="mono"
+            style="font-size: 14px; line-height: 1.8; color: var(--fg2)"
+          >
+            <span class="acc-t">▸</span> supervisor &nbsp;plan: fundamentals →
+            technicals → news → risk<br />
+            <span class="ok-t">✓</span> fundamentals &nbsp;12 tool calls · 10-K,
+            10-Q via MCP · 2.1 s<br />
+            <span class="warn-t">↻</span> news-sentiment &nbsp;timeout 8 s →
+            retry 1/3 · run continues<br />
+            <span class="ok-t">✓</span> risk &nbsp;5 tool calls · drawdown,
+            beta, exposure · 0.9 s
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand" style="position: absolute; left: 1140px; top: 120px">
+      <span class="mark"
+        ><svg viewBox="0 0 24 24">
+          <path d="M3 17l6-6 4 4 8-8" />
+          <path d="M14 7h7v7" /></svg
+      ></span>
+      <div>
+        <b>Equity Research Agents</b
+        ><small>CLAUDE AGENT SDK · MCP · LANGGRAPH</small>
+      </div>
+    </div>
+    <div class="hl" style="left: 1140px; top: 210px; font-size: 58px">
+      From ticker<br /><em>to trade call.</em>
+    </div>
+    <div
+      class="lead"
+      style="left: 1140px; top: 346px; width: 380px; font-size: 17px"
+    >
+      Four sub-agents cover fundamentals, technicals, sentiment and risk. A
+      supervisor drafts the call. You approve every write.
+    </div>
+
+    <div class="card call">
+      <div
+        style="
+          font:
+            600 12px &quot;JetBrains Mono&quot;,
+            monospace;
+          letter-spacing: 0.1em;
+          color: var(--fg3);
+        "
+      >
+        TRADE CALL · SUPERVISOR
+      </div>
+      <div class="t">NVDA · <em>BUY</em></div>
+      <div style="font-size: 15px; color: var(--fg2)">
+        confidence 0.82 · target $148 (+12%)
+      </div>
+      <span class="chip warn" style="align-self: flex-start"
+        ><span class="dot"></span>awaiting your approval</span
+      >
+      <div class="row" style="margin-top: auto">
+        <span class="btn" style="flex: 1; padding: 14px; font-size: 16px"
+          >Approve</span
+        ><span class="btn ghost" style="flex: 1; padding: 14px; font-size: 16px"
+          >Reject</span
+        >
+      </div>
+    </div>
+
+    <div class="card eval">
+      <svg viewBox="0 0 160 100">
+        <path
+          d="M20,90 A60,60 0 0 1 140,90"
+          class="st-line"
+          stroke-width="14"
+        />
+        <path
+          d="M20,90 A60,60 0 0 1 140,90"
+          class="st-acc"
+          stroke-width="14"
+          stroke-dasharray="177.4 188.5"
+        />
+        <path d="M129.5,73.9 L144.7,69" class="st-warn" stroke-width="4" />
+      </svg>
+      <div><b>Eval score 94.1%</b><small>TRAJECTORY · GATE ≥ 90%</small></div>
+    </div>
+  </body>
+</html>

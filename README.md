@@ -23,8 +23,9 @@ Personal portfolio of **Kelson Qu**, M.S. CS @ Northeastern University. Built wi
 
 ## Projects Featured
 
-- **Shortlink Platform** — Java, Spring Boot, Spring Cloud, Redis, MySQL, RocketMQ
-- **Distributed Real-Time Messaging Platform** — Go, WebSocket, Kafka, gRPC, Redis (5K+ concurrent connections)
+- **Physics Agent Platform** — FastAPI, Pydantic AI, Temporal, Kubernetes, Postgres, vLLM
+- **Agentic Equity Investment Research System** — Python, Claude Agent SDK, MCP, LangGraph, Langfuse
+- **High-Throughput URL Shortening Service** — Java, Spring Boot, ShardingSphere, RocketMQ, Redis (10K TPS writes / 50K QPS reads)
 - **Career Fair Registration System** — Next.js, Django, MongoDB, OpenAI LLM integration
 - **Kanbas React Web App** — Canvas-like LMS with quizzes and file storage
 

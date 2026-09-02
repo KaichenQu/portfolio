@@ -1,0 +1,331 @@
+/* Shared tokens for the project hero images. Each HTML sets --accent/--accent2 per theme
+   and lays out its own scene in absolute page coordinates (1600x1000, 16:10 like the card). */
+:root {
+  --bg: #f6f8fc;
+  --bg2: #eef2f9;
+  --dot: rgba(15, 23, 42, 0.1);
+  --panel: #ffffff;
+  --panel-top: rgba(255, 255, 255, 0);
+  --panel-b: rgba(15, 23, 42, 0.08);
+  --shadow: 0 22px 50px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.05);
+  --shadow-sm: 0 8px 20px rgba(15, 23, 42, 0.07);
+  --fg: #0b1220;
+  --fg2: #4b5563;
+  --fg3: #8b95a5;
+  --line: rgba(15, 23, 42, 0.12);
+  --line2: rgba(15, 23, 42, 0.07);
+  --chip: #eef2f7;
+  --chip-fg: #374151;
+  --ok: #15803d;
+  --ok-bg: #dcfce7;
+  --warn: #b45309;
+  --warn-bg: #fef3c7;
+  --accent-fg: #ffffff;
+  --side: #111827;
+  --side-fg: #e5e7eb;
+}
+.dark {
+  --bg: #0b1017;
+  --bg2: #0e141d;
+  --dot: rgba(255, 255, 255, 0.08);
+  --panel: #141a25;
+  --panel-top: rgba(255, 255, 255, 0.05);
+  --panel-b: rgba(255, 255, 255, 0.09);
+  --shadow:
+    0 26px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  --shadow-sm: 0 10px 24px rgba(0, 0, 0, 0.4);
+  --fg: #eef2f7;
+  --fg2: #aeb8c8;
+  --fg3: #6f7b8d;
+  --line: rgba(255, 255, 255, 0.13);
+  --line2: rgba(255, 255, 255, 0.07);
+  --chip: rgba(255, 255, 255, 0.07);
+  --chip-fg: #d3dae5;
+  --ok: #4ade80;
+  --ok-bg: rgba(74, 222, 128, 0.14);
+  --warn: #fbbf24;
+  --warn-bg: rgba(251, 191, 36, 0.14);
+  --accent-fg: #0b1017;
+  --side: #0a0e14;
+  --side-fg: #cbd5e1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  width: 1600px;
+  height: 1000px;
+  overflow: hidden;
+}
+body {
+  position: relative;
+  color: var(--fg);
+  background:
+    radial-gradient(1200px 700px at 78% 0%, var(--bg2), transparent 60%),
+    var(--bg);
+  font-family:
+    "Space Grotesk",
+    Inter,
+    -apple-system,
+    "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--dot) 1.4px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: 14px 14px;
+}
+.glow,
+.glow2 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.glow {
+  right: -160px;
+  top: -260px;
+  width: 1000px;
+  height: 760px;
+  background: radial-gradient(
+    closest-side,
+    var(--accent-glow),
+    transparent 72%
+  );
+}
+.glow2 {
+  left: -300px;
+  bottom: -360px;
+  width: 860px;
+  height: 660px;
+  background: radial-gradient(
+    closest-side,
+    var(--accent2-glow),
+    transparent 72%
+  );
+}
+
+/* top bar: brand left, metrics right */
+.top {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  top: 60px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.mark {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  flex: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: grid;
+  place-items: center;
+  color: var(--accent-fg);
+  box-shadow: 0 12px 26px var(--accent-glow);
+}
+.mark svg {
+  width: 28px;
+  height: 28px;
+}
+.brand b {
+  display: block;
+  font-size: 23px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.brand small {
+  display: block;
+  margin-top: 5px;
+  font:
+    500 12px/1 "JetBrains Mono",
+    monospace;
+  letter-spacing: 0.13em;
+  color: var(--fg3);
+}
+.metrics {
+  display: flex;
+  gap: 48px;
+  align-items: flex-end;
+}
+.metric {
+  text-align: right;
+}
+.metric b {
+  display: block;
+  font-size: 54px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.metric b em {
+  font-style: normal;
+  color: var(--accent);
+}
+.metric b small {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg3);
+  margin-left: 4px;
+  letter-spacing: -0.01em;
+}
+.metric span {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--fg2);
+  white-space: nowrap;
+}
+
+/* scene pieces */
+.abs {
+  position: absolute;
+}
+.panel {
+  position: absolute;
+  background:
+    linear-gradient(180deg, var(--panel-top), transparent 30%), var(--panel);
+  border: 1px solid var(--panel-b);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+.node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 18px;
+  background: var(--panel);
+  border: 1px solid var(--panel-b);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.node b {
+  font-size: 17px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.node small {
+  font:
+    500 12.5px "JetBrains Mono",
+    monospace;
+  color: var(--fg3);
+  white-space: nowrap;
+}
+.node.acc {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 4px var(--accent-soft),
+    var(--shadow-sm);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--chip-fg);
+  font:
+    600 12.5px "JetBrains Mono",
+    monospace;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.chip.ok {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.chip.warn {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.chip.acc {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  white-space: nowrap;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-weight: 600;
+  font-size: 14.5px;
+}
+.btn.ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--fg);
+}
+.mono {
+  font-family: "JetBrains Mono", monospace;
+}
+.muted {
+  color: var(--fg3);
+}
+.ico {
+  display: grid;
+  place-items: center;
+  flex: none;
+  border-radius: 12px;
+}
+.ico svg {
+  width: 55%;
+  height: 55%;
+}
+svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+svg.lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1600px;
+  height: 1000px;
+  overflow: visible;
+  stroke: none;
+}
+.caption {
+  position: absolute;
+  left: 80px;
+  right: 80px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 15px;
+  color: var(--fg2);
+}

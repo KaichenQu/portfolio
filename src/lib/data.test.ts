@@ -33,17 +33,25 @@ describe("projectsData", () => {
       expect(Array.isArray(project.tags)).toBe(true);
       expect(project.tags.length).toBeGreaterThan(0);
       expect(project.imageUrl.startsWith("/")).toBe(true);
+      expect((project.imageUrlDark ?? "/").startsWith("/")).toBe(true);
     }
   });
 
   it("has unique titles", () => {
-    expect(new Set(projectsData.map((p) => p.title)).size).toBe(projectsData.length);
+    expect(new Set(projectsData.map((p) => p.title)).size).toBe(
+      projectsData.length,
+    );
   });
 
-  it("points every imageUrl at a file that exists under public/", () => {
+  it("points every imageUrl and imageUrlDark at a file under public/", () => {
     for (const project of projectsData) {
-      const file = path.join(process.cwd(), "public", project.imageUrl);
-      expect(fs.existsSync(file), `${project.imageUrl} missing under public/`).toBe(true);
+      for (const url of [
+        project.imageUrl,
+        project.imageUrlDark ?? project.imageUrl,
+      ]) {
+        const file = path.join(process.cwd(), "public", url);
+        expect(fs.existsSync(file), `${url} missing under public/`).toBe(true);
+      }
     }
   });
 });

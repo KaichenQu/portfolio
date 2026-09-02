@@ -25,11 +25,41 @@ export const links: Link[] = [
 
 export const projectsData: ProjectInfo[] = [
   {
-    title: "Shortlink Platform",
+    title: "Physics Agent Platform",
     description:
-      "Shortlink Platform is a full-stack web app enabling users to create shortlinks for their links. It is built with Java, Spring Boot, Spring Cloud, Redis, MySQL, RocketMQ, Apache ShardingSphere, Sentinel.",
-    tags: ["Java", "Spring Boot", "Spring Cloud", "Redis", "MySQL", "RocketMQ"],
-    imageUrl: "/image1.png",
+      "Multi-tenant Kubernetes platform for EV cell design, built on FastAPI, Pydantic AI, Temporal, Postgres HA and vLLM. Per-flow writer leases with fencing tokens run 5 design branches in parallel with zero lost writes. A liquid-rocket agent wraps RocketCEA, RPA and PicoGK as Pydantic tools, gated by rule checks and human sign-off, cutting time-to-closed-loop from 3–5 months to 3–6 weeks.",
+    tags: [
+      "FastAPI",
+      "Pydantic AI",
+      "Temporal",
+      "Kubernetes",
+      "Postgres",
+      "vLLM",
+    ],
+    imageUrl: "/projects/physics-light.png",
+    imageUrlDark: "/projects/physics-dark.png",
+    link: "",
+    githubUrl: "",
+    demoUrl: "",
+  },
+  {
+    title: "Agentic Equity Investment Research System",
+    description:
+      "Supervisor agent scheduling 4 sub-agents from ticker to trade call, with writes gated on human approval. Retries, timeouts and schema-checked hand-offs contain single-tool failures without aborting the run. A trajectory eval harness scores tool-call correctness and blocks any merge below 90%.",
+    tags: ["Python", "Claude Agent SDK", "MCP", "LangGraph", "Langfuse"],
+    imageUrl: "/projects/equity-light.png",
+    imageUrlDark: "/projects/equity-dark.png",
+    link: "",
+    githubUrl: "",
+    demoUrl: "",
+  },
+  {
+    title: "High-Throughput URL Shortening Service",
+    description:
+      "Java + Spring Boot shortlink service benchmarked with wrk at 10K TPS writes and 50K QPS reads at 50 ms p95. Sharded across 4 MySQL nodes with ShardingSphere for 3x write throughput over an unsharded baseline. Async RocketMQ writes with multi-level Redis caching and Bloom filters cut peak DB load 70% at 80 ms p99.",
+    tags: ["Java", "Spring Boot", "ShardingSphere", "RocketMQ", "Redis"],
+    imageUrl: "/projects/shortlink-light.png",
+    imageUrlDark: "/projects/shortlink-dark.png",
     link: "",
     githubUrl: "https://github.com/KaichenQu/shortlink",
     demoUrl: "",
@@ -43,16 +73,6 @@ export const projectsData: ProjectInfo[] = [
     link: "",
     githubUrl:
       "https://github.com/KaichenQu/frontend/tree/2f1a2de2330635f3699b97b68697d93846e16480",
-    demoUrl: "",
-  },
-  {
-    title: "Distributed Real-Time Messaging Platform",
-    description:
-      "Built distributed IM backend in Go with WebSocket connections and Kafka message relay, supporting 1:1 chat, group messaging, and file transfer with 5K+ concurrent connections per 2vCPU node and at-least-once delivery. Designed inter-service layer via gRPC/Protobuf for user, group, and message microservices, enabling horizontal scaling across 4 nodes with consistent hashing and Nginx load balancing. Implemented MySQL write-ahead persistence and Redis hot-path caching at 15ms p95 retrieval; deployed with Docker Compose and Prometheus/Grafana observability stack.",
-    tags: ["Go", "WebSocket", "Kafka", "gRPC", "Redis", "MySQL"],
-    imageUrl: "/image3.png",
-    link: "",
-    githubUrl: "",
     demoUrl: "",
   },
   {
