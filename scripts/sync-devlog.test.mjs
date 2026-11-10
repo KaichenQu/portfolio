@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { syncDevlog } from "./sync-devlog.mjs";
+import { assertClean, syncDevlog } from "./sync-devlog.mjs";
 
 let tmp, src, notesDir, diagramsDir;
 
@@ -71,6 +71,7 @@ describe("syncDevlog", () => {
         entityEncoded: 0,
         perPattern: { 2: 0 },
       },
+      hidden: { lines: 0, links: 0 },
     });
     expect(console.log).toHaveBeenCalledWith(
       "notes: 3 copied, 1 skipped, 0 removed; diagrams: 1 copied, 0 removed",
@@ -184,14 +185,24 @@ describe("redaction", () => {
     expect(console.log).toHaveBeenCalledWith("pattern #4: 2");
   });
 
-  it("applies entries in file order, each to the previous one's output", () => {
-    patterns("Acme", "Acme Corp");
+  it("matches a lookbehind entry on the text before an earlier entry masks its context", () => {
+    patterns("Acme", "/(?<=Acme )Corp/");
     write(keptSrc(), note("", "Acme Corp"));
 
     const { redactions } = syncDevlog({ src, notesDir, diagramsDir });
 
-    expect(read(kept)).toContain(`${S.repeat(4)} Corp`);
-    expect(redactions.perPattern).toEqual({ 1: 1, 2: 0 });
+    expect(read(kept)).toContain(`\n${S.repeat(4)} ${S.repeat(4)}\n`);
+    expect(redactions.perPattern).toEqual({ 1: 1, 2: 1 });
+  });
+
+  it("masks two overlapping literals as one merged run", () => {
+    patterns("Acme Co", "me Corp");
+    write(keptSrc(), note("", "Acme Corp."));
+
+    const { redactions } = syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(read(kept)).toContain(`\n${S.repeat(12)}.\n`);
+    expect(redactions.perPattern).toEqual({ 1: 1, 2: 1 });
   });
 
   it("drops the private frontmatter keys and keeps the rest as written", () => {
@@ -219,12 +230,18 @@ describe("redaction", () => {
     expect(fs.existsSync(notesDir)).toBe(false);
   });
 
-  it("names the line of a bad regex, not the entry", () => {
-    patterns("fine", "/secret(/");
+  it.each([
+    ["a bad regex", "/secret(/", /^Invalid regex on line 2 of /],
+    ["the y flag", "/secret/y", /^Line 2 of .* is not \/body\/flags/],
+    ["an unknown flag", "/secret/x", /^Line 2 of .* is not \/body\/flags/],
+    ["no closing slash", "/secret", /^Line 2 of .* is not \/body\/flags/],
+    ["trailing whitespace", "secret ", /^Trailing whitespace on line 2 of /],
+  ])("rejects %s, naming the line but not the entry", (_, entry, error) => {
+    patterns("fine", entry);
 
-    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
-      /^Invalid regex on line 2 of [^(]*$/,
-    );
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(error);
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).not.toThrow(/secret/);
+    expect(fs.existsSync(notesDir)).toBe(false);
   });
 
   it("aborts without touching the targets when a pattern matches a file name", () => {
@@ -238,6 +255,48 @@ describe("redaction", () => {
     );
     expect(read(kept)).toBe(before);
   });
+
+  it("aborts when a pattern matches only the slug form of a file name", () => {
+    write(path.join(src, "Techniques", "Two Words.md"), note());
+    patterns("two-words");
+
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
+      `A redaction pattern matches the file name of ${path.join(src, "Techniques", "Two Words.md")}`,
+    );
+  });
+
+  it("aborts when a pattern matches a referenced diagram's file name", () => {
+    patterns("/\\.flow$/");
+
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
+      `A redaction pattern matches the file name of ${path.join(src, "Diagrams", "case.flow.svg")}`,
+    );
+    expect(fs.existsSync(notesDir)).toBe(false);
+  });
+
+  it.each([
+    ["publish: False", 0],
+    ['publish: "false"', 0],
+    ["publish: 'TRUE'", 1],
+  ])("reads %s", (line, copied) => {
+    write(keptSrc(), note(`${line}\n`));
+
+    syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(tree(notesDir).filter((f) => f === kept)).toHaveLength(copied);
+  });
+
+  it.each(["publish: no", "publish: 'false\"", "publish:"])(
+    "throws naming the file on %s",
+    (line) => {
+      write(keptSrc(), note(`${line}\n`));
+
+      expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
+        `Invalid publish value in ${keptSrc()}`,
+      );
+      expect(fs.existsSync(notesDir)).toBe(false);
+    },
+  );
 
   it("aborts when a source note already contains the mask glyph", () => {
     write(keptSrc(), note("", `already ${S}`));
@@ -291,17 +350,36 @@ describe("redaction", () => {
     write(keptSrc(), note("", "qz"));
 
     expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
-      `Pattern on line 1 still matches ${keptSrc()} after redaction`,
+      `Pattern on line 1 still matches ${path.join(notesDir, kept)} (raw view)`,
     );
     expect(fs.existsSync(notesDir)).toBe(false);
   });
 
-  it("aborts naming the SVG when a data:image/ payload survives", () => {
+  it("strips a spaced content attribute after a comment that mentions the root", () => {
+    patterns("Acme Corp");
+    write(
+      path.join(src, "Diagrams", "case.flow.svg"),
+      `<?xml version="1.0"?><!-- <svg content="x"> Acme Corp -->` +
+        `<svg width="1" content = '&lt;mxfile/&gt;'><text>ok</text></svg>`,
+    );
+
+    syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(fs.readFileSync(path.join(diagramsDir, "case.flow.svg"), "utf8")).toBe(
+      `<?xml version="1.0"?><svg width="1"><text>ok</text></svg>`,
+    );
+  });
+
+  it.each([
+    `<image href="data:image/png;base64,QUJD"/>`,
+    `<image href="DATA:IMAGE/PNG;base64,QUJD"/>`,
+    `<style>@font-face{src:url(data:font/woff2;base64,QUJD)}</style>`,
+  ])("aborts naming the SVG when a data: URI survives: %s", (extra) => {
     const file = path.join(src, "Diagrams", "case.flow.svg");
-    write(file, svg(`<image href="data:image/png;base64,QUJD"/>`));
+    write(file, svg(extra));
 
     expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
-      `${file} still embeds a data:image/ payload`,
+      `${file} still embeds a data: URI`,
     );
     expect(fs.existsSync(notesDir)).toBe(false);
   });
@@ -316,5 +394,75 @@ describe("redaction", () => {
     syncDevlog({ src, notesDir, diagramsDir });
 
     expect(tree(diagramsDir)).toEqual(["case.flow.svg"]);
+  });
+});
+
+describe("held-back notes", () => {
+  const S8 = "\u2592".repeat(8);
+  const read = (rel) => fs.readFileSync(path.join(notesDir, rel), "utf8");
+  const map = () => path.join(src, "Maps", "plain.md");
+  const held = (stem) =>
+    write(path.join(src, "Techniques", `${stem}.md`), note("publish: false\n"));
+
+  it("drops list items that only link held-back notes and masks every other link", () => {
+    held("Held Note");
+    write(
+      map(),
+      "# Map\n\n- [[held note]] one-line summary\n  * [[Held Note|alias]] and [[held-note]]\n" +
+        "3. [[Held Note]]\n- [[ETag]] beside [[Held Note|an alias]]\n- no links here\n\n" +
+        "Prose with [[Held Note]] and [[Held Note|alias]].\n",
+    );
+
+    const { hidden } = syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(read(path.join("Maps", "plain.md"))).toBe(
+      `# Map\n\n- [[ETag]] beside ${S8}\n- no links here\n\nProse with ${S8} and ${S8}.\n`,
+    );
+    expect(hidden).toEqual({ lines: 3, links: 3 });
+    expect(console.log).toHaveBeenCalledWith(
+      "held-back links: 3 list lines dropped, 3 links masked",
+    );
+  });
+
+  it.each([
+    ["the stem in plain text", "see Held Note here"],
+    ["the slug", "see /blog/held-note here"],
+    ["the stem split by emphasis", "see Held **Note** here"],
+  ])("aborts naming only the output file when it still shows %s", (_, body) => {
+    held("Held Note");
+    write(map(), `# Map\n\n${body}\n`);
+
+    let error;
+    try {
+      syncDevlog({ src, notesDir, diagramsDir });
+    } catch (e) {
+      error = e;
+    }
+    expect(error?.message).toMatch(
+      `${path.join(notesDir, "Maps", "plain.md")} still names a held-back note`,
+    );
+    expect(error.message.toLowerCase()).not.toContain("held note");
+    expect(fs.existsSync(notesDir)).toBe(false);
+  });
+});
+
+describe("assertClean", () => {
+  const patterns = [{ line: 1, re: /Acme Corp/g }];
+  const check = (text) => () => assertClean("out.md", text, patterns, []);
+
+  it.each([
+    ["a soft wrap", "Acme\nCorp"],
+    ["emphasis markers", "Ac**me Corp**"],
+    ["a <br/>", "Acme<br/>Corp"],
+    ["&#160;", "Acme&#160;Corp"],
+    ["a numeric entity inside the word", "Ac&#109;e Corp"],
+    ["%20", "Acme%20Corp"],
+    ["a <span> inside an SVG label", "<div>Ac<span>me</span> Corp</div>"],
+  ])("aborts on a term split by %s", (_, text) => {
+    expect(check(text)).toThrow(/^Pattern on line 1 still matches out\.md \(/);
+  });
+
+  it("passes text no view joins into a match", () => {
+    expect(check("Acme Inc, Corp")).not.toThrow();
   });
 });
