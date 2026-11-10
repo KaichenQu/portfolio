@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Mirrors the DevLog vault into content/devlog/ (notes) and public/blog/diagrams/ (SVGs).
+// Mirrors the DevLog vault into content/devlog/ (notes) and public/blog/diagrams/
+// (the SVGs those notes reference).
 // Both targets are gitignored: the vault is private, so synced files stay local.
 import fs from "node:fs";
 import os from "node:os";
@@ -17,9 +18,20 @@ const FOLDERS = [
 ];
 const EXCLUDE = new Set(["Agents/INDEX.md"]);
 
-function unpublished(text) {
-  const fm = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text);
-  return !!fm && /^publish:\s*false\s*$/m.test(fm[1]);
+// Same shapes as parseFrontmatter in src/lib/devlog.ts; keep the two in step.
+const FM_OPEN = /^\uFEFF?---[ \t]*\r?(?:\n|$)/;
+const FM_BLOCK = /^---\r?\n(?:([\s\S]*?)\r?\n)?---\r?(?:\n|$)/;
+const DIAGRAM_REF = /!\[[^\]]*\]\(\s*<?([^)\s>]+)/g;
+const DIAGRAM = /(?:^|\/)Diagrams\/([^/]+\.svg)$/;
+
+/** Throws on a block that opens with `---` but would not parse, so `publish: false` never fails open. */
+function unpublished(text, file) {
+  if (!FM_OPEN.test(text)) return false;
+  const fm = FM_BLOCK.exec(text);
+  const lines = (fm?.[1] ?? "").split(/\r?\n/);
+  if (!fm || lines.some((l) => l.trim() && !/^[A-Za-z_][\w-]*:/.test(l)))
+    throw new Error(`Malformed frontmatter in ${file}`);
+  return lines.some((l) => /^publish:\s*false\s*$/.test(l));
 }
 
 function listFiles(dir) {
@@ -40,13 +52,14 @@ function prune(dir, keep) {
   return removed;
 }
 
-/** Returns the counts it also prints. */
+/** Returns the counts it also prints. Reads and checks everything before the first write. */
 export function syncDevlog({ src, notesDir, diagramsDir }) {
   if (!fs.existsSync(src)) throw new Error(`DevLog vault not found: ${src}`);
   const notes = { copied: 0, skipped: 0, removed: 0 };
   const diagrams = { copied: 0, removed: 0 };
 
-  const keepNotes = new Set();
+  const publish = new Map();
+  const svgs = new Set();
   for (const folder of FOLDERS) {
     const abs = path.join(src, folder);
     if (!fs.existsSync(abs)) continue;
@@ -54,34 +67,36 @@ export function syncDevlog({ src, notesDir, diagramsDir }) {
       const rel = path.join(folder, name);
       if (!name.endsWith(".md") || EXCLUDE.has(rel.split(path.sep).join("/")))
         continue;
-      const text = fs.readFileSync(path.join(abs, name), "utf8");
-      if (unpublished(text)) {
+      const file = path.join(abs, name);
+      const text = fs.readFileSync(file, "utf8");
+      if (unpublished(text, file)) {
         notes.skipped++;
         continue;
       }
-      fs.mkdirSync(path.join(notesDir, folder), { recursive: true });
-      fs.writeFileSync(path.join(notesDir, rel), text);
-      keepNotes.add(rel);
-      notes.copied++;
+      publish.set(rel, text);
+      for (const [, url] of text.matchAll(DIAGRAM_REF)) {
+        const svg = DIAGRAM.exec(url)?.[1];
+        if (svg && fs.existsSync(path.join(src, "Diagrams", svg))) svgs.add(svg);
+      }
     }
   }
-  notes.removed = prune(notesDir, keepNotes);
+  // A wrong DEVLOG_DIR would otherwise wipe both targets.
+  if (publish.size + notes.skipped === 0)
+    throw new Error(`No DevLog notes found in ${src}; nothing was changed`);
 
-  const keepSvgs = new Set();
-  const srcDiagrams = path.join(src, "Diagrams");
-  if (fs.existsSync(srcDiagrams)) {
-    fs.mkdirSync(diagramsDir, { recursive: true });
-    for (const name of fs.readdirSync(srcDiagrams)) {
-      if (!name.endsWith(".svg")) continue;
-      fs.copyFileSync(
-        path.join(srcDiagrams, name),
-        path.join(diagramsDir, name),
-      );
-      keepSvgs.add(name);
-      diagrams.copied++;
-    }
+  for (const [rel, text] of publish) {
+    fs.mkdirSync(path.join(notesDir, path.dirname(rel)), { recursive: true });
+    fs.writeFileSync(path.join(notesDir, rel), text);
+    notes.copied++;
   }
-  diagrams.removed = prune(diagramsDir, keepSvgs);
+  notes.removed = prune(notesDir, new Set(publish.keys()));
+
+  if (svgs.size) fs.mkdirSync(diagramsDir, { recursive: true });
+  for (const name of svgs) {
+    fs.copyFileSync(path.join(src, "Diagrams", name), path.join(diagramsDir, name));
+    diagrams.copied++;
+  }
+  diagrams.removed = prune(diagramsDir, svgs);
 
   console.log(
     `notes: ${notes.copied} copied, ${notes.skipped} skipped, ${notes.removed} removed; ` +
