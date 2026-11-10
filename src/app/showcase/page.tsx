@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Loading from "@/components/ui/Loading";
+import { pageMetadata } from "@/lib/seo";
 
 const ProjectsContainer = dynamic(
   () => import("@/components/projects-container"),
@@ -49,12 +49,11 @@ function UnderConstruction() {
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const metadata: Metadata = {
-  title: "Showcase",
-  description:
-    "Selected full-stack and AI projects built by Kelson Qu.",
-  alternates: { canonical: "/showcase" },
-};
+export const metadata = pageMetadata(
+  "/showcase",
+  "Showcase",
+  "Selected full-stack and AI projects built by Kelson Qu.",
+);
 
 export default function ProjectsPage() {
   return (
