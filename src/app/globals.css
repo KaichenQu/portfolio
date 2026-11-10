@@ -155,5 +155,8 @@
 }
 #note-body .mermaid[data-rendered] {
   white-space: normal;
-  text-align: center;
+}
+/* Preflight makes svg a block: auto margins centre a narrow one, and resolve to 0 when it overflows. */
+#note-body .mermaid svg {
+  margin-inline: auto;
 }

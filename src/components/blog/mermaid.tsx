@@ -20,6 +20,13 @@ export default function Mermaid() {
         securityLevel: "strict",
         theme: theme === "dark" ? "dark" : "default",
         fontFamily: "var(--font-sans), sans-serif",
+        // Natural width: a wide diagram scrolls inside its card instead of shrinking.
+        flowchart: { useMaxWidth: false },
+        sequence: { useMaxWidth: false },
+        state: { useMaxWidth: false },
+        class: { useMaxWidth: false },
+        er: { useMaxWidth: false },
+        gantt: { useMaxWidth: false },
       });
       for (const el of blocks) {
         el.dataset.source ??= el.textContent ?? "";

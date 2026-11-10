@@ -29,7 +29,10 @@ function unpublished(text, file) {
   if (!FM_OPEN.test(text)) return false;
   const fm = FM_BLOCK.exec(text);
   const lines = (fm?.[1] ?? "").split(/\r?\n/);
-  if (!fm || lines.some((l) => l.trim() && !/^[A-Za-z_][\w-]*:/.test(l)))
+  if (
+    !fm?.[1]?.trim() ||
+    lines.some((l) => l.trim() && !/^[A-Za-z_][\w-]*:/.test(l))
+  )
     throw new Error(`Malformed frontmatter in ${file}`);
   return lines.some((l) => /^publish:\s*false\s*$/.test(l));
 }

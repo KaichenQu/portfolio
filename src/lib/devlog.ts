@@ -60,8 +60,8 @@ const FM_BLOCK = /^---\r?\n(?:([\s\S]*?)\r?\n)?---\r?(?:\n|$)/;
 
 /**
  * Flat `key: value` frontmatter with inline `[a, b]` arrays. A file that opens
- * with `---` but has no well-formed block (BOM, trailing space, unclosed, a
- * line that is not `key: value`) throws instead of rendering as body.
+ * with `---` but has no well-formed block (BOM, trailing space, unclosed,
+ * empty, a line that is not `key: value`) throws instead of rendering as body.
  */
 export function parseFrontmatter(
   src: string,
@@ -73,7 +73,7 @@ export function parseFrontmatter(
   if (!FM_OPEN.test(src)) return { data: {}, content: src };
   const m = FM_BLOCK.exec(src);
   const bad = new Error(`Malformed frontmatter in ${file}`);
-  if (!m) throw bad;
+  if (!m || !m[1]?.trim()) throw bad;
   const data: Record<string, string | string[]> = {};
   for (const line of (m[1] ?? "").split(/\r?\n/)) {
     if (!line.trim()) continue;

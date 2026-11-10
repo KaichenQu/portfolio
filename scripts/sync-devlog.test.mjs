@@ -99,6 +99,8 @@ describe("syncDevlog", () => {
 
   it.each([
     ["a BOM", "\uFEFF---\npublish: false\n---\n# T\n"],
+    ["an empty block", "---\n---\n# T\n"],
+    ["only blank lines", "---\n\n---\n# T\n"],
     ["a trailing space", "--- \npublish: false\n---\n# T\n"],
     ["no closing line", "---\npublish: false\n# T\n"],
     ["a line that is not key: value", "---\npublish: false\n  - x\n---\n"],
@@ -110,12 +112,6 @@ describe("syncDevlog", () => {
       `Malformed frontmatter in ${bad}`,
     );
     expect(fs.existsSync(notesDir)).toBe(false);
-  });
-
-  it("accepts an empty frontmatter block", () => {
-    write(path.join(src, "Glossary", "empty.md"), "---\n---\n# T\n");
-
-    expect(syncDevlog({ src, notesDir, diagramsDir }).notes.copied).toBe(4);
   });
 
   it("aborts without touching the targets when the vault has no notes", () => {

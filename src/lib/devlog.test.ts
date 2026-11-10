@@ -37,15 +37,10 @@ describe("parseFrontmatter", () => {
     expect(parseFrontmatter("----\n# T\n").data).toEqual({});
   });
 
-  it("accepts an empty block", () => {
-    expect(parseFrontmatter("---\n---\n# T\n")).toEqual({
-      data: {},
-      content: "# T\n",
-    });
-  });
-
   it.each([
     ["a BOM", "\uFEFF---\ntype: x\n---\n# T\n"],
+    ["no lines", "---\n---\n# T\n"],
+    ["only blank lines", "---\n\n  \n---\n# T\n"],
     ["a trailing space", "--- \ntype: x\n---\n# T\n"],
     ["no closing line", "---\ntype: x\n# T\n"],
     ["a line that is not key: value", "---\ntags:\n  - a\n---\n# T\n"],
