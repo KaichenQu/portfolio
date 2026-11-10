@@ -9,10 +9,10 @@ describe("links", () => {
     expect(new Set(links.map((l) => l.hash)).size).toBe(links.length);
   });
 
-  it("uses '/', '/#section' or an absolute URL for every hash", () => {
+  it("uses '/', '/#section', a '/route' path or an absolute URL for every hash", () => {
     for (const link of links) {
       expect(link.nameEng.trim().length).toBeGreaterThan(0);
-      expect(link.hash).toMatch(/^(\/|\/#[a-z-]+|https?:\/\/\S+)$/);
+      expect(link.hash).toMatch(/^(\/|\/#[a-z-]+|\/[a-z-]+|https?:\/\/\S+)$/);
     }
   });
 

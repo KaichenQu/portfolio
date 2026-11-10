@@ -35,9 +35,13 @@ describe("Header", () => {
   it("renders one navigation entry per link elsewhere", () => {
     renderHeader();
 
-    expect(screen.getByRole("navigation", { name: "Main" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("navigation", { name: "Main" }),
+    ).toBeInTheDocument();
     for (const link of links) {
-      expect(screen.getByRole("link", { name: link.nameEng })).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: link.nameEng }),
+      ).toBeInTheDocument();
     }
   });
 
@@ -51,4 +55,23 @@ describe("Header", () => {
     const internal = screen.getByRole("link", { name: "About" });
     expect(internal).not.toHaveAttribute("target");
   });
+
+  it.each(["/blog", "/blog/some-note", "/blog/tags/x"])(
+    "marks only Blog active on %s",
+    (pathname) => {
+      usePathname.mockReturnValue(pathname);
+      render(
+        <ActiveSectionContextProvider>
+          <Header links={[...links, { nameEng: "DevLog", hash: "/blog" }]} />
+        </ActiveSectionContextProvider>,
+      );
+
+      expect(screen.getByRole("link", { name: "DevLog" })).toHaveClass(
+        "text-gray-900",
+      );
+      expect(screen.getByRole("link", { name: "Home" })).not.toHaveClass(
+        "text-gray-900",
+      );
+    },
+  );
 });

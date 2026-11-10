@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { useActiveSectionContext } from "@/containers/active-section";
 import { Link } from "@/lib/types";
+import { isActiveLink } from "@/lib/utils";
 
 type HeaderProps = { links: Link[] };
 
@@ -30,9 +31,10 @@ export default function Header({ links }: HeaderProps) {
         <ul className="flex items-center gap-0.5 text-[0.8rem] font-medium text-gray-500">
           {links.map((link) => {
             const isExternal = /^https?:\/\//.test(link.hash);
+            const active = isActiveLink(link.hash, activeSection, pathname);
             const className = clsx(
               "flex items-center justify-center px-3.5 py-1.5 rounded-full hover:text-gray-900 transition-colors duration-150 dark:text-white/40 dark:hover:text-white/80",
-              { "text-gray-900 dark:text-white/90": activeSection === link.hash }
+              { "text-gray-900 dark:text-white/90": active }
             );
             return (
               <li className="relative" key={link.hash}>
@@ -55,7 +57,7 @@ export default function Header({ links }: HeaderProps) {
                     }}
                   >
                     {link.nameEng}
-                    {link.hash === activeSection && (
+                    {active && (
                       <motion.span
                         className="absolute inset-0 rounded-full bg-gray-100 dark:bg-white/[0.08] -z-10"
                         layoutId="activeSection"
