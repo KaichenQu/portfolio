@@ -120,6 +120,14 @@ The two mirror paths stay gitignored (`.gitignore:44-46`). `npm run devlog:publi
 | after committing, asserts the diff against `origin/main` lies inside the two paths, else undoes the commit | `scripts/publish-devlog.mjs:57-68` |
 | undoes the commit when the push is rejected, so the next run starts clean | `scripts/publish-devlog.mjs:69-76` |
 
+## Unattended publishing
+
+The same day the owner asked for publishing with no manual step. The notebook repository now runs `npm run devlog:publish` in GitHub Actions on every push to its `main`: it checks out the notebook and the site, sets `DEVLOG_DIR` to the notebook checkout, and pushes the mirror with a deploy key that can write to the site repository only.
+
+With nobody reading a new note before it goes public, cases got their own gate. A note under `Cases/`, or one with `type: case-*`, is published only when its frontmatter says `publish: true`. A case without the line is held back like a `publish: false` note and counted in a `held for review` line (`holdReason` in `scripts/sync-devlog.mjs`). The gate keys on the folder as well as the type, so a missing or misspelt `type` cannot slip a case through. It does not key on `project:`, because 18 cases carry no `project:` field. Other note types publish unless they say `publish: false`.
+
+The 24 cases that were already public got `publish: true`, and both case templates default to `publish: false`. The first run in CI printed `held for review: 0` and `devlog: nothing changed, nothing committed`.
+
 ## Module breakdown
 
 | Unit | Responsibility |
