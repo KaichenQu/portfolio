@@ -175,18 +175,54 @@ function maskText(text, patterns, stats, svg = false) {
   return out + text.slice(last);
 }
 
-/** Drops list items whose links all point at held-back notes and masks every other such link. */
+const HEADING = /^ {0,3}(#{1,6})(?:[ \t]|\r?\n|$)/;
+const FENCE = /^ {0,3}(`{3,}|~{3,})/;
+
+/**
+ * Drops list items whose links all point at held-back notes, then every
+ * section (an ATX heading up to the next heading of the same or a higher
+ * level) that had list items and has none left, innermost first; masks every
+ * other link to a held-back note.
+ */
 export function hideUnpublished(text, held, counts) {
   const target = (m) => held.has(slugify(m[1]));
-  return text
-    .split(/(?<=\n)/)
-    .filter((line) => {
-      if (!LIST_ITEM.test(line)) return true;
-      const links = [...line.matchAll(WIKILINK)];
-      if (links.length === 0 || !links.every(target)) return true;
+  const lines = text.split(/(?<=\n)/).map((line) => ({ line }));
+  let fence = null;
+  for (const l of lines) {
+    const f = FENCE.exec(l.line)?.[1];
+    if (fence) {
+      if (f && f[0] === fence[0] && f.length >= fence.length) fence = null;
+      l.code = true;
+    } else if (f) {
+      fence = f;
+      l.code = true;
+    }
+    l.level = l.code ? 0 : (HEADING.exec(l.line)?.[1].length ?? 0);
+    l.item = !l.code && LIST_ITEM.test(l.line);
+    if (!LIST_ITEM.test(l.line)) continue;
+    const links = [...l.line.matchAll(WIKILINK)];
+    if (links.length && links.every(target)) {
+      l.gone = true;
       counts.lines++;
-      return false;
-    })
+    }
+  }
+  const headings = lines
+    .map((l, i) => i)
+    .filter((i) => lines[i].level)
+    .sort((a, b) => lines[b].level - lines[a].level);
+  for (const i of headings) {
+    if (lines[i].gone) continue;
+    let j = i + 1;
+    while (j < lines.length && !(lines[j].level && lines[j].level <= lines[i].level)) j++;
+    const section = lines.slice(i, j);
+    const items = section.filter((l) => l.item);
+    if (items.length === 0 || items.some((l) => !l.gone)) continue;
+    for (const l of section) l.gone = true;
+    counts.sections++;
+  }
+  return lines
+    .filter((l) => !l.gone)
+    .map((l) => l.line)
     .join("")
     .replace(WIKILINK, (...m) => {
       if (!target(m)) return m[0];
@@ -335,7 +371,7 @@ export function syncDevlog({
     patterns,
     hits: new Map(),
     encoded: 0,
-    hidden: { lines: 0, links: 0 },
+    hidden: { lines: 0, links: 0, sections: 0 },
   };
   const total = () => [...stats.hits.values()].reduce((a, b) => a + b, 0);
   const touched = { notes: 0, diagrams: 0 };
@@ -430,7 +466,7 @@ export function syncDevlog({
       `(${stats.encoded} entity-encoded in SVGs)`,
   );
   console.log(
-    `held-back links: ${stats.hidden.lines} list lines dropped, ${stats.hidden.links} links masked`,
+    `held-back links: ${stats.hidden.lines} list lines dropped, ${stats.hidden.links} links masked, ${stats.hidden.sections} sections removed`,
   );
   for (const [line, n] of Object.entries(perPattern))
     console.log(`pattern #${line}: ${n}`);

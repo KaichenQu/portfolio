@@ -71,7 +71,7 @@ describe("syncDevlog", () => {
         entityEncoded: 0,
         perPattern: { 2: 0 },
       },
-      hidden: { lines: 0, links: 0 },
+      hidden: { lines: 0, links: 0, sections: 0 },
     });
     expect(console.log).toHaveBeenCalledWith(
       "notes: 3 copied, 1 skipped, 0 removed; diagrams: 1 copied, 0 removed",
@@ -418,10 +418,56 @@ describe("held-back notes", () => {
     expect(read(path.join("Maps", "plain.md"))).toBe(
       `# Map\n\n- [[ETag]] beside ${S8}\n- no links here\n\nProse with ${S8} and ${S8}.\n`,
     );
-    expect(hidden).toEqual({ lines: 3, links: 3 });
+    expect(hidden).toEqual({ lines: 3, links: 3, sections: 0 });
     expect(console.log).toHaveBeenCalledWith(
-      "held-back links: 3 list lines dropped, 3 links masked",
+      "held-back links: 3 list lines dropped, 3 links masked, 0 sections removed",
     );
+  });
+
+  const syncMap = (text) => {
+    held("Held Note");
+    write(map(), text);
+    const { hidden } = syncDevlog({ src, notesDir, diagramsDir });
+    return { out: read(path.join("Maps", "plain.md")), hidden };
+  };
+
+  it("removes a section the drop emptied, heading and intro included", () => {
+    const { out, hidden } = syncMap(
+      "# Map\n\n## Gone\n\nIntro sentence.\n\n- [[Held Note]] summary\n\n## Kept\n\n- [[ETag]]\n",
+    );
+
+    expect(out).toBe("# Map\n\n## Kept\n\n- [[ETag]]\n");
+    expect(hidden).toEqual({ lines: 1, links: 0, sections: 1 });
+  });
+
+  it("keeps a section with one surviving item, and its intro", () => {
+    const { out, hidden } = syncMap(
+      "# Map\n\n## Mixed\n\nIntro sentence.\n\n- [[Held Note]] summary\n- [[ETag]]\n",
+    );
+
+    expect(out).toBe("# Map\n\n## Mixed\n\nIntro sentence.\n\n- [[ETag]]\n");
+    expect(hidden.sections).toBe(0);
+  });
+
+  it("keeps a section that never had list items", () => {
+    const text =
+      "# Map\n\n## Prose\n\nOnly prose.\n\n```\n# not a heading\n```\n\n## Links\n\n- [[ETag]]\n";
+    const { out, hidden } = syncMap(text);
+
+    expect(out).toBe(text);
+    expect(hidden.sections).toBe(0);
+  });
+
+  it("removes only an emptied ### when its ## still has content elsewhere", () => {
+    const { out, hidden } = syncMap(
+      "# Map\n\n## Parent\n\n- [[ETag]]\n\n### Child\n\nIntro.\n\n- [[Held Note]]\n" +
+        "  - [[held-note|alias]]\n\n### Sibling\n\nProse.\n\n## Next\n\nText.\n",
+    );
+
+    expect(out).toBe(
+      "# Map\n\n## Parent\n\n- [[ETag]]\n\n### Sibling\n\nProse.\n\n## Next\n\nText.\n",
+    );
+    expect(hidden).toEqual({ lines: 2, links: 0, sections: 1 });
   });
 
   it.each([
