@@ -35,13 +35,7 @@ const SECTIONS = [
   { id: "experience", label: "Experience", hash: "/#experience" },
   { id: "skills", label: "Skills", hash: "/#skills" },
   { id: "contact", label: "Contact", hash: "/#contact" },
-  {
-    id: "blog",
-    label: "Blog",
-    hash: "/blog",
-    href: "https://blog.kelsonqu.com",
-    external: true,
-  },
+  { id: "blog", label: "Blog", hash: "/blog", route: true },
 ] as const;
 
 const EXPERIENCE = [
@@ -152,16 +146,14 @@ function SidebarNav() {
     <nav className="hidden lg:block mt-8" aria-label="In-page jump links">
       <ul className="flex flex-col items-start gap-px">
         {SECTIONS.map((s) => {
-          const isExternal = "external" in s && s.external;
-          const isActive = !isExternal && activeSection === s.hash;
+          const isRoute = "route" in s && s.route;
+          const isActive = !isRoute && activeSection === s.hash;
           return (
             <li key={s.id}>
               <a
-                href={isExternal ? (s as { href: string }).href : `#${s.id}`}
-                target={isExternal ? "_blank" : undefined}
-                rel={isExternal ? "noopener noreferrer" : undefined}
+                href={isRoute ? s.hash : `#${s.id}`}
                 onClick={() => {
-                  if (isExternal) return;
+                  if (isRoute) return;
                   setActiveSection(s.hash);
                   setTimeOfLastClick(Date.now());
                 }}
