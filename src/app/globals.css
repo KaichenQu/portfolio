@@ -94,3 +94,55 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* DevLog article body (HTML from src/lib/devlog.ts) */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+}
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark);
+}
+#note-body pre.shiki {
+  background-color: #fff;
+}
+.dark #note-body pre.shiki {
+  background-color: rgb(3 7 18 / 0.6);
+}
+#note-body mark {
+  background-color: rgb(254 240 138);
+  color: inherit;
+  border-radius: 0.2em;
+  padding: 0 0.15em;
+}
+.dark #note-body mark {
+  background-color: rgb(234 179 8 / 0.28);
+}
+#note-body {
+  overflow-wrap: break-word;
+}
+#note-body .table-wrap {
+  overflow-x: auto;
+  margin: 1.75em 0;
+}
+#note-body .table-wrap > table {
+  margin: 0;
+}
+#note-body img {
+  background-color: #fff;
+}
+.dark #note-body img {
+  padding: 0.75rem;
+}
+#note-body .mermaid {
+  margin: 1.5em 0;
+  overflow-x: auto;
+  white-space: pre;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.8em;
+}
+#note-body .mermaid[data-rendered] {
+  white-space: normal;
+  text-align: center;
+}
