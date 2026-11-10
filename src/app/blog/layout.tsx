@@ -23,7 +23,11 @@ export default function BlogLayout({
       <aside className="mb-6 lg:mb-0">
         {/* -m-1 p-1 keeps focus outlines inside the scrolling box. */}
         <div className="lg:sticky lg:top-14 lg:-m-1 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:p-1 scrollbar-hide">
-          <NextLink href="/" className="flex items-center gap-3 rounded-lg">
+          {/* pr-24 below lg keeps the role line clear of the fixed theme and menu buttons. */}
+          <NextLink
+            href="/"
+            className="flex items-center gap-3 rounded-lg pr-24 lg:pr-0"
+          >
             <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-white ring-2 ring-sky-400/50 ring-offset-2 ring-offset-gray-50 dark:bg-gray-800 dark:ring-offset-gray-900">
               <Image
                 src="/boy.png"
