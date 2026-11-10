@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { wrapRedactedRuns } from "@/components/blog/mosaic";
 import { useTheme } from "@/containers/theme-context";
 
 let seq = 0;
@@ -37,6 +38,7 @@ export default function Mermaid() {
           );
           if (cancelled) return;
           el.innerHTML = svg;
+          wrapRedactedRuns(el);
           el.dataset.rendered = "true";
         } catch {
           // Leave the source visible when a diagram fails to parse.

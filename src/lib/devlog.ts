@@ -16,6 +16,7 @@ import type {
   Parent,
 } from "mdast";
 import type { Root as HastRoot, Element, ElementContent } from "hast";
+import { REDACTED_RUN } from "@/components/blog/mosaic";
 
 export const DEVLOG_DIR = path.join(process.cwd(), "content", "devlog");
 
@@ -393,6 +394,48 @@ function rehypeDevlog(toc: TocEntry[]) {
   };
 }
 
+/**
+ * Wraps each `▒` run the sync left in place of redacted text, code included
+ * (runs after Shiki). Mermaid source stays plain: the client parses it as text.
+ */
+function rehypeMosaic() {
+  return (tree: HastRoot) => {
+    visit(tree, "text", (node, index, parent) => {
+      if (!parent || index === undefined || !REDACTED_RUN.test(node.value))
+        return;
+      if (
+        parent.type === "element" &&
+        (parent.properties.className as string[] | undefined)?.includes(
+          "mermaid",
+        )
+      )
+        return;
+      const parts = node.value
+        .split(REDACTED_RUN)
+        .flatMap((value, i): ElementContent[] =>
+          !value
+            ? []
+            : i % 2
+              ? [
+                  {
+                    type: "element",
+                    tagName: "span",
+                    properties: {
+                      className: ["redacted"],
+                      role: "img",
+                      ariaLabel: "redacted",
+                    },
+                    children: [{ type: "text", value }],
+                  },
+                ]
+              : [{ type: "text", value }],
+        );
+      parent.children.splice(index, 1, ...parts);
+      return [SKIP, index + parts.length];
+    });
+  };
+}
+
 export async function renderNote(
   note: Note,
   dir: string = DEVLOG_DIR,
@@ -412,6 +455,7 @@ export async function renderNote(
       lazy: true,
       fallbackLanguage: "text",
     })
+    .use(rehypeMosaic)
     .use(rehypeStringify)
     .process(note.body);
   const html = String(file);

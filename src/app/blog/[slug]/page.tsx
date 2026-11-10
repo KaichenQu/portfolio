@@ -3,6 +3,7 @@ import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import Mermaid from "@/components/blog/mermaid";
+import { mosaic } from "@/components/blog/mosaic";
 import { StatusBadge, TagList } from "@/components/blog/note-list";
 import { getBacklinks, getNote, getNotes, renderNote } from "@/lib/devlog";
 import { pageMetadata, SITE_URL } from "@/lib/seo";
@@ -79,7 +80,7 @@ export default async function NotePage({ params }: Props) {
         </nav>
 
         <h1 className="mt-3 text-[1.9rem] font-bold leading-tight tracking-[-0.02em] text-gray-950 sm:text-[2.25rem] dark:text-white">
-          {note.title}
+          {mosaic(note.title)}
         </h1>
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[12px] text-gray-500 dark:text-white/50">
           {note.date && <time dateTime={note.date}>{note.date}</time>}
@@ -119,7 +120,7 @@ export default async function NotePage({ params }: Props) {
                         href={`#${t.id}`}
                         className="leading-snug text-gray-600 hover:text-sky-700 dark:text-white/60 dark:hover:text-sky-300"
                       >
-                        {t.text}
+                        {mosaic(t.text)}
                       </a>
                     </li>
                   ))}
@@ -141,7 +142,7 @@ export default async function NotePage({ params }: Props) {
                         href={`/blog/${b.slug}`}
                         className="leading-snug text-gray-600 hover:text-sky-700 dark:text-white/60 dark:hover:text-sky-300"
                       >
-                        {b.title}
+                        {mosaic(b.title)}
                       </NextLink>
                     </li>
                   ))}

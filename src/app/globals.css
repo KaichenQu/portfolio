@@ -160,3 +160,25 @@
 #note-body .mermaid svg {
   margin-inline: auto;
 }
+/* Redacted text: the sync left a run of ▒ (4n glyphs). The glyphs stay in the
+   DOM but transparent, over 8x4 square tiles per 4 glyphs (0.6em monospace
+   advance, so one tile is 0.3em) in gray tones with a few sky ones. */
+.redacted {
+  display: inline-block;
+  height: 1.2em;
+  line-height: 1.2em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  /* Outranks the Shiki token colours, link colours and hover states. */
+  color: transparent !important;
+  border-radius: 3px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 4' preserveAspectRatio='none' shape-rendering='crispEdges'%3E%3Crect width='8' height='4' fill='%23e5e7eb'/%3E%3Cpath fill='%23d1d5db' d='M1 0h1v1h-1zM4 0h1v1h-1zM3 1h1v1h-1zM7 1h1v1h-1zM0 2h1v1h-1zM6 2h1v1h-1zM2 3h1v1h-1zM5 3h1v1h-1z'/%3E%3Cpath fill='%23cbd5e1' d='M3 0h1v1h-1zM0 1h1v1h-1zM5 1h1v1h-1zM4 2h1v1h-1zM7 2h1v1h-1zM1 3h1v1h-1zM6 3h1v1h-1z'/%3E%3Cpath fill='%239ca3af' d='M5 0h1v1h-1zM2 1h1v1h-1zM1 2h1v1h-1zM4 3h1v1h-1z'/%3E%3Cpath fill='%23bae6fd' d='M7 0h1v1h-1zM6 1h1v1h-1zM3 2h1v1h-1z'/%3E%3C/svg%3E")
+    0 0 / 2.4em 100% repeat-x;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.dark .redacted {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 4' preserveAspectRatio='none' shape-rendering='crispEdges'%3E%3Crect width='8' height='4' fill='%231f2937'/%3E%3Cpath fill='%23374151' d='M1 0h1v1h-1zM4 0h1v1h-1zM3 1h1v1h-1zM7 1h1v1h-1zM0 2h1v1h-1zM6 2h1v1h-1zM2 3h1v1h-1zM5 3h1v1h-1z'/%3E%3Cpath fill='%23334155' d='M3 0h1v1h-1zM0 1h1v1h-1zM5 1h1v1h-1zM4 2h1v1h-1zM7 2h1v1h-1zM1 3h1v1h-1zM6 3h1v1h-1z'/%3E%3Cpath fill='%234b5563' d='M5 0h1v1h-1zM2 1h1v1h-1zM1 2h1v1h-1zM4 3h1v1h-1z'/%3E%3Cpath fill='%230c4a6e' d='M7 0h1v1h-1zM6 1h1v1h-1zM3 2h1v1h-1z'/%3E%3C/svg%3E");
+}

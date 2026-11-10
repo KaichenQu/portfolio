@@ -41,6 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .claude
-# DevLog vault mirror (private; synced locally by npm run devlog:sync)
+# DevLog vault mirror: only npm run devlog:publish stages it (git add -f)
 /content/devlog/
 /public/blog/diagrams/
