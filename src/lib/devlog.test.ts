@@ -1,5 +1,7 @@
 // @vitest-environment node
 import { describe, it, expect } from "vitest";
+import fs from "fs";
+import os from "os";
 import path from "path";
 import {
   getBacklinks,
@@ -20,18 +22,49 @@ const render = async (slug: string) => renderNote(getNote(slug, DIR)!, DIR);
 describe("parseFrontmatter", () => {
   it("reads flat keys, inline arrays and strips the block", () => {
     const { data, content } = parseFrontmatter(
-      "---\ntype: case-debug\ntags: [a, b-c]\nstatus: solved   # note\n---\n# T\n",
+      "---\ntype: case-debug\ntags: [a, b-c]\nlinks: [PR #1, PR #2]\n---\n# T\n",
     );
     expect(data).toEqual({
       type: "case-debug",
       tags: ["a", "b-c"],
-      status: "solved",
+      links: ["PR #1", "PR #2"],
     });
     expect(content).toBe("# T\n");
   });
 
   it("returns the source untouched without frontmatter", () => {
     expect(parseFrontmatter("# T\n")).toEqual({ data: {}, content: "# T\n" });
+    expect(parseFrontmatter("----\n# T\n").data).toEqual({});
+  });
+
+  it("accepts an empty block", () => {
+    expect(parseFrontmatter("---\n---\n# T\n")).toEqual({
+      data: {},
+      content: "# T\n",
+    });
+  });
+
+  it.each([
+    ["a BOM", "\uFEFF---\ntype: x\n---\n# T\n"],
+    ["a trailing space", "--- \ntype: x\n---\n# T\n"],
+    ["no closing line", "---\ntype: x\n# T\n"],
+    ["a line that is not key: value", "---\ntags:\n  - a\n---\n# T\n"],
+  ])("throws with the file path on a block with %s", (_, src) => {
+    expect(() => parseFrontmatter(src, "x/bad.md")).toThrow(
+      "Malformed frontmatter in x/bad.md",
+    );
+  });
+
+  it("names the note file when a note's block is malformed", () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "devlog-fm-"));
+    const bad = path.join(tmp, "Glossary", "bad.md");
+    fs.mkdirSync(path.dirname(bad));
+    fs.writeFileSync(bad, "---\ntype: x\n");
+    try {
+      expect(() => getNotes(tmp)).toThrow(`Malformed frontmatter in ${bad}`);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
   });
 });
 
@@ -56,7 +89,7 @@ describe("notes", () => {
     expect(note).not.toHaveProperty("links", ["PR #1"]);
     expect(note.body).not.toMatch(/^# /m);
     expect(note.description).toBe(
-      "The widget showed old data after a refresh; see retry-with-backoff and entity tag for background. Replace <file> with the path.",
+      "The widget showed old data after a refresh; see Retry with backoff and entity tag for background. Replace <file> with the path.",
     );
   });
 
@@ -102,7 +135,10 @@ describe("renderNote", () => {
   it("resolves wikilinks, aliases and unresolved targets", async () => {
     const { html } = await render(CASE);
     expect(html).toContain(
-      '<a href="/blog/retry-with-backoff">retry-with-backoff</a>',
+      '<a href="/blog/retry-with-backoff">Retry with backoff</a>',
+    );
+    expect((await render("caching")).html).toContain(
+      `<a href="/blog/${CASE}">Widget cache goes stale</a>`,
     );
     expect(html).toContain('<a href="/blog/etag">entity tag</a>');
     expect(html).toContain("A missing link: not-written-yet.");
@@ -144,6 +180,7 @@ describe("renderNote", () => {
     expect(html).toContain(
       '<div class="mermaid">flowchart LR\n  A[client] -->|read| B[(cache)]</div>',
     );
+    expect(html).not.toMatch(/<pre[^>]*>\s*<div class="mermaid">/);
     expect((await render("caching")).hasMermaid).toBe(false);
   });
 

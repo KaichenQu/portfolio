@@ -54,18 +54,32 @@ export function slugify(stem: string): string {
   return stem.trim().toLowerCase().replace(/\s+/g, "-");
 }
 
-/** Flat `key: value` frontmatter with inline `[a, b]` arrays. */
-export function parseFrontmatter(src: string): {
+// Same shapes as the publish check in scripts/sync-devlog.mjs; keep the two in step.
+const FM_OPEN = /^\uFEFF?---[ \t]*\r?(?:\n|$)/;
+const FM_BLOCK = /^---\r?\n(?:([\s\S]*?)\r?\n)?---\r?(?:\n|$)/;
+
+/**
+ * Flat `key: value` frontmatter with inline `[a, b]` arrays. A file that opens
+ * with `---` but has no well-formed block (BOM, trailing space, unclosed, a
+ * line that is not `key: value`) throws instead of rendering as body.
+ */
+export function parseFrontmatter(
+  src: string,
+  file = "<input>",
+): {
   data: Record<string, string | string[]>;
   content: string;
 } {
-  const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(src);
-  if (!m) return { data: {}, content: src };
+  if (!FM_OPEN.test(src)) return { data: {}, content: src };
+  const m = FM_BLOCK.exec(src);
+  const bad = new Error(`Malformed frontmatter in ${file}`);
+  if (!m) throw bad;
   const data: Record<string, string | string[]> = {};
-  for (const line of m[1].split(/\r?\n/)) {
+  for (const line of (m[1] ?? "").split(/\r?\n/)) {
+    if (!line.trim()) continue;
     const kv = /^([A-Za-z_][\w-]*):\s*(.*)$/.exec(line);
-    if (!kv) continue;
-    const raw = kv[2].replace(/\s+#.*$/, "").trim();
+    if (!kv) throw bad;
+    const raw = kv[2].trim();
     data[kv[1]] = /^\[.*\]$/.test(raw)
       ? raw
           .slice(1, -1)
@@ -88,7 +102,10 @@ function plain(node: unknown): string {
 const parser = unified().use(remarkParse).use(remarkGfm);
 
 function readNote(file: string, rel: string, section: Section): Note {
-  const { data, content } = parseFrontmatter(fs.readFileSync(file, "utf8"));
+  const { data, content } = parseFrontmatter(
+    fs.readFileSync(file, "utf8"),
+    file,
+  );
   const tree = parser.parse(content);
   const h1 = tree.children.findIndex(
     (n) => n.type === "heading" && n.depth === 1,
@@ -106,15 +123,9 @@ function readNote(file: string, rel: string, section: Section): Note {
     tree.children.splice(h1, 1);
   }
   const firstPara = tree.children.find((n) => n.type === "paragraph");
+  // Wikilinks stay in until getNotes knows every title; it finishes the description.
   const description = firstPara
-    ? truncate(
-        plain(firstPara)
-          .replace(WIKILINK, (_, t: string, a?: string) => a ?? t)
-          .replace(/==/g, "")
-          .replace(/\s+/g, " ")
-          .trim(),
-        160,
-      )
+    ? plain(firstPara).replace(/==/g, "").replace(/\s+/g, " ").trim()
     : "";
   const targets = new Set<string>();
   visit(tree, "text", (t) => {
@@ -168,9 +179,17 @@ export function getNotes(dir: string = DEVLOG_DIR): Note[] {
     if (seen.has(n.slug)) throw new Error(`Duplicate DevLog slug "${n.slug}"`);
     seen.set(n.slug, n);
   }
-  // Keep only links that resolve, so the graph and the counts agree.
-  for (const n of notes)
+  const titles = new Map(notes.map((n) => [n.slug, n.title]));
+  for (const n of notes) {
+    // Keep only links that resolve, so the graph and the counts agree.
     n.links = n.links.filter((s) => seen.has(s) && s !== n.slug);
+    n.description = truncate(
+      n.description.replace(WIKILINK, (_, t: string, a?: string) =>
+        wikilinkLabel(t, a, titles),
+      ),
+      160,
+    );
+  }
   notes.sort(
     (a, b) =>
       (b.date ?? "").localeCompare(a.date ?? "") ||
@@ -211,17 +230,28 @@ type Mark = {
   data: { hName: "mark" };
 };
 
-function splitWikilinks(value: string, slugs: Set<string>): PhrasingContent[] {
+/** An alias wins, then the resolved note's title, then the link's own text. */
+function wikilinkLabel(
+  target: string,
+  alias: string | undefined,
+  titles: Map<string, string>,
+): string {
+  return (alias ?? titles.get(slugify(target)) ?? target).trim();
+}
+
+function splitWikilinks(
+  value: string,
+  titles: Map<string, string>,
+): PhrasingContent[] {
   const out: PhrasingContent[] = [];
   let last = 0;
   for (const m of value.matchAll(WIKILINK)) {
     if (m.index > last)
       out.push({ type: "text", value: value.slice(last, m.index) });
-    const target = m[1].trim();
-    const label = (m[2] ?? m[1]).trim();
-    const slug = slugify(target);
+    const slug = slugify(m[1]);
+    const label = wikilinkLabel(m[1], m[2], titles);
     out.push(
-      slugs.has(slug)
+      titles.has(slug)
         ? {
             type: "link",
             url: `/blog/${slug}`,
@@ -282,7 +312,7 @@ function applyHighlights(children: PhrasingContent[]): PhrasingContent[] {
   return out;
 }
 
-function remarkDevlog(slugs: Set<string>) {
+function remarkDevlog(titles: Map<string, string>) {
   return (tree: MdRoot) => {
     visit(tree, (node, index, parent) => {
       // Raw HTML (e.g. a `<file>` placeholder in prose) renders as literal text.
@@ -295,11 +325,22 @@ function remarkDevlog(slugs: Set<string>) {
         ) as RootContent;
         return SKIP;
       }
-      if (node.type === "code" && node.lang === "mermaid") {
-        node.data = {
-          hName: "div",
-          hProperties: { className: ["mermaid"] },
-          hChildren: [{ type: "text", value: node.value }],
+      // Swap the code node for an empty paragraph shell renamed to a div: a
+      // `code` node always comes out of remark-rehype wrapped in <pre>.
+      if (
+        node.type === "code" &&
+        node.lang === "mermaid" &&
+        parent &&
+        index !== undefined
+      ) {
+        parent.children[index] = {
+          type: "paragraph",
+          children: [],
+          data: {
+            hName: "div",
+            hProperties: { className: ["mermaid"] },
+            hChildren: [{ type: "text", value: node.value }],
+          },
         };
         return SKIP;
       }
@@ -315,7 +356,7 @@ function remarkDevlog(slugs: Set<string>) {
       if (!p.children.some((c) => c.type === "text")) return;
       // A parent with text children holds phrasing content only.
       const kids = (p.children as PhrasingContent[]).flatMap((c) =>
-        c.type === "text" ? splitWikilinks(c.value, slugs) : [c],
+        c.type === "text" ? splitWikilinks(c.value, titles) : [c],
       );
       p.children = applyHighlights(kids) as Parent["children"];
     });
@@ -356,12 +397,12 @@ export async function renderNote(
   note: Note,
   dir: string = DEVLOG_DIR,
 ): Promise<{ html: string; toc: TocEntry[]; hasMermaid: boolean }> {
-  const slugs = new Set(getNotes(dir).map((n) => n.slug));
+  const titles = new Map(getNotes(dir).map((n) => [n.slug, n.title]));
   const toc: TocEntry[] = [];
   const file = await unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(() => remarkDevlog(slugs))
+    .use(() => remarkDevlog(titles))
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(() => rehypeDevlog(toc))
