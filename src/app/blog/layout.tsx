@@ -15,7 +15,9 @@ export default function BlogLayout({
   })).filter((g) => g.notes.length > 0);
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 pb-16 pt-20 sm:px-6 md:pt-24 lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-10">
+    <div
+      className={`mx-auto w-full max-w-7xl px-4 pb-16 pt-20 sm:px-6 md:pt-24${groups.length > 0 ? " lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-10" : ""}`}
+    >
       {groups.length > 0 && (
         <aside className="mb-6 lg:mb-0">
           <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pr-1 scrollbar-hide">

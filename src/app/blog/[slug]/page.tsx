@@ -18,11 +18,19 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const note = getNote((await params).slug);
   if (!note) return {};
-  return pageMetadata(`/blog/${note.slug}`, note.title, note.description, {
-    type: "article",
-    publishedTime: note.date,
-    tags: note.tags,
-  });
+  // Explicit images outrank this segment's opengraph-image file, so name it here.
+  return pageMetadata(
+    `/blog/${note.slug}`,
+    note.title,
+    note.description,
+    { type: "article", publishedTime: note.date, tags: note.tags },
+    {
+      url: `/blog/${note.slug}/opengraph-image`,
+      width: 1200,
+      height: 630,
+      alt: note.title,
+    },
+  );
 }
 
 export default async function NotePage({ params }: Props) {
