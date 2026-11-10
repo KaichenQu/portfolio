@@ -8,7 +8,7 @@ import remarkRehype from "remark-rehype";
 import rehypeSlug from "rehype-slug";
 import rehypeShiki from "@shikijs/rehype";
 import rehypeStringify from "rehype-stringify";
-import { visit, SKIP } from "unist-util-visit";
+import { visit, SKIP, EXIT } from "unist-util-visit";
 import type {
   Root as MdRoot,
   RootContent,
@@ -19,6 +19,12 @@ import type { Root as HastRoot, Element, ElementContent } from "hast";
 import { REDACTED_RUN } from "@/components/blog/mosaic";
 
 export const DEVLOG_DIR = path.join(process.cwd(), "content", "devlog");
+export const DIAGRAMS_DIR = path.join(
+  process.cwd(),
+  "public",
+  "blog",
+  "diagrams",
+);
 
 // Explorer order; the key is the note's folder relative to the content root.
 export const SECTIONS = [
@@ -47,6 +53,8 @@ export type Note = {
   links: string[];
   /** Markdown body with frontmatter and the title heading removed. */
   body: string;
+  /** The first body image that is a synced diagram on disk. */
+  cover?: { src: string; alt: string; width: number; height: number };
 };
 
 export type TocEntry = { depth: 2 | 3; id: string; text: string };
@@ -102,7 +110,40 @@ function plain(node: unknown): string {
 
 const parser = unified().use(remarkParse).use(remarkGfm);
 
-function readNote(file: string, rel: string, section: Section): Note {
+/** Public URL of an image that points into the vault's Diagrams folder. */
+function diagramUrl(url: string): string | undefined {
+  const m = /(?:^|\/)Diagrams\/([^/]+\.svg)$/.exec(url);
+  return m ? `/blog/diagrams/${m[1]}` : undefined;
+}
+
+/** Root `width` and `height` (`617px` → 617), else the `viewBox` size. */
+function svgSize(svg: string): { width: number; height: number } | undefined {
+  const root = /<svg\b[^>]*>/.exec(svg)?.[0] ?? "";
+  const attr = (k: string) =>
+    Number(
+      new RegExp(`\\s${k}\\s*=\\s*["']\\s*([\\d.]+)(?:px)?\\s*["']`).exec(
+        root,
+      )?.[1],
+    );
+  const [width, height] = [attr("width"), attr("height")];
+  if (width > 0 && height > 0)
+    return { width: Math.round(width), height: Math.round(height) };
+  const box = /\sviewBox\s*=\s*["']([^"']*)["']/
+    .exec(root)?.[1]
+    .trim()
+    .split(/[\s,]+/)
+    .map(Number);
+  return box && box[2] > 0 && box[3] > 0
+    ? { width: Math.round(box[2]), height: Math.round(box[3]) }
+    : undefined;
+}
+
+function readNote(
+  file: string,
+  rel: string,
+  section: Section,
+  diagrams: string,
+): Note {
   const { data, content } = parseFrontmatter(
     fs.readFileSync(file, "utf8"),
     file,
@@ -132,6 +173,18 @@ function readNote(file: string, rel: string, section: Section): Note {
   visit(tree, "text", (t) => {
     for (const m of t.value.matchAll(WIKILINK)) targets.add(slugify(m[1]));
   });
+  let cover: Note["cover"];
+  visit(tree, "image", (img) => {
+    const src = diagramUrl(img.url);
+    if (!src) return;
+    const svg = path.join(diagrams, path.basename(src));
+    const size = fs.existsSync(svg)
+      ? svgSize(fs.readFileSync(svg, "utf8"))
+      : undefined;
+    if (!size) return;
+    cover = { src, alt: img.alt ?? "", ...size };
+    return EXIT;
+  });
   const words = body.split(/\s+/).filter(Boolean).length;
   const str = (k: string) =>
     typeof data[k] === "string" ? (data[k] as string) : undefined;
@@ -148,6 +201,7 @@ function readNote(file: string, rel: string, section: Section): Note {
     readingMinutes: Math.max(1, Math.ceil(words / 200)),
     links: [...targets],
     body,
+    cover,
   };
 }
 
@@ -163,8 +217,12 @@ function truncate(s: string, max: number): string {
 const cache = new Map<string, Note[]>();
 
 /** All notes, newest first (undated notes after dated ones, then by title). */
-export function getNotes(dir: string = DEVLOG_DIR): Note[] {
-  const hit = cache.get(dir);
+export function getNotes(
+  dir: string = DEVLOG_DIR,
+  diagrams: string = DIAGRAMS_DIR,
+): Note[] {
+  const key = `${dir}\n${diagrams}`;
+  const hit = cache.get(key);
   if (hit) return hit;
   const notes: Note[] = [];
   for (const [folder, section] of SECTIONS) {
@@ -172,7 +230,9 @@ export function getNotes(dir: string = DEVLOG_DIR): Note[] {
     if (!fs.existsSync(abs)) continue;
     for (const name of fs.readdirSync(abs).sort()) {
       if (!name.endsWith(".md")) continue;
-      notes.push(readNote(path.join(abs, name), `${folder}/${name}`, section));
+      notes.push(
+        readNote(path.join(abs, name), `${folder}/${name}`, section, diagrams),
+      );
     }
   }
   const seen = new Map<string, Note>();
@@ -196,7 +256,7 @@ export function getNotes(dir: string = DEVLOG_DIR): Note[] {
       (b.date ?? "").localeCompare(a.date ?? "") ||
       a.title.localeCompare(b.title),
   );
-  cache.set(dir, notes);
+  cache.set(key, notes);
   return notes;
 }
 
@@ -345,10 +405,7 @@ function remarkDevlog(titles: Map<string, string>) {
         };
         return SKIP;
       }
-      if (node.type === "image") {
-        const m = /(?:^|\/)Diagrams\/([^/]+\.svg)$/.exec(node.url);
-        if (m) node.url = `/blog/diagrams/${m[1]}`;
-      }
+      if (node.type === "image") node.url = diagramUrl(node.url) ?? node.url;
     });
     // Code and inlineCode carry `value`, not children, so text rewriting never reaches them.
     visit(tree, (node) => {

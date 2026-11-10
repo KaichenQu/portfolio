@@ -1,4 +1,5 @@
 import NextLink from "next/link";
+import { FigureGrid } from "@/components/blog/figure-grid";
 import { mosaic } from "@/components/blog/mosaic";
 import { NoteList } from "@/components/blog/note-list";
 import { getNotes } from "@/lib/devlog";
@@ -29,6 +30,20 @@ export default function BlogIndex() {
         <p className="mt-10 text-gray-500 dark:text-white/50">No notes yet.</p>
       ) : (
         <>
+          {notes.some((n) => n.cover) && (
+            <section className="mt-10" aria-labelledby="figures">
+              <h2
+                id="figures"
+                className="font-mono text-[12px] uppercase tracking-[0.18em] text-sky-600 dark:text-sky-400"
+              >
+                Figures
+              </h2>
+              <div className="mt-3">
+                <FigureGrid notes={notes} />
+              </div>
+            </section>
+          )}
+
           {maps.length > 0 && (
             <section className="mt-10" aria-labelledby="maps">
               <h2
