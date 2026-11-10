@@ -1,0 +1,26 @@
+---
+type: moc
+tags: [moc, git]
+---
+# Git and history
+
+12 notes. Two threads: finding a change, and rewriting or isolating one.
+
+## Finding the change that broke it
+
+- [[locating-regressions-with-git-bisect]] — automated bisection with `git bisect run`
+- [[binary-search-fault-localization]] — the general form the bisect technique is an instance of
+- [[git]] — the troubleshooting cheatsheet (`log -L`, `log -S`, blame ranges)
+- [[bisect]] · [[regression]]
+
+## Rewriting and isolating
+
+- [[2026-06-29-chezmoi-plaintext-secrets-to-age-encryption]] — moving secrets out of a tracked repo
+- [[parallel-claude-code-sessions-with-git-worktrees]] — one checkout per session
+- [[worktree]]
+
+## Staging traps
+
+- [[git-add-multi-pathspec-fails-atomically]] — one bad pathspec stages nothing, and the next commit ships the wrong tree
+- [[env-file-protection-patterns-fire-on-non-secret-operations]] — the guard that breaks `lint-staged` behind every hook-driven commit
+- [[regenerated-contract-nondeterministic-enum-order]] — commit only the regenerated OpenAPI hunks your change explains; the generator's enum order is non-deterministic
