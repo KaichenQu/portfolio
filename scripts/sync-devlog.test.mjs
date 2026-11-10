@@ -65,7 +65,12 @@ describe("syncDevlog", () => {
     expect(counts).toEqual({
       notes: { copied: 3, skipped: 1, removed: 0 },
       diagrams: { copied: 1, removed: 0 },
-      redactions: { notes: 0, diagrams: 0, perPattern: { 2: 0 } },
+      redactions: {
+        notes: 0,
+        diagrams: 0,
+        entityEncoded: 0,
+        perPattern: { 2: 0 },
+      },
     });
     expect(console.log).toHaveBeenCalledWith(
       "notes: 3 copied, 1 skipped, 0 removed; diagrams: 1 copied, 0 removed",
@@ -170,10 +175,11 @@ describe("redaction", () => {
     expect(redactions).toEqual({
       notes: 1,
       diagrams: 0,
+      entityEncoded: 0,
       perPattern: { 3: 2, 4: 2, 5: 1, 6: 1 },
     });
     expect(console.log).toHaveBeenCalledWith(
-      "redacted: 6 matches in 1 notes and 0 diagrams",
+      "redacted: 6 matches in 1 notes and 0 diagrams (0 entity-encoded in SVGs)",
     );
     expect(console.log).toHaveBeenCalledWith("pattern #4: 2");
   });
@@ -260,6 +266,34 @@ describe("redaction", () => {
         `<switch><g/><text>Viewer does not support full SVG 1.1</text></switch></svg>`,
     );
     expect(redactions).toMatchObject({ diagrams: 1, perPattern: { 1: 1 } });
+  });
+
+  it("masks SVG labels whose match only shows once entities are decoded", () => {
+    patterns("Acme & Co", "/Acme Corp/");
+    write(
+      path.join(src, "Diagrams", "case.flow.svg"),
+      `<svg><foreignObject><div>Acme &amp; Co</div><div>&#65;cme&#x20;Corp</div></foreignObject>` +
+        `<text>Acme &amp;amp; Co</text></svg>`,
+    );
+
+    const { redactions } = syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(fs.readFileSync(path.join(diagramsDir, "case.flow.svg"), "utf8")).toBe(
+      `<svg><foreignObject><div>${S.repeat(12)}</div><div>${S.repeat(12)}</div></foreignObject>` +
+        `<text>Acme &amp;amp; Co</text></svg>`,
+    );
+    expect(redactions).toMatchObject({ entityEncoded: 2, perPattern: { 1: 1, 2: 1 } });
+  });
+
+  it("aborts naming the file and line when a pattern still matches the output", () => {
+    // Masking `z` exposes a `q` the first entry's lookahead had excluded.
+    patterns("/q(?!z)/", "z");
+    write(keptSrc(), note("", "qz"));
+
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
+      `Pattern on line 1 still matches ${keptSrc()} after redaction`,
+    );
+    expect(fs.existsSync(notesDir)).toBe(false);
   });
 
   it("aborts naming the SVG when a data:image/ payload survives", () => {

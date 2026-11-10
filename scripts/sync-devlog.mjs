@@ -88,6 +88,71 @@ function redact(text, patterns, hits) {
   return text;
 }
 
+const ENTITY = /&(?:(amp|lt|gt|quot|apos)|#(\d{1,7})|#x([0-9a-fA-F]{1,6}));/g;
+const NAMED = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'" };
+
+/** The text with XML entities decoded, and each decoded code unit's raw offset (plus one for the end). */
+function decodeEntities(raw) {
+  let text = "";
+  const at = [];
+  let i = 0;
+  const copyTo = (end) => {
+    for (; i < end; i++) {
+      text += raw[i];
+      at.push(i);
+    }
+  };
+  for (const m of raw.matchAll(ENTITY)) {
+    copyTo(m.index);
+    const code = m[2] ? Number(m[2]) : parseInt(m[3] ?? "", 16);
+    const ch = m[1]
+      ? NAMED[m[1]]
+      : code <= 0x10ffff
+        ? String.fromCodePoint(code)
+        : m[0];
+    for (let k = 0; k < ch.length; k++) at.push(m.index);
+    text += ch;
+    i = m.index + m[0].length;
+  }
+  copyTo(raw.length);
+  at.push(raw.length);
+  return { text, at };
+}
+
+/**
+ * Per pattern, in file order: mask raw matches, then matches that only show
+ * once entities are decoded (`A &amp; B`), replacing their raw span.
+ */
+function redactSvg(svg, patterns, hits, encoded) {
+  for (const p of patterns) {
+    svg = redact(svg, [p], hits);
+    const { text, at } = decodeEntities(svg);
+    let out = "";
+    let last = 0;
+    for (const m of text.matchAll(p.re)) {
+      if (!m[0]) continue;
+      out += svg.slice(last, at[m.index]) + mask(m[0]);
+      last = at[m.index + m[0].length];
+      hits.set(p.line, (hits.get(p.line) ?? 0) + 1);
+      encoded.n++;
+    }
+    svg = out + svg.slice(last);
+  }
+  return svg;
+}
+
+/** Zero-length matches do not count: they mask nothing. */
+const hit = (s, re) => [...s.matchAll(re)].some((m) => m[0]);
+
+/** Fail closed: no pattern may match what is about to be written. */
+function assertRedacted(file, views, patterns) {
+  for (const { line, re } of patterns)
+    if (views.some((v) => hit(v, re)))
+      throw new Error(
+        `Pattern on line ${line} still matches ${file} after redaction; nothing was changed`,
+      );
+}
+
 const total = (hits) => [...hits.values()].reduce((a, b) => a + b, 0);
 
 /** Drops the private keys, masks the remaining values, then masks the title and body. */
@@ -144,8 +209,7 @@ function prune(dir, keep) {
   return removed;
 }
 
-const matchesAny = (s, patterns) =>
-  patterns.some(({ re }) => s.search(re) !== -1);
+const matchesAny = (s, patterns) => patterns.some(({ re }) => hit(s, re));
 
 /** Returns the counts it also prints. Reads, checks and redacts everything before the first write. */
 export function syncDevlog({
@@ -160,6 +224,7 @@ export function syncDevlog({
   const diagrams = { copied: 0, removed: 0 };
   const hits = new Map();
   const touched = { notes: 0, diagrams: 0 };
+  const encoded = { n: 0 };
 
   const publish = new Map();
   const svgs = new Map();
@@ -191,7 +256,9 @@ export function syncDevlog({
           `${file} already contains ${SHADE}; nothing was changed`,
         );
       const before = total(hits);
-      publish.set(rel, redactNote(text, fm, patterns, hits));
+      const out = redactNote(text, fm, patterns, hits);
+      assertRedacted(file, [out], patterns);
+      publish.set(rel, out);
       if (total(hits) > before) touched.notes++;
       for (const [, url] of text.matchAll(DIAGRAM_REF)) {
         const svg = DIAGRAM.exec(url)?.[1];
@@ -217,7 +284,8 @@ export function syncDevlog({
     if (text.includes(SHADE))
       throw new Error(`${file} already contains ${SHADE}; nothing was changed`);
     const before = total(hits);
-    const out = redact(stripSvg(text), patterns, hits);
+    const out = redactSvg(stripSvg(text), patterns, hits, encoded);
+    assertRedacted(file, [out, decodeEntities(out).text], patterns);
     if (total(hits) > before) touched.diagrams++;
     if (out.includes("data:image/"))
       throw new Error(
@@ -249,11 +317,13 @@ export function syncDevlog({
       `diagrams: ${diagrams.copied} copied, ${diagrams.removed} removed`,
   );
   console.log(
-    `redacted: ${total(hits)} matches in ${touched.notes} notes and ${touched.diagrams} diagrams`,
+    `redacted: ${total(hits)} matches in ${touched.notes} notes and ${touched.diagrams} diagrams ` +
+      `(${encoded.n} entity-encoded in SVGs)`,
   );
   for (const [line, n] of Object.entries(perPattern))
     console.log(`pattern #${line}: ${n}`);
-  return { notes, diagrams, redactions: { ...touched, perPattern } };
+  return { notes, diagrams, redactions: { ...touched, entityEncoded: encoded.n, perPattern },
+  };
 }
 
 /** The real vault, its patterns file and this repo's two targets. */
