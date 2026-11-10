@@ -36,6 +36,7 @@ beforeEach(() => {
   write(path.join(src, "Diagrams", "hidden.svg"), "<svg/>");
   write(path.join(src, "Diagrams", "orphan.svg"), "<svg/>");
   write(path.join(src, "Diagrams", "case.flow.drawio"), "<mxfile/>");
+  write(path.join(src, "_meta", "redactions.txt"), "# synthetic\nNOT-IN-ANY-NOTE\n");
   vi.spyOn(console, "log").mockImplementation(() => {});
 });
 
@@ -64,6 +65,7 @@ describe("syncDevlog", () => {
     expect(counts).toEqual({
       notes: { copied: 3, skipped: 1, removed: 0 },
       diagrams: { copied: 1, removed: 0 },
+      redactions: { notes: 0, diagrams: 0, perPattern: { 2: 0 } },
     });
     expect(console.log).toHaveBeenCalledWith(
       "notes: 3 copied, 1 skipped, 0 removed; diagrams: 1 copied, 0 removed",
@@ -119,7 +121,10 @@ describe("syncDevlog", () => {
     write(path.join(empty, "Templates", "template.md"), note());
     syncDevlog({ src, notesDir, diagramsDir });
 
-    expect(() => syncDevlog({ src: empty, notesDir, diagramsDir })).toThrow(
+    const patternsFile = path.join(src, "_meta", "redactions.txt");
+    expect(() =>
+      syncDevlog({ src: empty, notesDir, diagramsDir, patternsFile }),
+    ).toThrow(
       /No DevLog notes found/,
     );
     expect(tree(notesDir)).toHaveLength(3);
@@ -130,5 +135,152 @@ describe("syncDevlog", () => {
     expect(() =>
       syncDevlog({ src: path.join(tmp, "nope"), notesDir, diagramsDir }),
     ).toThrow(/vault not found/);
+  });
+});
+
+describe("redaction", () => {
+  const S = "▒";
+  const patterns = (...lines) =>
+    write(path.join(src, "_meta", "redactions.txt"), lines.join("\n") + "\n");
+  const read = (rel) => fs.readFileSync(path.join(notesDir, rel), "utf8");
+  const kept = path.join("Techniques", "kept.md");
+  const keptSrc = () => path.join(src, kept);
+
+  it("masks literal and regex matches with a rounded, capped run", () => {
+    patterns(
+      "# comment",
+      "",
+      "Acme Corp",
+      "/k-\\d+/i",
+      "/(?<![\\w+\\/])tok(?![\\w+\\/])/",
+      "/x{30}/",
+    );
+    write(
+      path.join(src, "Techniques", "kept.md"),
+      "---\ntype: pattern\nstatus: Acme Corp\n---\n# Acme Corp notes\n\n" +
+        `K-12 and k-7, tok but not +tok or tok/, ${"x".repeat(30)}.\n`,
+    );
+
+    const { redactions } = syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(read(kept)).toBe(
+      `---\ntype: pattern\nstatus: ${S.repeat(12)}\n---\n# ${S.repeat(12)} notes\n\n` +
+        `${S.repeat(4)} and ${S.repeat(4)}, ${S.repeat(4)} but not +tok or tok/, ${S.repeat(24)}.\n`,
+    );
+    expect(redactions).toEqual({
+      notes: 1,
+      diagrams: 0,
+      perPattern: { 3: 2, 4: 2, 5: 1, 6: 1 },
+    });
+    expect(console.log).toHaveBeenCalledWith(
+      "redacted: 6 matches in 1 notes and 0 diagrams",
+    );
+    expect(console.log).toHaveBeenCalledWith("pattern #4: 2");
+  });
+
+  it("applies entries in file order, each to the previous one's output", () => {
+    patterns("Acme", "Acme Corp");
+    write(keptSrc(), note("", "Acme Corp"));
+
+    const { redactions } = syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(read(kept)).toContain(`${S.repeat(4)} Corp`);
+    expect(redactions.perPattern).toEqual({ 1: 1, 2: 0 });
+  });
+
+  it("drops the private frontmatter keys and keeps the rest as written", () => {
+    write(
+      keptSrc(),
+      "---\ntype: pattern\nproject: p\nlinks: [PR #1]\ntags:   [a, b]\nsource: s\ntriggers: [t]\n---\n# T\n",
+    );
+    write(path.join(src, "Maps", "plain.md"), "---\nproject: p\n---\n# M\n");
+
+    syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(read(kept)).toBe("---\ntype: pattern\ntags:   [a, b]\n---\n# T\n");
+    expect(read(path.join("Maps", "plain.md"))).toBe("# M\n");
+  });
+
+  it.each([
+    ["is missing", null, /Redaction patterns not found/],
+    ["has no entries", "# only a comment\n\n", /No redaction patterns/],
+  ])("aborts when the patterns file %s", (_, text, error) => {
+    const file = path.join(src, "_meta", "redactions.txt");
+    if (text === null) fs.rmSync(file);
+    else write(file, text);
+
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(error);
+    expect(fs.existsSync(notesDir)).toBe(false);
+  });
+
+  it("names the line of a bad regex, not the entry", () => {
+    patterns("fine", "/secret(/");
+
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
+      /^Invalid regex on line 2 of [^(]*$/,
+    );
+  });
+
+  it("aborts without touching the targets when a pattern matches a file name", () => {
+    syncDevlog({ src, notesDir, diagramsDir });
+    const before = read(kept);
+    write(keptSrc(), note("", "changed"));
+    patterns("lain");
+
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
+      `A redaction pattern matches the file name of ${path.join(src, "Maps", "plain.md")}`,
+    );
+    expect(read(kept)).toBe(before);
+  });
+
+  it("aborts when a source note already contains the mask glyph", () => {
+    write(keptSrc(), note("", `already ${S}`));
+
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
+      `${path.join(src, "Techniques", "kept.md")} already contains ${S}`,
+    );
+    expect(fs.existsSync(notesDir)).toBe(false);
+  });
+
+  const svg = (extra = "") =>
+    `<svg xmlns="http://www.w3.org/2000/svg" content="&lt;mxfile&gt;Acme Corp&lt;/mxfile&gt;" width="10">` +
+    `<switch><foreignObject width="5"><div>Acme Corp</div></foreignObject>` +
+    `<image x="1" xlink:href="data:image/png;base64,QUJD"/></switch>` +
+    `<switch><g/><text>Viewer does not support full SVG 1.1</text></switch>${extra}</svg>`;
+
+  it("strips the embedded source and PNG label fallbacks, then masks the SVG", () => {
+    patterns("Acme Corp");
+    write(path.join(src, "Diagrams", "case.flow.svg"), svg());
+
+    const { redactions } = syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(fs.readFileSync(path.join(diagramsDir, "case.flow.svg"), "utf8")).toBe(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="10">` +
+        `<switch><foreignObject width="5"><div>${S.repeat(12)}</div></foreignObject></switch>` +
+        `<switch><g/><text>Viewer does not support full SVG 1.1</text></switch></svg>`,
+    );
+    expect(redactions).toMatchObject({ diagrams: 1, perPattern: { 1: 1 } });
+  });
+
+  it("aborts naming the SVG when a data:image/ payload survives", () => {
+    const file = path.join(src, "Diagrams", "case.flow.svg");
+    write(file, svg(`<image href="data:image/png;base64,QUJD"/>`));
+
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
+      `${file} still embeds a data:image/ payload`,
+    );
+    expect(fs.existsSync(notesDir)).toBe(false);
+  });
+
+  it("mirrors only SVGs, even when a note points at other diagram files", () => {
+    write(path.join(src, "Diagrams", "case.flow.html"), "<html/>");
+    write(
+      keptSrc(),
+      note("", "![a](../Diagrams/case.flow.html) ![b](../Diagrams/case.flow.drawio)"),
+    );
+
+    syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(tree(diagramsDir)).toEqual(["case.flow.svg"]);
   });
 });
