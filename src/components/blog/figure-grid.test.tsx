@@ -54,4 +54,12 @@ describe("FigureGrid", () => {
       expect(img).toHaveAttribute("decoding", "async");
     }
   });
+
+  it("sizes every cover box by its aspect ratio alone, with the image out of flow", () => {
+    render(<FigureGrid notes={getNotes(DIR, DIAGRAMS)} />);
+    for (const img of screen.getAllByRole("img")) {
+      expect(img).toHaveClass("absolute", "inset-0");
+      expect(img.parentElement).toHaveClass("relative", "aspect-[16/10]");
+    }
+  });
 });
