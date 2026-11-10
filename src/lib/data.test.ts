@@ -4,6 +4,17 @@ import path from "path";
 import { links, projectsData } from "./data";
 
 describe("links", () => {
+  it("lists the home sidebar's six items in order", () => {
+    expect(links.map((l) => [l.nameEng, l.hash])).toEqual([
+      ["About", "/#about"],
+      ["Projects", "/#projects"],
+      ["Experience", "/#experience"],
+      ["Skills", "/#skills"],
+      ["Contact", "/#contact"],
+      ["Blog", "/blog"],
+    ]);
+  });
+
   it("has unique names and hashes", () => {
     expect(new Set(links.map((l) => l.nameEng)).size).toBe(links.length);
     expect(new Set(links.map((l) => l.hash)).size).toBe(links.length);

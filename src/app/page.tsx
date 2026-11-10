@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import clsx from "clsx";
 import {
   Mail,
   ArrowUpRight,
@@ -15,6 +14,7 @@ import {
 } from "lucide-react";
 
 import { GitHubBrandIcon } from "@/components/icons/GitHubBrandIcon";
+import SidebarNav from "@/components/sidebar-nav";
 import { Clock } from "@/components/timer";
 import Loading from "@/components/ui/Loading";
 import { projectsData } from "@/lib/data";
@@ -28,15 +28,6 @@ const SkillMap = dynamic(() => import("@/components/skillmap"), {
 const Contact = dynamic(() => import("@/components/contact"), { ssr: false });
 
 // ── Data ─────────────────────────────────────────────────────────────────────
-
-const SECTIONS = [
-  { id: "about", label: "About", hash: "/#about" },
-  { id: "projects", label: "Projects", hash: "/#projects" },
-  { id: "experience", label: "Experience", hash: "/#experience" },
-  { id: "skills", label: "Skills", hash: "/#skills" },
-  { id: "contact", label: "Contact", hash: "/#contact" },
-  { id: "blog", label: "Blog", hash: "/blog", route: true },
-] as const;
 
 const EXPERIENCE = [
   {
@@ -137,58 +128,10 @@ function ScrollProgress() {
   );
 }
 
-// ── Sidebar in-page nav ──────────────────────────────────────────────────────
-
-function SidebarNav() {
-  const { activeSection, setActiveSection, setTimeOfLastClick } =
-    useActiveSectionContext();
-  return (
-    <nav className="hidden lg:block mt-8" aria-label="In-page jump links">
-      <ul className="flex flex-col items-start gap-px">
-        {SECTIONS.map((s) => {
-          const isRoute = "route" in s && s.route;
-          const isActive = !isRoute && activeSection === s.hash;
-          return (
-            <li key={s.id}>
-              <a
-                href={isRoute ? s.hash : `#${s.id}`}
-                onClick={() => {
-                  if (isRoute) return;
-                  setActiveSection(s.hash);
-                  setTimeOfLastClick(Date.now());
-                }}
-                className="group inline-flex items-center py-1.5"
-              >
-                <span
-                  className={clsx(
-                    "h-px transition-all duration-300 mr-3",
-                    isActive
-                      ? "w-12 bg-gray-900 dark:bg-white"
-                      : "w-6 bg-gray-300 dark:bg-white/30 group-hover:w-9 group-hover:bg-gray-700 dark:group-hover:bg-white/70",
-                  )}
-                />
-                <span
-                  className={clsx(
-                    "text-[13px] font-mono uppercase tracking-[0.2em] transition-colors duration-300",
-                    isActive
-                      ? "text-gray-900 dark:text-white font-semibold"
-                      : "text-gray-500 dark:text-white/55 group-hover:text-gray-800 dark:group-hover:text-white/85",
-                  )}
-                >
-                  {s.label}
-                </span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
-  );
-}
-
 // ── Sidebar ──────────────────────────────────────────────────────────────────
 
 function Sidebar({ resumeUrl }: { resumeUrl: string | null }) {
+  const { activeSection } = useActiveSectionContext();
   return (
     <header className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-between lg:py-14 pt-24 pb-12">
       <div className="flex flex-col items-center text-center">
@@ -261,7 +204,7 @@ function Sidebar({ resumeUrl }: { resumeUrl: string | null }) {
         </motion.div>
 
         <div className="self-stretch">
-          <SidebarNav />
+          <SidebarNav active={activeSection} />
         </div>
       </div>
 

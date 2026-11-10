@@ -44,22 +44,13 @@ describe("Header", () => {
     }
   });
 
-  it.each(["/blog", "/blog/some-note", "/blog/tags/x"])(
-    "marks only Blog active on %s",
+  it.each(["/blog", "/blog/some-note"])(
+    "renders nothing on %s, where the blog column carries the nav",
     (pathname) => {
       usePathname.mockReturnValue(pathname);
-      render(
-        <ActiveSectionContextProvider>
-          <Header links={[...links, { nameEng: "DevLog", hash: "/blog" }]} />
-        </ActiveSectionContextProvider>,
-      );
+      const { container } = renderHeader();
 
-      expect(screen.getByRole("link", { name: "DevLog" })).toHaveClass(
-        "text-gray-900",
-      );
-      expect(screen.getByRole("link", { name: "Home" })).not.toHaveClass(
-        "text-gray-900",
-      );
+      expect(container).toBeEmptyDOMElement();
     },
   );
 });

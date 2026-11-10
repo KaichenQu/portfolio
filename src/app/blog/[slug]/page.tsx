@@ -93,7 +93,7 @@ export default async function NotePage({ params }: Props) {
 
         <div
           id="note-body"
-          className="prose prose-gray mt-8 max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-headings:tracking-[-0.01em] prose-a:text-sky-700 prose-a:decoration-sky-400/40 prose-a:underline-offset-2 hover:prose-a:decoration-sky-500 dark:prose-a:text-sky-300 prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-white/10 prose-img:rounded-lg"
+          className="prose prose-gray mt-8 max-w-none dark:prose-invert prose-headings:scroll-mt-14 prose-headings:tracking-[-0.01em] prose-a:text-sky-700 prose-a:decoration-sky-400/40 prose-a:underline-offset-2 hover:prose-a:decoration-sky-500 dark:prose-a:text-sky-300 prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-white/10 prose-img:rounded-lg"
           dangerouslySetInnerHTML={{ __html: html }}
         />
         {hasMermaid && <Mermaid />}
@@ -101,7 +101,7 @@ export default async function NotePage({ params }: Props) {
 
       {(toc.length > 0 || backlinks.length > 0) && (
         <aside className="mt-12 space-y-8 border-t border-gray-200 pt-8 text-[13px] xl:mt-0 xl:border-t-0 xl:pt-0 dark:border-white/10">
-          <div className="space-y-8 xl:sticky xl:top-24 xl:max-h-[calc(100vh-11rem)] xl:overflow-y-auto scrollbar-hide">
+          <div className="space-y-8 xl:sticky xl:top-14 xl:max-h-[calc(100vh-8.5rem)] xl:overflow-y-auto scrollbar-hide">
             {toc.length > 0 && (
               <nav aria-labelledby="toc-title">
                 <h2
