@@ -45,16 +45,30 @@ function frontmatter(text, file) {
   return fm;
 }
 
-/** `publish:` takes true or false only (any case, optionally quoted); any `false` holds the note back. */
-function unpublished(fm, file) {
-  let held = false;
-  for (const [, value] of fm?.[1].matchAll(/^publish:(.*)$/gm) ?? []) {
-    const v = /^\s*(["']?)(true|false)\1\s*$/i.exec(value);
-    if (!v)
-      throw new Error(`Invalid publish value in ${file}; use true or false`);
-    if (v[2].toLowerCase() === "false") held = true;
-  }
-  return held;
+/**
+ * `publish:` takes true or false only (any case, optionally quoted). Returns
+ * why the note is held back: "false" for any `publish: false`, "review" for a
+ * case (under `Cases/`, or `type: case-*` elsewhere) with no `publish:` line,
+ * because a case's story can be the sensitive part and no pattern sees that.
+ * Null publishes it. `rel` is the path from the vault root.
+ */
+function holdReason(fm, file, rel) {
+  const values = [...(fm?.[1].matchAll(/^publish:(.*)$/gm) ?? [])].map(
+    ([, value]) => {
+      const v = /^\s*(["']?)(true|false)\1\s*$/i.exec(value);
+      if (!v)
+        throw new Error(`Invalid publish value in ${file}; use true or false`);
+      return v[2].toLowerCase();
+    },
+  );
+  if (values.includes("false")) return "false";
+  // The folder catches a missing or misspelt type; quoted or odd-cased types
+  // count too. A false hit only holds a note.
+  const isCase =
+    rel.split(path.sep)[0] === "Cases" ||
+    /^type:\s*["']?case-/im.test(fm?.[1] ?? "");
+  if (!values.length && isCase) return "review";
+  return null;
 }
 
 /**
@@ -213,7 +227,11 @@ export function hideUnpublished(text, held, counts) {
   for (const i of headings) {
     if (lines[i].gone) continue;
     let j = i + 1;
-    while (j < lines.length && !(lines[j].level && lines[j].level <= lines[i].level)) j++;
+    while (
+      j < lines.length &&
+      !(lines[j].level && lines[j].level <= lines[i].level)
+    )
+      j++;
     const section = lines.slice(i, j);
     const items = section.filter((l) => l.item);
     if (items.length === 0 || items.some((l) => !l.gone)) continue;
@@ -366,6 +384,7 @@ export function syncDevlog({
   if (!fs.existsSync(src)) throw new Error(`DevLog vault not found: ${src}`);
   const patterns = loadPatterns(patternsFile);
   const notes = { copied: 0, skipped: 0, removed: 0 };
+  let heldForReview = 0;
   const diagrams = { copied: 0, removed: 0 };
   const stats = {
     patterns,
@@ -390,8 +409,10 @@ export function syncDevlog({
       const text = fs.readFileSync(file, "utf8");
       const fm = frontmatter(text, file);
       const stem = path.basename(name, ".md");
-      if (unpublished(fm, file)) {
+      const reason = holdReason(fm, file, rel);
+      if (reason) {
         notes.skipped++;
+        if (reason === "review") heldForReview++;
         held.add(slugify(stem));
         heldNames.add(stem.toLowerCase()).add(slugify(stem));
       } else sources.push({ rel, file, text, fm, stem });
@@ -461,6 +482,7 @@ export function syncDevlog({
     `notes: ${notes.copied} copied, ${notes.skipped} skipped, ${notes.removed} removed; ` +
       `diagrams: ${diagrams.copied} copied, ${diagrams.removed} removed`,
   );
+  console.log(`held for review: ${heldForReview}`);
   console.log(
     `redacted: ${total()} matches in ${touched.notes} notes and ${touched.diagrams} diagrams ` +
       `(${stats.encoded} entity-encoded in SVGs)`,
@@ -472,6 +494,7 @@ export function syncDevlog({
     console.log(`pattern #${line}: ${n}`);
   return {
     notes,
+    heldForReview,
     diagrams,
     redactions: { ...touched, entityEncoded: stats.encoded, perPattern },
     hidden: stats.hidden,

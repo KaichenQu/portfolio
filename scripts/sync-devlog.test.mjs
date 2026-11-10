@@ -13,6 +13,8 @@ const write = (file, text) => {
 };
 const note = (extra = "", body = "Body.") =>
   `---\ntype: pattern\n${extra}---\n# Note\n\n${body}\n`;
+const caseNote = (extra = "", body = "Body.") =>
+  `---\ntype: case-debug\n${extra}---\n# Case\n\n${body}\n`;
 
 beforeEach(() => {
   tmp = fs.mkdtempSync(path.join(os.tmpdir(), "devlog-sync-"));
@@ -22,7 +24,7 @@ beforeEach(() => {
   write(path.join(src, "Techniques", "kept.md"), note());
   write(
     path.join(src, "Cases", "Debug", "case.md"),
-    note("", "![flow](../../Diagrams/case.flow.svg)"),
+    caseNote("publish: true\n", "![flow](../../Diagrams/case.flow.svg)"),
   );
   write(path.join(src, "Maps", "plain.md"), "# No frontmatter\n");
   write(
@@ -36,7 +38,10 @@ beforeEach(() => {
   write(path.join(src, "Diagrams", "hidden.svg"), "<svg/>");
   write(path.join(src, "Diagrams", "orphan.svg"), "<svg/>");
   write(path.join(src, "Diagrams", "case.flow.drawio"), "<mxfile/>");
-  write(path.join(src, "_meta", "redactions.txt"), "# synthetic\nNOT-IN-ANY-NOTE\n");
+  write(
+    path.join(src, "_meta", "redactions.txt"),
+    "# synthetic\nNOT-IN-ANY-NOTE\n",
+  );
   vi.spyOn(console, "log").mockImplementation(() => {});
 });
 
@@ -64,6 +69,7 @@ describe("syncDevlog", () => {
     expect(tree(diagramsDir)).toEqual(["case.flow.svg"]);
     expect(counts).toEqual({
       notes: { copied: 3, skipped: 1, removed: 0 },
+      heldForReview: 0,
       diagrams: { copied: 1, removed: 0 },
       redactions: {
         notes: 0,
@@ -80,7 +86,10 @@ describe("syncDevlog", () => {
 
   it("prunes a diagram once no published note references it", () => {
     syncDevlog({ src, notesDir, diagramsDir });
-    write(path.join(src, "Cases", "Debug", "case.md"), note());
+    write(
+      path.join(src, "Cases", "Debug", "case.md"),
+      caseNote("publish: true\n"),
+    );
 
     expect(syncDevlog({ src, notesDir, diagramsDir }).diagrams).toEqual({
       copied: 0,
@@ -130,9 +139,7 @@ describe("syncDevlog", () => {
     const patternsFile = path.join(src, "_meta", "redactions.txt");
     expect(() =>
       syncDevlog({ src: empty, notesDir, diagramsDir, patternsFile }),
-    ).toThrow(
-      /No DevLog notes found/,
-    );
+    ).toThrow(/No DevLog notes found/);
     expect(tree(notesDir)).toHaveLength(3);
     expect(tree(diagramsDir)).toEqual(["case.flow.svg"]);
   });
@@ -240,7 +247,9 @@ describe("redaction", () => {
     patterns("fine", entry);
 
     expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(error);
-    expect(() => syncDevlog({ src, notesDir, diagramsDir })).not.toThrow(/secret/);
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).not.toThrow(
+      /secret/,
+    );
     expect(fs.existsSync(notesDir)).toBe(false);
   });
 
@@ -319,7 +328,9 @@ describe("redaction", () => {
 
     const { redactions } = syncDevlog({ src, notesDir, diagramsDir });
 
-    expect(fs.readFileSync(path.join(diagramsDir, "case.flow.svg"), "utf8")).toBe(
+    expect(
+      fs.readFileSync(path.join(diagramsDir, "case.flow.svg"), "utf8"),
+    ).toBe(
       `<svg xmlns="http://www.w3.org/2000/svg" width="10">` +
         `<switch><foreignObject width="5"><div>${S.repeat(12)}</div></foreignObject></switch>` +
         `<switch><g/><text>Viewer does not support full SVG 1.1</text></switch></svg>`,
@@ -337,11 +348,16 @@ describe("redaction", () => {
 
     const { redactions } = syncDevlog({ src, notesDir, diagramsDir });
 
-    expect(fs.readFileSync(path.join(diagramsDir, "case.flow.svg"), "utf8")).toBe(
+    expect(
+      fs.readFileSync(path.join(diagramsDir, "case.flow.svg"), "utf8"),
+    ).toBe(
       `<svg><foreignObject><div>${S.repeat(12)}</div><div>${S.repeat(12)}</div></foreignObject>` +
         `<text>Acme &amp;amp; Co</text></svg>`,
     );
-    expect(redactions).toMatchObject({ entityEncoded: 2, perPattern: { 1: 1, 2: 1 } });
+    expect(redactions).toMatchObject({
+      entityEncoded: 2,
+      perPattern: { 1: 1, 2: 1 },
+    });
   });
 
   it("aborts naming the file and line when a pattern still matches the output", () => {
@@ -365,9 +381,9 @@ describe("redaction", () => {
 
     syncDevlog({ src, notesDir, diagramsDir });
 
-    expect(fs.readFileSync(path.join(diagramsDir, "case.flow.svg"), "utf8")).toBe(
-      `<?xml version="1.0"?><svg width="1"><text>ok</text></svg>`,
-    );
+    expect(
+      fs.readFileSync(path.join(diagramsDir, "case.flow.svg"), "utf8"),
+    ).toBe(`<?xml version="1.0"?><svg width="1"><text>ok</text></svg>`);
   });
 
   it.each([
@@ -388,12 +404,94 @@ describe("redaction", () => {
     write(path.join(src, "Diagrams", "case.flow.html"), "<html/>");
     write(
       keptSrc(),
-      note("", "![a](../Diagrams/case.flow.html) ![b](../Diagrams/case.flow.drawio)"),
+      note(
+        "",
+        "![a](../Diagrams/case.flow.html) ![b](../Diagrams/case.flow.drawio)",
+      ),
     );
 
     syncDevlog({ src, notesDir, diagramsDir });
 
     expect(tree(diagramsDir)).toEqual(["case.flow.svg"]);
+  });
+});
+
+describe("case review gate", () => {
+  const S8 = "▒".repeat(8);
+  const caseFile = (stem) => path.join(src, "Cases", "Design", `${stem}.md`);
+  const map = () => path.join(src, "Maps", "plain.md");
+
+  it("publishes a case only on publish: true and counts the ones with no publish line", () => {
+    write(caseFile("unreviewed"), caseNote());
+    // Filed outside Cases/, so only its type marks it as a case.
+    write(
+      path.join(src, "Techniques", "quoted.md"),
+      `---\ntype: "Case-design"\n---\n# Q\n`,
+    );
+    write(caseFile("approved"), caseNote("publish: true\n"));
+    write(caseFile("declined"), caseNote("publish: false\n"));
+    write(
+      path.join(src, "Glossary", "term.md"),
+      `---\ntype: glossary\n---\n# T\n`,
+    );
+
+    const counts = syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(tree(notesDir)).toEqual([
+      path.join("Cases", "Debug", "case.md"),
+      path.join("Cases", "Design", "approved.md"),
+      path.join("Glossary", "term.md"),
+      path.join("Maps", "plain.md"),
+      path.join("Techniques", "kept.md"),
+    ]);
+    expect(counts.notes).toEqual({ copied: 5, skipped: 4, removed: 0 });
+    expect(counts.heldForReview).toBe(2);
+    expect(console.log).toHaveBeenCalledWith("held for review: 2");
+  });
+
+  it("treats every note under Cases/ as a case, whatever its type says", () => {
+    const debug = (stem) => path.join(src, "Cases", "Debug", `${stem}.md`);
+    write(debug("untyped"), "# No frontmatter\n");
+    write(debug("misspelt"), `---\ntype: case_debug\n---\n# M\n`);
+    write(debug("untyped-ok"), `---\npublish: true\n---\n# U\n`);
+    write(
+      debug("misspelt-ok"),
+      `---\ntype: case_debug\npublish: true\n---\n# M\n`,
+    );
+
+    const counts = syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(tree(path.join(notesDir, "Cases", "Debug"))).toEqual([
+      "case.md",
+      "misspelt-ok.md",
+      "untyped-ok.md",
+    ]);
+    expect(counts.heldForReview).toBe(2);
+  });
+
+  it("hides links to an unreviewed case like links to an unpublished note", () => {
+    write(caseFile("Open Case"), caseNote());
+    write(
+      map(),
+      "# Map\n\n- [[Open Case]] summary\n- [[ETag]]\n\nSee [[open case|alias]].\n",
+    );
+
+    const { hidden } = syncDevlog({ src, notesDir, diagramsDir });
+
+    expect(
+      fs.readFileSync(path.join(notesDir, "Maps", "plain.md"), "utf8"),
+    ).toBe(`# Map\n\n- [[ETag]]\n\nSee ${S8}.\n`);
+    expect(hidden).toEqual({ lines: 1, links: 1, sections: 0 });
+  });
+
+  it("aborts when an output still names an unreviewed case", () => {
+    write(caseFile("Open Case"), caseNote());
+    write(map(), "# Map\n\nsee /blog/open-case here\n");
+
+    expect(() => syncDevlog({ src, notesDir, diagramsDir })).toThrow(
+      `${path.join(notesDir, "Maps", "plain.md")} still names a held-back note`,
+    );
+    expect(fs.existsSync(notesDir)).toBe(false);
   });
 });
 
