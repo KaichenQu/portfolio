@@ -30,7 +30,6 @@ export default function Header({ links }: HeaderProps) {
       >
         <ul className="flex items-center gap-0.5 text-[0.8rem] font-medium text-gray-500">
           {links.map((link) => {
-            const isExternal = /^https?:\/\//.test(link.hash);
             const active = isActiveLink(link.hash, activeSection, pathname);
             const className = clsx(
               "flex items-center justify-center px-3.5 py-1.5 rounded-full hover:text-gray-900 transition-colors duration-150 dark:text-white/40 dark:hover:text-white/80",
@@ -38,34 +37,23 @@ export default function Header({ links }: HeaderProps) {
             );
             return (
               <li className="relative" key={link.hash}>
-                {isExternal ? (
-                  <a
-                    className={className}
-                    href={link.hash}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {link.nameEng}
-                  </a>
-                ) : (
-                  <NextLink
-                    className={className}
-                    href={link.hash}
-                    onClick={() => {
-                      setActiveSection(link.hash);
-                      setTimeOfLastClick(Date.now());
-                    }}
-                  >
-                    {link.nameEng}
-                    {active && (
-                      <motion.span
-                        className="absolute inset-0 rounded-full bg-gray-100 dark:bg-white/[0.08] -z-10"
-                        layoutId="activeSection"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      />
-                    )}
-                  </NextLink>
-                )}
+                <NextLink
+                  className={className}
+                  href={link.hash}
+                  onClick={() => {
+                    setActiveSection(link.hash);
+                    setTimeOfLastClick(Date.now());
+                  }}
+                >
+                  {link.nameEng}
+                  {active && (
+                    <motion.span
+                      className="absolute inset-0 rounded-full bg-gray-100 dark:bg-white/[0.08] -z-10"
+                      layoutId="activeSection"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </NextLink>
               </li>
             );
           })}

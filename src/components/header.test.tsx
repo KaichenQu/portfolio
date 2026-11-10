@@ -10,7 +10,6 @@ vi.mock("next/navigation", () => ({ usePathname: () => usePathname() }));
 const links: Link[] = [
   { nameEng: "Home", hash: "/" },
   { nameEng: "About", hash: "/#about" },
-  { nameEng: "Blog", hash: "https://blog.example.com" },
 ];
 
 const renderHeader = () =>
@@ -43,17 +42,6 @@ describe("Header", () => {
         screen.getByRole("link", { name: link.nameEng }),
       ).toBeInTheDocument();
     }
-  });
-
-  it("opens absolute links in a new tab with rel='noopener noreferrer'", () => {
-    renderHeader();
-
-    const external = screen.getByRole("link", { name: "Blog" });
-    expect(external).toHaveAttribute("target", "_blank");
-    expect(external).toHaveAttribute("rel", "noopener noreferrer");
-
-    const internal = screen.getByRole("link", { name: "About" });
-    expect(internal).not.toHaveAttribute("target");
   });
 
   it.each(["/blog", "/blog/some-note", "/blog/tags/x"])(
