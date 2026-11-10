@@ -37,7 +37,7 @@ export default function BlogIndex() {
               >
                 Cases
               </h2>
-              <ul className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 {cases.map((n) => (
                   <li key={n.slug}>
                     <NoteCard note={n} />
@@ -55,7 +55,7 @@ export default function BlogIndex() {
               >
                 Topic maps
               </h2>
-              <ul className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 {maps.map((m) => (
                   <li key={m.slug}>
                     <NextLink
