@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import ActiveSectionContextProvider from "@/containers/active-section";
 import type { Note } from "@/lib/devlog";
 import BlogLayout from "./layout";
 
@@ -11,24 +12,44 @@ vi.mock("@/lib/devlog", async (importActual) => ({
 vi.mock("next/navigation", () => ({ usePathname: () => "/blog" }));
 
 const renderLayout = () =>
-  render(<BlogLayout>content</BlogLayout>).container.firstElementChild!;
+  render(
+    <ActiveSectionContextProvider>
+      <BlogLayout>content</BlogLayout>
+    </ActiveSectionContextProvider>,
+  ).container.firstElementChild!;
 
 describe("BlogLayout", () => {
-  it("drops the explorer column when there are no notes", () => {
+  it("shows the identity linking home and the site nav with Blog active", () => {
+    getNotes.mockReturnValue([]);
+    renderLayout();
+
+    expect(
+      screen.getByRole("link", { name: /Kelson Qu/ }),
+    ).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: "Blog" })).toHaveAttribute(
+      "aria-current",
+      "true",
+    );
+  });
+
+  it("drops the explorer when there are no notes", () => {
     getNotes.mockReturnValue([]);
 
     const root = renderLayout();
-    expect(root).not.toHaveClass("lg:grid");
-    expect(root.querySelector("aside")).toBeNull();
+    expect(
+      screen.queryByRole("navigation", { name: "DevLog notes" }),
+    ).not.toBeInTheDocument();
+    expect(root.querySelector("hr")).toBeNull();
   });
 
-  it("keeps the explorer column beside the content otherwise", () => {
+  it("puts the explorer under the nav otherwise", () => {
     getNotes.mockReturnValue([
       { slug: "a", title: "A", tags: [], section: "Glossary" },
     ]);
 
-    const root = renderLayout();
-    expect(root).toHaveClass("lg:grid");
-    expect(root.querySelector("aside")).not.toBeNull();
+    renderLayout();
+    expect(
+      screen.getByRole("navigation", { name: "DevLog notes" }),
+    ).toBeInTheDocument();
   });
 });

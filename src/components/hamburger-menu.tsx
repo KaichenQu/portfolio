@@ -16,7 +16,9 @@ function MenuIcon({ isOpen }: { isOpen: boolean }) {
     <div className="w-4 h-3.5 flex flex-col justify-between">
       <motion.span
         className="h-[1.5px] bg-current rounded-full origin-left"
-        animate={isOpen ? { rotate: 45, y: -1, x: 2 } : { rotate: 0, y: 0, x: 0 }}
+        animate={
+          isOpen ? { rotate: 45, y: -1, x: 2 } : { rotate: 0, y: 0, x: 0 }
+        }
         transition={{ duration: 0.22, ease: "easeInOut" }}
       />
       <motion.span
@@ -26,7 +28,9 @@ function MenuIcon({ isOpen }: { isOpen: boolean }) {
       />
       <motion.span
         className="h-[1.5px] bg-current rounded-full origin-left"
-        animate={isOpen ? { rotate: -45, y: 1, x: 2 } : { rotate: 0, y: 0, x: 0 }}
+        animate={
+          isOpen ? { rotate: -45, y: 1, x: 2 } : { rotate: 0, y: 0, x: 0 }
+        }
         transition={{ duration: 0.22, ease: "easeInOut" }}
       />
     </div>
@@ -55,7 +59,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ links }) => {
     <nav
       ref={ref}
       aria-label="Menu"
-      className="md:hidden fixed top-4 right-4 z-[999] flex flex-col items-end gap-2"
+      className="lg:hidden fixed top-4 right-4 z-[999] flex flex-col items-end gap-2"
     >
       {/* Trigger button */}
       <motion.button
@@ -94,7 +98,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ links }) => {
                     "border-b border-gray-100 dark:border-white/[0.05]",
                   isActiveLink(link.hash, activeSection, pathname)
                     ? "text-gray-900 dark:text-white bg-gray-50 dark:bg-white/[0.06]"
-                    : "text-gray-400 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80 hover:bg-gray-50/60 dark:hover:bg-white/[0.03]"
+                    : "text-gray-400 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80 hover:bg-gray-50/60 dark:hover:bg-white/[0.03]",
                 )}
               >
                 {link.nameEng}

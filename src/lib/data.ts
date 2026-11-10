@@ -1,27 +1,16 @@
 import { Link, ProjectInfo } from "./types";
 
+/** The site nav: the home and blog sidebars render it, the menus put `homeLink` in front. */
 export const links: Link[] = [
-  {
-    nameEng: "Home",
-    hash: "/",
-  },
-  {
-    nameEng: "About",
-    hash: "/#about",
-  },
-  {
-    nameEng: "Projects",
-    hash: "/#projects",
-  },
-  {
-    nameEng: "Contact",
-    hash: "/#contact",
-  },
-  {
-    nameEng: "Blog",
-    hash: "/blog",
-  },
+  { nameEng: "About", hash: "/#about" },
+  { nameEng: "Projects", hash: "/#projects" },
+  { nameEng: "Experience", hash: "/#experience" },
+  { nameEng: "Skills", hash: "/#skills" },
+  { nameEng: "Contact", hash: "/#contact" },
+  { nameEng: "Blog", hash: "/blog" },
 ];
+
+export const homeLink: Link = { nameEng: "Home", hash: "/" };
 
 export const projectsData: ProjectInfo[] = [
   {
