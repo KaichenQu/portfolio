@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-10-26
 tags: [debug, backend, infra, auth, python, tradingview]
 status: open
+publish: true
 ---
 # TradingView intraday snapshots stuck in SNAPSHOT_PENDING
 

@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-06-29
 tags: [debug, infra, chezmoi]
 status: solved
+publish: true
 ---
 # decrypt: encryption not configured after adding a chezmoi platform template
 

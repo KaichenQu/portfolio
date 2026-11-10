@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-07-25
 tags: [debug, infra, claude-code]
 status: solved
+publish: true
 ---
 # subagents never spawn on their own, every local config is correct, and the root cause is a stale cached subscription tier
 

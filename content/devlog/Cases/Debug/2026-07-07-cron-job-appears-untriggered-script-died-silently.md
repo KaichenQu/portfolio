@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-07-07
 tags: [debug, infra, shell, cron, macos]
 status: solved
+publish: true
 ---
 # Cron job that looked untriggered, actually a script dying silently
 

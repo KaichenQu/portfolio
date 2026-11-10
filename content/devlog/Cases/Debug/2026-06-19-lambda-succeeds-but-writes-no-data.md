@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-06-19
 tags: [debug, aws, lambda, infra]
 status: solved
+publish: true
 ---
 # Successful driver run, empty DynamoDB, blank plot
 

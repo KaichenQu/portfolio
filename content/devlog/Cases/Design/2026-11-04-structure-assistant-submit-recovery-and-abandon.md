@@ -3,6 +3,7 @@ type: case-design
 date: 2026-11-04
 tags: [design, frontend, backend, idempotency, recovery, frontend-state, workflow, openapi]
 status: wip
+publish: true
 ---
 # Structure assistant submit recovery and abandon
 

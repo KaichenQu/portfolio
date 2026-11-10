@@ -3,6 +3,7 @@ type: case-design
 date: 2026-10-13
 tags: [design, infra, ci, github-actions, orbstack, docker, macos]
 status: solved
+publish: true
 ---
 # Mac mini CI runners in an isolated OrbStack VM
 

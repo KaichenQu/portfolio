@@ -3,6 +3,7 @@ type: case-design
 date: 2026-10-24
 tags: [design, backend, go, retry, third-party-api]
 status: solved
+publish: true
 ---
 # Plaid Item removal: retry after verification
 

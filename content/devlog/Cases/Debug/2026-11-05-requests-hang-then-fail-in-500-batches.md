@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-11-05
 tags: [debug, backend, db, python, fastapi, sqlalchemy, sqlite]
 status: solved
+publish: true
 ---
 # Requests hang, then fail in batches of HTTP 500 every 30 s
 

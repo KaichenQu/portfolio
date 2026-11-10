@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-08-13
 tags: [debug, infra, docker, kimi, lark]
 status: solved
+publish: true
 ---
 # Posting an image to a Feishu group, kimi says "the media directory is off limits to my runtime", and the root cause is my own blanket guard rule
 

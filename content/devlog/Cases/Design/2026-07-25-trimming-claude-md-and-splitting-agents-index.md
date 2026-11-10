@@ -3,6 +3,7 @@ type: case-design
 date: 2026-07-25
 tags: [design, infra, claude-code, context-engineering]
 status: solved
+publish: true
 ---
 # Trimming CLAUDE.md under the new context-engineering rules, and splitting AGENTS.md into entry point and index
 

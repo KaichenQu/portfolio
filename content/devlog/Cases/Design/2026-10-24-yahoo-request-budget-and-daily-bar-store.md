@@ -3,6 +3,7 @@ type: case-design
 date: 2026-10-24
 tags: [design, backend, frontend, cache, redis, rate-limit]
 status: wip
+publish: true
 ---
 # Yahoo request budget and the daily-bar store
 

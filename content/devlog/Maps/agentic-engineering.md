@@ -4,7 +4,7 @@ tags: [moc, claude-code, multi-agent, context-engineering, hooks, mcp, llm]
 ---
 # Agentic engineering
 
-22 notes. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
+23 notes. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
 
 ## Declared config vs config in effect
 
@@ -23,6 +23,7 @@ A guard that is too broad and a guard that silently does nothing fail identicall
 - [[widening-a-hook-matcher-revisits-every-rule]] — widening a matcher changes what every existing rule means
 - [[env-file-protection-patterns-fire-on-non-secret-operations]] — name matching, not access intent
 - [[check-hook-logs-when-an-agent-claims-no-permission]] — read the guard's log, not the agent's paraphrase
+- [[npm-ci-eperm-inside-the-command-sandbox]] — npm blames root-owned files for a sandbox write denial; give it a cache under `$TMPDIR`
 
 ## Context engineering
 

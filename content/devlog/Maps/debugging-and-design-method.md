@@ -4,7 +4,7 @@ tags: [moc, debug, design, method]
 ---
 # Debugging and design method
 
-21 notes. The reusable procedure notes that no single incident owns; the case-specific maps
+22 notes. The reusable procedure notes that no single incident owns; the case-specific maps
 link to the cases, this one links to the method.
 
 ## Narrowing the search space
@@ -32,6 +32,7 @@ link to the cases, this one links to the method.
 - [[yagni-and-designing-for-present-requirements]] — build for the requirement in front of you
 - [[2026-10-15-structure-run-parallelism-capacity]] — pool capacity stored on first use made a change of N raise `EXECUTION_RESOURCE_CONFIG_CHANGED`; a `set-capacity` CLI that refuses while permits are held, plus a `runs_ahead` that counts N slots
 - [[2026-10-24-yahoo-request-budget-and-daily-bar-store]] — quote-source calls cut from ~21,600 to ~1,250 a day by slot batching, a 180-symbol Redis daily-bar library and a public cache-key convention
+- [[2026-11-09-publishing-a-private-notebook-with-redaction-at-sync]] — redaction at the copy step, merged-range masking, a backstop over ten views of the output, and a split between term-level and narrative sensitivity
 
 ## Recoverable multi-step workflows
 

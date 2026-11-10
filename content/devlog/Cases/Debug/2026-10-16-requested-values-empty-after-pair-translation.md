@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-10-16
 tags: [debug, frontend, backend, protocol, cad, regression]
 status: solved
+publish: true
 ---
 # Requested values empty after a pair translation
 

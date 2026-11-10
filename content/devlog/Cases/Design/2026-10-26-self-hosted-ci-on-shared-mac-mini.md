@@ -3,6 +3,7 @@ type: case-design
 date: 2026-10-26
 tags: [design, infra, ci, github-actions, self-hosted-runner, orbstack, playwright]
 status: wip
+publish: true
 ---
 # Moving a locked GitHub Actions pipeline onto a shared Mac mini
 

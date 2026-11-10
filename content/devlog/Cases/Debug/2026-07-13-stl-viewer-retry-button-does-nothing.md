@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-07-13
 tags: [debug, frontend, react, three]
 status: solved
+publish: true
 ---
 # The STL viewer's retry button does nothing when you click it
 

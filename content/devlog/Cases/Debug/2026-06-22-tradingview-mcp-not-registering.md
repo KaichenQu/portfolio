@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-06-22
 tags: [debug, mcp, claude-code]
 status: solved
+publish: true
 ---
 # tradingview MCP server configured but absent from /mcp
 

@@ -3,6 +3,7 @@ type: case-design
 date: 2026-10-15
 tags: [design, backend, concurrency, admission, cli, ops]
 status: solved
+publish: true
 ---
 # Structure Run parallelism and pool capacity
 

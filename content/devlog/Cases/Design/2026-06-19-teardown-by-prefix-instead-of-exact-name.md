@@ -3,6 +3,7 @@ type: case-design
 date: 2026-06-19
 tags: [design, aws, infra]
 status: solved
+publish: true
 ---
 # Teardown: deleting by prefix instead of by exact name
 

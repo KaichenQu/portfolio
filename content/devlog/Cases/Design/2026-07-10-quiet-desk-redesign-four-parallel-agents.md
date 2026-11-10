@@ -3,6 +3,7 @@ type: case-design
 date: 2026-07-10
 tags: [design, frontend, react, css, multi-agent]
 status: solved
+publish: true
 ---
 # PriceAction-AB "Quiet Desk" site-wide redesign: four parallel agents and where it broke
 

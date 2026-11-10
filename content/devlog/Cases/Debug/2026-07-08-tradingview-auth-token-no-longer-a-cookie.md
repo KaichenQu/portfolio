@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-07-08
 tags: [debug, infra, auth]
 status: open
+publish: true
 ---
 # TradingView's auth_token can no longer be extracted: the tool isn't broken, it stopped being a cookie
 

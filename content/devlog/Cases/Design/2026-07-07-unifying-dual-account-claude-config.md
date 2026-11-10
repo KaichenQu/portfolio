@@ -3,6 +3,7 @@ type: case-design
 date: 2026-07-07
 tags: [design, infra, claude-code, chezmoi, security]
 status: solved
+publish: true
 ---
 # Unifying two Claude accounts' config and clearing out dead hooks
 

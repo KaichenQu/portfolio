@@ -3,6 +3,7 @@ type: case-debug
 date: 2026-06-25
 tags: [debug, infra, llm, newapi]
 status: solved
+publish: true
 ---
 # Models listed but not usable on a newapi proxy
 

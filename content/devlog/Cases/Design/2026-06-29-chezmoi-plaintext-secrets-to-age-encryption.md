@@ -3,6 +3,7 @@ type: case-design
 date: 2026-06-29
 tags: [design, infra, chezmoi, git, security]
 status: solved
+publish: true
 ---
 # Moving plaintext API keys in the chezmoi repo to age encryption
 
