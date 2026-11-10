@@ -1,3 +1,4 @@
+import Image from "next/image";
 import NextLink from "next/link";
 import clsx from "clsx";
 import type { Note } from "@/lib/devlog";
@@ -43,7 +44,46 @@ export function TagList({ tags }: { tags: string[] }) {
   );
 }
 
-/** One row per note: title, then section, date and status. */
+/** Section, date and status, as one wrapping row. */
+export function NoteMeta({
+  note,
+  className,
+}: {
+  note: Note;
+  className?: string;
+}) {
+  return (
+    <span
+      className={clsx(
+        className,
+        "flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-gray-500 dark:text-white/45",
+      )}
+    >
+      <span className="font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400">
+        {note.section}
+      </span>
+      {note.date && (
+        <time dateTime={note.date} className="font-mono">
+          {note.date}
+        </time>
+      )}
+      <StatusBadge status={note.status} />
+    </span>
+  );
+}
+
+function RowText({ note }: { note: Note }) {
+  return (
+    <>
+      <span className="block font-medium leading-snug text-gray-900 dark:text-white/90">
+        {mosaic(note.title)}
+      </span>
+      <NoteMeta note={note} className="mt-1" />
+    </>
+  );
+}
+
+/** One row per note: title, then section, date and status; its cover on the right from `sm`. */
 export function NoteList({ notes }: { notes: Note[] }) {
   return (
     <ul className="divide-y divide-gray-200/70 overflow-hidden rounded-xl border border-gray-200 bg-white/70 dark:divide-white/[0.06] dark:border-white/10 dark:bg-white/[0.03]">
@@ -51,22 +91,28 @@ export function NoteList({ notes }: { notes: Note[] }) {
         <li key={n.slug}>
           <NextLink
             href={`/blog/${n.slug}`}
-            className="block px-4 py-3 transition-colors hover:bg-gray-50 dark:hover:bg-white/[0.04]"
+            className={clsx(
+              "px-4 py-3 transition-colors hover:bg-gray-50 dark:hover:bg-white/[0.04]",
+              n.cover ? "flex items-center gap-4" : "block",
+            )}
           >
-            <span className="block font-medium leading-snug text-gray-900 dark:text-white/90">
-              {mosaic(n.title)}
-            </span>
-            <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-gray-500 dark:text-white/45">
-              <span className="font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400">
-                {n.section}
-              </span>
-              {n.date && (
-                <time dateTime={n.date} className="font-mono">
-                  {n.date}
-                </time>
-              )}
-              <StatusBadge status={n.status} />
-            </span>
+            {n.cover ? (
+              <>
+                <span className="block min-w-0 flex-1">
+                  <RowText note={n} />
+                </span>
+                <Image
+                  src={n.cover.src}
+                  alt=""
+                  width={n.cover.width}
+                  height={n.cover.height}
+                  unoptimized
+                  className="hidden h-14 w-24 shrink-0 rounded-md border border-gray-200 bg-white object-contain p-1 sm:block dark:border-white/15"
+                />
+              </>
+            ) : (
+              <RowText note={n} />
+            )}
           </NextLink>
         </li>
       ))}
