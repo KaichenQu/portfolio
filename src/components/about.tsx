@@ -78,7 +78,7 @@ export default function About() {
                     <span className="font-semibold text-blue-600 dark:text-blue-400">
                       Evenness Inc.
                     </span>
-                    , building backend systems focused on distributed architecture and high performance.
+                    , building full-stack and AI systems: LLM agents, distributed services and the web apps on top of them.
                   </motion.p>
                 </div>
 
@@ -107,7 +107,11 @@ export default function About() {
                     <span className="font-semibold text-purple-600 dark:text-purple-400">
                       TypeScript
                     </span>
-                    {" "}(React, Next.js) · Go · Python. Details in Skill Map below.
+                    {" "}(React, Next.js) ·{" "}
+                    <span className="font-semibold text-purple-600 dark:text-purple-400">
+                      Python
+                    </span>
+                    {" "}(FastAPI, LLM agents) · Go. Details in Skill Map below.
                   </motion.p>
                 </div>
               </div>

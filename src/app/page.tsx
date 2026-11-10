@@ -46,14 +46,24 @@ const SECTIONS = [
 
 const EXPERIENCE = [
   {
+    period: "Jan 2025 — Present",
+    role: "Research Assistant",
+    company: "Northeastern MIG Lab",
+    href: "https://www.northeastern.edu/",
+    location: "San Jose, CA",
+    description:
+      "Built HuskySQL, a natural-language Text-to-SQL system on the BIRD benchmark with a divide-and-conquer chain-of-thought LLM pipeline, raising accuracy from 48% to 57%. Engineered a PyTorch training and evaluation pipeline for 7 MRI segmentation models.",
+    tags: ["Python", "LLM", "Text-to-SQL", "PyTorch"],
+  },
+  {
     period: "Jul — Dec 2025",
     role: "Backend Engineer Intern",
     company: "Evenness Inc.",
     href: "https://www.evenness.rocks/",
     location: "Cupertino, CA",
     description:
-      "Designed and shipped backend services for an early-stage product team, focusing on distributed systems, performance, and reliable infrastructure.",
-    tags: ["Java", "Spring Boot", "Distributed Systems", "Redis", "MySQL"],
+      "Built an LLM-assisted WCAG 2.2 compliance scanner in Python and FastAPI, multi-tenant auth in TypeScript and Express, and CI/CD with OpenTelemetry tracing on GCP.",
+    tags: ["Python", "FastAPI", "TypeScript", "LLM", "GCP"],
   },
   {
     period: "Jul 2022 — May 2023",
@@ -232,7 +242,7 @@ function Sidebar({ resumeUrl }: { resumeUrl: string | null }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.12 }}
         >
-          Full-Stack Developer
+          Full-Stack &amp; AI Engineer
         </motion.p>
 
         {/* Tagline */}
@@ -242,7 +252,7 @@ function Sidebar({ resumeUrl }: { resumeUrl: string | null }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.18 }}
         >
-          Building backend systems and scalable apps. M.S. CS @ Northeastern.
+          Building full-stack apps and AI agent systems. M.S. CS @ Northeastern.
         </motion.p>
 
         {/* Status badge */}
@@ -396,9 +406,9 @@ function Section({
 
 function AboutSection({ resumeUrl }: { resumeUrl: string | null }) {
   const focuses = [
+    "Full-Stack Engineering",
+    "AI Agents",
     "Distributed Systems",
-    "Backend Engineering",
-    "Full-Stack APP",
     "Cloud DEV",
   ];
   const [resumeOpen, setResumeOpen] = useState(false);
@@ -434,7 +444,7 @@ function AboutSection({ resumeUrl }: { resumeUrl: string | null }) {
       >
         I build{" "}
         <span className="relative inline-block text-gray-900 dark:text-white font-semibold">
-          backend systems
+          full-stack apps
           <motion.span
             aria-hidden
             className="absolute left-0 right-0 bottom-0 h-[2px] bg-sky-500/70 dark:bg-sky-400/70 origin-left"
@@ -450,7 +460,7 @@ function AboutSection({ resumeUrl }: { resumeUrl: string | null }) {
         </span>{" "}
         and{" "}
         <span className="relative inline-block text-gray-900 dark:text-white font-semibold">
-          full-stack apps
+          AI agent systems
           <motion.span
             aria-hidden
             className="absolute left-0 right-0 bottom-0 h-[2px] bg-sky-500/70 dark:bg-sky-400/70 origin-left"

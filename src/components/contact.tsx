@@ -179,7 +179,7 @@ export default function Contact() {
               View My Resume
             </p>
             <p className="text-[11px] text-gray-500 dark:text-white/40 mt-0.5">
-              Backend · Full-Stack · Distributed Systems
+              Full-Stack · AI Agents · Distributed Systems
             </p>
           </div>
           <ArrowUpRight className="h-4 w-4 text-gray-400 dark:text-white/40 group-hover:text-sky-500 dark:group-hover:text-sky-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />

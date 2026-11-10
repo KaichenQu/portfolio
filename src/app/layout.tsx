@@ -7,6 +7,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { ShootingStars } from "@/components/ui/shooting-stars";
 import { StarsBackground } from "@/components/ui/stars-background";
+import { siteJsonLd, SITE_URL } from "@/lib/seo";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -23,33 +24,30 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kelson Qu | Full-Stack Developer",
+  title: {
+    default: "Kelson Qu | Full-Stack & AI Engineer",
+    template: "%s | Kelson Qu",
+  },
   description:
-    "Kelson Qu is a Full-Stack Developer and CS graduate student at Northeastern University, specializing in Java, Go, TypeScript, and distributed systems.",
-  metadataBase: new URL("https://www.kelsonqu.com"),
+    "Kelson Qu is a full-stack and AI engineer (M.S. CS, Northeastern) building LLM agent systems and production web apps in Java, Python, TypeScript and Go.",
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
+  authors: [{ name: "Kelson Qu", url: SITE_URL }],
+  creator: "Kelson Qu",
   openGraph: {
-    title: "Kelson Qu | Full-Stack Developer",
+    title: "Kelson Qu | Full-Stack & AI Engineer",
     description:
-      "Full-Stack Developer specializing in Java, Go, TypeScript, and distributed systems.",
-    url: "https://www.kelsonqu.com",
+      "Full-stack and AI engineer building LLM agent systems and production web apps.",
+    url: SITE_URL,
     siteName: "Kelson Qu Portfolio",
-    images: [
-      {
-        url: "/Kelson.Q-black.jpg",
-        width: 800,
-        height: 600,
-        alt: "Kelson Qu",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kelson Qu | Full-Stack Developer",
+    title: "Kelson Qu | Full-Stack & AI Engineer",
     description:
-      "Full-Stack Developer specializing in Java, Go, TypeScript, and distributed systems.",
-    images: ["/Kelson.Q-black.jpg"],
+      "Full-stack and AI engineer building LLM agent systems and production web apps.",
   },
 };
 
@@ -60,6 +58,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
+      </head>
       <body
         className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen flex flex-col bg-gray-50 text-gray-950 relative dark:bg-gray-900 dark:text-gray-100 dark:text-opacity-90`}
       >

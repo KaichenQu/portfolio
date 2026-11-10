@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Loading from "@/components/ui/Loading";
 
@@ -47,6 +48,13 @@ function UnderConstruction() {
   );
 }
 // ─────────────────────────────────────────────────────────────────────────────
+
+export const metadata: Metadata = {
+  title: "Showcase",
+  description:
+    "Selected full-stack and AI projects built by Kelson Qu.",
+  alternates: { canonical: "/showcase" },
+};
 
 export default function ProjectsPage() {
   return (

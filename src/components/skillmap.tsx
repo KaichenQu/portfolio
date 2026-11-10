@@ -35,7 +35,21 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    label: "Backend & Frameworks",
+    label: "AI & Agents",
+    caption: "LLM systems in production",
+    skills: [
+      { name: "Claude Agent SDK", level: "strong" },
+      { name: "Pydantic AI", level: "strong" },
+      { name: "LangGraph", level: "strong" },
+      { name: "MCP", level: "strong" },
+      { name: "Spring AI", level: "proficient" },
+      { name: "PyTorch", level: "proficient" },
+      { name: "vLLM", level: "proficient" },
+      { name: "Langfuse", level: "proficient" },
+    ],
+  },
+  {
+    label: "Full-Stack & Frameworks",
     caption: "Where I spend most of my time",
     skills: [
       { name: "Spring Boot", icon: "/skills-icons/Spring-Dark.svg", level: "core" },
