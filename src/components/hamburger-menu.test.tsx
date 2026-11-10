@@ -1,12 +1,20 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import ActiveSectionContextProvider from "@/containers/active-section";
 import type { Link } from "@/lib/types";
 import HamburgerMenu from "./hamburger-menu";
 
+const usePathname = vi.fn();
+vi.mock("next/navigation", () => ({ usePathname: () => usePathname() }));
+
+beforeEach(() => {
+  usePathname.mockReturnValue("/about");
+});
+
 const links: Link[] = [
   { nameEng: "About", hash: "/#about" },
   { nameEng: "Projects", hash: "/#projects" },
+  { nameEng: "Blog", hash: "/blog" },
 ];
 
 const renderMenu = () =>
@@ -42,6 +50,20 @@ describe("HamburgerMenu", () => {
     }
   });
 
+  it("marks Blog active on a note page", async () => {
+    usePathname.mockReturnValue("/blog/some-note");
+    renderMenu();
+
+    await act(async () => void fireEvent.click(trigger()));
+
+    expect(screen.getByRole("link", { name: "Blog" })).toHaveClass(
+      "text-gray-900",
+    );
+    expect(screen.getByRole("link", { name: "About" })).not.toHaveClass(
+      "text-gray-900",
+    );
+  });
+
   it("closes again when the trigger is clicked twice", async () => {
     renderMenu();
 
@@ -55,7 +77,10 @@ describe("HamburgerMenu", () => {
     renderMenu();
 
     await act(async () => void fireEvent.click(trigger()));
-    await act(async () => void fireEvent.click(screen.getByRole("link", { name: "About" })));
+    await act(
+      async () =>
+        void fireEvent.click(screen.getByRole("link", { name: "About" })),
+    );
 
     expect(trigger()).toHaveAttribute("aria-expanded", "false");
   });
@@ -75,7 +100,9 @@ describe("HamburgerMenu", () => {
     renderMenu();
 
     await act(async () => void fireEvent.click(trigger()));
-    await act(async () => void fireEvent.mouseDown(screen.getByRole("navigation")));
+    await act(
+      async () => void fireEvent.mouseDown(screen.getByRole("navigation")),
+    );
 
     expect(trigger()).toHaveAttribute("aria-expanded", "true");
   });

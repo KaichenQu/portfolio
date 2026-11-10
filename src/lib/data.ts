@@ -19,7 +19,7 @@ export const links: Link[] = [
   },
   {
     nameEng: "Blog",
-    hash: "https://blog.kelsonqu.com",
+    hash: "/blog",
   },
 ];
 

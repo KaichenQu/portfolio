@@ -38,9 +38,15 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## DevLog
+
+`/blog` is built at compile time from Markdown notes in `content/devlog/` and SVG diagrams in `public/blog/diagrams/`. Both are filled by `npm run devlog:sync`, which mirrors an Obsidian vault (`DEVLOG_DIR`, default `~/Obsidian/DevLog`) and skips notes marked `publish: false`. Both folders are gitignored; with them empty the page shows `No notes yet.`
+
+The reading layout (explorer, table of contents, backlinks, tag pages) follows [Quartz 4](https://github.com/jackyzha0/quartz) by jackyzha0, MIT License. No Quartz code is included.
+
 ## Contact
 
 - GitHub: [KaichenQu](https://github.com/KaichenQu)
 - LinkedIn: [kelsonqu](https://www.linkedin.com/in/kelsonqu/)
 - Email: kelsonqu@gmail.com
-- Blog: [blog.kelsonqu.com](https://blog.kelsonqu.com)
+- Blog: [kelsonqu.com/blog](https://www.kelsonqu.com/blog)

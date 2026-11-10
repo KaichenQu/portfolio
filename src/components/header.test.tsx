@@ -10,7 +10,6 @@ vi.mock("next/navigation", () => ({ usePathname: () => usePathname() }));
 const links: Link[] = [
   { nameEng: "Home", hash: "/" },
   { nameEng: "About", hash: "/#about" },
-  { nameEng: "Blog", hash: "https://blog.example.com" },
 ];
 
 const renderHeader = () =>
@@ -35,20 +34,32 @@ describe("Header", () => {
   it("renders one navigation entry per link elsewhere", () => {
     renderHeader();
 
-    expect(screen.getByRole("navigation", { name: "Main" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("navigation", { name: "Main" }),
+    ).toBeInTheDocument();
     for (const link of links) {
-      expect(screen.getByRole("link", { name: link.nameEng })).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: link.nameEng }),
+      ).toBeInTheDocument();
     }
   });
 
-  it("opens absolute links in a new tab with rel='noopener noreferrer'", () => {
-    renderHeader();
+  it.each(["/blog", "/blog/some-note", "/blog/tags/x"])(
+    "marks only Blog active on %s",
+    (pathname) => {
+      usePathname.mockReturnValue(pathname);
+      render(
+        <ActiveSectionContextProvider>
+          <Header links={[...links, { nameEng: "DevLog", hash: "/blog" }]} />
+        </ActiveSectionContextProvider>,
+      );
 
-    const external = screen.getByRole("link", { name: "Blog" });
-    expect(external).toHaveAttribute("target", "_blank");
-    expect(external).toHaveAttribute("rel", "noopener noreferrer");
-
-    const internal = screen.getByRole("link", { name: "About" });
-    expect(internal).not.toHaveAttribute("target");
-  });
+      expect(screen.getByRole("link", { name: "DevLog" })).toHaveClass(
+        "text-gray-900",
+      );
+      expect(screen.getByRole("link", { name: "Home" })).not.toHaveClass(
+        "text-gray-900",
+      );
+    },
+  );
 });

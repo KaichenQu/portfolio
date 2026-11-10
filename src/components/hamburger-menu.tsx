@@ -3,8 +3,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/lib/types";
+import { isActiveLink } from "@/lib/utils";
 import clsx from "clsx";
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 import { useActiveSectionContext } from "@/containers/active-section";
 
 type HamburgerMenuProps = { links: Link[] };
@@ -34,6 +36,7 @@ function MenuIcon({ isOpen }: { isOpen: boolean }) {
 const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ links }) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLElement>(null);
+  const pathname = usePathname();
   const { activeSection, setActiveSection, setTimeOfLastClick } =
     useActiveSectionContext();
 
@@ -89,13 +92,13 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ links }) => {
                   "flex items-center justify-between px-4 py-2.5 text-[0.82rem] font-medium transition-colors",
                   index < links.length - 1 &&
                     "border-b border-gray-100 dark:border-white/[0.05]",
-                  activeSection === link.hash
+                  isActiveLink(link.hash, activeSection, pathname)
                     ? "text-gray-900 dark:text-white bg-gray-50 dark:bg-white/[0.06]"
                     : "text-gray-400 dark:text-white/40 hover:text-gray-900 dark:hover:text-white/80 hover:bg-gray-50/60 dark:hover:bg-white/[0.03]"
                 )}
               >
                 {link.nameEng}
-                {activeSection === link.hash && (
+                {isActiveLink(link.hash, activeSection, pathname) && (
                   <span className="w-1.5 h-1.5 rounded-full bg-gray-700 dark:bg-white/50 flex-shrink-0" />
                 )}
               </NextLink>
