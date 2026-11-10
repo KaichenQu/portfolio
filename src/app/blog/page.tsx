@@ -1,7 +1,6 @@
 import NextLink from "next/link";
-import { FigureGrid } from "@/components/blog/figure-grid";
 import { mosaic } from "@/components/blog/mosaic";
-import { NoteList } from "@/components/blog/note-list";
+import { CARD_SHELL, NoteCard } from "@/components/blog/note-card";
 import { getNotes } from "@/lib/devlog";
 import { pageMetadata } from "@/lib/seo";
 
@@ -22,7 +21,7 @@ export default function BlogIndex() {
       <h1 className="text-[2.25rem] font-bold tracking-[-0.02em] text-gray-950 dark:text-white">
         DevLog
       </h1>
-      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-gray-600 dark:text-white/65">
+      <p className="mt-3 max-w-[60ch] text-[16px] leading-[1.65] text-gray-600 dark:text-white/65">
         {DESCRIPTION}
       </p>
 
@@ -30,17 +29,21 @@ export default function BlogIndex() {
         <p className="mt-10 text-gray-500 dark:text-white/50">No notes yet.</p>
       ) : (
         <>
-          {notes.some((n) => n.cover) && (
-            <section className="mt-10" aria-labelledby="figures">
+          {cases.length > 0 && (
+            <section className="mt-10" aria-labelledby="cases">
               <h2
-                id="figures"
-                className="font-mono text-[12px] uppercase tracking-[0.18em] text-sky-600 dark:text-sky-400"
+                id="cases"
+                className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-sky-600 dark:text-sky-400"
               >
-                Figures
+                Cases
               </h2>
-              <div className="mt-3">
-                <FigureGrid notes={notes} />
-              </div>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {cases.map((n) => (
+                  <li key={n.slug}>
+                    <NoteCard note={n} />
+                  </li>
+                ))}
+              </ul>
             </section>
           )}
 
@@ -48,41 +51,27 @@ export default function BlogIndex() {
             <section className="mt-10" aria-labelledby="maps">
               <h2
                 id="maps"
-                className="font-mono text-[12px] uppercase tracking-[0.18em] text-sky-600 dark:text-sky-400"
+                className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-sky-600 dark:text-sky-400"
               >
                 Topic maps
               </h2>
-              <ul className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 {maps.map((m) => (
                   <li key={m.slug}>
                     <NextLink
                       href={`/blog/${m.slug}`}
-                      className="flex h-full flex-col rounded-xl border border-gray-200 bg-white/80 p-4 transition-colors hover:border-sky-400/60 dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-sky-400/40"
+                      className={`${CARD_SHELL} p-4`}
                     >
-                      <span className="font-semibold text-gray-900 dark:text-white/90">
+                      <span className="text-[15px] font-semibold leading-[1.4] text-gray-900 dark:text-white">
                         {mosaic(m.title)}
                       </span>
-                      <span className="mt-1 font-mono text-[12px] text-gray-500 dark:text-white/45">
+                      <span className="mt-1.5 font-mono text-[12px] leading-none text-gray-500 dark:text-white/45">
                         {m.links.length} notes
                       </span>
                     </NextLink>
                   </li>
                 ))}
               </ul>
-            </section>
-          )}
-
-          {cases.length > 0 && (
-            <section className="mt-10" aria-labelledby="cases">
-              <h2
-                id="cases"
-                className="font-mono text-[12px] uppercase tracking-[0.18em] text-sky-600 dark:text-sky-400"
-              >
-                Cases
-              </h2>
-              <div className="mt-3">
-                <NoteList notes={cases} />
-              </div>
             </section>
           )}
         </>

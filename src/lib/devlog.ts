@@ -25,6 +25,8 @@ export const DIAGRAMS_DIR = path.join(
   "blog",
   "diagrams",
 );
+/** One generated illustration per note, `<slug>.webp` at 1200 x 800. */
+export const COVERS_DIR = path.join(process.cwd(), "public", "blog", "covers");
 
 // Explorer order; the key is the note's folder relative to the content root.
 export const SECTIONS = [
@@ -48,13 +50,21 @@ export type Note = {
   tags: string[];
   status?: string;
   description: string;
+  /** The first paragraph's first highlight, else its first sentence, as plain text. */
+  summary: string;
   readingMinutes: number;
   /** Resolved slugs of the notes this one links to, deduplicated. */
   links: string[];
   /** Markdown body with frontmatter and the title heading removed. */
   body: string;
-  /** The first body image that is a synced diagram on disk. */
-  cover?: { src: string; alt: string; width: number; height: number };
+  /** The note's illustration when one is on disk, else its first synced diagram. */
+  cover?: {
+    kind: "art" | "diagram";
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
 };
 
 export type TocEntry = { depth: 2 | 3; id: string; text: string };
@@ -102,10 +112,30 @@ export function parseFrontmatter(
 
 const WIKILINK = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
 
-function plain(node: unknown): string {
-  const n = node as { value?: string; children?: unknown[] };
-  if (typeof n.value === "string") return n.value;
-  return (n.children ?? []).map(plain).join("");
+// A private-use character stands in for `=` inside inline code, so `a == b`
+// never reads as a highlight marker; built from its code point so it stays visible here.
+const CODE_EQ = String.fromCharCode(0xe000);
+
+function plain(node: unknown, guardCode = false): string {
+  const n = node as { type?: string; value?: string; children?: unknown[] };
+  if (typeof n.value === "string")
+    return guardCode && n.type === "inlineCode"
+      ? n.value.replace(/=/g, CODE_EQ)
+      : n.value;
+  return (n.children ?? []).map((c) => plain(c, guardCode)).join("");
+}
+
+const HIGHLIGHT = /==(\S(?:.*?\S)?)==/;
+// A sentence ends at . ! ? before a space or the end, or at a CJK full stop.
+const SENTENCE = /^.+?(?:[.!?](?=\s|$)|[。！？])/;
+
+/** The first highlight (the notebook marks its conclusion that way), else the first sentence. */
+function summarize(para: string): string {
+  const text = HIGHLIGHT.exec(para)?.[1] ?? SENTENCE.exec(para)?.[0] ?? para;
+  return truncate(
+    text.replace(/==/g, "").replace(new RegExp(CODE_EQ, "g"), "=").trim(),
+    180,
+  );
 }
 
 const parser = unified().use(remarkParse).use(remarkGfm);
@@ -143,6 +173,7 @@ function readNote(
   rel: string,
   section: Section,
   diagrams: string,
+  covers: string,
 ): Note {
   const { data, content } = parseFrontmatter(
     fs.readFileSync(file, "utf8"),
@@ -165,16 +196,30 @@ function readNote(
     tree.children.splice(h1, 1);
   }
   const firstPara = tree.children.find((n) => n.type === "paragraph");
-  // Wikilinks stay in until getNotes knows every title; it finishes the description.
+  // Wikilinks stay in until getNotes knows every title; it finishes the description and summary.
   const description = firstPara
     ? plain(firstPara).replace(/==/g, "").replace(/\s+/g, " ").trim()
     : "";
+  const summary = firstPara
+    ? plain(firstPara, true).replace(/\s+/g, " ").trim()
+    : "";
+  const slug = slugify(stem);
   const targets = new Set<string>();
   visit(tree, "text", (t) => {
     for (const m of t.value.matchAll(WIKILINK)) targets.add(slugify(m[1]));
   });
-  let cover: Note["cover"];
+  // The card's title already names the note, so the illustration carries no alt text.
+  let cover: Note["cover"] = fs.existsSync(path.join(covers, `${slug}.webp`))
+    ? {
+        kind: "art",
+        src: `/blog/covers/${slug}.webp`,
+        alt: "",
+        width: 1200,
+        height: 800,
+      }
+    : undefined;
   visit(tree, "image", (img) => {
+    if (cover) return EXIT;
     const src = diagramUrl(img.url);
     if (!src) return;
     const svg = path.join(diagrams, path.basename(src));
@@ -182,7 +227,7 @@ function readNote(
       ? svgSize(fs.readFileSync(svg, "utf8"))
       : undefined;
     if (!size) return;
-    cover = { src, alt: img.alt ?? "", ...size };
+    cover = { kind: "diagram", src, alt: img.alt ?? "", ...size };
     return EXIT;
   });
   const words = body.split(/\s+/).filter(Boolean).length;
@@ -190,7 +235,7 @@ function readNote(
     typeof data[k] === "string" ? (data[k] as string) : undefined;
   const tags = data.tags;
   return {
-    slug: slugify(stem),
+    slug,
     title,
     section,
     type: str("type"),
@@ -198,6 +243,7 @@ function readNote(
     tags: Array.isArray(tags) ? tags : tags ? [tags] : [],
     status: str("status") || undefined,
     description,
+    summary,
     readingMinutes: Math.max(1, Math.ceil(words / 200)),
     links: [...targets],
     body,
@@ -220,8 +266,9 @@ const cache = new Map<string, Note[]>();
 export function getNotes(
   dir: string = DEVLOG_DIR,
   diagrams: string = DIAGRAMS_DIR,
+  covers: string = COVERS_DIR,
 ): Note[] {
-  const key = `${dir}\n${diagrams}`;
+  const key = `${dir}\n${diagrams}\n${covers}`;
   const hit = cache.get(key);
   if (hit) return hit;
   const notes: Note[] = [];
@@ -231,7 +278,13 @@ export function getNotes(
     for (const name of fs.readdirSync(abs).sort()) {
       if (!name.endsWith(".md")) continue;
       notes.push(
-        readNote(path.join(abs, name), `${folder}/${name}`, section, diagrams),
+        readNote(
+          path.join(abs, name),
+          `${folder}/${name}`,
+          section,
+          diagrams,
+          covers,
+        ),
       );
     }
   }
@@ -241,15 +294,15 @@ export function getNotes(
     seen.set(n.slug, n);
   }
   const titles = new Map(notes.map((n) => [n.slug, n.title]));
+  const resolve = (s: string) =>
+    s.replace(WIKILINK, (_, t: string, a?: string) =>
+      wikilinkLabel(t, a, titles),
+    );
   for (const n of notes) {
     // Keep only links that resolve, so the graph and the counts agree.
     n.links = n.links.filter((s) => seen.has(s) && s !== n.slug);
-    n.description = truncate(
-      n.description.replace(WIKILINK, (_, t: string, a?: string) =>
-        wikilinkLabel(t, a, titles),
-      ),
-      160,
-    );
+    n.description = truncate(resolve(n.description), 160);
+    n.summary = summarize(resolve(n.summary));
   }
   notes.sort(
     (a, b) =>

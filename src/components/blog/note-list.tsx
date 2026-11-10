@@ -26,6 +26,41 @@ export function StatusBadge({ status }: { status?: string }) {
   );
 }
 
+const DOT: Record<string, string> = {
+  solved: "bg-green-500",
+  wip: "bg-sky-500",
+  open: "bg-amber-500",
+};
+
+/** The status as a coloured dot and its word, sized to sit inside a line of meta text. */
+export function StatusDot({
+  status,
+  className,
+}: {
+  status?: string;
+  className?: string;
+}) {
+  if (!status) return null;
+  return (
+    <span
+      data-status={status}
+      className={clsx(
+        className,
+        "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap",
+      )}
+    >
+      <span
+        aria-hidden
+        className={clsx(
+          "h-1.5 w-1.5 rounded-full",
+          DOT[status] ?? "bg-gray-400",
+        )}
+      />
+      {status}
+    </span>
+  );
+}
+
 export function TagList({ tags }: { tags: string[] }) {
   if (tags.length === 0) return null;
   return (
@@ -67,7 +102,10 @@ export function NoteMeta({
           {note.date}
         </time>
       )}
-      <StatusBadge status={note.status} />
+      <StatusDot
+        status={note.status}
+        className="font-mono uppercase tracking-wider"
+      />
     </span>
   );
 }
@@ -75,15 +113,20 @@ export function NoteMeta({
 function RowText({ note }: { note: Note }) {
   return (
     <>
-      <span className="block font-medium leading-snug text-gray-900 dark:text-white/90">
+      <span className="block text-[15px] font-semibold leading-[1.4] text-gray-900 dark:text-white/90">
         {mosaic(note.title)}
       </span>
-      <NoteMeta note={note} className="mt-1" />
+      {note.summary && (
+        <span className="mt-0.5 line-clamp-1 text-[14px] leading-[1.6] text-gray-600 dark:text-white/60">
+          {mosaic(note.summary)}
+        </span>
+      )}
+      <NoteMeta note={note} className="mt-1.5" />
     </>
   );
 }
 
-/** One row per note: title, then section, date and status; its cover on the right from `sm`. */
+/** One row per note: title, summary, then section, date and status; its cover on the right from `sm`. */
 export function NoteList({ notes }: { notes: Note[] }) {
   return (
     <ul className="divide-y divide-gray-200/70 overflow-hidden rounded-xl border border-gray-200 bg-white/70 dark:divide-white/[0.06] dark:border-white/10 dark:bg-white/[0.03]">
@@ -107,7 +150,12 @@ export function NoteList({ notes }: { notes: Note[] }) {
                   width={n.cover.width}
                   height={n.cover.height}
                   unoptimized
-                  className="hidden h-14 w-24 shrink-0 rounded-md border border-gray-200 bg-white object-contain p-1 sm:block dark:border-white/15"
+                  className={clsx(
+                    "hidden h-16 w-24 shrink-0 rounded-md border border-gray-200 sm:block dark:border-white/15",
+                    n.cover.kind === "art"
+                      ? "object-cover"
+                      : "bg-white object-contain p-1",
+                  )}
                 />
               </>
             ) : (
