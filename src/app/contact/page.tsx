@@ -1,4 +1,11 @@
 import Contact from "@/components/contact";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata(
+  "/contact",
+  "Contact",
+  "Get in touch with Kelson Qu about full-stack and AI engineering work.",
+);
 
 export default function ContactPage() {
   return (
