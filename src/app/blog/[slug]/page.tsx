@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import Mermaid from "@/components/blog/mermaid";
 import { StatusBadge, TagList } from "@/components/blog/note-list";
 import { getBacklinks, getNote, getNotes, renderNote } from "@/lib/devlog";
+import { pageMetadata, SITE_URL } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -17,20 +18,11 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const note = getNote((await params).slug);
   if (!note) return {};
-  const url = `/blog/${note.slug}`;
-  return {
-    title: note.title,
-    description: note.description,
-    alternates: { canonical: url },
-    openGraph: {
-      type: "article",
-      url,
-      title: note.title,
-      description: note.description,
-      publishedTime: note.date,
-      tags: note.tags,
-    },
-  };
+  return pageMetadata(`/blog/${note.slug}`, note.title, note.description, {
+    type: "article",
+    publishedTime: note.date,
+    tags: note.tags,
+  });
 }
 
 export default async function NotePage({ params }: Props) {
@@ -46,11 +38,12 @@ export default async function NotePage({ params }: Props) {
     description: note.description,
     ...(note.date && { datePublished: note.date }),
     keywords: note.tags.join(", "),
-    url: `https://www.kelsonqu.com/blog/${note.slug}`,
+    url: `${SITE_URL}/blog/${note.slug}`,
     author: {
       "@type": "Person",
+      "@id": `${SITE_URL}/#person`,
       name: "Kelson Qu",
-      url: "https://www.kelsonqu.com",
+      url: SITE_URL,
     },
   };
 

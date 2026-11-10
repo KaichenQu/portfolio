@@ -1,16 +1,12 @@
-import type { Metadata } from "next";
 import NextLink from "next/link";
 import { NoteList } from "@/components/blog/note-list";
 import { getNotes } from "@/lib/devlog";
+import { pageMetadata } from "@/lib/seo";
 
 const DESCRIPTION =
   "An engineering notebook: how a bug was tracked down step by step, and how architecture and design trade-offs were made.";
 
-export const metadata: Metadata = {
-  title: "DevLog",
-  description: DESCRIPTION,
-  alternates: { canonical: "/blog" },
-};
+export const metadata = pageMetadata("/blog", "DevLog", DESCRIPTION);
 
 export default function BlogIndex() {
   const notes = getNotes();

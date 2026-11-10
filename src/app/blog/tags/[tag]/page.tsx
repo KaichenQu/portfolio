@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NoteList } from "@/components/blog/note-list";
 import { getNotes, getTags } from "@/lib/devlog";
+import { pageMetadata } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -13,11 +14,11 @@ type Props = { params: Promise<{ tag: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tag } = await params;
-  return {
-    title: `#${tag}`,
-    description: `DevLog notes tagged ${tag}.`,
-    alternates: { canonical: `/blog/tags/${tag}` },
-  };
+  return pageMetadata(
+    `/blog/tags/${tag}`,
+    `#${tag}`,
+    `DevLog notes tagged ${tag}.`,
+  );
 }
 
 export default async function TagPage({ params }: Props) {
