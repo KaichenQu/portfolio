@@ -56,4 +56,4 @@ The reading layout (explorer, table of contents, backlinks, tag pages) follows [
 - GitHub: [KaichenQu](https://github.com/KaichenQu)
 - LinkedIn: [kelsonqu](https://www.linkedin.com/in/kelsonqu/)
 - Email: kelsonqu@gmail.com
-- Blog: [kelsonqu.com/blog](https://www.kelsonqu.com/blog)
+- Blog: [kelsonqu.com/blog](https://kelsonqu.com/blog)

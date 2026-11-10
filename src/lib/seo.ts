@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const SITE_URL = "https://www.kelsonqu.com";
+export const SITE_URL = "https://kelsonqu.com";
 
 export const JOB_TITLE = "Full-Stack & AI Engineer";
 
