@@ -43,6 +43,30 @@ describe("pageMetadata", () => {
     });
   });
 
+  it("carries the site card for Open Graph and Twitter", () => {
+    const m = pageMetadata("/about", "About", "Who I am.");
+    const card = {
+      url: "/opengraph-image",
+      width: 1200,
+      height: 630,
+      alt: "Kelson Qu, Full-Stack & AI Engineer",
+    };
+    expect(m.openGraph).toMatchObject({ images: [card] });
+    expect(m.twitter).toMatchObject({ images: [card] });
+  });
+
+  it("uses a route's own card for both when given one", () => {
+    const own = {
+      url: "/blog/x/opengraph-image",
+      width: 1200,
+      height: 630,
+      alt: "X",
+    };
+    const m = pageMetadata("/blog/x", "X", "d", { type: "article" }, own);
+    expect(m.openGraph).toMatchObject({ images: [own] });
+    expect(m.twitter).toMatchObject({ images: [own] });
+  });
+
   it("lets a route override the Open Graph type", () => {
     const m = pageMetadata("/blog/x", "X", "d", {
       type: "article",
