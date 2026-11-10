@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "devlog:sync": "node scripts/sync-devlog.mjs"
+    "devlog:sync": "node scripts/sync-devlog.mjs",
+    "devlog:publish": "node scripts/publish-devlog.mjs"
   },
   "dependencies": {
     "@react-email/components": "^1.0.12",
