@@ -42,6 +42,10 @@ Open [http://localhost:3000](http://localhost:3000).
 
 `/blog` is built at compile time from Markdown notes in `content/devlog/` and SVG diagrams in `public/blog/diagrams/`, both mirrored from an Obsidian vault (`DEVLOG_DIR`, default `~/Obsidian/DevLog`). With them empty the page shows `No notes yet.`
 
+Case-note cover illustrations live at `public/blog/covers/<slug>.webp`, where `<slug>` is the note's file stem processed by `slugify()` in `src/lib/devlog.ts`. Each cover is 1200 × 800 px and at most 150 KB. Generate one concrete scene for the note's mechanism, using generic nouns only, with this shared style block followed by one subject sentence:
+
+> Flat isometric technical illustration, clean vector look with soft depth. Deep navy background (#0b1220) with a faint grid. Line work and surfaces in white and sky blue (#38bdf8), one small warm accent in amber (#f59e0b) or coral (#f87171) on the element that fails or matters most. Generous empty space, subject centred, soft glow under the main object. No text, no letters, no numbers, no logos, no user interface screenshots, no people's faces. Landscape 3:2.
+
 | Command | What it does |
 |---------|--------------|
 | `npm run devlog:sync` | Mirrors the vault into the two folders, redacted. Notes with `publish: false` (`true` or `false` only) are held back: a list item that only links held-back notes is dropped, any other link to one is masked. A case (a note under `Cases/`, or one with `type: case-*`) is published only with an explicit `publish: true`; a case with no `publish:` line is held back the same way and counted in the `held for review: N` summary line. Only SVGs a published note references are copied. |
