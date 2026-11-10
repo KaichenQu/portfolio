@@ -12,18 +12,18 @@ vi.mock("@/lib/devlog", () => ({
 describe("sitemap", () => {
   const entries = sitemap();
   const byUrl = (path: string) =>
-    entries.find((e) => e.url === `https://www.kelsonqu.com${path}`);
+    entries.find((e) => e.url === `https://kelsonqu.com${path}`);
 
   it("lists the site routes, the blog, every note and every tag", () => {
     expect(entries.map((e) => e.url)).toEqual([
-      "https://www.kelsonqu.com",
-      "https://www.kelsonqu.com/about",
-      "https://www.kelsonqu.com/showcase",
-      "https://www.kelsonqu.com/contact",
-      "https://www.kelsonqu.com/blog",
-      "https://www.kelsonqu.com/blog/dated-note",
-      "https://www.kelsonqu.com/blog/undated-note",
-      "https://www.kelsonqu.com/blog/tags/cache",
+      "https://kelsonqu.com",
+      "https://kelsonqu.com/about",
+      "https://kelsonqu.com/showcase",
+      "https://kelsonqu.com/contact",
+      "https://kelsonqu.com/blog",
+      "https://kelsonqu.com/blog/dated-note",
+      "https://kelsonqu.com/blog/undated-note",
+      "https://kelsonqu.com/blog/tags/cache",
     ]);
   });
 
@@ -31,6 +31,6 @@ describe("sitemap", () => {
     expect(byUrl("/blog/dated-note")?.lastModified).toBe("2026-03-04");
     expect(
       entries.filter((e) => "lastModified" in e).map((e) => e.url),
-    ).toEqual(["https://www.kelsonqu.com/blog/dated-note"]);
+    ).toEqual(["https://kelsonqu.com/blog/dated-note"]);
   });
 });
