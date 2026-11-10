@@ -48,10 +48,11 @@ function frontmatter(text, file) {
 /**
  * `publish:` takes true or false only (any case, optionally quoted). Returns
  * why the note is held back: "false" for any `publish: false`, "review" for a
- * case (`type: case-*`) with no `publish:` line, because a case's story can be
- * the sensitive part and no pattern sees that. Null publishes it.
+ * case (under `Cases/`, or `type: case-*` elsewhere) with no `publish:` line,
+ * because a case's story can be the sensitive part and no pattern sees that.
+ * Null publishes it. `rel` is the path from the vault root.
  */
-function holdReason(fm, file) {
+function holdReason(fm, file, rel) {
   const values = [...(fm?.[1].matchAll(/^publish:(.*)$/gm) ?? [])].map(
     ([, value]) => {
       const v = /^\s*(["']?)(true|false)\1\s*$/i.exec(value);
@@ -61,9 +62,12 @@ function holdReason(fm, file) {
     },
   );
   if (values.includes("false")) return "false";
-  // Quoted or odd-cased values count as cases too: a false hit only holds a note.
-  if (!values.length && /^type:\s*["']?case-/im.test(fm?.[1] ?? ""))
-    return "review";
+  // The folder catches a missing or misspelt type; quoted or odd-cased types
+  // count too. A false hit only holds a note.
+  const isCase =
+    rel.split(path.sep)[0] === "Cases" ||
+    /^type:\s*["']?case-/im.test(fm?.[1] ?? "");
+  if (!values.length && isCase) return "review";
   return null;
 }
 
@@ -223,7 +227,11 @@ export function hideUnpublished(text, held, counts) {
   for (const i of headings) {
     if (lines[i].gone) continue;
     let j = i + 1;
-    while (j < lines.length && !(lines[j].level && lines[j].level <= lines[i].level)) j++;
+    while (
+      j < lines.length &&
+      !(lines[j].level && lines[j].level <= lines[i].level)
+    )
+      j++;
     const section = lines.slice(i, j);
     const items = section.filter((l) => l.item);
     if (items.length === 0 || items.some((l) => !l.gone)) continue;
@@ -401,7 +409,7 @@ export function syncDevlog({
       const text = fs.readFileSync(file, "utf8");
       const fm = frontmatter(text, file);
       const stem = path.basename(name, ".md");
-      const reason = holdReason(fm, file);
+      const reason = holdReason(fm, file, rel);
       if (reason) {
         notes.skipped++;
         if (reason === "review") heldForReview++;
