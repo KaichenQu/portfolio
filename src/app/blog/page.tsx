@@ -1,4 +1,5 @@
 import NextLink from "next/link";
+import { mosaic } from "@/components/blog/mosaic";
 import { NoteList } from "@/components/blog/note-list";
 import { getNotes } from "@/lib/devlog";
 import { pageMetadata } from "@/lib/seo";
@@ -44,7 +45,7 @@ export default function BlogIndex() {
                       className="flex h-full flex-col rounded-xl border border-gray-200 bg-white/80 p-4 transition-colors hover:border-sky-400/60 dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-sky-400/40"
                     >
                       <span className="font-semibold text-gray-900 dark:text-white/90">
-                        {m.title}
+                        {mosaic(m.title)}
                       </span>
                       <span className="mt-1 font-mono text-[12px] text-gray-500 dark:text-white/45">
                         {m.links.length} notes

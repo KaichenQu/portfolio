@@ -190,3 +190,36 @@ describe("renderNote", () => {
     );
   });
 });
+
+describe("mosaic", () => {
+  const S = (n: number) => "▒".repeat(n);
+  const span = (n: number) =>
+    `<span class="redacted" role="img" aria-label="redacted">${S(n)}</span>`;
+
+  it("wraps redacted runs in prose, headings and code, and leaves Mermaid and plain text alone", async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "devlog-mosaic-"));
+    fs.mkdirSync(path.join(tmp, "Techniques"));
+    fs.writeFileSync(
+      path.join(tmp, "Techniques", "masked.md"),
+      `# Title ${S(4)}\n\nProse ${S(4)} here and \`code ${S(8)}\`.\n\n## Step ${S(4)}\n\n` +
+        `\`\`\`ts\nconst key = "${S(12)}";\n\`\`\`\n\n\`\`\`mermaid\nflowchart LR\n  A[${S(4)}]\n\`\`\`\n`,
+    );
+    try {
+      const note = getNote("masked", tmp)!;
+      const { html, toc } = await renderNote(note, tmp);
+
+      expect(note.title).toBe(`Title ${S(4)}`);
+      expect(note.description).toBe(`Prose ${S(4)} here and code ${S(8)}.`);
+      expect(toc[0].text).toBe(`Step ${S(4)}`);
+      expect(html).toContain(`<p>Prose ${span(4)} here and <code>code ${span(8)}</code>.</p>`);
+      expect(html).toMatch(new RegExp(`<h2 [^>]*>Step ${span(4)}</h2>`));
+      expect(html).toMatch(
+        new RegExp(`<pre class="shiki[^"]*"[^>]*>(?:(?!</pre>)[\\s\\S])*${span(12)}`),
+      );
+      expect(html).toContain(`<div class="mermaid">flowchart LR\n  A[${S(4)}]</div>`);
+      expect(html.match(/class="redacted"/g)).toHaveLength(4);
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
+  });
+});

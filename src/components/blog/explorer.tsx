@@ -5,6 +5,7 @@ import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { ChevronRight, Search } from "lucide-react";
+import { mosaic } from "@/components/blog/mosaic";
 
 export type ExplorerGroup = {
   section: string;
@@ -112,7 +113,7 @@ export default function Explorer({ groups }: { groups: ExplorerGroup[] }) {
                               : "border-transparent text-gray-600 hover:text-gray-900 dark:text-white/60 dark:hover:text-white/90",
                           )}
                         >
-                          {n.title}
+                          {mosaic(n.title)}
                         </NextLink>
                       </li>
                     ))}
