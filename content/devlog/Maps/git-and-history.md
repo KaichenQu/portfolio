@@ -4,14 +4,19 @@ tags: [moc, git]
 ---
 # Git and history
 
-12 notes. Two threads: finding a change, and rewriting or isolating one.
+15 notes. Three threads: finding a change, finding who introduced it, and rewriting or isolating one.
 
 ## Finding the change that broke it
 
 - [[locating-regressions-with-git-bisect]] — automated bisection with `git bisect run`
 - [[binary-search-fault-localization]] — the general form the bisect technique is an instance of
 - [[git]] — the troubleshooting cheatsheet (`log -L`, `log -S`, blame ranges)
+- [[check-build-determinism-before-comparing-bundle-bytes]] — a bisect over a build output that alternates between runs is void
 - [[bisect]] · [[regression]]
+
+## Who introduced it
+
+- [[multi-agent-dead-code-deletion-needs-repo-wide-grep]] — the lesson: dead code in a team repo is deferred unless the requester introduced it and no open PR touches its file
 
 ## Rewriting and isolating
 

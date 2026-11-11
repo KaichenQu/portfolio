@@ -4,7 +4,7 @@ tags: [moc, frontend, react, css, three]
 ---
 # Frontend
 
-17 notes. The smallest cluster, and its threads are about state that outlives the render.
+20 notes. The smallest cluster, and its threads are about state that outlives the render.
 
 ## Cached failure
 
@@ -23,6 +23,13 @@ A failed load that gets cached looks exactly like a UI bug, because the retry pa
 
 - [[2026-11-04-structure-assistant-submit-recovery-and-abandon]] — the case: ids held in `sessionStorage` bound what the server can hold, so recovery and abandon read local state first
 - [[persist-id-before-next-step]] — write each server id to durable storage before the request that depends on it
+
+## Proving a cleanup changed nothing
+
+The baseline was already red and the build was not repeatable, so "no change" had to be measured against repeated baseline runs.
+
+- [[baseline-diff-verification-on-a-red-baseline]] — compare exit status and failure lists against the baseline run instead of requiring green
+- [[check-build-determinism-before-comparing-bundle-bytes]] — one commit built five times gave two outputs; dropping `export` stopped rolldown inlining a constant
 
 ## Publishing private content
 

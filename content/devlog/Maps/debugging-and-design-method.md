@@ -4,7 +4,7 @@ tags: [moc, debug, design, method]
 ---
 # Debugging and design method
 
-22 notes. The reusable procedure notes that no single incident owns; the case-specific maps
+23 notes. The reusable procedure notes that no single incident owns; the case-specific maps
 link to the cases, this one links to the method.
 
 ## Narrowing the search space
@@ -18,6 +18,7 @@ link to the cases, this one links to the method.
 
 - [[systematic-troubleshooting]] — symptom, hypothesis, evidence, one change at a time
 - [[reproduce-before-fixing-verify-after]] — a fix without a repro is a guess
+- [[baseline-diff-verification-on-a-red-baseline]] — when the baseline already fails, verify by matching its exit statuses and failure lists after every commit
 - [[read-the-last-stack-trace-line-first]] — the frame nearest the fault, not the frame nearest the top
 - [[repro]] · [[RCA]]
 

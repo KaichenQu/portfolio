@@ -4,7 +4,7 @@ tags: [moc, claude-code, multi-agent, context-engineering, hooks, mcp, llm]
 ---
 # Agentic engineering
 
-23 notes. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
+24 notes. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
 
 ## Declared config vs config in effect
 
