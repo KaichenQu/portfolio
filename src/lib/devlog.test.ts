@@ -17,7 +17,7 @@ const DIR = path.join(__dirname, "__fixtures__", "devlog");
 const DUP = path.join(__dirname, "__fixtures__", "devlog-dup");
 const CASE = "2026-01-02-widget-cache-goes-stale";
 
-const render = async (slug: string) => renderNote(getNote(slug, DIR)!, DIR);
+const render = async (slug: string) => renderNote(getNote(slug, { dir: DIR })!, { dir: DIR });
 
 describe("parseFrontmatter", () => {
   it("reads flat keys, inline arrays and strips the block", () => {
@@ -56,7 +56,7 @@ describe("parseFrontmatter", () => {
     fs.mkdirSync(path.dirname(bad));
     fs.writeFileSync(bad, "---\ntype: x\n");
     try {
-      expect(() => getNotes(tmp)).toThrow(`Malformed frontmatter in ${bad}`);
+      expect(() => getNotes({ dir: tmp })).toThrow(`Malformed frontmatter in ${bad}`);
     } finally {
       fs.rmSync(tmp, { recursive: true, force: true });
     }
@@ -67,11 +67,11 @@ describe("notes", () => {
   it("lowercases slugs and turns spaces into dashes", () => {
     expect(slugify("Retry budget")).toBe("retry-budget");
     expect(slugify("CI-CD")).toBe("ci-cd");
-    expect(getNote("retry-budget", DIR)?.title).toBe("Retry budget");
+    expect(getNote("retry-budget", { dir: DIR })?.title).toBe("Retry budget");
   });
 
   it("maps fields and drops private frontmatter", () => {
-    const note = getNote(CASE, DIR)!;
+    const note = getNote(CASE, { dir: DIR })!;
     expect(note).toMatchObject({
       title: "Widget cache goes stale",
       section: "Debug cases",
@@ -89,7 +89,7 @@ describe("notes", () => {
   });
 
   it("caps the description at 160 characters on a word boundary", () => {
-    const d = getNote("retry-with-backoff", DIR)!.description;
+    const d = getNote("retry-with-backoff", { dir: DIR })!.description;
     expect(d.length).toBeLessThanOrEqual(160);
     expect(d.endsWith("…")).toBe(true);
     expect(d).not.toMatch(/\s…$/);
@@ -97,32 +97,32 @@ describe("notes", () => {
 
   it("sorts newest first and lists tags with counts", () => {
     expect(
-      getNotes(DIR)
+      getNotes({ dir: DIR })
         .slice(0, 2)
         .map((n) => n.slug),
     ).toEqual(["2026-02-10-splitting-the-queue", CASE]);
-    expect(getTags(DIR)).toContainEqual({ tag: "cache", count: 2 });
+    expect(getTags({ dir: DIR })).toContainEqual({ tag: "cache", count: 2 });
   });
 
   it("builds backlinks from resolved wikilinks only", () => {
     expect(
-      getBacklinks(CASE, DIR)
+      getBacklinks(CASE, { dir: DIR })
         .map((n) => n.slug)
         .sort(),
     ).toEqual(["2026-02-10-splitting-the-queue", "caching"]);
-    expect(getNote("caching", DIR)!.links).toEqual([
+    expect(getNote("caching", { dir: DIR })!.links).toEqual([
       CASE,
       "retry-with-backoff",
     ]);
-    expect(getNote(CASE, DIR)!.links).not.toContain("not-written-yet");
+    expect(getNote(CASE, { dir: DIR })!.links).not.toContain("not-written-yet");
   });
 
   it("throws on duplicate slugs", () => {
-    expect(() => getNotes(DUP)).toThrow(/Duplicate DevLog slug "gadget"/);
+    expect(() => getNotes({ dir: DUP })).toThrow(/Duplicate DevLog slug "gadget"/);
   });
 
   it("returns nothing for a missing directory", () => {
-    expect(getNotes(path.join(DIR, "missing"))).toEqual([]);
+    expect(getNotes({ dir: path.join(DIR, "missing") })).toEqual([]);
   });
 });
 
@@ -205,8 +205,8 @@ describe("mosaic", () => {
         `\`\`\`ts\nconst key = "${S(12)}";\n\`\`\`\n\n\`\`\`mermaid\nflowchart LR\n  A[${S(4)}]\n\`\`\`\n`,
     );
     try {
-      const note = getNote("masked", tmp)!;
-      const { html, toc } = await renderNote(note, tmp);
+      const note = getNote("masked", { dir: tmp })!;
+      const { html, toc } = await renderNote(note, { dir: tmp });
 
       expect(note.title).toBe(`Title ${S(4)}`);
       expect(note.description).toBe(`Prose ${S(4)} here and code ${S(8)}.`);

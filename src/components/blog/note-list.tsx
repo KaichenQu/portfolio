@@ -2,6 +2,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 import clsx from "clsx";
 import type { Note } from "@/lib/devlog";
+import { blogPath, sectionLabel, type BlogLocale } from "@/lib/blog-locale";
 import { mosaic } from "@/components/blog/mosaic";
 
 const STATUS: Record<string, string> = {
@@ -11,7 +12,13 @@ const STATUS: Record<string, string> = {
   wip: "text-sky-700 bg-sky-50 border-sky-200 dark:text-sky-300 dark:bg-sky-400/10 dark:border-sky-400/20",
 };
 
-export function StatusBadge({ status }: { status?: string }) {
+const ZH_STATUS: Record<string, string> = {
+  solved: "已解决",
+  open: "待解决",
+  wip: "进行中",
+};
+
+export function StatusBadge({ status, locale = "en" }: { status?: string; locale?: BlogLocale }) {
   if (!status) return null;
   return (
     <span
@@ -21,7 +28,7 @@ export function StatusBadge({ status }: { status?: string }) {
           "text-gray-600 border-gray-200 dark:text-white/60 dark:border-white/10",
       )}
     >
-      {status}
+      {locale === "zh-Hans" ? ZH_STATUS[status] ?? status : status}
     </span>
   );
 }
@@ -36,9 +43,11 @@ const DOT: Record<string, string> = {
 export function StatusDot({
   status,
   className,
+  locale = "en",
 }: {
   status?: string;
   className?: string;
+  locale?: BlogLocale;
 }) {
   if (!status) return null;
   return (
@@ -56,19 +65,19 @@ export function StatusDot({
           DOT[status] ?? "bg-gray-400",
         )}
       />
-      {status}
+      {locale === "zh-Hans" ? ZH_STATUS[status] ?? status : status}
     </span>
   );
 }
 
-export function TagList({ tags }: { tags: string[] }) {
+export function TagList({ tags, locale = "en" }: { tags: string[]; locale?: BlogLocale }) {
   if (tags.length === 0) return null;
   return (
     <ul className="flex flex-wrap gap-1.5">
       {tags.map((t) => (
         <li key={t}>
           <NextLink
-            href={`/blog/tags/${t}`}
+            href={blogPath(locale, `/tags/${encodeURIComponent(t)}`)}
             className="inline-block rounded-full border border-gray-200 bg-white px-2.5 py-0.5 font-mono text-[11.5px] text-gray-600 transition-colors hover:border-sky-400/60 hover:text-gray-900 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/65 dark:hover:text-white"
           >
             #{t}
@@ -83,9 +92,11 @@ export function TagList({ tags }: { tags: string[] }) {
 export function NoteMeta({
   note,
   className,
+  locale = "en",
 }: {
   note: Note;
   className?: string;
+  locale?: BlogLocale;
 }) {
   return (
     <span
@@ -95,7 +106,7 @@ export function NoteMeta({
       )}
     >
       <span className="font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400">
-        {note.section}
+        {sectionLabel(note.section, locale)}
       </span>
       {note.date && (
         <time dateTime={note.date} className="font-mono">
@@ -104,36 +115,37 @@ export function NoteMeta({
       )}
       <StatusDot
         status={note.status}
+        locale={locale}
         className="font-mono uppercase tracking-wider"
       />
     </span>
   );
 }
 
-function RowText({ note }: { note: Note }) {
+function RowText({ note, locale }: { note: Note; locale: BlogLocale }) {
   return (
     <>
       <span className="block text-[15px] font-semibold leading-[1.4] text-gray-900 dark:text-white/90">
-        {mosaic(note.title)}
+        {mosaic(note.title, locale)}
       </span>
       {note.summary && (
         <span className="mt-0.5 line-clamp-1 text-[14px] leading-[1.6] text-gray-600 dark:text-white/60">
-          {mosaic(note.summary)}
+          {mosaic(note.summary, locale)}
         </span>
       )}
-      <NoteMeta note={note} className="mt-1.5" />
+      <NoteMeta note={note} locale={locale} className="mt-1.5" />
     </>
   );
 }
 
 /** One row per note: title, summary, then section, date and status; its cover on the right from `sm`. */
-export function NoteList({ notes }: { notes: Note[] }) {
+export function NoteList({ notes, locale = "en" }: { notes: Note[]; locale?: BlogLocale }) {
   return (
     <ul className="divide-y divide-gray-200/70 overflow-hidden rounded-xl border border-gray-200 bg-white/70 dark:divide-white/[0.06] dark:border-white/10 dark:bg-white/[0.03]">
       {notes.map((n) => (
         <li key={n.slug}>
           <NextLink
-            href={`/blog/${n.slug}`}
+            href={blogPath(locale, `/${n.slug}`)}
             className={clsx(
               "px-4 py-3 transition-colors hover:bg-gray-50 dark:hover:bg-white/[0.04]",
               n.cover ? "flex items-center gap-4" : "block",
@@ -142,7 +154,7 @@ export function NoteList({ notes }: { notes: Note[] }) {
             {n.cover ? (
               <>
                 <span className="block min-w-0 flex-1">
-                  <RowText note={n} />
+                  <RowText note={n} locale={locale} />
                 </span>
                 <Image
                   src={n.cover.src}
@@ -159,7 +171,7 @@ export function NoteList({ notes }: { notes: Note[] }) {
                 />
               </>
             ) : (
-              <RowText note={n} />
+              <RowText note={n} locale={locale} />
             )}
           </NextLink>
         </li>

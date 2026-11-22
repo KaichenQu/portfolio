@@ -4,22 +4,25 @@ import Explorer from "@/components/blog/explorer";
 import SidebarNav from "@/components/sidebar-nav";
 import { getNotes, SECTIONS } from "@/lib/devlog";
 import { JOB_TITLE } from "@/lib/seo";
+import { sectionLabel, type BlogLocale } from "@/lib/blog-locale";
 
 export default function BlogLayout({
   children,
+  locale,
 }: {
   children: React.ReactNode;
+  locale: BlogLocale;
 }) {
-  const notes = getNotes();
+  const notes = getNotes({ locale });
   const groups = SECTIONS.map(([, section]) => ({
-    section,
+    section: sectionLabel(section, locale),
     notes: notes
       .filter((n) => n.section === section)
       .map(({ slug, title, tags }) => ({ slug, title, tags })),
   })).filter((g) => g.notes.length > 0);
 
   return (
-    <div className="mx-auto w-full max-w-screen-xl px-6 pb-16 pt-4 lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-10 lg:px-20 lg:pt-14">
+    <div lang={locale === "zh-Hans" ? locale : undefined} className="mx-auto w-full max-w-screen-xl px-6 pb-16 pt-4 lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-10 lg:px-20 lg:pt-14">
       <aside className="mb-6 lg:mb-0">
         {/* -m-1 p-1 keeps focus outlines inside the scrolling box. */}
         <div className="lg:sticky lg:top-14 lg:-m-1 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:p-1 scrollbar-hide">
@@ -42,16 +45,16 @@ export default function BlogLayout({
                 Kelson Qu
               </span>
               <span className="mt-0.5 block font-mono text-[11px] uppercase leading-snug tracking-[0.18em] text-sky-700 dark:text-sky-400">
-                {JOB_TITLE}
+                {locale === "zh-Hans" ? "全栈与 AI 工程师" : JOB_TITLE}
               </span>
             </span>
           </NextLink>
-          <SidebarNav active="/blog" />
+          <SidebarNav active="/blog" locale={locale} />
           {groups.length > 0 && (
             <>
               <hr className="my-6 hidden border-gray-200 lg:block dark:border-white/10" />
               <div className="mt-6 lg:mt-0">
-                <Explorer groups={groups} />
+                <Explorer groups={groups} locale={locale} />
               </div>
             </>
           )}

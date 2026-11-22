@@ -35,7 +35,7 @@ note(
 note("empty", "```\nonly code\n```");
 
 const summary = (slug: string) =>
-  getNotes(DIR, path.join(root, "none"), path.join(root, "none")).find(
+  getNotes({ dir: DIR, diagrams: path.join(root, "none"), covers: path.join(root, "none") }).find(
     (n) => n.slug === slug,
   )!.summary;
 
