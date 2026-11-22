@@ -10,7 +10,7 @@ publish: true
 ## Symptom
 Adding platform detection (macOS / Termux) to [[chezmoi]] meant a new config template, `.chezmoi.toml.tmpl`, that computes `isDarwin` and `isTermux`. Verifying after `chezmoi init` hit two errors in sequence.
 
-![One template rewrite can misplace the data header and erase the handwritten encryption configuration.](../../Diagrams/2026-06-29-chezmoi-platform-template-breaks-decryption.generated-config.svg)
+![A single template rewrite glued the data header to a comment and erased the hand-written age block, causing two separate failures.](../../Diagrams/2026-06-29-chezmoi-platform-template-breaks-decryption.generated-config.svg)
 
 First, rendering any file at all failed with:
 

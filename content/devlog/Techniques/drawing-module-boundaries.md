@@ -7,7 +7,7 @@ tags: [design, method]
 
 When you break a system into small units at design time, the core question is where to draw the boundary.
 
-![Use reasons for change to decide what belongs in a module, then check that callers can use the interface independently of its implementation.](../Diagrams/drawing-module-boundaries.reason-to-change.svg)
+![Code that changes for the same reason belongs inside one module, with callers depending on its public interface.](../Diagrams/drawing-module-boundaries.reason-to-change.svg)
 
 ## When to use
 Any time you're splitting modules, files, or services. A file that keeps growing is usually a sign the boundary needs to be redrawn.

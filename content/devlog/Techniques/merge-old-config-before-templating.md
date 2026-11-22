@@ -7,7 +7,7 @@ tags: [infra, chezmoi]
 
 When a tool's config starts out as a hand-written file and you switch it to template generation (e.g. adding a `.chezmoi.toml.tmpl` for [[chezmoi]]), the first `init`/`generate` overwrites that file entirely with the template's output. Before you do that, merge every section of the hand-written config — encrypted blocks, source paths, various toggles — into the template piece by piece. Otherwise it gets wiped out on the first run, and since the hand-written file is usually not in git, there's no getting it back.
 
-![The first generation overwrites handwritten config. Merge every existing section into the template to carry it forward.](../Diagrams/merge-old-config-before-templating.first-generation.svg)
+![The first chezmoi init takes its entire output from the template, so the template must carry the existing configuration sections.](../Diagrams/merge-old-config-before-templating.first-generation.svg)
 
 ## Related
 - [[chezmoi]]

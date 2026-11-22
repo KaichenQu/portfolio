@@ -7,7 +7,7 @@ tags: [npm, sandbox, claude-code]
 
 **Mistake**: a subagent ran `npm ci` in the portfolio repo inside the Claude Code command sandbox. It exited 255 partway through extraction and left a broken, partial `node_modules`. npm blamed the cache and printed a fix:
 
-![npm cache writes can fail at the sandbox boundary. Pointing npm ci at a writable temporary cache lets it replace the partial install.](../Diagrams/npm-ci-eperm-inside-the-command-sandbox.cache-path.svg)
+![A sandbox cache write caused npm ci to fail, and rerunning with a temporary cache replaced the partial install.](../Diagrams/npm-ci-eperm-inside-the-command-sandbox.cache-path.svg)
 
 ```
 npm error code EPERM

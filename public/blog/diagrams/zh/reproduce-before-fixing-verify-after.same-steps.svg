@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="215" viewBox="0 0 720 215" role="img" xml:lang="zh-CN">
+  <title>用完全相同的复现步骤比较两次结果，修复前出现故障，修复后同一路径恢复正常。</title>
+  <rect width="720" height="215" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">修复前后相同步骤</tspan></text>
+  <rect x="28" y="64" width="320" height="125" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="29" y="65" width="318" height="35" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 101L348 101" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="36 66 339 100"><tspan x="42" y="87">改动前</tspan></text>
+  <text text-anchor="start" data-bounds="36 103 339 187"><tspan x="42" y="126">相同起始状态</tspan></text>
+  <text class="focus strong" text-anchor="start" data-bounds="36 103 339 187"><tspan x="42" y="150">相同复现步骤</tspan></text>
+  <text class="fail strong" text-anchor="start" data-bounds="36 103 339 187"><tspan x="42" y="174">故障可复现</tspan></text>
+  <rect x="372" y="64" width="320" height="125" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="373" y="65" width="318" height="35" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M372 101L692 101" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="380 66 683 100"><tspan x="386" y="87">改动后</tspan></text>
+  <text text-anchor="start" data-bounds="380 103 683 187"><tspan x="386" y="126">相同起始状态</tspan></text>
+  <text class="focus strong" text-anchor="start" data-bounds="380 103 683 187"><tspan x="386" y="150">相同复现步骤</tspan></text>
+  <text class="pass strong" text-anchor="start" data-bounds="380 103 683 187"><tspan x="386" y="174">观察到预期结果</tspan></text>
+</svg>

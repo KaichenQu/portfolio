@@ -7,7 +7,7 @@ tags: [moc, debug, design, method]
 23 notes. The reusable procedure notes that no single incident owns; the case-specific maps
 link to the cases, this one links to the method.
 
-![Debugging narrows the suspect boundary, verification compares reproducible evidence, and design places rules at the boundaries that own them.](../Diagrams/debugging-and-design-method.mechanism-groups.svg)
+![Debugging narrows the suspect range, verification compares the same evidence, and design puts rules at the boundaries that own them.](../Diagrams/debugging-and-design-method.mechanism-groups.svg)
 
 ## Narrowing the search space
 

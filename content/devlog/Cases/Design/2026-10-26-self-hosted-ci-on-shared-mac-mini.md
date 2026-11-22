@@ -78,7 +78,7 @@ The deciding constraints were memory and credentials. The measured peaks oversol
 
 The cost of change 3 shows in both `main` runs recorded since: the deploy job still needs GitHub billing, so it keeps failing until the account is fixed.
 
-![Job lanes](../../Diagrams/2026-10-26-self-hosted-ci-on-shared-mac-mini.lanes.svg)
+![Verification runs in the Mac mini VM, while deployment stays on GitHub-hosted workers and failed under the billing lock.](../../Diagrams/2026-10-26-self-hosted-ci-on-shared-mac-mini.lanes.svg)
 
 ## Module breakdown
 

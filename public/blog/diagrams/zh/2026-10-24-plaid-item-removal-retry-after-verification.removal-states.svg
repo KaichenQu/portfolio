@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="297" viewBox="0 0 720 297" role="img" xml:lang="zh-CN">
+  <title>验证后，Plaid 移除成功就丢弃令牌，短暂失败则留在内存队列重试，服务重启会丢失队列。</title>
+  <rect width="720" height="297" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-fail" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#A13834" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-pass" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#246849" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">Plaid Item 移除</tspan></text>
+  <text class="mono strong" text-anchor="start" data-bounds="22 53 698 285"><tspan x="28" y="82">plaidComplete</tspan></text>
+  <path d="M164 77L244 77" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <text class="mono focus strong" text-anchor="start" data-bounds="22 53 698 285"><tspan x="256" y="82">/item/remove</tspan></text>
+  <path d="M318 93V116H92V150" fill="none" stroke="#246849" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-pass)"/>
+  <text class="small pass" text-anchor="start" data-bounds="22 53 698 285"><tspan x="122" y="139">成功</tspan></text>
+  <text class="label pass" text-anchor="start" data-bounds="22 53 698 285"><tspan x="28" y="174">令牌已丢弃</tspan></text>
+  <path d="M318 116H498V147" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="start" data-bounds="22 53 698 285"><tspan x="504" y="137">暂时失败</tspan></text>
+  <rect x="344" y="155" width="348" height="56" rx="3" fill="#F4F7FA" stroke="#2159A6" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="352 158 687 187"><tspan x="360" y="178">仅存于内存的重试队列</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="353 182 685 210"><tspan x="360" y="199">总共尝试三次</tspan></text>
+  <path d="M344 183H306V92" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <path d="M498 211V232H324" fill="none" stroke="#A13834" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-fail)"/>
+  <text class="small fail" text-anchor="end" data-bounds="22 53 698 285"><tspan x="312" y="236">永久性 4xx 或用尽次数</tspan></text>
+  <text class="small mono fail" text-anchor="end" data-bounds="22 53 698 285"><tspan x="312" y="259">PLAID_REMOVE_ABANDONED</tspan></text>
+  <path d="M524 211V235H580" fill="none" stroke="#A13834" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-fail)"/>
+  <text class="small fail" text-anchor="start" data-bounds="22 53 698 285"><tspan x="430" y="261">重启丢失队列中的令牌</tspan></text>
+</svg>

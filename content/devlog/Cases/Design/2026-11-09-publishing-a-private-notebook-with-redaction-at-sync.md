@@ -11,7 +11,7 @@ The portfolio site (Next.js 15, a public GitHub repo, deployed by Vercel from `m
 
 The first public sync shipped 113 notes and 18 diagrams. Ten notes were held back, because for them the story itself is the sensitive part. The live check after deploy found a bug that three PRs, two reviews and 185 tests had passed over: `SITE_URL` pointed at `www.kelsonqu.com`, a host with no [[DNS]] record.
 
-![Publish pipeline](../../Diagrams/2026-11-09-publishing-a-private-notebook-with-redaction-at-sync.pipeline.svg)
+![Sync redacts notebook content in memory and checks all ten views before anything is written to the mirror or published.](../../Diagrams/2026-11-09-publishing-a-private-notebook-with-redaction-at-sync.pipeline.svg)
 
 ## Background and constraints
 

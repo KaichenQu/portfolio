@@ -7,7 +7,7 @@ tags: [debug, method]
 
 When you don't know which segment of a long chain a problem is in, cut it in half, check whether the problem is in the first half or the second, and keep halving.
 
-![A stable good and bad boundary lets each midpoint observation discard half of the search range.](../Diagrams/binary-search-fault-localization.half-range.svg)
+![A midpoint observation divides the frontend-to-database path so the next probe can focus on the suspect half.](../Diagrams/binary-search-fault-localization.half-range.svg)
 
 ## When to use
 - A problem somewhere along a long chain: a request goes frontend → gateway → service → DB, and you don't know which hop is broken.

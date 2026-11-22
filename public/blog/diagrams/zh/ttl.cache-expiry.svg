@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="249" viewBox="0 0 720 249" role="img" xml:lang="zh-CN">
+  <title>相同一批 /api/spark 请求在十分钟内读取内存缓存，到期后的读取可重新获取数据。</title>
+  <rect width="720" height="249" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">迷你图缓存到期</tspan></text>
+  <rect x="119" y="70" width="407" height="39" rx="3" fill="#F4F7FA" stroke="#2159A6" stroke-width="1"/>
+  <text class="strong focus" text-anchor="start" data-bounds="127 71 517 107"><tspan x="135" y="95">内存中的 /api/spark 结果</tspan></text>
+  <path d="M119 140L681 140" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M526 64L526 148" fill="none" stroke="#52616F" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 237"><tspan x="119" y="167">写入缓存</tspan></text>
+  <text class="small muted" text-anchor="middle" data-bounds="22 53 698 237"><tspan x="526" y="167">TTL 为 10 分钟</tspan></text>
+  <circle cx="339" cy="140" r="5" fill="#246849" stroke="none" stroke-width="1.5"/>
+  <circle cx="630" cy="140" r="5" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.5"/>
+  <text class="small pass" text-anchor="middle" data-bounds="22 53 698 237"><tspan x="339" y="125">命中缓存</tspan></text>
+  <text class="small focus" text-anchor="middle" data-bounds="22 53 698 237"><tspan x="630" y="125">重新获取</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 237"><tspan x="119" y="213">同一批标的</tspan></text>
+</svg>

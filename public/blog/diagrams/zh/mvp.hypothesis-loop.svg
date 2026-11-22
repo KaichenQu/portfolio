@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="227" viewBox="0 0 720 227" role="img" xml:lang="zh-CN">
+  <title>MVP 示例先交付登录和一条完整主流程，设置页留待验证核心假设之后。</title>
+  <rect width="720" height="227" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">MVP 首个可用流程</tspan></text>
+  <rect x="28" y="62" width="514" height="134" rx="3" fill="#F4F7FA" stroke="#2159A6" stroke-width="1"/>
+  <text class="label focus" text-anchor="start" data-bounds="22 53 698 215"><tspan x="44" y="89">首版交付</tspan></text>
+  <text class="strong" text-anchor="start" data-bounds="22 53 698 215"><tspan x="44" y="132">登录或注册</tspan></text>
+  <path d="M156 151L319 151" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="strong" text-anchor="start" data-bounds="22 53 698 215"><tspan x="330" y="132">一条主流程</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 215"><tspan x="330" y="174">真实用户可试用</tspan></text>
+  <text class="label muted" text-anchor="start" data-bounds="22 53 698 215"><tspan x="569" y="132">设置</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 215"><tspan x="569" y="159">以后再做</tspan></text>
+</svg>

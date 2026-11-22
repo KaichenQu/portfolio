@@ -8,7 +8,7 @@ tags: [glossary, git]
 
 Lets one repo have multiple working directories at once, each checked out to a different branch, all sharing the same `.git` database (a single copy of branches, stashes, config). Saves space over cloning again, and avoids checking out back and forth between branches. Limitation: the same branch can't be checked out in two worktrees at once.
 
-![Linked worktrees share one Git database while keeping separate files and branch checkouts.](../Diagrams/worktree.shared-history.svg)
+![The main and hotfix working directories carry separate checked-out files and share the same .git database.](../Diagrams/worktree.shared-history.svg)
 
 ```bash
 git worktree add <path> <branch>

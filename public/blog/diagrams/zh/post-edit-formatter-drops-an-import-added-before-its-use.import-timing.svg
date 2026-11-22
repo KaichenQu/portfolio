@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="322" viewBox="0 0 720 322" role="img" xml:lang="zh-CN">
+  <title>首次使用落地前，编辑后运行的 Ruff 钩子删掉未使用的导入，下一次编辑因此触发 NameError。</title>
+  <rect width="720" height="322" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">两次编辑间导入被删除</tspan></text>
+  <path d="M208 76L208 289" fill="none" stroke="#C5CDD5" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="208" cy="82" r="4" fill="#2159A6" stroke="none" stroke-width="1.5"/>
+  <text class="small focus" text-anchor="end" data-bounds="28 66 197 116"><tspan x="190" y="86">第一次编辑</tspan></text>
+  <text text-anchor="start" data-bounds="218 66 692 116"><tspan x="226" y="86">在 repositories/workspaces.py 导入 ModelRun</tspan></text>
+  <path d="M203 135l10 10m0 -10l-10 10" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small fail" text-anchor="end" data-bounds="28 124 197 174"><tspan x="190" y="144">编辑后钩子</tspan></text>
+  <text class="fail" text-anchor="start" data-bounds="218 124 692 174"><tspan x="226" y="144">ruff check --fix 删掉未使用的导入</tspan></text>
+  <path d="M203 193l10 10m0 -10l-10 10" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small fail" text-anchor="end" data-bounds="28 182 197 232"><tspan x="190" y="202">第二次编辑</tspan></text>
+  <text class="fail" text-anchor="start" data-bounds="218 182 692 232"><tspan x="226" y="202">加入首次使用，但导入已丢失</tspan></text>
+  <path d="M203 251l10 10m0 -10l-10 10" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small fail" text-anchor="end" data-bounds="28 240 197 290"><tspan x="190" y="260">测试</tspan></text>
+  <text class="mono fail" text-anchor="start" data-bounds="218 240 692 290"><tspan x="226" y="260">NameError</tspan></text>
+</svg>

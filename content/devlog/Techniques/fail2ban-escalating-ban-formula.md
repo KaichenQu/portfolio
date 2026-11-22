@@ -7,7 +7,7 @@ tags: [infra, security, ssh, fail2ban]
 
 fail2ban can lengthen the ban for an IP each time it comes back, using `bantime.increment` and a Python expression in `bantime.formula`. `ban.Count` is the number of previous bans for that IP, `ban.Time` is the base `bantime`, and `bantime.maxtime` caps the result. This shape keeps the first two bans at the base time and goes exponential from the third:
 
-![The ban is one hour for the first two counts, then doubles until the 30-day cap.](../Diagrams/fail2ban-escalating-ban-formula.ban-duration.svg)
+![The first two bans last one hour, the next climb to 8, 16 and 32 hours, and the formula eventually hits the 30-day cap.](../Diagrams/fail2ban-escalating-ban-formula.ban-duration.svg)
 
 ```ini
 [DEFAULT]

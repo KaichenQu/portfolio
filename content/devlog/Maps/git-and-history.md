@@ -6,7 +6,7 @@ tags: [moc, git]
 
 15 notes. Three threads: finding a change, finding who introduced it, and rewriting or isolating one.
 
-![The history question determines the Git mechanism. Use bisection for behavior, history search for authorship, and separate checkout or staging checks for isolation and delivery.](../Diagrams/git-and-history.history-questions.svg)
+![Git bisection answers what broke, history search answers who introduced it, and separate tree or index checks explain isolation and staging.](../Diagrams/git-and-history.history-questions.svg)
 
 ## Finding the change that broke it
 

@@ -9,7 +9,7 @@ tags: [glossary]
 
 A pre-commit runner that applies formatters and linters only to the files staged for the commit. It stashes unstaged changes first, so it walks the whole worktree; a sandbox that denies reading any path (for example `**/.env*`) makes the stash fail and the commit abort before any check runs.
 
-![lint-staged stashes unstaged changes before checking staged files, so a denied filesystem path can stop the hook before any lint runs.](../Diagrams/lint-staged.precommit-stash.svg)
+![The lint-staged backup walked the worktree and hit a denied lstat before any staged-files lint could run.](../Diagrams/lint-staged.precommit-stash.svg)
 
 Usage example:
 > The commit failed inside lint-staged with `lstat(".env.example"): Operation not permitted`; rerun it outside the sandbox.

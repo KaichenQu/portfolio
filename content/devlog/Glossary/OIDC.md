@@ -9,7 +9,7 @@ tags: [glossary]
 
 An identity layer on OAuth 2.0. In CI it means a workflow presents a short-lived signed token about itself (repo, branch, job) to a cloud provider, which exchanges it for temporary credentials, so no long-lived access key is stored in the CI secrets. GitHub Actions needs `permissions: id-token: write`; Alibaba Cloud RAM and AWS IAM both accept the GitHub issuer.
 
-![A CI workflow presents a short-lived signed OpenID Connect token to a cloud provider, which exchanges it for temporary credentials.](../Diagrams/oidc.credential-exchange.svg)
+![An upload workflow requests a signed GitHub OIDC token, exchanges it through RAM, and uses the temporary credentials for OSS.](../Diagrams/oidc.credential-exchange.svg)
 
 Usage example:
 > Upload to OSS through RAM OIDC instead of putting an AccessKey in the repository secrets.

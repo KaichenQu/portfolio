@@ -37,7 +37,7 @@ The source brief records the cause and the fix, not the steps between. One earli
 
 ## Root cause
 
-![Where requested becomes null](../../Diagrams/2026-10-16-requested-values-empty-after-pair-translation.data-flow.svg)
+![Serializing the +Y 1 mm requirement twice made requested null and skipped the deviation check even though all four measured changes matched.](../../Diagrams/2026-10-16-requested-values-empty-after-pair-translation.data-flow.svg)
 
 1. The two rows were serialized in the B1 request format, the text a run is submitted with. B1 generated the requirement sentence once per translation, so the request held it twice.
 2. ▒▒▒▒▒▒▒▒ takes the requested value from a matching requirement sentence, and it accepts only one match.

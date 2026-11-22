@@ -7,7 +7,7 @@ tags: [frontend, multi-agent, review, css]
 
 **Mistake**: a worker team delivered a UI redesign with 248 before/after screenshot pairs, six review rounds of its own and a green full browser tier. The controller was about to merge on that report. Opening nine of the `after` files showed five defects: a toolbar over the price axis, a change figure about 170 px from its price, one index tile on a different ground from the other three, plan cards without padding, and a figure collapsed by default.
 
-![The screenshot count and test tier confirmed the worker's checks ran. Opening nine screenshots exposed five defects those checks did not cover.](../Diagrams/review-delegated-visual-work-by-opening-the-screenshots.review-sample.svg)
+![Opening nine after screenshots revealed five visible defects that the reported screenshots and green browser tier had missed.](../Diagrams/review-delegated-visual-work-by-opening-the-screenshots.review-sample.svg)
 
 **Root cause**:
 - Tests assert the geometry rules their author thought of. A defect nobody wrote a rule for passes all of them.

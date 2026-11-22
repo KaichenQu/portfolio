@@ -7,7 +7,7 @@ tags: [infra, shell, sudo, fail2ban, sshd]
 
 **Mistake**: on a box where the agent had no sudo, fail2ban and sshd changes were handed to the teammate as command blocks across several chat turns. Turn N introduced `bantime.increment`, `bantime.maxtime` and `bantime.formula` in `jail.local`; turn N+1, after the teammate changed the numbers, sent a `sed -i 's|^bantime.maxtime = .*|...|'` delta. The teammate had skipped turn N. `sed` matched nothing and exited 0, and `fail2ban-client` chained onto `systemctl restart` in the same line printed `Failed to access socket path:/var/run/fail2ban/fail2ban.sock` because the daemon was still starting. The teammate read that as "it broke".
 
-![A delta can exit successfully without editing a missing line. Writing the whole intended file works even when an earlier handover was skipped.](../Diagrams/hand-over-full-state-config-not-deltas.target-file.svg)
+![A sed delta exited successfully after matching no previous setting, while writing the complete jail.local would establish the intended state.](../Diagrams/hand-over-full-state-config-not-deltas.target-file.svg)
 
 **Root cause**:
 - A delta encodes an assumption about the file's current content. The agent cannot see which of its earlier blocks a user actually pasted, so the assumption is unverifiable at the moment it is sent.

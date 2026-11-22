@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="264" viewBox="0 0 720 264" role="img" xml:lang="zh-CN">
+  <title>把钩子从 Bash 扩展到文件工具后，同一条路径规则也拦截了受保护目录下的普通附件。</title>
+  <rect width="720" height="264" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-fail" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#A13834" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">钩子匹配范围</tspan></text>
+  <rect x="28" y="64" width="664" height="168" rx="3" fill="#F4F7FA" stroke="#2159A6" stroke-width="1"/>
+  <text class="label focus" text-anchor="start" data-bounds="22 53 698 252"><tspan x="44" y="92">新匹配范围</tspan></text>
+  <rect x="44" y="112" width="214" height="99" rx="3" fill="#FFFFFF" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 252"><tspan x="59" y="140">旧匹配范围</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="22 53 698 252"><tspan x="59" y="175">Bash</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="22 53 698 252"><tspan x="295" y="139">Edit</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="22 53 698 252"><tspan x="373" y="139">Write</tspan></text>
+  <text class="mono focus strong" text-anchor="start" data-bounds="22 53 698 252"><tspan x="466" y="139">Read</tspan></text>
+  <path d="M487 151L487 173" fill="none" stroke="#A13834" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-fail)"/>
+  <path d="M483 179l8 8m0 -8l-8 8" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small fail" text-anchor="start" data-bounds="22 53 698 252"><tspan x="504" y="188">普通附件</tspan></text>
+</svg>

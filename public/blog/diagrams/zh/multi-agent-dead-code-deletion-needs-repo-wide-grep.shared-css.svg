@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="263" viewBox="0 0 720 263" role="img" xml:lang="zh-CN">
+  <title>一个面板移除切换控件后，按文件归属限定的搜索漏掉了另一个仍依赖基础样式的面板。</title>
+  <rect width="720" height="263" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">共享 CSS 的使用方</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 251"><tspan x="28" y="83">已移除的切换控件</tspan></text>
+  <text class="mono strong" text-anchor="start" data-bounds="22 53 698 251"><tspan x="467" y="83">SectorHeatmap.tsx</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 251"><tspan x="467" y="106">heatmap.css 中的覆盖样式</tspan></text>
+  <path d="M118 109V137H231V150" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M564 114V137H491V150" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <rect x="182" y="157" width="360" height="51" rx="3" fill="#EDF2F6" stroke="#A13834" stroke-width="1"/>
+  <text class="mono strong" text-anchor="start" data-bounds="190 161 534 203"><tspan x="197" y="187">live.css</tspan></text>
+  <text class="mono strong" text-anchor="start" data-bounds="190 161 534 203"><tspan x="300" y="187">.seg-ctrl</tspan></text>
+  <text class="mono strong" text-anchor="start" data-bounds="190 161 534 203"><tspan x="427" y="187">.seg-btn</tspan></text>
+  <path d="M186 225l8 8m0 -8l-8 8" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small fail" text-anchor="start" data-bounds="22 53 698 251"><tspan x="203" y="234">删除规则后，热力图切换控件失去样式</tspan></text>
+</svg>

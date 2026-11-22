@@ -43,7 +43,7 @@ Constraints:
 
 **Option B.** The root cause is AWS's random suffix, and prefix matching addresses exactly that; and "delete cleanly under any name I choose" is, at bottom, a request to relax matching down to the prefix.
 
-![Deployment and teardown share a stable resource prefix. Cleanup skips unmatched names and service-linked roles before deleting.](../../Diagrams/2026-06-19-teardown-by-prefix-instead-of-exact-name.deletion-boundary.svg)
+![Deploy and teardown share a resource prefix so a generated role suffix survives name matching, with service-linked roles excluded from deletion.](../../Diagrams/2026-06-19-teardown-by-prefix-instead-of-exact-name.deletion-boundary.svg)
 
 Two safety boundaries:
 

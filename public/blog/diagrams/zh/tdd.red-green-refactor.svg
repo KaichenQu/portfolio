@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="239" viewBox="0 0 720 239" role="img" xml:lang="zh-CN">
+  <title>TDD 示例先让自选列表测试失败，用最小改动打开抽屉后通过，再重构并保持测试通过。</title>
+  <rect width="720" height="239" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-rule" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#C5CDD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">红绿重构循环</tspan></text>
+  <path d="M117 119L603 119" fill="none" stroke="#C5CDD5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-rule)"/>
+  <circle cx="117" cy="119" r="5" fill="#A13834" stroke="none" stroke-width="1.5"/>
+  <text class="label fail" text-anchor="middle" data-bounds="22 53 698 227"><tspan x="117" y="96">失败</tspan></text>
+  <text class="small" text-anchor="middle" data-bounds="22 53 698 227"><tspan x="117" y="151">测试要求抽屉打开</tspan></text>
+  <circle cx="361" cy="119" r="5" fill="#246849" stroke="none" stroke-width="1.5"/>
+  <text class="label pass" text-anchor="middle" data-bounds="22 53 698 227"><tspan x="361" y="96">通过</tspan></text>
+  <text class="small" text-anchor="middle" data-bounds="22 53 698 227"><tspan x="361" y="151">让抽屉能打开</tspan></text>
+  <circle cx="603" cy="119" r="5" fill="#2159A6" stroke="none" stroke-width="1.5"/>
+  <text class="label focus" text-anchor="middle" data-bounds="22 53 698 227"><tspan x="603" y="96">重构</tspan></text>
+  <text class="small" text-anchor="middle" data-bounds="22 53 698 227"><tspan x="603" y="151">保持测试通过</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 227"><tspan x="28" y="198">全过程保持同一条行为预期</tspan></text>
+</svg>

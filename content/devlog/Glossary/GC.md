@@ -8,7 +8,7 @@ tags: [glossary, infra]
 
 Broadly, automatic reclamation of resources no longer needed. Beyond a language runtime's memory reclamation, in day-to-day work it also means periodic cleanup on disk: cache directories, session records, logs, temp files. Deciding whether to add a GC pass comes down to two questions — does this thing already have its own cap, and would skipping cleanup actually cause a problem.
 
-![Before adding periodic cleanup, check whether the resource already has a cap and what happens if it accumulates.](../Diagrams/gc.cleanup-decision.svg)
+![An attachment cache already capped at 512 MB needs no extra sweep, while the uncapped session directory can accumulate indefinitely.](../Diagrams/gc.cleanup-decision.svg)
 
 Example usage:
 > The attachment cache has `enforceCacheMaxBytes` as a backstop, capped at 512 MB, so it needs no extra GC. kimi's session directory has no cap at all — 13 MB over 5 days — that's where cleanup actually belongs.

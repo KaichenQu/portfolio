@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="318" viewBox="0 0 720 318" role="img" xml:lang="zh-CN">
+  <title>连接取用等待 30 秒后整批返回 HTTP 500，浏览器重试同一批请求，再次触发锁死。</title>
+  <rect width="720" height="318" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">超时重试循环</tspan></text>
+  <circle cx="48" cy="119" r="5" fill="#2159A6" stroke="#2159A6" stroke-width="1.5"/>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 306"><tspan x="48" y="100">至少 55 个请求突发</tspan></text>
+  <circle cx="672" cy="119" r="5" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.5"/>
+  <text class="label" text-anchor="end" data-bounds="22 53 698 306"><tspan x="672" y="100">线程池和连接池均用尽</tspan></text>
+  <circle cx="672" cy="252" r="5" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.5"/>
+  <text class="strong fail" text-anchor="end" data-bounds="22 53 698 306"><tspan x="672" y="279">整批返回 HTTP 500</tspan></text>
+  <circle cx="48" cy="252" r="5" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.5"/>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 306"><tspan x="48" y="279">浏览器重试整批请求</tspan></text>
+  <path d="M54 119H663" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M672 125V243" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M666 252H57" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M48 246V128" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <text class="small muted" text-anchor="middle" data-bounds="22 53 698 306"><tspan x="360" y="143">占满线程与连接</tspan></text>
+  <text class="small muted" text-anchor="end" data-bounds="22 53 698 306"><tspan x="654" y="190">30 s pool_timeout</tspan></text>
+  <text class="small muted" text-anchor="middle" data-bounds="22 53 698 306"><tspan x="360" y="238">失败后重试</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 306"><tspan x="66" y="190">重现同一批突发</tspan></text>
+</svg>

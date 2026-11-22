@@ -69,7 +69,7 @@ The orphan queue:
 - abandons it on a permanent 4xx and logs `PLAID_REMOVE_ABANDONED`;
 - runs at service level, so the user's disconnect returns without waiting for Plaid.
 
-![Item removal states](../../Diagrams/2026-10-24-plaid-item-removal-retry-after-verification.removal-states.svg)
+![After verification, Plaid removal drops the token on success or keeps it in a memory-only retry queue that is lost on restart.](../../Diagrams/2026-10-24-plaid-item-removal-retry-after-verification.removal-states.svg)
 
 The queue in memory was accepted for this release. A restart inside the retry window loses the queued tokens, and those Items keep billing. The brief puts the window at about 3 minutes.
 

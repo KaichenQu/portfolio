@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="254" viewBox="0 0 720 254" role="img" xml:lang="zh-CN">
+  <title>注释崩溃代码块的后半段再运行，可判断故障在哪一半。</title>
+  <rect width="720" height="254" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">注释二分定位</tspan></text>
+  <rect x="28" y="68" width="664" height="43" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="360" y="69" width="331" height="41" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M360 69L360 110" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="strong" text-anchor="start" data-bounds="22 53 698 242"><tspan x="43" y="93">前半段保留</tspan></text>
+  <text class="muted" text-anchor="start" data-bounds="22 53 698 242"><tspan x="377" y="93">后半段已注释</tspan></text>
+  <path d="M360 112V137H182V157" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M360 137H536V157" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <text class="label fail" text-anchor="middle" data-bounds="22 53 698 242"><tspan x="182" y="183">仍然崩溃</tspan></text>
+  <text text-anchor="middle" data-bounds="22 53 698 242"><tspan x="182" y="211">查前半段</tspan></text>
+  <text class="label pass" text-anchor="middle" data-bounds="22 53 698 242"><tspan x="536" y="183">崩溃消失</tspan></text>
+  <text text-anchor="middle" data-bounds="22 53 698 242"><tspan x="536" y="211">查后半段</tspan></text>
+</svg>

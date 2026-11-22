@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="286" viewBox="0 0 720 286" role="img" xml:lang="zh-CN">
+  <title>先找抛错处：Python 把它排在调用帧末尾，JavaScript 排在调用帧开头。</title>
+  <rect width="720" height="286" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">堆栈回溯阅读顺序</tspan></text>
+  <rect x="28" y="64" width="321" height="190" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 274"><tspan x="42" y="89">Python</tspan></text>
+  <path d="M28 101L349 101" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono muted" text-anchor="start" data-bounds="22 53 698 274"><tspan x="42" y="130">外层调用</tspan></text>
+  <text class="mono muted" text-anchor="start" data-bounds="22 53 698 274"><tspan x="42" y="170">中间调用</tspan></text>
+  <text class="mono fail strong" text-anchor="start" data-bounds="22 53 698 274"><tspan x="42" y="210">抛错处</tspan></text>
+  <path d="M279 212L279 121" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="end" data-bounds="22 53 698 274"><tspan x="264" y="173">追溯</tspan></text>
+  <rect x="371" y="64" width="321" height="190" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 274"><tspan x="385" y="89">JavaScript</tspan></text>
+  <path d="M371 101L692 101" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono fail strong" text-anchor="start" data-bounds="22 53 698 274"><tspan x="385" y="130">抛错处</tspan></text>
+  <text class="mono muted" text-anchor="start" data-bounds="22 53 698 274"><tspan x="385" y="170">中间调用</tspan></text>
+  <text class="mono muted" text-anchor="start" data-bounds="22 53 698 274"><tspan x="385" y="210">外层调用</tspan></text>
+  <path d="M622 123L622 212" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="end" data-bounds="22 53 698 274"><tspan x="607" y="173">追溯</tspan></text>
+</svg>

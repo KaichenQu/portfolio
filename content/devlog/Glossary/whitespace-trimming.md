@@ -8,7 +8,7 @@ tags: [glossary, infra]
 
 In Go templates (used by [[chezmoi]], Helm, and others), adding `-` next to an action delimiter eats adjacent whitespace and newlines: `{{- ` strips to the left, ` -}}` strips to the right. The intent is to keep control logic (`if`/`range`/`end`) from leaving blank lines in the output.
 
-![A right-trimming Go template delimiter can remove the newline before a data header. Dropping that trim marker preserves the newline.](../Diagrams/whitespace-trimming.newline-loss.svg)
+![The right trim in {{- end -}} glued the TOML data header to a comment, while keeping the newline restored its table.](../Diagrams/whitespace-trimming.newline-loss.svg)
 
 The gotcha: `-}}` keeps stripping all the way to the next non-whitespace character, including newlines you actually wanted to keep. If a multi-line block of control logic ends every line with `-}}`, the real content right after it gets glued onto the previous line.
 

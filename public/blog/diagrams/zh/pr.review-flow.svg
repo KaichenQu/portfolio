@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="318" viewBox="0 0 720 318" role="img" xml:lang="zh-CN">
+  <title>分支改动通过 PR 提交评审，获得认可后再合入主线。</title>
+  <rect width="720" height="318" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 690 49"><tspan x="28" y="38">PR 评审</tspan></text>
+  <defs>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <path d="M160 242H681" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M241 242C273 242 288 172 319 172H452C495 172 510 242 558 242" fill="none" stroke="#2159A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="164" cy="242" r="4.5" fill="#52616F" stroke="none" stroke-width="1"/>
+  <circle cx="241" cy="242" r="4.5" fill="#52616F" stroke="none" stroke-width="1"/>
+  <circle cx="319" cy="172" r="4.5" fill="#2159A6" stroke="none" stroke-width="1"/>
+  <circle cx="452" cy="172" r="4.5" fill="#2159A6" stroke="none" stroke-width="1"/>
+  <circle cx="558" cy="242" r="4.5" fill="#2159A6" stroke="none" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="27 223 148 257"><tspan x="28" y="247">主线</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="153 152 301 192"><tspan x="165" y="180">分支改动</tspan></text>
+  <text class="mono label focus" text-anchor="middle" data-bounds="300 178 359 212"><tspan x="319" y="198">PR</tspan></text>
+  <text class="label" text-anchor="middle" data-bounds="503 251 603 293"><tspan x="553" y="275">合并</tspan></text>
+  <rect x="307" y="69" width="385" height="72" rx="4" fill="#F4F7FA" stroke="#C5CDD5"/>
+  <path d="M360 141v31" fill="none" stroke="#52616F" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="317 73 682 101"><tspan x="323" y="95">评审意见</tspan></text>
+  <text class="" text-anchor="start" data-bounds="317 103 682 134"><tspan x="323" y="121">“这个 PR 太大了，拆小一点。”</tspan></text>
+  <text class="mono strong focus" text-anchor="middle" data-bounds="418 178 495 212"><tspan x="452" y="198">LGTM</tspan></text>
+</svg>

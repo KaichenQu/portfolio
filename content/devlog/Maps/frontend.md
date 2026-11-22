@@ -6,7 +6,7 @@ tags: [moc, frontend, react, css, three]
 
 22 notes. The smallest cluster, and its threads are about state that outlives the render.
 
-![Frontend behavior depends on state that can outlive a render, code shared across panes, and what the verification actually exercises.](../Diagrams/frontend.state-boundaries.svg)
+![Resetting React state leaves a useLoader error cached, so the retry needs to evict that entry to reach the loader again.](../Diagrams/frontend.state-boundaries.svg)
 
 ## Cached failure
 

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="245" viewBox="0 0 720 245" role="img" xml:lang="zh-CN">
+  <title>Python 服务和其他包同处一个仓库，但 vp check 只覆盖 pnpm 工作区，因此服务需要单独跑 pytest。</title>
+  <rect width="720" height="245" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">单仓工作区边界</tspan></text>
+  <rect x="28" y="63" width="664" height="151" rx="3" fill="#FFFFFF" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 233"><tspan x="44" y="90">一个 Git 仓库</tspan></text>
+  <rect x="44" y="106" width="297" height="92" rx="3" fill="#F4F7FA" stroke="#2159A6" stroke-width="1"/>
+  <text class="label focus" text-anchor="start" data-bounds="22 53 698 233"><tspan x="59" y="132">pnpm 工作区</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 233"><tspan x="59" y="158">含 package.json 的包</tspan></text>
+  <text class="mono small" text-anchor="start" data-bounds="22 53 698 233"><tspan x="59" y="182">vp check</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 233"><tspan x="390" y="133">Python API 服务</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 233"><tspan x="390" y="159">工作区范围外</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 233"><tspan x="390" y="183">单独运行 pytest</tspan></text>
+</svg>

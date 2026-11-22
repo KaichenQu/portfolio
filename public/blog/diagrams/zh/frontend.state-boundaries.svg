@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="313" viewBox="0 0 720 313" role="img" xml:lang="zh-CN">
+  <title>重置 React 状态后，useLoader 的错误仍留在缓存里，重试要先清除该条目才能重新加载。</title>
+  <rect width="720" height="313" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 690 49"><tspan x="28" y="38">前端重试状态边界</tspan></text>
+  <defs>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <rect x="245" y="87" width="251" height="196" rx="4" fill="#F4F7FA" stroke="#C5CDD5"/>
+  <path d="M479 224v-4H261v47h218v-4" fill="none" stroke="#2159A6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <path d="M28 199H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M210 149H256" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M210 244H254" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M479 149H538" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="261" y="126" width="218" height="47" rx="3" fill="#EDF2F6" stroke="#C5CDD5"/>
+  <path d="M541 144l10 10m0-10-10 10" fill="none" stroke="#A13834" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M479 244H552" fill="none" stroke="#2159A6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="label" text-anchor="start" data-bounds="27 93 213 121"><tspan x="28" y="112">React</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="253 90 487 122"><tspan x="261" y="112">useLoader 缓存</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="556 93 691 121"><tspan x="563" y="112">加载器</tspan></text>
+  <text class="strong" text-anchor="start" data-bounds="27 132 207 171"><tspan x="28" y="154">重置 React 状态</tspan></text>
+  <text class="fail label" text-anchor="start" data-bounds="269 132 470 169"><tspan x="276" y="154">已缓存的错误</tspan></text>
+  <text class="fail strong" text-anchor="start" data-bounds="557 132 691 170"><tspan x="563" y="154">未调用</tspan></text>
+  <text class="focus strong" text-anchor="start" data-bounds="27 226 208 265"><tspan x="28" y="249">清除缓存中的错误</tspan></text>
+  <text class="focus strong" text-anchor="start" data-bounds="269 225 470 263"><tspan x="276" y="249">缓存槽位已清空</tspan></text>
+  <text class="focus strong" text-anchor="start" data-bounds="556 225 691 269"><tspan x="563" y="249">重新执行</tspan></text>
+</svg>

@@ -7,7 +7,7 @@ tags: [react, three, frontend]
 
 [[R3F]]'s `useLoader` is built on suspend-react underneath. A load failure stays in the module-level cache forever, and subsequent calls with the same key synchronously re-throw the old error. Building a "retry" requires clearing the cache first, then resetting the boundary state:
 
-![A reset alone rethrows the cached loader error. Clear the matching useLoader entry before resetting the error boundary.](../Diagrams/useloader-failures-are-cached-forever.retry-cache.svg)
+![Clearing the STLLoader cache entry first allows resetting the error boundary to issue a real refetch.](../Diagrams/useloader-failures-are-cached-forever.retry-cache.svg)
 
 ```tsx
 useLoader.clear(STLLoader, url);   // clear this [loader, url] key first

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="250" viewBox="0 0 720 250" role="img" xml:lang="zh-CN">
+  <title>结束触摸模拟后，macOS 恢复精细指针媒体状态，Linux 无头浏览器仍报告 none，因此等不到第二次 change 事件。</title>
+  <rect width="720" height="250" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">触摸模拟后的指针媒体查询</tspan></text>
+  <rect x="28" y="62" width="664" height="38" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="36 64 192 98"><tspan x="40" y="85">Chromium</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="209 64 424 98"><tspan x="213" y="85">结束触摸模拟后</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="441 64 683 98"><tspan x="445" y="85">对测试的影响</tspan></text>
+  <path d="M201 62L201 224" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M433 62L433 224" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 100L692 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 102 192 160"><tspan x="40" y="123">macOS</tspan></text>
+  <text class="mono pass" text-anchor="start" data-bounds="209 102 424 160"><tspan x="213" y="123">hover: hover</tspan><tspan x="213" y="144">pointer: fine</tspan></text>
+  <text text-anchor="start" data-bounds="441 102 683 160"><tspan x="445" y="123">触发第二次 change</tspan></text>
+  <path d="M28 162L692 162" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 164 192 222"><tspan x="40" y="185">Linux 无头</tspan></text>
+  <text class="mono fail" text-anchor="start" data-bounds="209 164 424 222"><tspan x="213" y="185">hover: none</tspan><tspan x="213" y="206">pointer: none</tspan></text>
+  <text text-anchor="start" data-bounds="441 164 683 222"><tspan x="445" y="185">第二次 change 未触发</tspan></text>
+  <path d="M28 224L692 224" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

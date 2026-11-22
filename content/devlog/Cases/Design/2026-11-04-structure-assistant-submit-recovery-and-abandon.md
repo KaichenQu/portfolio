@@ -78,7 +78,7 @@ Option A is what ran on 11/03. Batch-confirming three cards accepted only the fi
 409 TASK_EXECUTION_BUSY "当前聊天仍有执行或待答问题，暂不能提交新执行或修改输入。"
 ```
 
-![Execution slot](../../Diagrams/2026-11-04-structure-assistant-submit-recovery-and-abandon.execution-slot.svg)
+![The first card occupied the only unfinished execution slot, so the second got TASK_EXECUTION_BUSY and the batch waited for manual recovery.](../../Diagrams/2026-11-04-structure-assistant-submit-recovery-and-abandon.execution-slot.svg)
 
 The batch paused (「批量提交暂停」, card 2 「提交中·待恢复」). Each later card went through only after the previous run finished and the user recovered it by hand. All three runs were delivered (装配复检通过). The server held exactly three assistant Works plus the base Work.
 
@@ -96,7 +96,7 @@ A card the user edits later can therefore never be submitted under an identity t
 
 Option B, in `▒▒▒▒▒▒▒▒▒▒▒▒` (「放弃恢复先核对服务端执行，有则接回原执行」).
 
-![Abandon decision](../../Diagrams/2026-11-04-structure-assistant-submit-recovery-and-abandon.abandon-decision.svg)
+![Abandonment checks the Work’s executions and rebinds a recoverable execution before it can mark the card as never run.](../../Diagrams/2026-11-04-structure-assistant-submit-recovery-and-abandon.abandon-decision.svg)
 
 - `abandonPromptSuggestion` reads the Work's executions first.
 - If any non-terminal execution exists (terminal means `stale` or `rejected`), the client re-binds it, that is, attaches it to the local identity. The result is `"rebound"`, the panel shows 「已接回，请恢复提交」, and the card stays recoverable. The next submit neither creates nor prepares again.
@@ -136,7 +136,7 @@ The identity fields live in `sessionStorage`, one identity per card. The server 
 
 ## Data flow
 
-![Submit chain](../../Diagrams/2026-11-04-structure-assistant-submit-recovery-and-abandon.submit-chain.svg)
+![The panel persists each returned identifier before sending the next request that depends on it.](../../Diagrams/2026-11-04-structure-assistant-submit-recovery-and-abandon.submit-chain.svg)
 
 Every blue arrow is a write to `sessionStorage`, and each one happens before the request that depends on it. A lost create or submit response therefore recovers with the same ids (see Verification).
 

@@ -7,7 +7,7 @@ tags: [debug, method]
 
 Adding log lines is the most basic and most effective debugging tool there is, but putting them in the wrong place is the same as not adding them at all.
 
-![Values logged on both sides of a boundary, correlated by request ID, expose the hop where data changes unexpectedly.](../Diagrams/log-placement.boundary-values.svg)
+![Logging before and after a boundary with the same request ID shows where a value changed.](../Diagrams/log-placement.boundary-values.svg)
 
 ## When to use
 When you can't attach a debugger (production, async, concurrent, or scheduled jobs), or you want to narrow the range quickly.

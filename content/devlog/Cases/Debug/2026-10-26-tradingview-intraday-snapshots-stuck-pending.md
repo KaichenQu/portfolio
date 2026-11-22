@@ -60,7 +60,7 @@ The 10/25 guess named the subscription. The cause was the token's own lifetime.
 
 ==The sidecar authenticated with one fixed `TV_TOKEN`, a JWT that expires after about 4 hours, and had no step that replaced it.== Daily bars were served without that token (Yahoo's `MNQ=F` was normal on 10/25), which is why they kept working while every intraday series stopped.
 
-![Token refresh timeline](../../Diagrams/2026-10-26-tradingview-intraday-snapshots-stuck-pending.refresh-timeline.svg)
+![Refreshing TV_TOKEN ten minutes before its roughly four-hour expiry keeps intraday requests from falling into SNAPSHOT_PENDING.](../../Diagrams/2026-10-26-tradingview-intraday-snapshots-stuck-pending.refresh-timeline.svg)
 
 ## Fix
 

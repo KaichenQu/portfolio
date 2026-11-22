@@ -8,7 +8,7 @@ tags: [glossary, auth]
 
 A self-contained authentication token: three segments — `header.payload.signature` — joined by `.`. The `exp` field in the `payload` is the expiration timestamp, so a client can decode it locally to check expiry without asking the server. Versus a traditional session cookie: a session cookie is just an opaque ID with the real state kept server-side, while a JWT carries its own state — the server confirms validity by verifying the signature, not by querying a database.
 
-![A JSON Web Token contains a header, payload and signature. A client can decode exp, and the server verifies the signature.](../Diagrams/jwt.token-parts.svg)
+![A JWT has three dot-separated segments, and its payload exposes exp while its signature is verified by the server.](../Diagrams/jwt.token-parts.svg)
 
 Example usage:
 > TradingView's `auth_token` is a JWT — its real lifetime is whatever the `exp` claim says, not the "~4 hours" the docs estimate.

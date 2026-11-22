@@ -6,7 +6,7 @@ tags: [moc, infra, chezmoi, config, shell, cron, macos, security]
 
 41 notes, the largest cluster. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
 
-![Distinguish what configuration took effect, what happened to the running process or network, and what can be recovered during delivery.](../Diagrams/dotfiles-and-infra.mechanism-groups.svg)
+![A generated config, the process’s exit or network evidence, and the delivery path need separate checks to explain infrastructure failures.](../Diagrams/dotfiles-and-infra.mechanism-groups.svg)
 
 ## chezmoi and templated dotfiles
 

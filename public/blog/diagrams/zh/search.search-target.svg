@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="249" viewBox="0 0 720 249" role="img" xml:lang="zh-CN">
+  <title>用 rg 找文本出现位置，用 fd 找文件名，用 ast-grep 找解析后的语法结构。</title>
+  <rect width="720" height="249" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">代码搜索对象</tspan></text>
+  <rect x="28" y="62" width="664" height="38" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="36 64 243 98"><tspan x="40" y="85">已知对象</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="260 64 351 98"><tspan x="264" y="85">工具</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="368 64 683 98"><tspan x="372" y="85">示例</tspan></text>
+  <path d="M252 62L252 223" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M360 62L360 223" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 100L692 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 102 243 139"><tspan x="40" y="123">文本中的函数名</tspan></text>
+  <text class="mono focus" text-anchor="start" data-bounds="260 102 351 139"><tspan x="264" y="123">rg</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="368 102 683 139"><tspan x="372" y="123">rg -w "function-name"</tspan></text>
+  <path d="M28 141L692 141" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 143 243 180"><tspan x="40" y="164">部分文件名</tspan></text>
+  <text class="mono focus" text-anchor="start" data-bounds="260 143 351 180"><tspan x="264" y="164">fd</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="368 143 683 180"><tspan x="372" y="164">fd &lt;partial-name&gt;</tspan></text>
+  <path d="M28 182L692 182" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 184 243 221"><tspan x="40" y="205">调用语法</tspan></text>
+  <text class="mono focus" text-anchor="start" data-bounds="260 184 351 221"><tspan x="264" y="205">ast-grep</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="368 184 683 221"><tspan x="372" y="205">sg -p 'console.log($A)'</tspan></text>
+  <path d="M28 223L692 223" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

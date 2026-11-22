@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="304" viewBox="0 0 720 304" role="img" xml:lang="zh-CN">
+  <title>基线已有失败时，两边运行相同检查，具体失败项和警告集合一致才支持行为未变。</title>
+  <rect width="720" height="304" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 690 49"><tspan x="28" y="38">失败基线比对</tspan></text>
+  <text class="label" text-anchor="middle" data-bounds="198 57 492 90"><tspan x="345" y="82">同一检查脚本</tspan></text>
+  <path d="M197 104v-9h296v9" fill="none" stroke="#52616F" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="28" y="113" width="664" height="35" rx="0" fill="#F4F7FA" stroke="none"/>
+  <rect x="197" y="148" width="296" height="127" rx="0" fill="#EDF2F6" stroke="none"/>
+  <path d="M197 113L197 275" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M342 113L342 275" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M493 113L493 275" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 148H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 211H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 275H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small strong" text-anchor="start" data-bounds="40 113 190 146"><tspan x="44" y="135">检查项</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="206 113 336 146"><tspan x="210" y="135">基线</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="351 113 487 146"><tspan x="355" y="135">改动后的提交</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="505 113 685 146"><tspan x="509" y="135">比对结果</tspan></text>
+  <text class="strong" text-anchor="start" data-bounds="37 152 190 207"><tspan x="44" y="185">Web 单测</tspan></text>
+  <text class="small fail strong" text-anchor="start" data-bounds="206 152 337 207"><tspan x="210" y="174">15 失败</tspan><tspan x="210" y="196">退出码 1</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="206 214 337 272"><tspan x="210" y="247">249</tspan></text>
+  <text class="small fail strong" text-anchor="start" data-bounds="351 152 488 207"><tspan x="355" y="174">15 失败</tspan><tspan x="355" y="196">退出码 1</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="351 214 488 272"><tspan x="355" y="247">249</tspan></text>
+  <text class="strong" text-anchor="start" data-bounds="37 214 190 272"><tspan x="44" y="247">Lint 警告</tspan></text>
+  <text class="" text-anchor="start" data-bounds="503 151 684 178"><tspan x="509" y="173">失败清单</tspan></text>
+  <text class="mono pass strong" text-anchor="start" data-bounds="503 179 684 208"><tspan x="509" y="195">SAME</tspan></text>
+  <text class="" text-anchor="start" data-bounds="503 214 684 241"><tspan x="509" y="236">警告集合</tspan></text>
+  <text class="mono pass strong" text-anchor="start" data-bounds="503 242 684 271"><tspan x="509" y="258">SAME</tspan></text>
+</svg>

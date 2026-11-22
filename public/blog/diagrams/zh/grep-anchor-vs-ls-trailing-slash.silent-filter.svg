@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="191" viewBox="0 0 720 191" role="img" xml:lang="zh-CN">
+  <title>Default/ 的尾斜杠使末尾锚定的表达式漏掉它，前缀表达式仍能找到 Profile 3/。</title>
+  <rect width="720" height="191" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">浏览器配置目录过滤</tspan></text>
+  <rect x="28" y="64" width="320" height="101" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="29" y="65" width="318" height="35" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 101L348 101" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="36 66 339 100"><tspan x="42" y="87">原始列表</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="36 103 339 163"><tspan x="42" y="126">Default/</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="36 103 339 163"><tspan x="42" y="150">Profile 3/</tspan></text>
+  <rect x="372" y="64" width="320" height="101" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="373" y="65" width="318" height="35" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M372 101L692 101" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="380 66 683 100"><tspan x="386" y="87">过滤后</tspan></text>
+  <text class="mono pass" text-anchor="start" data-bounds="380 103 683 163"><tspan x="386" y="126">Profile 3/</tspan></text>
+  <text class="mono fail" text-anchor="start" data-bounds="380 103 683 163"><tspan x="386" y="150">Default/ 不匹配 ^default$</tspan></text>
+</svg>

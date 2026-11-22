@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="311" viewBox="0 0 720 311" role="img" xml:lang="zh-CN">
+  <title>第一次查询落在错误的 Chrome 配置中，正确配置含有登录会话 Cookie，但没有 auth_token。</title>
+  <rect width="720" height="311" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">TradingView Cookie 查询</tspan></text>
+  <rect x="28" y="62" width="664" height="38" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="36 64 203 98"><tspan x="40" y="85">证据</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="220 64 401 98"><tspan x="224" y="85">首次查询</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="418 64 683 98"><tspan x="422" y="85">当前配置</tspan></text>
+  <path d="M212 62L212 285" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M410 62L410 285" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 100L692 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 102 203 139"><tspan x="40" y="123">Chrome 配置</tspan></text>
+  <text class="mono fail" text-anchor="start" data-bounds="220 102 401 139"><tspan x="224" y="123">Profile 3/</tspan></text>
+  <text class="mono focus" text-anchor="start" data-bounds="418 102 683 139"><tspan x="422" y="123">Default/</tspan></text>
+  <path d="M28 141L692 141" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 143 203 180"><tspan x="40" y="164">配置目录筛选</tspan></text>
+  <text class="mono fail" text-anchor="start" data-bounds="220 143 401 180"><tspan x="224" y="164">^default$</tspan></text>
+  <text text-anchor="start" data-bounds="418 143 683 180"><tspan x="422" y="164">尾斜杠导致 Default/ 被排除</tspan></text>
+  <path d="M28 182L692 182" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 184 203 242"><tspan x="40" y="205">会话 Cookie</tspan></text>
+  <text text-anchor="start" data-bounds="220 184 401 242"><tspan x="224" y="205">没有该站点记录</tspan></text>
+  <text class="mono pass" text-anchor="start" data-bounds="418 184 683 242"><tspan x="422" y="205">sessionid</tspan><tspan x="422" y="226">sessionid_sign</tspan></text>
+  <path d="M28 244L692 244" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono" text-anchor="start" data-bounds="36 246 203 283"><tspan x="40" y="267">auth_token</tspan></text>
+  <text text-anchor="start" data-bounds="220 246 401 283"><tspan x="224" y="267">缺失</tspan></text>
+  <text text-anchor="start" data-bounds="418 246 683 283"><tspan x="422" y="267">仍缺失</tspan></text>
+  <path d="M28 285L692 285" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

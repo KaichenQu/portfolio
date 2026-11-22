@@ -8,7 +8,7 @@ tags: [glossary, frontend]
 
 Making pages easy for search engines to find, index and show. In a Next.js site that is mostly metadata: a `<title>` and canonical link per page, Open Graph tags for share cards, JSON-LD, and a sitemap. All of them carry absolute URLs, so they are only as good as the host they are built from.
 
-![Per-page metadata and the sitemap help a site be discovered, indexed and shared. Absolute URLs depend on a host that resolves.](../Diagrams/seo.metadata-host.svg)
+![The note’s SEO change adds per-route metadata, a generated Open Graph image and a sitemap, all depending on the configured host.](../Diagrams/seo.metadata-host.svg)
 
 Example usage:
 > The SEO PR added per-route metadata, a generated Open Graph image and a sitemap covering every note.

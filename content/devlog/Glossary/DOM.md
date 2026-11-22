@@ -9,7 +9,7 @@ tags: [glossary, frontend]
 
 The browser's live tree of a page's elements and attributes. A serialized DOM snapshot records the structure a screen rendered, so two snapshots can be diffed alongside screenshots to catch a change that pixels hide.
 
-![A serialized Document Object Model captures element and attribute structure, so a before-and-after diff can reveal changes screenshots miss.](../Diagrams/dom.structure-snapshots.svg)
+![Comparing 60 DOM snapshots alongside 60 screenshots lets the cleanup review compare browser structure as well as pixels.](../Diagrams/dom.structure-snapshots.svg)
 
 Usage example:
 > 30 screens at two widths gave 60 PNG plus 60 DOM snapshots, compared before and after the cleanup.

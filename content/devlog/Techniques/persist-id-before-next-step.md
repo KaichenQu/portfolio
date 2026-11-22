@@ -19,7 +19,7 @@ The client sends a chain of requests, and each step needs the id that the previo
 2. When step k returns id_k, persist id_k before sending step k+1.
 3. Retries reuse the persisted keys and ids. They never mint new ones.
 
-![Crash window](../Diagrams/persist-id-before-next-step.crash-window.svg)
+![Persisting id_k before the next request leaves enough identity to find the server-side child after a crash or reload.](../Diagrams/persist-id-before-next-step.crash-window.svg)
 
 ## Underlying mechanism
 
@@ -40,7 +40,7 @@ A lost response for step k+1 leaves the client unsure: the server may hold an ob
 
 Before giving up on it, list the children of id_k, the objects the server holds under it. Re-bind any live one, taking it back as the object the chain continues with, instead of assuming none exists.
 
-![Abandon check](../Diagrams/persist-id-before-next-step.abandon-check.svg)
+![When an execution response is lost, reading the saved Work’s children reveals whether to rebind a prepared execution or abandon recovery.](../Diagrams/persist-id-before-next-step.abandon-check.svg)
 
 ## Caveats and counterexamples
 

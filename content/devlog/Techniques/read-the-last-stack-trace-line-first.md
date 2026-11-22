@@ -7,7 +7,7 @@ tags: [debug]
 
 Most people glance at the first line of an error and start guessing. In practice, the bottom-most frame of the stack trace is usually where the error actually got thrown; everything above it is just the call chain. Read the last line first to find "where it was thrown," then work back up the chain to see "how execution got there."
 
-![Locate the throw site first, then trace the calls that led to it. Python and JavaScript display the throw site in different places.](../Diagrams/read-the-last-stack-trace-line-first.trace-order.svg)
+![Find the throw site first: Python puts it at the bottom of the frames, while JavaScript lists it at the top.](../Diagrams/read-the-last-stack-trace-line-first.trace-order.svg)
 
 Python gets closer to the root cause as you go down; JS gets closer to the throw site as you go up (toward the first frame). Know which order you're looking at.
 

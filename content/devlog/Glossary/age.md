@@ -8,7 +8,7 @@ tags: [glossary, infra, security]
 
 A minimal, modern file encryption tool (`brew install age`), positioned as a replacement for gpg for the narrow job of "encrypt one file." Uses a keypair: the public key (recipient, `age1...`) encrypts, the private key (identity, stored in `key.txt`) decrypts. None of gpg's keyring, web-of-trust, or subkey complexity.
 
-![age encrypts a file with a public recipient. Decryption needs the corresponding private identity, which is kept separately from the ciphertext.](../Diagrams/age.recipient-and-identity.svg)
+![The age recipient encrypts x to x.age, and only the corresponding key.txt identity decrypts it.](../Diagrams/age.recipient-and-identity.svg)
 
 Paired with [[chezmoi]]: set `encryption = "age"` in `chezmoi.toml` with an identity/recipient, and the ciphertext `chezmoi encrypt` produces (`encrypted_*.age`) can go safely into git. The `age` private key `key.txt` is kept separately and never committed — it's the only thing that can decrypt; lose it and the ciphertext is gone for good.
 

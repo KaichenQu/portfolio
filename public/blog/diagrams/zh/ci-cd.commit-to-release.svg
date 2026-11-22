@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="243" viewBox="0 0 720 243" role="img" xml:lang="zh-CN">
+  <title>提交触发 CI，测试失败会让改动在进入发布阶段前停下。</title>
+  <rect width="720" height="243" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-pass" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#246849" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">CI 到交付的关口</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 231"><tspan x="28" y="84">提交</tspan></text>
+  <text class="label" text-anchor="middle" data-bounds="22 53 698 231"><tspan x="271" y="84">CI 构建与测试</tspan></text>
+  <text class="label" text-anchor="end" data-bounds="22 53 698 231"><tspan x="671" y="84">CD 发布阶段</tspan></text>
+  <path d="M28 119L261 119" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M271 119L672 119" fill="none" stroke="#246849" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-pass)"/>
+  <circle cx="271" cy="119" r="5" fill="#246849" stroke="none" stroke-width="1.5"/>
+  <text class="small pass" text-anchor="start" data-bounds="22 53 698 231"><tspan x="293" y="108">检查通过</tspan></text>
+  <path d="M271 127V180H439" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M434 175l10 10m0 -10l-10 10" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small fail" text-anchor="start" data-bounds="22 53 698 231"><tspan x="285" y="165">测试失败</tspan></text>
+  <text class="strong fail" text-anchor="start" data-bounds="22 53 698 231"><tspan x="452" y="186">等待后续合并</tspan></text>
+</svg>

@@ -7,7 +7,7 @@ tags: [verification, refactoring, ci-cd, method]
 
 ==When the baseline already fails some checks, "no behaviour change" is proved by matching the baseline, not by reaching green.== Run every check at the baseline commit once, then run the same script after every commit and compare exit status and the failure list of each check against that baseline run.
 
-![Run the same checks on the baseline and each change. Compare exit status and failure identities before accepting a change on a red baseline.](../Diagrams/baseline-diff-verification-on-a-red-baseline.comparison.svg)
+![With the same checks on a red baseline and a changed commit, matching failure identities and warning sets are evidence of unchanged behaviour.](../Diagrams/baseline-diff-verification-on-a-red-baseline.comparison.svg)
 
 ## Trigger scenario
 

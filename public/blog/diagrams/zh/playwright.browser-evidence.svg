@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="263" viewBox="0 0 720 263" role="img" xml:lang="zh-CN">
+  <title>本地栈上的三轮并行 Playwright 验证共生成 20 张卡片、替换 10 张，并确认创建和提交响应丢失后可用原 ID 恢复。</title>
+  <rect width="720" height="263" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">Playwright 恢复验证</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="28 52 692 78"><tspan x="28" y="69">在本地栈上并行验证</tspan></text>
+  <path d="M138 123H582" fill="none" stroke="#C5CDD5" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="138" cy="123" r="5" fill="#2159A6"/>
+  <circle cx="360" cy="123" r="5" fill="#2159A6"/>
+  <circle cx="582" cy="123" r="5" fill="#2159A6"/>
+  <text class="label" text-anchor="middle" data-bounds="28 82 248 111"><tspan x="138" y="103">第 1 轮</tspan></text>
+  <text class="label" text-anchor="middle" data-bounds="250 82 470 111"><tspan x="360" y="103">第 2 轮</tspan></text>
+  <text class="label" text-anchor="middle" data-bounds="472 82 692 111"><tspan x="582" y="103">第 3 轮</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="28 145 692 176"><tspan x="28" y="167">三轮汇总</tspan></text>
+  <path d="M28 180H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round"/>
+  <text class="label focus" text-anchor="start" data-bounds="28 190 220 222"><tspan x="28" y="211">生成 20 张卡片</tspan></text>
+  <text class="label focus" text-anchor="start" data-bounds="236 190 420 222"><tspan x="236" y="211">替换 10 张卡片</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="440 190 692 221"><tspan x="440" y="211">创建和提交响应丢失</tspan></text>
+  <text class="strong pass" text-anchor="start" data-bounds="440 221 692 249"><tspan x="440" y="238">沿用原 ID 恢复</tspan></text>
+</svg>

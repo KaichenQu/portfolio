@@ -6,7 +6,7 @@ tags: [cheatsheet, git]
 
 Focused on troubleshooting, not day-to-day commits.
 
-![Start from the Git question, then pick the command for authorship, a known regression range, a text change, or recovery.](../Diagrams/git.command-selection.svg)
+![Choose a Git command by the evidence you need, from line authorship to recovery of a lost ref.](../Diagrams/git.command-selection.svg)
 
 ## Authorship and change history
 ```bash

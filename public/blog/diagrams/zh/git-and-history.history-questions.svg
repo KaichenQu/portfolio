@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="290" viewBox="0 0 720 290" role="img" xml:lang="zh-CN">
+  <title>Git 二分查找何时坏掉，历史搜索查谁引入，工作树与索引分别用于判定隔离及暂存。</title>
+  <rect width="720" height="290" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">Git 历史排查问题</tspan></text>
+  <rect x="28" y="62" width="664" height="38" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="36 64 331 98"><tspan x="40" y="85">问题</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="348 64 683 98"><tspan x="352" y="85">核对的证据</tspan></text>
+  <path d="M340 62L340 264" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 100L692 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 102 331 139"><tspan x="40" y="123">哪次改动引入故障？</tspan></text>
+  <text class="mono focus" text-anchor="start" data-bounds="348 102 683 139"><tspan x="352" y="123">git bisect run</tspan></text>
+  <path d="M28 141L692 141" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 143 331 180"><tspan x="40" y="164">谁首先引入了该符号？</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="348 143 683 180"><tspan x="352" y="164">git log -S&lt;symbol&gt;</tspan></text>
+  <path d="M28 182L692 182" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 184 331 221"><tspan x="40" y="205">这次编辑属于哪个检出目录？</tspan></text>
+  <text text-anchor="start" data-bounds="348 184 683 221"><tspan x="352" y="205">每分支独立工作树</tspan></text>
+  <path d="M28 223L692 223" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 225 331 262"><tspan x="40" y="246">提交会包含什么？</tspan></text>
+  <text text-anchor="start" data-bounds="348 225 683 262"><tspan x="352" y="246">暂存后核对索引</tspan></text>
+  <path d="M28 264L692 264" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

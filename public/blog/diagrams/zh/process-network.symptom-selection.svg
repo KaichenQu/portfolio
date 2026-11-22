@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="290" viewBox="0 0 720 290" role="img" xml:lang="zh-CN">
+  <title>从当前症状决定先查本地监听进程、解析域名、测 TCP 端口，还是读取 HTTP 响应。</title>
+  <rect width="720" height="290" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">网络排查命令</tspan></text>
+  <rect x="28" y="62" width="664" height="38" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="36 64 257 98"><tspan x="40" y="85">症状</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="274 64 469 98"><tspan x="278" y="85">首个探测</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="486 64 683 98"><tspan x="490" y="85">证据</tspan></text>
+  <path d="M266 62L266 264" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M478 62L478 264" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 100L692 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 102 257 139"><tspan x="40" y="123">本地端口已占用</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="274 102 469 139"><tspan x="278" y="123">lsof -i :3000</tspan></text>
+  <text text-anchor="start" data-bounds="486 102 683 139"><tspan x="490" y="123">占用端口的进程</tspan></text>
+  <path d="M28 141L692 141" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 143 257 180"><tspan x="40" y="164">主机名无法解析</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="274 143 469 180"><tspan x="278" y="164">dig &lt;domain&gt;</tspan></text>
+  <text text-anchor="start" data-bounds="486 143 683 180"><tspan x="490" y="164">DNS 响应</tspan></text>
+  <path d="M28 182L692 182" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 184 257 221"><tspan x="40" y="205">TCP 端口不可达</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="274 184 469 221"><tspan x="278" y="205">nc -zv &lt;host&gt; &lt;port&gt;</tspan></text>
+  <text text-anchor="start" data-bounds="486 184 683 221"><tspan x="490" y="205">端口连通性</tspan></text>
+  <path d="M28 223L692 223" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 225 257 262"><tspan x="40" y="246">HTTP 响应异常</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="274 225 469 262"><tspan x="278" y="246">curl -i &lt;url&gt;</tspan></text>
+  <text text-anchor="start" data-bounds="486 225 683 262"><tspan x="490" y="246">响应头与响应体</tspan></text>
+  <path d="M28 264L692 264" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

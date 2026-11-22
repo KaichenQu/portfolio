@@ -8,7 +8,7 @@ tags: [glossary, backend]
 
 A claim on a shared resource that the holder owns for a bounded time. Other callers are refused while the lease is held, and it expires on its own if the holder never releases it, so a crashed holder cannot block the resource forever. A refused caller usually gets a conflict error and retries.
 
-![A timed lease rejects other callers while held. If its holder never releases it, expiry frees the resource for retry.](../Diagrams/lease.claim-expiry.svg)
+![While card 1 holds the task lease, card 2 gets a conflict and can try to acquire it again after expiry.](../Diagrams/lease.claim-expiry.svg)
 
 Example usage:
 > A background `/executions/{id}/recover` poll on card 1 held the task lease, so card 2's `POST /works` returned `409 TASK_ACTIVITY_CONFLICT`. The client retries up to three times with the same identity.

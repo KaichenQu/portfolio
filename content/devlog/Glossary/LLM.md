@@ -9,7 +9,7 @@ tags: [glossary, ai]
 Example usage:
 > The BYO-LLM (bring your own LLM) feature added this round lets users enter their own LLM provider (base URL / key / model) in settings, overriding the default provider.
 
-![The note's bring-your-own-LLM example uses a provider setting to choose between the default provider and the user's base URL, key and model.](../Diagrams/llm.provider-override.svg)
+![Filling in the base URL, key and model makes the app use the user’s LLM provider in place of the default.](../Diagrams/llm.provider-override.svg)
 
 ## Related
 - [[2026-07-10-quiet-desk-redesign-four-parallel-agents]]

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="262" viewBox="0 0 720 262" role="img" xml:lang="zh-CN">
+  <title>沙箱拦住缓存写入导致 npm ci 失败，换用临时缓存重跑就替换了不完整的安装。</title>
+  <rect width="720" height="262" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">npm 缓存权限错误</tspan></text>
+  <rect x="28" y="63" width="382" height="171" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="29" y="64" width="380" height="35" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 100L410 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="39 65 400 99"><tspan x="44" y="86">npm 安装终端</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="39 101 398 233"><tspan x="44" y="126">npm ci</tspan></text>
+  <path d="M394 121L430 121" fill="none" stroke="#52616F" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="394" cy="121" r="2" fill="#52616F" stroke="none" stroke-width="1.5"/>
+  <text class="muted" text-anchor="start" data-bounds="434 102 692 234"><tspan x="438" y="126">留下不完整的 node_modules</tspan></text>
+  <text class="mono fail" text-anchor="start" data-bounds="39 101 398 233"><tspan x="44" y="159">npm error code EPERM</tspan></text>
+  <path d="M394 154L430 154" fill="none" stroke="#52616F" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="394" cy="154" r="2" fill="#52616F" stroke="none" stroke-width="1.5"/>
+  <text class="muted" text-anchor="start" data-bounds="434 102 692 234"><tspan x="438" y="159">缓存写入超出允许范围</tspan></text>
+  <text class="mono focus" text-anchor="start" data-bounds="39 101 398 233"><tspan x="44" y="192">npm ci --cache "$TMPDIR/npm-cache"</tspan></text>
+  <path d="M394 187L430 187" fill="none" stroke="#52616F" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="394" cy="187" r="2" fill="#52616F" stroke="none" stroke-width="1.5"/>
+  <text class="muted" text-anchor="start" data-bounds="434 102 692 234"><tspan x="438" y="192">重跑替换不完整的安装</tspan></text>
+  <text class="mono pass" text-anchor="start" data-bounds="39 101 398 233"><tspan x="44" y="225">added 747 packages in 4s</tspan></text>
+  <path d="M394 220L430 220" fill="none" stroke="#52616F" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="394" cy="220" r="2" fill="#52616F" stroke="none" stroke-width="1.5"/>
+  <text class="muted" text-anchor="start" data-bounds="434 102 692 234"><tspan x="438" y="225">已记录的成功重跑</tspan></text>
+</svg>

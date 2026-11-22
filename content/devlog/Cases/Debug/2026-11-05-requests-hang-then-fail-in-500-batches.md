@@ -86,11 +86,11 @@ A connection is returned only by teardown, and teardown needs a worker thread. W
 3. The 15 remaining burst requests arrived earlier, so FIFO gives them the freed threads first. They wait for a connection.
 4. Now 40 threads wait for a connection, and the 15 connections wait for teardowns that wait for a thread.
 
-![Wait cycle between worker threads and the connection pool](../../Diagrams/2026-11-05-requests-hang-then-fail-in-500-batches.wait-cycle.svg)
+![All 40 worker threads wait for 15 checked-out connections, and the teardowns that would release them are waiting for worker threads.](../../Diagrams/2026-11-05-requests-hang-then-fail-in-500-batches.wait-cycle.svg)
 
 A checkout is not a [[Lease]]: it has no expiry. The only exit is `pool_timeout`. After 30 s it fails every waiter with `sqlalchemy.exc.TimeoutError`, and the whole batch returns HTTP 500. The browser retries the batch, which is another burst of the same size, so the stack locks again.
 
-![Relock loop from burst to timeout to retry](../../Diagrams/2026-11-05-requests-hang-then-fail-in-500-batches.relock-loop.svg)
+![After the 30-second checkout timeout returns a batch of HTTP 500s, the browser retries the same burst and recreates the lock.](../../Diagrams/2026-11-05-requests-hang-then-fail-in-500-batches.relock-loop.svg)
 
 The write on every poll made each request hold its connection and thread longer. In the model it does not lock the system without a burst.
 
@@ -108,7 +108,7 @@ PR ▒▒▒▒, deployed on 11/06 at 07:17 UTC:
 
 `NullPool` opens a connection when a request asks for one and closes it in teardown. There is no shared set of connections, so no request waits for another request's teardown. That removes the wait-for-connection edge from the cycle. A writer now waits only inside SQLite's busy timeout, the time SQLite lets a writer wait for the write lock before it fails.
 
-![Request path after the fix](../../Diagrams/2026-11-05-requests-hang-then-fail-in-500-batches.after-fix.svg)
+![NullPool gives each anyio request its own SQLite connection, leaving writers to wait only within the SQLite busy timeout.](../../Diagrams/2026-11-05-requests-hang-then-fail-in-500-batches.after-fix.svg)
 
 After the fix the prediction concurrency went back from 1 to 20.
 

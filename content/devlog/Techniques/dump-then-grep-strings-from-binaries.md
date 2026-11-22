@@ -7,7 +7,7 @@ tags: [shell, debug, reverse-engineering]
 
 To find the context around a string inside a native binary that's tens of megabytes, don't `grep -a` it directly — a backtracking regex against raw binary data slows to minutes at best. Run `strings` once to dump it to a text file; every query after that is sub-second, and you can use `-A`/`-B` for context and iterate on the pattern freely.
 
-![Extract printable strings once and reuse the text file across searches to avoid scanning the same binary repeatedly.](../Diagrams/dump-then-grep-strings-from-binaries.reusable-dump.svg)
+![Dumping printable strings once lets repeated grep queries operate on text instead of rescanning the binary.](../Diagrams/dump-then-grep-strings-from-binaries.reusable-dump.svg)
 
 Also, BRE/ERE caps `{n}` at 255 — `grep -oE ".{280}<pattern>"` fails outright with `maximum repetition exceeds 255`. That's another sign to switch to dump + `-B`.
 

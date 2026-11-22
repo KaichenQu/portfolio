@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="250" viewBox="0 0 720 250" role="img" xml:lang="zh-CN">
+  <title>附件缓存已有 512 MB 上限，无需额外清理，而无上限的会话目录会持续增长。</title>
+  <rect width="720" height="250" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">缓存清理对象</tspan></text>
+  <rect x="28" y="62" width="664" height="38" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="36 64 194 98"><tspan x="40" y="85">资源</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="211 64 431 98"><tspan x="215" y="85">已有上限</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="448 64 683 98"><tspan x="452" y="85">清理决策</tspan></text>
+  <path d="M203 62L203 224" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M440 62L440 224" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 100L692 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 102 194 160"><tspan x="40" y="123">附件缓存</tspan></text>
+  <text class="mono small" text-anchor="start" data-bounds="211 102 431 160"><tspan x="215" y="123">上限 512 MB</tspan><tspan x="215" y="144">enforceCacheMaxBytes</tspan></text>
+  <text text-anchor="start" data-bounds="448 102 683 160"><tspan x="452" y="123">沿用现有上限</tspan></text>
+  <path d="M28 162L692 162" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 164 194 222"><tspan x="40" y="185">会话目录</tspan></text>
+  <text text-anchor="start" data-bounds="211 164 431 222"><tspan x="215" y="185">无上限</tspan><tspan x="215" y="206">5 天增加 13 MB</tspan></text>
+  <text class="focus strong" text-anchor="start" data-bounds="448 164 683 222"><tspan x="452" y="185">在此处增加清理</tspan></text>
+  <path d="M28 224L692 224" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

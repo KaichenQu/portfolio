@@ -8,7 +8,7 @@ tags: [glossary]
 
 The smallest version that can validate the core hypothesis — cut everything non-essential, get it working, then iterate. Versus [[POC]]: a POC only proves "this is technically possible"; an MVP is "the smallest complete loop you can hand to real users."
 
-![A Minimum Viable Product delivers the smallest complete flow real users can try to validate a core hypothesis.](../Diagrams/mvp.hypothesis-loop.svg)
+![The MVP example gives users sign-in and one complete main flow, with settings deferred until after the core hypothesis can be tested.](../Diagrams/mvp.hypothesis-loop.svg)
 
 Example usage:
 > Build the MVP first — login/signup and one main flow is enough, don't start with the settings page.

@@ -7,7 +7,7 @@ tags: [debug, git, method]
 
 A concrete application of [[binary-search-fault-localization|binary search fault localization]] to git history: a feature that used to work is now broken (a [[regression]]), and bisect narrows it down to the commit that introduced the problem in just a few steps.
 
-![git bisect run uses a repeatable test at each midpoint to narrow the range to the first bad commit.](../Diagrams/locating-regressions-with-git-bisect.automated-judge.svg)
+![Git bisect run applies the same test at each midpoint until it can report the first bad commit.](../Diagrams/locating-regressions-with-git-bisect.automated-judge.svg)
 
 ## When to use
 "It worked in the last version, now it's broken," and you can write a command or a set of steps that judges good vs. bad.

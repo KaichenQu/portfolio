@@ -79,7 +79,7 @@ The third run was measured. The fourth run's `runsAhead=2` is covered by a unit 
 
 ## Data flow
 
-![Runs A, B and C against two permits](../../Diagrams/2026-10-15-structure-run-parallelism-capacity.queue-timeline.svg)
+![A and B run concurrently on two permits, and C starts after a permit frees with one run counted ahead.](../../Diagrams/2026-10-15-structure-run-parallelism-capacity.queue-timeline.svg)
 
 Measured for ▒▒▒▒, with N=2:
 

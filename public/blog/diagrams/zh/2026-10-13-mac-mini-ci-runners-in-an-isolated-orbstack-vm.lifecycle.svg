@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="408" viewBox="0 0 720 408" role="img" xml:lang="zh-CN">
+  <title>虚拟机运行器注册后即可接单，启用路由后接收重任务，停机后新运行回退到 Ubicloud。</title>
+  <rect width="720" height="408" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-fail" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#A13834" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">CI 运行器状态</tspan></text>
+  <rect x="28" y="67" width="218" height="66" rx="4" fill="#F4F7FA" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="38 68 240 103"><tspan x="42" y="92">无虚拟机</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="38 101 240 131"><tspan x="42" y="116">Ubicloud</tspan></text>
+  <rect x="378" y="67" width="218" height="66" rx="4" fill="#F4F7FA" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="388 68 590 103"><tspan x="392" y="92">已注册，空闲</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="388 101 590 131"><tspan x="392" y="116">mac-mini-r1 至 r6</tspan></text>
+  <rect x="378" y="220" width="218" height="66" rx="4" fill="#F4F7FA" stroke="#2159A6" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="388 221 590 256"><tspan x="392" y="245">虚拟机接单</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="388 254 590 284"><tspan x="392" y="269">重任务在虚拟机运行</tspan></text>
+  <rect x="28" y="220" width="218" height="66" rx="4" fill="#F4F7FA" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="38 221 240 256"><tspan x="42" y="245">虚拟机已停止</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="38 254 240 284"><tspan x="42" y="269">5 分钟后回退 Ubicloud</tspan></text>
+  <path d="M246 99L367 99" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <text class="small mono" text-anchor="middle" data-bounds="22 53 698 396"><tspan x="307" y="88">setup.sh</tspan></text>
+  <path d="M486 134L486 210" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 396"><tspan x="500" y="163">设置标签</tspan></text>
+  <text class="small mono" text-anchor="start" data-bounds="22 53 698 396"><tspan x="500" y="184">heartbeat.sh</tspan></text>
+  <path d="M378 248L257 248" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-fail)"/>
+  <text class="small mono" text-anchor="middle" data-bounds="22 53 698 396"><tspan x="313" y="237">orb stop</tspan></text>
+  <path d="M246 276H369" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small mono" text-anchor="middle" data-bounds="22 53 698 396"><tspan x="309" y="301">orb start</tspan></text>
+  <path d="M596 253H673V349H15V156H76V144" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <text class="small mono" text-anchor="middle" data-bounds="22 53 698 396"><tspan x="350" y="372">teardown.sh</tspan></text>
+</svg>

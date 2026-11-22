@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="245" viewBox="0 0 720 245" role="img" xml:lang="zh-CN">
+  <title>第一次 chezmoi init 完全按模板生成配置，模板必须包含所有旧配置段。</title>
+  <rect width="720" height="245" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">首次生成配置</tspan></text>
+  <rect x="28" y="67" width="232" height="151" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="461" y="67" width="231" height="151" rx="3" fill="#EDF2F6" stroke="#2159A6" stroke-width="1"/>
+  <text class="mono strong" text-anchor="start" data-bounds="22 53 698 233"><tspan x="43" y="93">.chezmoi.toml.tmpl</tspan></text>
+  <text class="mono focus strong" text-anchor="start" data-bounds="22 53 698 233"><tspan x="476" y="93">chezmoi.toml</tspan></text>
+  <text text-anchor="start" data-bounds="22 53 698 233"><tspan x="43" y="128">加密设置</tspan></text>
+  <text text-anchor="start" data-bounds="22 53 698 233"><tspan x="43" y="158">源路径</tspan></text>
+  <text text-anchor="start" data-bounds="22 53 698 233"><tspan x="43" y="188">现有开关</tspan></text>
+  <text text-anchor="start" data-bounds="22 53 698 233"><tspan x="476" y="128">加密设置</tspan></text>
+  <text text-anchor="start" data-bounds="22 53 698 233"><tspan x="476" y="158">源路径</tspan></text>
+  <text text-anchor="start" data-bounds="22 53 698 233"><tspan x="476" y="188">现有开关</tspan></text>
+  <path d="M265 145L453 145" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="mono small" text-anchor="middle" data-bounds="22 53 698 233"><tspan x="359" y="130">chezmoi init</tspan></text>
+  <text class="small muted" text-anchor="middle" data-bounds="22 53 698 233"><tspan x="359" y="171">重写整个文件</tspan></text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="351" viewBox="0 0 720 351" role="img" xml:lang="zh-CN">
+  <title>部署和清理共用资源前缀，角色名加上随机后缀也能匹配，服务关联角色始终排除在删除范围外。</title>
+  <rect width="720" height="351" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 690 49"><tspan x="28" y="38">清理删除范围</tspan></text>
+  <rect x="28" y="67" width="664" height="36" rx="4" fill="#EDF2F6" stroke="#C5CDD5"/>
+  <text class="mono strong" text-anchor="start" data-bounds="37 68 682 101"><tspan x="170" y="90">RESOURCE_PREFIX = &#x27;cs6620-a2&#x27;</tspan></text>
+  <text class="mono muted" data-bounds="37 68 155 101"><tspan x="43" y="90">config.py</tspan></text>
+  <path d="M151 75V95" fill="none" stroke="#C5CDD5"/>
+  <rect x="28" y="125" width="664" height="113" rx="4" fill="#F4F7FA" stroke="#2159A6"/>
+  <text class="label focus" text-anchor="start" data-bounds="37 128 679 160"><tspan x="44" y="151">纳入删除范围</tspan></text>
+  <path d="M44 163H675" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="44" y="176" width="84" height="27" rx="0" fill="#EDF2F6" stroke="none"/>
+  <text class="mono strong" text-anchor="start" data-bounds="42 171 680 204"><tspan x="46" y="195">cs6620-a2-size-tracking-role-l9kbz5d9</tspan></text>
+  <path d="M45 200H122" fill="none" stroke="#2159A6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small focus" text-anchor="start" data-bounds="40 206 207 236"><tspan x="44" y="222">固定前缀</tspan></text>
+  <path d="M290 199v4h67v-4 M357 203v10h22" fill="none" stroke="#52616F" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small muted" text-anchor="start" data-bounds="384 201 682 232"><tspan x="389" y="218">AWS 追加的后缀</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="27 251 685 283"><tspan x="28" y="274">排除在删除范围外</tspan></text>
+  <path d="M28 286H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono strong" text-anchor="start" data-bounds="37 290 227 332"><tspan x="44" y="317">AWSServiceRoleFor*</tspan></text>
+  <text class="mono muted" text-anchor="start" data-bounds="236 290 441 332"><tspan x="242" y="317">/aws-service-role/</tspan></text>
+  <path d="M439 299L439 326" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="start" data-bounds="450 290 692 332"><tspan x="457" y="317">其他前缀的资源名</tspan></text>
+</svg>

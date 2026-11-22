@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="249" viewBox="0 0 720 249" role="img" xml:lang="zh-CN">
+  <title>因同一原因变更的代码放在同一模块内，调用方依赖模块的公开接口。</title>
+  <rect width="720" height="249" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">模块变更边界</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 237"><tspan x="28" y="110">调用方</tspan></text>
+  <path d="M87 127L232 127" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <rect x="241" y="66" width="451" height="154" rx="3" fill="#FFFFFF" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 237"><tspan x="258" y="93">一个模块</tspan></text>
+  <rect x="256" y="107" width="420" height="34" rx="3" fill="#F4F7FA" stroke="#2159A6" stroke-width="1"/>
+  <text class="strong focus" text-anchor="start" data-bounds="263 109 666 139"><tspan x="268" y="130">公开接口</tspan></text>
+  <path d="M268 159L665 159" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="22 53 698 237"><tspan x="268" y="189">一起变更的内部实现</tspan></text>
+</svg>

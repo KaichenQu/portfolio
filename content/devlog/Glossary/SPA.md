@@ -8,7 +8,7 @@ tags: [glossary, frontend]
 
 The browser loads one HTML/JS payload, and page transitions happen through client-side routing and partial rendering — no full-page reload, no re-requesting a server-rendered page. Its counterpart is a traditional multi-page app (the server sends fresh HTML on every navigation) or an SSR framework.
 
-![A Single-Page Application loads one HTML and JavaScript payload. Client routing updates only the needed portion during navigation.](../Diagrams/spa.client-navigation.svg)
+![Client routing swaps the React view while the initially loaded HTML and JavaScript shell stays in the browser.](../Diagrams/spa.client-navigation.svg)
 
 Example usage:
 > This is a React SPA, no SSR — page transitions happen entirely on the client.

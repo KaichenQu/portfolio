@@ -135,7 +135,7 @@ sudo ./svc.sh install runner
 
 The VM is created with OrbStack's `isolated` and `isolate_network` settings. Together they remove the Mac filesystem mount (`/mnt/mac`), the `mac` helper commands, and access to the host network. Internet access stays, which the runners need to reach GitHub.
 
-![Topology and isolation boundary](../../Diagrams/2026-10-13-mac-mini-ci-runners-in-an-isolated-orbstack-vm.topology.svg)
+![The runners, heartbeat and Docker services live inside an isolated OrbStack VM with outbound access to GitHub and no access to the Mac filesystem or host network.](../../Diagrams/2026-10-13-mac-mini-ci-runners-in-an-isolated-orbstack-vm.topology.svg)
 
 ### Probe before isolation
 
@@ -170,7 +170,7 @@ mount | grep -ci virtiofs                      # inside the VM: must print 0
 
 Routing is decided per run, from the heartbeat's age.
 
-![Heartbeat routing](../../Diagrams/2026-10-13-mac-mini-ci-runners-in-an-isolated-orbstack-vm.routing.svg)
+![The CI workflow sends heavy jobs to the VM only while the runner heartbeat is younger than 5 minutes and the labels are set.](../../Diagrams/2026-10-13-mac-mini-ci-runners-in-an-isolated-orbstack-vm.routing.svg)
 
 `ci-heartbeat` behaves like this:
 
@@ -192,7 +192,7 @@ code=$(curl -sS -o /dev/null -w '%{http_code}' -m 15 --retry 3 --retry-delay 3 -
 
 ## Lifecycle
 
-![Runner lifecycle](../../Diagrams/2026-10-13-mac-mini-ci-runners-in-an-isolated-orbstack-vm.lifecycle.svg)
+![Registering the VM runners makes them available, routing sends heavy jobs to them, and stopping the VM lets new runs fall back to Ubicloud.](../../Diagrams/2026-10-13-mac-mini-ci-runners-in-an-isolated-orbstack-vm.lifecycle.svg)
 
 | Transition | Command | Effect on routing |
 | --- | --- | --- |

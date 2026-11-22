@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="243" viewBox="0 0 720 243" role="img" xml:lang="zh-CN">
+  <title>清理审查将 60 份 DOM 快照与 60 张截图一同比对，既核对结构也核对像素。</title>
+  <rect width="720" height="243" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">DOM 与截图证据</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 231"><tspan x="28" y="84">30 个页面各验两个宽度</tspan></text>
+  <rect x="28" y="112" width="316" height="101" rx="3" fill="#F4F7FA" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="44" y="135" width="46" height="51" rx="3" fill="#FFFFFF" stroke="#2159A6" stroke-width="1"/>
+  <text class="label focus" text-anchor="start" data-bounds="22 53 698 231"><tspan x="106" y="147">60 张 PNG</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 231"><tspan x="106" y="176">比对像素</tspan></text>
+  <rect x="376" y="112" width="316" height="101" rx="3" fill="#F4F7FA" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="392" y="135" width="46" height="51" rx="3" fill="#FFFFFF" stroke="#2159A6" stroke-width="1"/>
+  <text class="label focus" text-anchor="start" data-bounds="22 53 698 231"><tspan x="454" y="147">60 份 DOM 快照</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 231"><tspan x="454" y="176">比对元素和属性</tspan></text>
+  <path d="M49 176l10-13 8 6 9-12 9 19Z" fill="none" stroke="#2159A6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M407 147l-7 8 7 8 M423 147l7 8-7 8 M418 145l-6 20" fill="none" stroke="#2159A6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

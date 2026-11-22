@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="239" viewBox="0 0 720 239" role="img" xml:lang="zh-CN">
+  <title>根域名与 www 主机分别解析，根域名可用时，指向 www 的规范链接仍可能失败。</title>
+  <rect width="720" height="239" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">根域名与 www 的 DNS</tspan></text>
+  <rect x="28" y="64" width="320" height="149" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="29" y="65" width="318" height="35" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 101L348 101" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="36 66 339 100"><tspan x="42" y="87">根域名记录</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="36 103 339 211"><tspan x="42" y="126">example.com</tspan></text>
+  <text class="pass" text-anchor="start" data-bounds="36 103 339 211"><tspan x="42" y="150">返回地址</tspan></text>
+  <rect x="372" y="64" width="320" height="149" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="373" y="65" width="318" height="35" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M372 101L692 101" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="380 66 683 100"><tspan x="386" y="87">www 记录缺失</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="380 103 683 211"><tspan x="386" y="126">www.example.com</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="380 103 683 211"><tspan x="386" y="150">dig +short &lt;host&gt;</tspan></text>
+  <text class="fail" text-anchor="start" data-bounds="380 103 683 211"><tspan x="386" y="174">无输出</tspan></text>
+  <text class="mono fail" text-anchor="start" data-bounds="380 103 683 211"><tspan x="386" y="198">curl 退出码 6</tspan></text>
+</svg>

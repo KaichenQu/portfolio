@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="328" viewBox="0 0 720 328" role="img" xml:lang="zh-CN">
+  <title>前端共用迷你图数据源，按批控制请求量，独立任务则将日线价格合并到长期保留的 Redis 存储中。</title>
+  <rect width="720" height="328" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">Yahoo 请求预算</tspan></text>
+  <path d="M28 127L205 127" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <path d="M210 127L433 127" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <path d="M440 127L681 127" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <path d="M205 251L28 251" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M433 251L210 251" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M681 251L440 251" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 316"><tspan x="28" y="108">共享前端存储</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 316"><tspan x="219" y="108">API 与时段缓存</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 316"><tspan x="451" y="108">Yahoo 批量请求</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 316"><tspan x="28" y="152">每 150 秒请求 /api/spark</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 316"><tspan x="219" y="152">HTTP 429 即停止当前时段</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 316"><tspan x="451" y="152">每批 20 个标的</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 316"><tspan x="451" y="176">每时段最多 3 次请求</tspan></text>
+  <text class="small focus strong" text-anchor="start" data-bounds="22 53 698 316"><tspan x="451" y="199">每工作日约 1,250 次</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 316"><tspan x="28" y="232">日线 API</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 316"><tspan x="219" y="232">Redis 日线</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 316"><tspan x="451" y="232">Yahoo 日线任务</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 316"><tspan x="28" y="277">读取已存日线</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 316"><tspan x="219" y="277">按日期合并</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 316"><tspan x="451" y="277">每工作日处理 180 个标的</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 316"><tspan x="219" y="300">TTL 为 400 天</tspan></text>
+</svg>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="316" viewBox="0 0 720 316" role="img" xml:lang="zh-CN">
+  <title>同一个提交构建五次得到两种产物，单次哈希或大小差异无法判定回归。</title>
+  <rect width="720" height="316" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">构建可复现性</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 304"><tspan x="28" y="72">同一个提交</tspan></text>
+  <path d="M58 108L662 108" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="47" y="96" width="22" height="25" rx="3" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.4"/>
+  <path d="M52 103L64 103" fill="none" stroke="#2159A6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M52 109L62 109" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M52 115L64 115" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="middle" data-bounds="22 53 698 304"><tspan x="58" y="146">第 1 次</tspan></text>
+  <path d="M58 155L58 171" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="198" y="96" width="22" height="25" rx="3" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.4"/>
+  <path d="M203 103L215 103" fill="none" stroke="#2159A6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M203 109L213 109" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M203 115L215 115" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="middle" data-bounds="22 53 698 304"><tspan x="209" y="146">第 2 次</tspan></text>
+  <path d="M209 155L209 171" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="349" y="96" width="22" height="25" rx="3" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.4"/>
+  <path d="M354 103L366 103" fill="none" stroke="#2159A6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M354 109L364 109" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M354 115L366 115" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="middle" data-bounds="22 53 698 304"><tspan x="360" y="146">第 3 次</tspan></text>
+  <path d="M360 155L360 171" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="500" y="96" width="22" height="25" rx="3" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.4"/>
+  <path d="M505 103L517 103" fill="none" stroke="#2159A6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M505 109L515 109" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M505 115L517 115" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="middle" data-bounds="22 53 698 304"><tspan x="511" y="146">第 4 次</tspan></text>
+  <path d="M511 155L511 171" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="651" y="96" width="22" height="25" rx="3" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.4"/>
+  <path d="M656 103L668 103" fill="none" stroke="#2159A6" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M656 109L666 109" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M656 115L668 115" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="middle" data-bounds="22 53 698 304"><tspan x="662" y="146">第 5 次</tspan></text>
+  <path d="M662 155L662 171" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M58 171L662 171" fill="none" stroke="#52616F" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M360 171L360 187" fill="none" stroke="#52616F" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="middle" data-bounds="22 53 698 304"><tspan x="360" y="207">观察到两种产物</tspan></text>
+  <rect x="28" y="224" width="320" height="66" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="strong pass" text-anchor="start" data-bounds="38 225 338 255"><tspan x="42" y="247">哈希与基线一致</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="38 251 338 286"><tspan x="42" y="272">JS 大小与基线一致</tspan></text>
+  <rect x="372" y="224" width="320" height="66" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="strong focus" text-anchor="start" data-bounds="382 225 682 255"><tspan x="386" y="247">vtk 导出别名顺序变化</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="382 251 560 286"><tspan x="386" y="272">53 个哈希变化</tspan></text>
+  <text class="small" text-anchor="start" data-bounds="550 251 684 286"><tspan x="554" y="272">JS 增加 5 字节</tspan></text>
+</svg>

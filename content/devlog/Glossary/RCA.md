@@ -8,7 +8,7 @@ tags: [glossary]
 
 Doesn't stop at the surface symptom, but traces through to the actual cause of the problem. A common technique is asking "why" repeatedly (5 Whys) until you reach the root cause. The "root cause" section in a case note is RCA's output.
 
-![Root Cause Analysis starts with a symptom and traces through contributing conditions until the actual cause can be recorded.](../Diagrams/rca.why-chain.svg)
+![A rollback can restore service first, then a postmortem can trace the failed deploy from Alembic to the retired setting.](../Diagrams/rca.why-chain.svg)
 
 Example usage:
 > Roll back first to stop the bleeding — do the RCA at tomorrow's postmortem.

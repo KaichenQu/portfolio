@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="421" viewBox="0 0 720 421" role="img" xml:lang="zh-CN">
+  <title>NullPool 给每个 anyio 请求单独打开 SQLite 连接，写入只受 SQLite 忙等待时限约束。</title>
+  <rect width="720" height="421" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-pass" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#246849" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">修复后的 SQLite 请求</tspan></text>
+  <path d="M100 103L100 393" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <text class="label" text-anchor="middle" data-bounds="26 55 196 102"><tspan x="100" y="83">anyio 工作线程</tspan></text>
+  <path d="M360 103L360 393" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <text class="label" text-anchor="middle" data-bounds="264 55 456 102"><tspan x="360" y="83">NullPool</tspan></text>
+  <path d="M620 103L620 393" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <text class="label" text-anchor="middle" data-bounds="524 55 695 102"><tspan x="620" y="83">SQLite</tspan></text>
+  <path d="M103 132L357 132" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="middle" data-bounds="22 53 698 409"><tspan x="228.5" y="122">每个请求打开独立连接</tspan></text>
+  <path d="M363 189L617 189" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="middle" data-bounds="22 53 698 409"><tspan x="488.5" y="179">policy() 读取时不取写锁</tspan></text>
+  <path d="M363 246L617 246" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="middle" data-bounds="22 53 698 409"><tspan x="488.5" y="236">last_trusted_at 每 60 秒最多写一次</tspan></text>
+  <path d="M620 291H582v24H620" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <text class="small muted" text-anchor="end" data-bounds="22 53 698 409"><tspan x="572" y="307">写入忙等待时限为 30 秒</tspan></text>
+  <path d="M103 360L357 360" fill="none" stroke="#246849" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-pass)"/>
+  <text class="small pass" text-anchor="middle" data-bounds="22 53 698 409"><tspan x="228.5" y="350">清理时关闭连接</tspan></text>
+</svg>

@@ -8,7 +8,7 @@ tags: [glossary]
 
 The actual measured number used to judge whether an [[SLO]] / [[SLA]] is being met — e.g. login success rate, [[p99]] latency.
 
-![A Service Level Indicator is an observed measurement, such as p99 latency, used to judge whether service targets are met.](../Diagrams/sli.measure-against-target.svg)
+![The SLI example uses observed p99 latency to judge the objective, so the slow tail remains visible.](../Diagrams/sli.measure-against-target.svg)
 
 Example usage:
 > Use p99 latency as the SLI for this SLO, not the average — the average lies to you.

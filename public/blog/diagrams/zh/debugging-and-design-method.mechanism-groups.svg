@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="299" viewBox="0 0 720 299" role="img" xml:lang="zh-CN">
+  <title>调试缩小可疑范围，验证对照相同证据，设计将规则放到负责它的边界。</title>
+  <rect width="720" height="299" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">调试与设计证据</tspan></text>
+  <rect x="28" y="62" width="183" height="43" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 62L692 62" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="37 65 205 102"><tspan x="42" y="86">定位</tspan></text>
+  <text text-anchor="start" data-bounds="224 65 692 102"><tspan x="229" y="86">对可复现故障的范围做二分</tspan></text>
+  <rect x="28" y="105" width="183" height="43" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 105L692 105" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="37 108 205 145"><tspan x="42" y="129">比对</tspan></text>
+  <text text-anchor="start" data-bounds="224 108 692 145"><tspan x="229" y="129">复用同一复现步骤或基线失败清单</tspan></text>
+  <rect x="28" y="148" width="183" height="43" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 148L692 148" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="37 151 205 188"><tspan x="42" y="172">观测</tspan></text>
+  <text text-anchor="start" data-bounds="224 151 692 188"><tspan x="229" y="172">记录跨边界传递的值</tspan></text>
+  <rect x="28" y="191" width="183" height="43" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 191L692 191" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="37 194 205 231"><tspan x="42" y="215">放置规则</tspan></text>
+  <text text-anchor="start" data-bounds="224 194 692 231"><tspan x="229" y="215">按变更原因划分模块</tspan></text>
+  <rect x="28" y="234" width="183" height="43" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 234L692 234" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="37 237 205 274"><tspan x="42" y="258">恢复</tspan></text>
+  <text text-anchor="start" data-bounds="224 237 692 274"><tspan x="229" y="258">先保存 ID，再发出依赖它的请求</tspan></text>
+  <path d="M28 277L692 277" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M211 62L211 277" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

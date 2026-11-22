@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="306" viewBox="0 0 720 306" role="img" xml:lang="zh-CN">
+  <title>main 和 hotfix 工作目录各有自己的检出文件，共用同一个 .git 数据库。</title>
+  <rect width="720" height="306" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">Git 工作树</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="37 62 328 95"><tspan x="40" y="85">主工作目录</tspan></text>
+  <path d="M49 97L49 144" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M49 116L64 116" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="66 100 328 130"><tspan x="70" y="120">main 分支检出文件</tspan></text>
+  <path d="M49 144L64 144" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono focus strong" text-anchor="start" data-bounds="66 128 328 158"><tspan x="70" y="148">.git</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="381 62 690 95"><tspan x="384" y="85">热修复工作树</tspan></text>
+  <path d="M393 97L393 144" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M393 116L408 116" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="410 100 690 130"><tspan x="414" y="120">hotfix 分支检出文件</tspan></text>
+  <path d="M393 144L408 144" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono focus strong" text-anchor="start" data-bounds="410 128 690 158"><tspan x="414" y="148">.git</tspan></text>
+  <path d="M80 155V191H216V213" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <path d="M431 155V191H506V213" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 294"><tspan x="97" y="178">数据库目录</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 294"><tspan x="450" y="178">指针文件</tspan></text>
+  <rect x="126" y="218" width="466" height="62" rx="3" fill="#EDF2F6" stroke="#2159A6" stroke-width="1"/>
+  <text class="mono focus strong" text-anchor="start" data-bounds="139 222 219 258"><tspan x="143" y="244">.git</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="222 222 580 257"><tspan x="226" y="244">共用 Git 数据库</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 294"><tspan x="143" y="266">分支</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 294"><tspan x="228" y="266">暂存记录</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 294"><tspan x="349" y="266">配置</tspan></text>
+</svg>

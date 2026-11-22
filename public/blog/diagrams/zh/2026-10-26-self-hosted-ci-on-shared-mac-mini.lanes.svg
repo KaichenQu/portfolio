@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="259" viewBox="0 0 720 259" role="img" xml:lang="zh-CN">
+  <title>验证在 Mac mini 虚拟机运行，部署留在 GitHub 托管运行器并因计费锁定而失败。</title>
+  <rect width="720" height="259" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">CI 运行器分工</tspan></text>
+  <rect x="28" y="62" width="183" height="43" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 62L692 62" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="37 65 205 102"><tspan x="42" y="86">工作流触发</tspan></text>
+  <text text-anchor="start" data-bounds="224 65 692 102"><tspan x="229" y="86">PR、推送到 main 或夜间调度</tspan></text>
+  <rect x="28" y="105" width="183" height="66" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 105L692 105" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="37 108 205 168"><tspan x="42" y="129">自托管验证</tspan></text>
+  <text text-anchor="start" data-bounds="224 108 692 168"><tspan x="229" y="129">Mac mini 虚拟机在 main 上跑完整验证</tspan><tspan x="229" y="150">已记录的通过运行耗时 205–313 秒</tspan></text>
+  <rect x="28" y="171" width="183" height="66" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <path d="M28 171L692 171" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="37 174 205 234"><tspan x="42" y="195">托管部署</tspan></text>
+  <text text-anchor="start" data-bounds="224 174 692 234"><tspan x="229" y="195">生产凭据留在 GitHub 托管运行器</tspan><tspan x="229" y="216">计费锁定导致部署 2 秒失败，Go API 仍为旧版</tspan></text>
+  <path d="M28 237L692 237" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M211 62L211 237" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="274" viewBox="0 0 720 274" role="img" xml:lang="zh-CN">
+  <title>在中间点观测，把前端到数据库的路径分成两半，下一次探测只查可疑段。</title>
+  <rect width="720" height="274" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">请求路径二分排查</tspan></text>
+  <circle cx="75" cy="112" r="5" fill="#FFFFFF" stroke="#52616F" stroke-width="1.5"/>
+  <text class="label" text-anchor="middle" data-bounds="22 53 698 262"><tspan x="75" y="92">前端</tspan></text>
+  <circle cx="265" cy="112" r="5" fill="#FFFFFF" stroke="#52616F" stroke-width="1.5"/>
+  <text class="label" text-anchor="middle" data-bounds="22 53 698 262"><tspan x="265" y="92">网关</tspan></text>
+  <circle cx="458" cy="112" r="5" fill="#FFFFFF" stroke="#52616F" stroke-width="1.5"/>
+  <text class="label" text-anchor="middle" data-bounds="22 53 698 262"><tspan x="458" y="92">服务</tspan></text>
+  <circle cx="646" cy="112" r="5" fill="#FFFFFF" stroke="#52616F" stroke-width="1.5"/>
+  <text class="label" text-anchor="middle" data-bounds="22 53 698 262"><tspan x="646" y="92">数据库</tspan></text>
+  <path d="M82 112L256 112" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M272 112L449 112" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M465 112L637 112" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <path d="M265 121L265 169" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <text class="small focus" text-anchor="end" data-bounds="101 132 269 167"><tspan x="256" y="154">在这里探测</tspan></text>
+  <path d="M75 178L259 178" fill="none" stroke="#C5CDD5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <path d="M265 178L646 178" fill="none" stroke="#2159A6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 262"><tspan x="75" y="204">若网关正常，检查下游这一半</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 262"><tspan x="75" y="239">保持故障判据一致</tspan></text>
+</svg>

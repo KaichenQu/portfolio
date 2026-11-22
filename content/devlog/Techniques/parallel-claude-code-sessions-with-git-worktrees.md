@@ -9,7 +9,7 @@ tags: [pattern, git, claude-code, workflow]
 
 You want to work on two branches of the same repo at the same time — for example, two terminals in VS Code, each running its own Claude Code session in parallel. Doing this directly in one directory doesn't work: ==a single working directory can only have one branch checked out at a time==, so both terminals see the same files, and a `git checkout` in one terminal yanks the other one's working state out from under it.
 
-![A worktree per branch keeps checkouts independent. Different CLAUDE_CONFIG_DIR values also isolate each account's login and settings.](../Diagrams/parallel-claude-code-sessions-with-git-worktrees.session-isolation.svg)
+![Two branch worktrees share the repository database, and separate CLAUDE_CONFIG_DIR values keep each Claude session’s login and settings isolated.](../Diagrams/parallel-claude-code-sessions-with-git-worktrees.session-isolation.svg)
 
 ## How
 

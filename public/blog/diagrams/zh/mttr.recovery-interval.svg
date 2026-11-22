@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="216" viewBox="0 0 720 216" role="img" xml:lang="zh-CN">
+  <title>词条示例里，将回滚改为一键操作后，恢复时间从半小时缩短到两分钟。</title>
+  <rect width="720" height="216" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">回滚恢复时间</tspan></text>
+  <path d="M223 66L223 181" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="23 65 216 113"><tspan x="27" y="88">一键回滚前</tspan></text>
+  <rect x="223" y="75" width="320.0" height="16" rx="1" fill="#52616F" stroke="none" stroke-width="1"/>
+  <text class="mono small" text-anchor="start" data-bounds="546.0 65 695 105"><tspan x="553.0" y="88">30 分钟</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="23 121 216 169"><tspan x="27" y="144">一键回滚后</tspan></text>
+  <rect x="223" y="131" width="21.33" height="16" rx="1" fill="#2159A6" stroke="none" stroke-width="1"/>
+  <text class="mono small" text-anchor="start" data-bounds="247.32999999999998 121 695 161"><tspan x="254.32999999999998" y="144">2 分钟</tspan></text>
+  <text class="mono small muted" text-anchor="start" data-bounds="22 53 698 204"><tspan x="223" y="197">0</tspan></text>
+</svg>

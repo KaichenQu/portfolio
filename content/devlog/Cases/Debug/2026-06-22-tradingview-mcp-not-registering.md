@@ -9,7 +9,7 @@ publish: true
 
 Wiring a local tradingview MCP server (`~/mcp-servers/tradingview-mcp`) into Claude Code. The config went into `~/.claude/.mcp.json` by hand; after restarting the session, `/mcp` listed six servers — several claude.ai connectors plus `claude_design` and `computer-use` — and no `tradingview`.
 
-![A valid MCP entry in the wrong file stays invisible to the client. User-scope registration writes to the active account's configuration.](../../Diagrams/2026-06-22-tradingview-mcp-not-registering.config-read-path.svg)
+![The TradingView MCP entry stayed invisible in the hand-written file, but user-scope registration wrote to the active account and the server appeared.](../../Diagrams/2026-06-22-tradingview-mcp-not-registering.config-read-path.svg)
 
 ## Symptom
 The `/mcp` panel opens, the built-in `claude_design` and `computer-use` both display normally, and the newly added `tradingview` simply does not appear. No error. Just absent.

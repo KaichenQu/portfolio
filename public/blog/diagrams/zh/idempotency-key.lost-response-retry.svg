@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="355" viewBox="0 0 720 355" role="img" xml:lang="zh-CN">
+  <title>响应丢失后，用相同的 createId 重试 POST /works 会返回原来的 Work。</title>
+  <rect width="720" height="355" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 690 49"><tspan x="28" y="38">重试中的幂等键</tspan></text>
+  <defs>
+    <marker id="arrow-ink" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#202832" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-pass" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#246849" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="label" text-anchor="middle" data-bounds="28 58 170 88"><tspan x="99" y="78">客户端</tspan></text>
+  <text class="label" text-anchor="middle" data-bounds="470 58 645 88"><tspan x="558" y="78">服务端</tspan></text>
+  <path d="M99 91L99 328" fill="none" stroke="#C5CDD5" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <path d="M558 91L558 328" fill="none" stroke="#C5CDD5" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 5"/>
+  <rect x="554" y="122" width="8" height="39" rx="1" fill="#F4F7FA" stroke="#C5CDD5"/>
+  <rect x="554" y="252" width="8" height="38" rx="1" fill="#F4F7FA" stroke="#C5CDD5"/>
+  <path d="M99 122H554" fill="none" stroke="#202832" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)"/>
+  <path d="M554 161H313" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5"/>
+  <path d="M304 155l-12 12m0-12 12 12" fill="none" stroke="#A13834" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M99 252H554" fill="none" stroke="#2159A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <path d="M554 290H99" fill="none" stroke="#246849" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5" marker-end="url(#arrow-pass)"/>
+  <text class="mono strong" text-anchor="start" data-bounds="114 89 254 118"><tspan x="120" y="108">POST /works</tspan></text>
+  <text class="focus" text-anchor="start" data-bounds="263 89 550 118"><tspan x="267" y="108">新生成的 createId</tspan></text>
+  <text class="" text-anchor="start" data-bounds="365 126 550 158"><tspan x="388" y="148">Work 响应</tspan></text>
+  <text class="fail strong" text-anchor="middle" data-bounds="188 171 407 202"><tspan x="298" y="189">响应丢失</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="570 104 692 157"><tspan x="574" y="126">创建 Work</tspan><tspan x="574" y="146">保存幂等键</tspan></text>
+  <text class="mono strong" text-anchor="start" data-bounds="114 216 254 248"><tspan x="120" y="238">POST /works</tspan></text>
+  <text class="focus strong" text-anchor="start" data-bounds="262 216 550 248"><tspan x="267" y="238">沿用同一个 createId</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="570 237 692 277"><tspan x="574" y="257">查找幂等键</tspan></text>
+  <text class="pass strong" text-anchor="start" data-bounds="114 295 550 330"><tspan x="120" y="316">原来的 Work</tspan></text>
+</svg>

@@ -8,7 +8,7 @@ tags: [glossary, backend]
 
 A unique value the client attaches to a request that creates or changes something. The server remembers the key, so a retry that carries the same key returns the original result instead of creating a second object. It solves the lost-response problem: when the client cannot tell whether a request arrived, it can resend safely.
 
-![A retry carries the original idempotency key. The server looks up that key and returns the original result after a lost response.](../Diagrams/idempotency-key.lost-response-retry.svg)
+![When a response is lost, retrying POST /works with the same createId returns the original Work.](../Diagrams/idempotency-key.lost-response-retry.svg)
 
 Example usage:
 > The structure assistant generates `createId` before the first `POST /works` and persists it. A retry after a lost response reuses `createId`, and the server resolves it to the same Work instead of creating a duplicate.

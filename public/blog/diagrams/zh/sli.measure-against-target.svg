@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="208" viewBox="0 0 720 208" role="img" xml:lang="zh-CN">
+  <title>SLI 示例用实测 p99 延迟判断目标是否达成，让慢请求尾部仍然可见。</title>
+  <rect width="720" height="208" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">延迟指标选择</tspan></text>
+  <rect x="28" y="62" width="664" height="38" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="36 64 253 98"><tspan x="40" y="85">候选测量</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="270 64 683 98"><tspan x="274" y="85">用于检查的内容</tspan></text>
+  <path d="M262 62L262 182" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 100L692 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="focus strong" text-anchor="start" data-bounds="36 102 253 139"><tspan x="40" y="123">p99 延迟</tspan></text>
+  <text text-anchor="start" data-bounds="270 102 683 139"><tspan x="274" y="123">用实测尾部延迟对照 SLO</tspan></text>
+  <path d="M28 141L692 141" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 143 253 180"><tspan x="40" y="164">平均延迟</tspan></text>
+  <text text-anchor="start" data-bounds="270 143 683 180"><tspan x="274" y="164">可能掩盖慢请求尾部</tspan></text>
+  <path d="M28 182L692 182" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -6,7 +6,7 @@ tags: [moc, claude-code, multi-agent, context-engineering, hooks, mcp, llm]
 
 26 notes. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
 
-![Agent failures cluster around effective runtime state, enforcement and coordination. The map links each group to the evidence that exposes it.](../Diagrams/agentic-engineering.control-surfaces.svg)
+![Effective config, hook logs and cross-pane ownership checks expose three different sources of agent failures.](../Diagrams/agentic-engineering.control-surfaces.svg)
 
 ## Declared config vs config in effect
 

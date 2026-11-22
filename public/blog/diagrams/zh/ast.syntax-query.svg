@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="264" viewBox="0 0 720 264" role="img" xml:lang="zh-CN">
+  <title>AST 审查按语法节点统计出 164 个路由装饰器，确认 API 索引没有遗漏。</title>
+  <rect width="720" height="264" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">AST 中的路由装饰器</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 252"><tspan x="40" y="82">解析后的源码</tspan></text>
+  <path d="M50 95V119H70" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="strong" text-anchor="start" data-bounds="22 53 698 252"><tspan x="79" y="125">函数</tspan></text>
+  <path d="M90 134V205 M90 167H110 M90 205H110" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="111" cy="167" r="4" fill="#2159A6" stroke="none" stroke-width="1.5"/>
+  <text class="focus strong" text-anchor="start" data-bounds="22 53 698 252"><tspan x="124" y="172">路由装饰器</tspan></text>
+  <text class="muted" text-anchor="start" data-bounds="22 53 698 252"><tspan x="124" y="210">函数体</tspan></text>
+  <path d="M286 167L389 167" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="label focus" text-anchor="start" data-bounds="22 53 698 252"><tspan x="412" y="155">164 个路由装饰器</tspan></text>
+  <text class="pass" text-anchor="start" data-bounds="22 53 698 252"><tspan x="412" y="183">全部出现在 API 索引中</tspan></text>
+</svg>

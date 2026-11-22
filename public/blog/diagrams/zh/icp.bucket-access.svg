@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="270" viewBox="0 0 720 270" role="img" xml:lang="zh-CN">
+  <title>笔记中的对象存储示例比较了需要备案 CNAME 的境内 OSS、香港 OSS，以及境内 COS 的默认端点。</title>
+  <rect width="720" height="270" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">备案与对象存储</tspan></text>
+  <rect x="28" y="62" width="664" height="38" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="36 64 288 98"><tspan x="40" y="85">存储端点</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="305 64 683 98"><tspan x="309" y="85">示例中的数据 API 访问</tspan></text>
+  <path d="M297 62L297 244" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 100L692 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="strong" text-anchor="start" data-bounds="36 102 288 160"><tspan x="40" y="123">阿里云中国内地 OSS</tspan></text>
+  <text text-anchor="start" data-bounds="305 102 683 160"><tspan x="309" y="123">需要已备案的 CNAME</tspan><tspan x="309" y="144">适用于 2025-03-20 起开通 OSS 的账号</tspan></text>
+  <path d="M28 162L692 162" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 164 288 201"><tspan x="40" y="185">香港 OSS</tspan></text>
+  <text text-anchor="start" data-bounds="305 164 683 201"><tspan x="309" y="185">不受该境内规则限制</tspan></text>
+  <path d="M28 203L692 203" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 205 288 242"><tspan x="40" y="226">腾讯云中国内地 COS</tspan></text>
+  <text text-anchor="start" data-bounds="305 205 683 242"><tspan x="309" y="226">默认域名可用于 API 下载</tspan></text>
+  <path d="M28 244L692 244" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

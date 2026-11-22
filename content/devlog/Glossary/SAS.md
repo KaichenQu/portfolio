@@ -9,7 +9,7 @@ tags: [glossary]
 
 An Azure Storage URL with the authorisation baked into the query string: `st=` (start), `se=` (expiry), `sp=` (permissions) and `sig=`. GitHub Actions artifact downloads redirect to one, valid for 10 minutes. Azure checks it per request, so a connection opened inside the window keeps streaming after it, but any new request after `se=` gets 403.
 
-![A Shared Access Signature carries start, expiry, permissions and signature in the URL. Storage checks the signature window on each request.](../Diagrams/sas.signed-url-window.svg)
+![The SAS query includes start, expiry, permission and signature fields, and Azure denies a new request after se=.](../Diagrams/sas.signed-url-window.svg)
 
 Usage example:
 > The resume failed because the SAS had expired; read `se=` before designing a retry.

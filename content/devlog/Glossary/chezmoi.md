@@ -8,7 +8,7 @@ tags: [glossary, infra, dotfiles]
 
 Brings config files in the home directory (`.zshrc`, `.gitconfig`, `~/.claude/`, etc.) under a single git repo, managed and synced across machines. The source repo defaults to `~/.local/share/chezmoi`; filenames there encode state by convention: a `dot_` prefix maps to a target file starting with `.`, a `.tmpl` suffix means the file is a Go template, an `encrypted_` prefix plus `.age`/`.asc` means an encrypted file, and `private_` means restricted permissions.
 
-![chezmoi interprets source filenames and renders or decrypts them when applying the managed configuration to the home directory.](../Diagrams/chezmoi.source-to-home.svg)
+![The chezmoi source name dot_zshrc.tmpl directs apply to render a template into the home directory’s .zshrc.](../Diagrams/chezmoi.source-to-home.svg)
 
 Common commands:
 

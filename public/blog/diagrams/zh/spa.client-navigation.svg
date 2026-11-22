@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="251" viewBox="0 0 720 251" role="img" xml:lang="zh-CN">
+  <title>客户端路由切换 React 视图，首次加载的 HTML 和 JavaScript 外壳仍留在浏览器中。</title>
+  <rect width="720" height="251" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">React SPA 导航</tspan></text>
+  <rect x="28" y="64" width="664" height="159" rx="3" fill="#F4F7FA" stroke="#2159A6" stroke-width="1"/>
+  <text class="label focus" text-anchor="start" data-bounds="22 53 698 239"><tspan x="45" y="90">同一个 HTML 和 JavaScript 外壳</tspan></text>
+  <rect x="46" y="109" width="225" height="92" rx="3" fill="#FFFFFF" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="22 53 698 239"><tspan x="60" y="134">导航前</tspan></text>
+  <rect x="60" y="146" width="197" height="37" rx="0" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <rect x="445" y="109" width="225" height="92" rx="3" fill="#FFFFFF" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="22 53 698 239"><tspan x="459" y="134">导航后</tspan></text>
+  <rect x="459" y="146" width="197" height="37" rx="0" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 239"><tspan x="74" y="170">初始 React 视图</tspan></text>
+  <text class="small focus" text-anchor="start" data-bounds="22 53 698 239"><tspan x="473" y="170">下一个 React 视图</tspan></text>
+  <path d="M277 164L437 164" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="middle" data-bounds="22 53 698 239"><tspan x="357" y="150">客户端路由</tspan></text>
+</svg>

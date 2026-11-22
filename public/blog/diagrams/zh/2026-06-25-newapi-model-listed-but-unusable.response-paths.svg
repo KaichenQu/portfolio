@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="380" viewBox="0 0 720 380" role="img" xml:lang="zh-CN">
+  <title>实际调用的响应能区分模型目录看不出来的三类问题：无渠道、上游超时和返回 HTML。</title>
+  <rect width="720" height="380" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 690 49"><tspan x="28" y="38">newapi 调用失败</tspan></text>
+  <rect x="28" y="66" width="664" height="66" rx="4" fill="#EDF2F6" stroke="#C5CDD5"/>
+  <text class="mono strong" text-anchor="start" data-bounds="38 69 310 100"><tspan x="44" y="91">GET /v1/models</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="38 98 197 127"><tspan x="44" y="114">列出的模型 ID</tspan></text>
+  <text class="mono small" text-anchor="start" data-bounds="194 101 680 127"><tspan x="200" y="114">gpt-5.5, gemini-3-pro-preview</tspan></text>
+  <text class="mono label focus" text-anchor="start" data-bounds="27 151 685 188"><tspan x="28" y="173">POST /v1/chat/completions</tspan></text>
+  <rect x="28" y="190" width="664" height="29" rx="0" fill="#F4F7FA" stroke="none"/>
+  <text class="small strong" text-anchor="start" data-bounds="37 190 277 219"><tspan x="41" y="209">请求的模型</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="297 190 501 219"><tspan x="301" y="209">实际响应</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="515 190 688 219"><tspan x="519" y="209">故障定位</tspan></text>
+  <path d="M28 219H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="28" y="220" width="3" height="43" rx="0" fill="#2159A6" stroke="none"/>
+  <text class="mono small" text-anchor="start" data-bounds="37 221 290 263"><tspan x="41" y="238">this-model-does-not-exist</tspan></text>
+  <text class="mono small fail strong" text-anchor="start" data-bounds="295 221 505 263"><tspan x="301" y="246">HTTP:503 time:0.46</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="511 221 689 263"><tspan x="519" y="246">无可用渠道</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="37 239 290 263"><tspan x="41" y="255">对照请求</tspan></text>
+  <path d="M28 264H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono small" text-anchor="start" data-bounds="37 266 290 308"><tspan x="41" y="291">gpt-5.5</tspan></text>
+  <text class="mono small fail strong" text-anchor="start" data-bounds="295 266 505 308"><tspan x="301" y="291">HTTP:000 time:90.006</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="511 266 689 308"><tspan x="519" y="291">上游超时</tspan></text>
+  <path d="M28 309H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono small" text-anchor="start" data-bounds="37 311 290 353"><tspan x="41" y="336">gemini-3-pro-preview</tspan></text>
+  <text class="mono small fail strong" text-anchor="start" data-bounds="295 311 505 353"><tspan x="301" y="328">HTTP:500 time:0.6</tspan></text>
+  <text class="mono small muted" text-anchor="start" data-bounds="295 329 505 353"><tspan x="301" y="345">invalid character &#x27;&lt;&#x27;</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="511 311 689 353"><tspan x="519" y="328">上游返回 HTML</tspan></text>
+  <text class="mono small muted" text-anchor="start" data-bounds="515 329 689 353"><tspan x="519" y="345">bad_response_body</tspan></text>
+  <path d="M28 354H692" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

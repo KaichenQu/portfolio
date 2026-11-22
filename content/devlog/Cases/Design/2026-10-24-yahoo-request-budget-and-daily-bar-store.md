@@ -53,7 +53,7 @@ after:   ⌈52 / 20⌉ = 3 batches   × 416 slots ≈  1,250 requests/day
 
 The 2.5-minute period matches a read-only probe of StockTwits, which measured how its sparklines refresh: its batch endpoint caches for about 2.5 minutes. The site copied the rendering (a `polyline` in an `svg` with `viewBox 0 0 W 32`, stroke 1.33) and that refresh rate, not the data.
 
-![Request flow](../../Diagrams/2026-10-24-yahoo-request-budget-and-daily-bar-store.request-flow.svg)
+![The shared sparkline store uses a batched request budget, while a separate job merges daily prices into a long-lived Redis store.](../../Diagrams/2026-10-24-yahoo-request-budget-and-daily-bar-store.request-flow.svg)
 
 ### Source terms
 

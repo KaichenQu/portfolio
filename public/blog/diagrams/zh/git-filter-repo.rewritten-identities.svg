@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="254" viewBox="0 0 720 254" role="img" xml:lang="zh-CN">
+  <title>git filter-repo 重写派生仓库后，分叉前的提交 SHA 要到上游历史中查找。</title>
+  <rect width="720" height="254" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#52616F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">重写后的 Git 历史</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 242"><tspan x="28" y="116">上游历史</tspan></text>
+  <path d="M236 111L665 111" fill="none" stroke="#52616F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-muted)"/>
+  <circle cx="265" cy="111" r="5" fill="#FFFFFF" stroke="#52616F" stroke-width="1.5"/>
+  <circle cx="395" cy="111" r="5" fill="#FFFFFF" stroke="#52616F" stroke-width="1.5"/>
+  <circle cx="530" cy="111" r="5" fill="#FFFFFF" stroke="#52616F" stroke-width="1.5"/>
+  <circle cx="618" cy="111" r="5" fill="#FFFFFF" stroke="#52616F" stroke-width="1.5"/>
+  <text class="label" text-anchor="start" data-bounds="22 53 698 242"><tspan x="28" y="195">重写后的派生仓库</tspan></text>
+  <path d="M236 190L665 190" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <circle cx="265" cy="190" r="5" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.5"/>
+  <circle cx="395" cy="190" r="5" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.5"/>
+  <circle cx="530" cy="190" r="5" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.5"/>
+  <circle cx="618" cy="190" r="5" fill="#FFFFFF" stroke="#2159A6" stroke-width="1.5"/>
+  <circle cx="395" cy="111" r="5" fill="#2159A6" stroke="none" stroke-width="1.5"/>
+  <text class="small focus" text-anchor="middle" data-bounds="22 53 698 242"><tspan x="395" y="92">旧 SHA 在这里可解析</tspan></text>
+  <text class="mono small" text-anchor="middle" data-bounds="22 53 698 242"><tspan x="395" y="167">git filter-repo</tspan></text>
+  <path d="M395 119L395 146" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <path d="M395 171L395 181" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <text class="small focus" text-anchor="middle" data-bounds="22 53 698 242"><tspan x="395" y="219">重写后的 SHA</tspan></text>
+</svg>

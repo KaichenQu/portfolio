@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="307" viewBox="0 0 720 307" role="img" xml:lang="zh-CN">
+  <title>SSH 通过 22 端口连接，由服务器拿 authorized_keys 校验公钥，再开启加密会话。</title>
+  <rect width="720" height="307" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-pass" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#246849" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">SSH 密钥认证</tspan></text>
+  <path d="M90 103L90 279" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <text class="label" text-anchor="middle" data-bounds="26 55 186 102"><tspan x="90" y="83">SSH 客户端</tspan></text>
+  <path d="M630 103L630 279" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4 4"/>
+  <text class="label" text-anchor="middle" data-bounds="534 55 695 102"><tspan x="630" y="83">SSH 服务器</tspan></text>
+  <path d="M93 132L627 132" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="middle" data-bounds="22 53 698 295"><tspan x="358.5" y="122">连接 22 端口</tspan></text>
+  <path d="M630 177H592v24H630" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="end" data-bounds="22 53 698 295"><tspan x="582" y="193">检查 authorized_keys</tspan></text>
+  <path d="M627 246L93 246" fill="none" stroke="#246849" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-pass)"/>
+  <text class="small pass" text-anchor="middle" data-bounds="22 53 698 295"><tspan x="361.5" y="236">已认证的加密会话</tspan></text>
+</svg>

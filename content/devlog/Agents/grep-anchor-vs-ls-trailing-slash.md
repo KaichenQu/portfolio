@@ -7,7 +7,7 @@ tags: [shell, grep]
 
 **Mistake**: ran `ls <dir> | grep -iE "^default$|^profile"` to find Chrome profile folders. Got back only one line (`Profile 3/`), concluded that was the only/active profile, and built two more rounds of debugging on that wrong premise.
 
-![An end-anchored pattern silently drops Default/ while a prefix pattern still matches Profile 3/. Inspect the unfiltered listing when results look sparse.](../Diagrams/grep-anchor-vs-ls-trailing-slash.silent-filter.svg)
+![A trailing slash on Default/ made the end-anchored pattern miss it while the prefix pattern still found Profile 3/.](../Diagrams/grep-anchor-vs-ls-trailing-slash.silent-filter.svg)
 
 **Root cause**: this environment's `ls` appends a trailing `/` to directory names (like `eza`/`lsd`). `^default$` anchors to end-of-line, so `Default/` never matches — it was silently filtered out with zero indication anything was dropped. `^profile` (no `$`) still matched `Profile 3/`, so the output looked complete and plausible.
 

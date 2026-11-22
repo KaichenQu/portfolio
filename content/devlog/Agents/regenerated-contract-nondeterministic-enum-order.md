@@ -9,7 +9,7 @@ tags: [openapi, codegen, ci-cd]
 
 **Root cause**: the enum order in the generated OpenAPI contract is non-deterministic, for a known reason. ==`StructurePredictionReportItem.source` is `Literal["real", "mock"]`, while every other model uses `Literal["mock", "real"]`.== The dump merges same-named enum schemas, so the merged `Source` enum can come out in either order.
 
-![Enum flip](../Diagrams/regenerated-contract-nondeterministic-enum-order.enum-flip.svg)
+![Conflicting Literal orders made the generated Source enum flip, so an unrelated api-contract.yaml hunk failed the CI diff.](../Diagrams/regenerated-contract-nondeterministic-enum-order.enum-flip.svg)
 
 **Rule going forward**:
 - After regenerating a contract, diff it against `main`. Keep only the hunks your change explains.

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="249" viewBox="0 0 720 249" role="img" xml:lang="zh-CN">
+  <title>控制方打开截图、在 Linux 跑完整测试并对比随库代码哈希，发现五处视觉缺陷和两项平台相关测试失败。</title>
+  <rect width="720" height="249" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">界面验收证据</tspan></text>
+  <rect x="28" y="62" width="664" height="38" rx="0" fill="#F4F7FA" stroke="none" stroke-width="1"/>
+  <text class="small strong" text-anchor="start" data-bounds="36 64 219 98"><tspan x="40" y="85">检查</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="236 64 446 98"><tspan x="240" y="85">所用证据</tspan></text>
+  <text class="small strong" text-anchor="start" data-bounds="463 64 683 98"><tspan x="467" y="85">查到的结果</tspan></text>
+  <path d="M228 62L228 223" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M455 62L455 223" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 100L692 100" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 102 219 139"><tspan x="40" y="123">截图审查</tspan></text>
+  <text text-anchor="start" data-bounds="236 102 446 139"><tspan x="240" y="123">打开九张修改后截图</tspan></text>
+  <text class="fail strong" text-anchor="start" data-bounds="463 102 683 139"><tspan x="467" y="123">五处可见缺陷</tspan></text>
+  <path d="M28 141L692 141" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 143 219 180"><tspan x="40" y="164">Linux 完整测试</tspan></text>
+  <text text-anchor="start" data-bounds="236 143 446 180"><tspan x="240" y="164">在 Linux 跑完整验证</tspan></text>
+  <text class="fail strong" text-anchor="start" data-bounds="463 143 683 180"><tspan x="467" y="164">两项测试失败</tspan></text>
+  <path d="M28 182L692 182" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="36 184 219 221"><tspan x="40" y="205">随库工具包</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="236 184 446 221"><tspan x="240" y="205">SHA-256</tspan></text>
+  <text class="pass strong" text-anchor="start" data-bounds="463 184 683 221"><tspan x="467" y="205">与上游逐字节一致</tspan></text>
+  <path d="M28 223L692 223" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

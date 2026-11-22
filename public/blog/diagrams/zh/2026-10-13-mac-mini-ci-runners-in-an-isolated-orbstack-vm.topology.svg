@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="361" viewBox="0 0 720 361" role="img" xml:lang="zh-CN">
+  <title>运行器、心跳和 Docker 服务都在隔离的 OrbStack 虚拟机中，可访问 GitHub，无法访问 Mac 文件系统或宿主网络。</title>
+  <rect width="720" height="361" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-focus" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#2159A6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">OrbStack 运行器隔离</tspan></text>
+  <rect x="28" y="64" width="429" height="270" rx="3" fill="#FFFFFF" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="label" text-anchor="start" data-bounds="39 68 682 100"><tspan x="44" y="91">Mac mini</tspan></text>
+  <text class="small muted" text-anchor="middle" data-bounds="259 68 447 101"><tspan x="361" y="91">18 核     48 GB</tspan></text>
+  <rect x="44" y="111" width="396" height="205" rx="3" fill="#F4F7FA" stroke="#2159A6" stroke-width="1"/>
+  <text class="label focus" text-anchor="start" data-bounds="54 113 430 148"><tspan x="59" y="138">OrbStack 虚拟机 ci-runner</tspan></text>
+  <text class="mono small" text-anchor="start" data-bounds="22 53 698 349"><tspan x="59" y="164">Ubuntu 24.04 arm64</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 349"><tspan x="276" y="164">12 核     24 GB</tspan></text>
+  <path d="M59 178L425 178" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text text-anchor="start" data-bounds="22 53 698 349"><tspan x="59" y="203">六个 actions-runner 服务</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="22 53 698 349"><tspan x="59" y="229">ci-heartbeat cron</tspan></text>
+  <text class="mono" text-anchor="start" data-bounds="22 53 698 349"><tspan x="59" y="256">Docker Engine</tspan></text>
+  <text text-anchor="start" data-bounds="22 53 698 349"><tspan x="59" y="283">服务容器通过 localhost 访问</tspan></text>
+  <path d="M440 191L671 191" fill="none" stroke="#2159A6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-focus)"/>
+  <text class="small focus" text-anchor="middle" data-bounds="22 53 698 349"><tspan x="553" y="180">出站 HTTPS</tspan></text>
+  <text class="strong" text-anchor="middle" data-bounds="22 53 698 349"><tspan x="560" y="216">虚拟机外的 GitHub</tspan></text>
+  <path d="M460 247l10 10m0 -10l-10 10" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small fail" text-anchor="start" data-bounds="22 53 698 349"><tspan x="481" y="257">Mac 文件系统挂载</tspan></text>
+  <path d="M460 277l10 10m0 -10l-10 10" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small fail" text-anchor="start" data-bounds="22 53 698 349"><tspan x="481" y="287">宿主网络访问</tspan></text>
+</svg>

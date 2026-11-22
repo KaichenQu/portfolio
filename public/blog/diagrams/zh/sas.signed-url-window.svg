@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="271" viewBox="0 0 720 271" role="img" xml:lang="zh-CN">
+  <title>SAS 查询串含起始、到期、权限与签名字段，在 se= 之后新发请求会被 Azure 拒绝。</title>
+  <rect width="720" height="271" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <defs>
+    <marker id="arrow-fail" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" refX="8.5" refY="5" orient="auto"><path d="M2.5 1.5L8.5 5 2.5 8.5" fill="none" stroke="#A13834" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">Azure SAS 链接字段</tspan></text>
+  <rect x="28" y="75" width="145" height="44" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="mono strong" text-anchor="start" data-bounds="22 53 698 259"><tspan x="41" y="103">st=</tspan></text>
+  <path d="M50 119L50 136" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 259"><tspan x="41" y="157">起始</tspan></text>
+  <rect x="201" y="75" width="145" height="44" rx="3" fill="#EDF2F6" stroke="#2159A6" stroke-width="1"/>
+  <text class="mono strong focus" text-anchor="start" data-bounds="22 53 698 259"><tspan x="214" y="103">se=</tspan></text>
+  <path d="M223 119L223 136" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 259"><tspan x="214" y="157">到期</tspan></text>
+  <rect x="374" y="75" width="145" height="44" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="mono strong" text-anchor="start" data-bounds="22 53 698 259"><tspan x="387" y="103">sp=</tspan></text>
+  <path d="M396 119L396 136" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 259"><tspan x="387" y="157">权限</tspan></text>
+  <rect x="547" y="75" width="145" height="44" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="mono strong" text-anchor="start" data-bounds="22 53 698 259"><tspan x="560" y="103">sig=</tspan></text>
+  <path d="M569 119L569 136" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="small" text-anchor="start" data-bounds="22 53 698 259"><tspan x="560" y="157">签名</tspan></text>
+  <path d="M222 165V201H462" fill="none" stroke="#A13834" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-fail)"/>
+  <text class="small fail" text-anchor="start" data-bounds="22 53 698 259"><tspan x="238" y="189">到期后重新连接</tspan></text>
+  <text class="mono fail strong" text-anchor="start" data-bounds="22 53 698 259"><tspan x="477" y="207">HTTP 403</tspan></text>
+  <text class="small muted" text-anchor="start" data-bounds="22 53 698 259"><tspan x="28" y="242">GitHub Actions 制品链接</tspan></text>
+</svg>

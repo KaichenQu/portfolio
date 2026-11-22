@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="250" viewBox="0 0 720 250" role="img" xml:lang="zh-CN">
+  <title>目录即使匹配 apps/*，缺少 package.json 时仍不会被 pnpm -r test 执行。</title>
+  <rect width="720" height="250" fill="#FFFFFF"/>
+  <style>
+text{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;font-size:14px;fill:#202832;font-variant-numeric:tabular-nums}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.title{font-size:18px;font-weight:700}
+.label{font-size:15px;font-weight:650}
+.small{font-size:13px}
+.strong{font-weight:650}
+.muted{fill:#52616F}
+.focus{fill:#2159A6}
+.fail{fill:#A13834}
+.pass{fill:#246849}
+  </style>
+  <text class="title" text-anchor="start" data-bounds="27 15 693 52"><tspan x="28" y="38">pnpm 工作区纳入条件</tspan></text>
+  <rect x="28" y="64" width="664" height="43" rx="3" fill="#EDF2F6" stroke="#C5CDD5" stroke-width="1"/>
+  <text class="mono strong" text-anchor="start" data-bounds="22 53 698 238"><tspan x="44" y="90">pnpm-workspace.yaml</tspan></text>
+  <text class="mono focus strong" text-anchor="start" data-bounds="22 53 698 238"><tspan x="367" y="90">apps/*</tspan></text>
+  <path d="M394 108V129H159V153 M394 129H535V153" fill="none" stroke="#C5CDD5" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="label" text-anchor="start" data-bounds="45 148 315 181"><tspan x="48" y="171">应用包</tspan></text>
+  <path d="M57 183L57 202" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M57 202L72 202" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono pass" text-anchor="start" data-bounds="74 186 315 216"><tspan x="78" y="206">package.json</tspan></text>
+  <text class="label" text-anchor="start" data-bounds="371 148 675 181"><tspan x="374" y="171">服务目录</tspan></text>
+  <path d="M383 183L383 202" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M383 202L398 202" fill="none" stroke="#C5CDD5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <text class="mono fail" text-anchor="start" data-bounds="400 186 675 216"><tspan x="404" y="206">无 package.json</tspan></text>
+  <text class="small fail" text-anchor="start" data-bounds="22 53 698 238"><tspan x="454" y="226">pnpm -r test 跳过它</tspan></text>
+</svg>
