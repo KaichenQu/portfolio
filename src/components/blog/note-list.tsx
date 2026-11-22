@@ -165,7 +165,7 @@ export function NoteList({ notes, locale = "en" }: { notes: Note[]; locale?: Blo
                   className={clsx(
                     "hidden h-16 w-24 shrink-0 rounded-md border border-gray-200 sm:block dark:border-white/15",
                     n.cover.kind === "art"
-                      ? "object-cover"
+                      ? "object-cover dark:brightness-90"
                       : "bg-white object-contain p-1",
                   )}
                 />

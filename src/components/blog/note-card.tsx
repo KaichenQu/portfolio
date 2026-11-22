@@ -10,8 +10,8 @@ import { StatusDot } from "@/components/blog/note-list";
 export const CARD_SHELL =
   "group/card flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200/70 bg-white/50 transition-all duration-300 hover:-translate-y-0.5 hover:border-sky-300/60 hover:bg-white hover:shadow-lg hover:shadow-sky-500/5 focus-visible:border-sky-400/60 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:border-white/[0.08] dark:bg-white/[0.02] dark:hover:border-sky-500/30 dark:hover:bg-white/[0.04] dark:focus-visible:border-sky-400/40";
 
-const BOX =
-  "relative aspect-[3/2] overflow-hidden border-b border-gray-200/70 dark:border-white/[0.08]";
+const BOX = "relative aspect-[3/2] overflow-hidden";
+const DIVIDER = "border-b border-gray-200/70 dark:border-white/[0.08]";
 const ZOOM =
   "transition-transform duration-500 group-hover/card:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover/card:scale-100";
 
@@ -23,6 +23,7 @@ function Cover({ cover }: { cover: Note["cover"] }) {
         data-cover="none"
         className={clsx(
           BOX,
+          DIVIDER,
           "bg-gray-50 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:14px_14px] dark:bg-white/[0.02] dark:bg-[radial-gradient(rgb(255_255_255/0.08)_1px,transparent_1px)]",
         )}
       />
@@ -33,7 +34,10 @@ function Cover({ cover }: { cover: Note["cover"] }) {
     // The image is out of flow: its intrinsic size would otherwise outgrow the aspect ratio.
     <div
       data-cover={cover.kind}
-      className={clsx(BOX, art ? "bg-gray-100 dark:bg-white/[0.04]" : "bg-white")}
+      className={clsx(
+        BOX,
+        art ? "bg-white dark:bg-white/[0.04]" : [DIVIDER, "bg-white"],
+      )}
     >
       <Image
         src={cover.src}
@@ -45,7 +49,7 @@ function Cover({ cover }: { cover: Note["cover"] }) {
         unoptimized
         className={clsx(
           "absolute inset-0 h-full w-full",
-          art ? "object-cover" : "object-contain p-4",
+          art ? "object-cover dark:brightness-90" : "object-contain p-4",
           ZOOM,
         )}
       />
@@ -63,7 +67,12 @@ export function NoteCard({ note, locale = "en" }: { note: Note; locale?: BlogLoc
   return (
     <NextLink href={blogPath(locale, `/${note.slug}`)} className={CARD_SHELL}>
       <Cover cover={note.cover} />
-      <div className="flex flex-1 flex-col p-4">
+      <div
+        className={clsx(
+          "flex flex-1 flex-col p-4",
+          note.cover?.kind === "art" && "bg-white dark:bg-transparent",
+        )}
+      >
         <div
           data-kicker
           className="flex items-center justify-between gap-3 whitespace-nowrap font-mono text-[11px] font-medium uppercase leading-none tracking-[0.14em]"

@@ -62,7 +62,8 @@ describe("NoteList", () => {
       "object-contain",
       "bg-white",
     );
-    expect(row(/With art/).querySelector("img")).toHaveClass("object-cover");
+    expect(row(/With figure/).querySelector("img")).not.toHaveClass("dark:brightness-90");
+    expect(row(/With art/).querySelector("img")).toHaveClass("object-cover", "dark:brightness-90");
     expect(row(/With art/).querySelector("img")).not.toHaveClass("bg-white");
   });
 
