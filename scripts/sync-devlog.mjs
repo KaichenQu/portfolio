@@ -9,6 +9,12 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+const readVaultFile = (file) =>
+  fs.readFileSync(file, {
+    encoding: "utf8",
+    flag: fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW,
+  });
+
 const FOLDERS = [
   "Cases/Debug",
   "Cases/Design",
@@ -27,6 +33,12 @@ const FM_LINE = /^([A-Za-z_][\w-]*):(.*)/;
 // Same link shape and slug rule as src/lib/devlog.ts.
 const WIKILINK = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
 const slugify = (stem) => stem.trim().toLowerCase().replace(/\s+/g, "-");
+const linkStem = (target) =>
+  path.posix.basename(
+    target.trim().replace(/\\$/, "").split(/[#^]/, 1)[0].trim().replace(/\.md$/i, ""),
+  );
+// Include malformed spans so text masking cannot expose their aliases either.
+const WIKILINK_SPAN = /\[\[[\s\S]*?(?:\]\]|$)/g;
 const LIST_ITEM = /^[ \t]*(?:[-*+]|\d+\.)[ \t]/;
 const DIAGRAM_REF = /!\[[^\]]*\]\(\s*<?([^)\s>]+)/g;
 const DIAGRAM = /(?:^|\/)Diagrams\/([^/]+\.svg)$/;
@@ -50,9 +62,9 @@ function frontmatter(text, file) {
  * why the note is held back: "false" for any `publish: false`, "review" for a
  * case (under `Cases/`, or `type: case-*` elsewhere) with no `publish:` line,
  * because a case's story can be the sensitive part and no pattern sees that.
- * Null publishes it. `rel` is the path from the vault root.
+ * An explicit true is tracked separately for the translation review gate.
  */
-function holdReason(fm, file, rel) {
+function publishDecision(fm, file, rel, requireCaseReview) {
   const values = [...(fm?.[1].matchAll(/^publish:(.*)$/gm) ?? [])].map(
     ([, value]) => {
       const v = /^\s*(["']?)(true|false)\1\s*$/i.exec(value);
@@ -61,14 +73,16 @@ function holdReason(fm, file, rel) {
       return v[2].toLowerCase();
     },
   );
-  if (values.includes("false")) return "false";
+  if (values.includes("false")) return { reason: "false", approved: false };
   // The folder catches a missing or misspelt type; quoted or odd-cased types
   // count too. A false hit only holds a note.
   const isCase =
     rel.split(path.sep)[0] === "Cases" ||
     /^type:\s*["']?case-/im.test(fm?.[1] ?? "");
-  if (!values.length && isCase) return "review";
-  return null;
+  return {
+    reason: requireCaseReview && !values.length && isCase ? "review" : null,
+    approved: values.includes("true"),
+  };
 }
 
 /**
@@ -82,7 +96,7 @@ export function loadPatterns(file) {
       `Redaction patterns not found: ${file}; nothing was changed`,
     );
   const patterns = [];
-  fs.readFileSync(file, "utf8")
+  readVaultFile(file)
     .split(/\r?\n/)
     .forEach((line, i) => {
       const n = i + 1;
@@ -199,7 +213,7 @@ const FENCE = /^ {0,3}(`{3,}|~{3,})/;
  * other link to a held-back note.
  */
 export function hideUnpublished(text, held, counts) {
-  const target = (m) => held.has(slugify(m[1]));
+  const target = (m) => held.has(slugify(linkStem(m[1])));
   const lines = text.split(/(?<=\n)/).map((line) => ({ line }));
   let fence = null;
   for (const l of lines) {
@@ -293,8 +307,23 @@ export const VIEWS = {
 /** Zero-length matches do not count: they mask nothing. */
 const hit = (s, re) => [...s.matchAll(re)].some((m) => m[0]);
 
+function heldNamePattern(names) {
+  if (names.size === 0) return undefined;
+  const namesEscaped = [...names]
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length)
+    .map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  if (!namesEscaped.length) return undefined;
+  // Dashes and underscores belong to the stem, e.g. "retry-budget".
+  return new RegExp(`(?<![\\w-])(?:${namesEscaped.join("|")})(?![\\w-])`, "gi");
+}
+
+const heldNameError = (file, view) =>
+  new Error(`${file} still names a held-back note (${view} view); nothing was changed`);
+
 /** Fail closed: no pattern and no held-back note's stem or slug may show in any view of an output file. */
 export function assertClean(file, text, patterns, heldNames) {
+  const names = heldNamePattern(new Set(heldNames));
   for (const [name, view] of Object.entries(VIEWS)) {
     const v = view(text);
     for (const { line, re } of patterns)
@@ -302,18 +331,60 @@ export function assertClean(file, text, patterns, heldNames) {
         throw new Error(
           `Pattern on line ${line} still matches ${file} (${name} view); nothing was changed`,
         );
-    const lower = v.toLowerCase();
-    if (heldNames.some((h) => lower.includes(h)))
-      throw new Error(
-        `${file} still names a held-back note (${name} view); nothing was changed`,
-      );
+    if (names && hit(v, names)) throw heldNameError(file, name);
   }
 }
 
+const WIKI_OR_INLINE_CODE = /\[\[[\s\S]*?(?:\]\]|$)|(?<!`)(`+)(?!`)[\s\S]*?(?<!`)\1(?!`)/g;
+
+function maskProseMentions(text, names) {
+  const maskProse = (prose) => {
+    let out = "";
+    let start = 0;
+    for (const span of prose.matchAll(WIKI_OR_INLINE_CODE)) {
+      out += prose.slice(start, span.index).replace(names, SHADE.repeat(8)) + span[0];
+      start = span.index + span[0].length;
+    }
+    return out + prose.slice(start).replace(names, SHADE.repeat(8));
+  };
+
+  let out = "";
+  let prose = "";
+  let fence = null;
+  for (const line of text.split(/(?<=\n)/)) {
+    const marker = FENCE.exec(line)?.[1];
+    // An indented line may be a code block or a list continuation.
+    // Leaving it to the final check avoids masking any code by accident.
+    if (!fence && !marker && !/^(?: {4}|\t)/.test(line)) {
+      prose += line;
+      continue;
+    }
+    out += maskProse(prose) + line;
+    prose = "";
+    if (!fence) fence = marker ?? null;
+    else if (
+      marker?.[0] === fence[0] &&
+      marker.length >= fence.length &&
+      line.trim() === marker
+    ) fence = null;
+  }
+  return out + maskProse(prose);
+}
+
 /** Drops the private keys, hides links to held-back notes, then masks the values, title and body. */
-function redactNote(text, fm, held, stats) {
-  const clean = (s) =>
-    maskText(hideUnpublished(s, held, stats.hidden), stats.patterns, stats);
+function redactNote({ text, fm, file }, held, stats, names, maskMentions) {
+  const clean = (s) => {
+    const visible = hideUnpublished(s, held, stats.hidden);
+    // Check the remaining link spans before a pattern can mask their target
+    // and leave a private alias behind.
+    if (names) {
+      for (const [name, view] of Object.entries(VIEWS))
+        for (const [span] of view(visible).matchAll(WIKILINK_SPAN))
+          if (hit(span, names)) throw heldNameError(file, name);
+    }
+    const out = maskText(visible, stats.patterns, stats);
+    return maskMentions && names ? maskProseMentions(out, names) : out;
+  };
   if (!fm) return clean(text);
   const eol = /\r\n/.test(fm[0]) ? "\r\n" : "\n";
   const kept = fm[1]
@@ -348,22 +419,40 @@ export function stripSvg(svg) {
     );
 }
 
-function listFiles(dir) {
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir, { recursive: true, withFileTypes: true })
-    .filter((e) => e.isFile())
-    .map((e) => path.relative(dir, path.join(e.parentPath, e.name)));
+const symlinkError = (file) =>
+  new Error(`Symbolic link at ${file}; nothing was changed`);
+
+function checkedStat(file) {
+  const info = fs.lstatSync(file, { throwIfNoEntry: false });
+  if (info?.isSymbolicLink()) throw symlinkError(file);
+  return info;
 }
 
-function prune(dir, keep) {
-  let removed = 0;
-  for (const rel of listFiles(dir)) {
-    if (keep.has(rel)) continue;
-    fs.rmSync(path.join(dir, rel));
-    removed++;
+function directoryExists(dir) {
+  const info = checkedStat(dir);
+  if (!info) return false;
+  if (!info.isDirectory()) throw new Error(`Expected a directory at ${dir}; nothing was changed`);
+  return true;
+}
+
+function sourceFolder(root, relative) {
+  let dir = root;
+  for (const segment of path.normalize(relative).split(path.sep)) {
+    dir = path.join(dir, segment);
+    if (!directoryExists(dir)) return undefined;
   }
-  return removed;
+  return dir;
+}
+
+function listFiles(dir) {
+  if (!directoryExists(dir)) return [];
+  const files = [];
+  for (const entry of fs.readdirSync(dir, { recursive: true, withFileTypes: true })) {
+    const file = path.join(entry.parentPath, entry.name);
+    if (entry.isSymbolicLink()) throw symlinkError(file);
+    if (entry.isFile()) files.push(path.relative(dir, file));
+  }
+  return files;
 }
 
 const matchesAny = (s, patterns) => patterns.some(({ re }) => hit(s, re));
@@ -374,6 +463,140 @@ const nameError = (file) =>
 const shadeError = (file) =>
   new Error(`${file} already contains ${SHADE}; nothing was changed`);
 
+function readSources(dir, requireCaseReview) {
+  const sources = new Map();
+  for (const folder of FOLDERS) {
+    const abs = sourceFolder(dir, folder);
+    if (!abs) continue;
+    for (const name of fs.readdirSync(abs).sort()) {
+      const rel = path.join(folder, name);
+      const file = path.join(abs, name);
+      const info = checkedStat(file);
+      if (!name.endsWith(".md") || EXCLUDE.has(rel.split(path.sep).join("/")))
+        continue;
+      if (!info?.isFile()) throw new Error(`Expected a note file at ${file}; nothing was changed`);
+      const stem = path.basename(name, ".md");
+      if (slugify(stem) === "zh")
+        throw new Error(`Reserved DevLog slug "zh" in ${file}; nothing was changed`);
+      const text = readVaultFile(file);
+      const fm = frontmatter(text, file);
+      const decision = publishDecision(fm, file, rel, requireCaseReview);
+      sources.set(rel, { file, text, fm, stem, ...decision });
+    }
+  }
+  return sources;
+}
+
+function redactionStats(patterns) {
+  return {
+    patterns,
+    hits: new Map(),
+    encoded: 0,
+    hidden: { lines: 0, links: 0, sections: 0 },
+  };
+}
+
+const total = (stats) => [...(stats?.hits.values() ?? [])].reduce((a, b) => a + b, 0);
+
+function diagramRefs(text) {
+  const refs = new Set();
+  for (const [, url] of text.matchAll(DIAGRAM_REF)) {
+    const name = DIAGRAM.exec(url)?.[1];
+    if (name) refs.add(name);
+  }
+  return refs;
+}
+
+function addStats(stats, entry) {
+  for (const [line, n] of entry.stats.hits)
+    stats.hits.set(line, (stats.hits.get(line) ?? 0) + n);
+  stats.encoded += entry.stats.encoded;
+  for (const key of Object.keys(stats.hidden)) stats.hidden[key] += entry.stats.hidden[key];
+}
+
+function prepareNote(source, patterns, held, names, maskMentions = false) {
+  const { file, text, stem } = source;
+  // The slug is the stem lowercased with dashes; neither can be masked.
+  if (matchesAny(stem, patterns) || matchesAny(slugify(stem), patterns))
+    throw nameError(file);
+  if (text.includes(SHADE)) throw shadeError(file);
+  const stats = redactionStats(patterns);
+  const out = redactNote(source, held, stats, names, maskMentions);
+  return { out, refs: diagramRefs(text), stats };
+}
+
+function redactDiagram(text, patterns) {
+  const stats = redactionStats(patterns);
+  const out = maskText(stripSvg(text), patterns, stats, true);
+  return { out, stats };
+}
+
+function diagramFolder(root) {
+  const dir = sourceFolder(root, "Diagrams");
+  if (dir)
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true }))
+      if (entry.isSymbolicLink()) throw symlinkError(path.join(dir, entry.name));
+  return dir;
+}
+
+function prepareDiagrams(dir, notes, patterns) {
+  const diagrams = new Map();
+  if (!dir) return diagrams;
+  for (const { refs } of notes.values()) {
+    for (const name of refs) {
+      const file = path.join(dir, name);
+      if (diagrams.has(name) || !checkedStat(file)?.isFile()) continue;
+      if (matchesAny(name.replace(/\.svg$/, ""), patterns)) throw nameError(file);
+      const text = readVaultFile(file);
+      if (text.includes(SHADE)) throw shadeError(file);
+      const entry = redactDiagram(text, patterns);
+      if (DATA_URI.test(entry.out))
+        throw new Error(
+          `${file} still embeds a data: URI after redaction; nothing was changed`,
+        );
+      diagrams.set(name, entry);
+    }
+  }
+  return diagrams;
+}
+
+function hasDeficit(original, translation) {
+  return [...(original?.stats.hits ?? [])].some(
+    ([line, n]) => n > (translation?.stats.hits.get(line) ?? 0),
+  );
+}
+
+function checkEdition(notesDir, diagramsDir, notes, diagrams, patterns, heldNames) {
+  const stats = redactionStats(patterns);
+  const touched = { notes: 0, diagrams: 0 };
+  for (const [dir, entries, kind] of [
+    [notesDir, notes, "notes"],
+    [diagramsDir, diagrams, "diagrams"],
+  ]) {
+    for (const [rel, entry] of entries) {
+      assertClean(path.join(dir, rel), entry.out, patterns, heldNames);
+      if (total(entry.stats) > 0) touched[kind]++;
+      addStats(stats, entry);
+    }
+  }
+  return { stats, touched };
+}
+
+function writeEdition(dir, entries, existing) {
+  for (const [rel, { out }] of entries) {
+    const file = path.join(dir, rel);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, out);
+  }
+  let removed = 0;
+  for (const rel of existing) {
+    if (entries.has(rel)) continue;
+    fs.rmSync(path.join(dir, rel));
+    removed++;
+  }
+  return removed;
+}
+
 /** Returns the counts it also prints. Reads, checks and redacts everything before the first write. */
 export function syncDevlog({
   src,
@@ -381,98 +604,144 @@ export function syncDevlog({
   diagramsDir,
   patternsFile = path.join(src, "_meta", "redactions.txt"),
 }) {
-  if (!fs.existsSync(src)) throw new Error(`DevLog vault not found: ${src}`);
+  src = path.resolve(src);
+  if (!directoryExists(src)) throw new Error(`DevLog vault not found: ${src}`);
+  const patternsRel = path.relative(src, patternsFile);
+  if (patternsRel !== ".." && !patternsRel.startsWith(`..${path.sep}`))
+    sourceFolder(src, path.dirname(patternsRel));
+  checkedStat(patternsFile);
   const patterns = loadPatterns(patternsFile);
-  const notes = { copied: 0, skipped: 0, removed: 0 };
-  let heldForReview = 0;
-  const diagrams = { copied: 0, removed: 0 };
-  const stats = {
-    patterns,
-    hits: new Map(),
-    encoded: 0,
-    hidden: { lines: 0, links: 0, sections: 0 },
-  };
-  const total = () => [...stats.hits.values()].reduce((a, b) => a + b, 0);
-  const touched = { notes: 0, diagrams: 0 };
-
-  const sources = [];
-  const held = new Set();
-  const heldNames = new Set();
-  for (const folder of FOLDERS) {
-    const abs = path.join(src, folder);
-    if (!fs.existsSync(abs)) continue;
-    for (const name of fs.readdirSync(abs)) {
-      const rel = path.join(folder, name);
-      if (!name.endsWith(".md") || EXCLUDE.has(rel.split(path.sep).join("/")))
-        continue;
-      const file = path.join(abs, name);
-      const text = fs.readFileSync(file, "utf8");
-      const fm = frontmatter(text, file);
-      const stem = path.basename(name, ".md");
-      const reason = holdReason(fm, file, rel);
-      if (reason) {
-        notes.skipped++;
-        if (reason === "review") heldForReview++;
-        held.add(slugify(stem));
-        heldNames.add(stem.toLowerCase()).add(slugify(stem));
-      } else sources.push({ rel, file, text, fm, stem });
-    }
-  }
+  const sources = readSources(src, true);
   // A wrong DEVLOG_DIR would otherwise wipe both targets.
-  if (sources.length + notes.skipped === 0)
+  if (!sources.size)
     throw new Error(`No DevLog notes found in ${src}; nothing was changed`);
 
+  const held = new Set();
+  const heldNames = new Set();
+  const publicSlugs = new Set();
+  let heldForReview = 0;
+  let skipped = 0;
+  for (const { stem, reason } of sources.values()) {
+    if (!reason) {
+      publicSlugs.add(slugify(stem));
+      continue;
+    }
+    skipped++;
+    if (reason === "review") heldForReview++;
+    held.add(slugify(stem));
+    heldNames.add(stem.toLowerCase()).add(slugify(stem));
+  }
+
+  const englishNames = heldNamePattern(heldNames);
   const publish = new Map();
-  const svgs = new Map();
-  for (const { rel, file, text, fm, stem } of sources) {
-    // The slug is the stem lowercased with dashes; neither can be masked.
-    if (matchesAny(stem, patterns) || matchesAny(slugify(stem), patterns))
-      throw nameError(file);
-    if (text.includes(SHADE)) throw shadeError(file);
-    const before = total();
-    const out = redactNote(text, fm, held, stats);
-    assertClean(path.join(notesDir, rel), out, patterns, [...heldNames]);
-    publish.set(rel, out);
-    if (total() > before) touched.notes++;
-    for (const [, url] of text.matchAll(DIAGRAM_REF)) {
-      const svg = DIAGRAM.exec(url)?.[1];
-      if (
-        svg &&
-        !svgs.has(svg) &&
-        fs.existsSync(path.join(src, "Diagrams", svg))
-      )
-        svgs.set(svg, path.join(src, "Diagrams", svg));
+  for (const [rel, source] of sources)
+    if (!source.reason)
+      publish.set(rel, prepareNote(source, patterns, held, englishNames));
+  const enDiagramFolder = diagramFolder(src);
+  const svgs = prepareDiagrams(enDiagramFolder, publish, patterns);
+
+  const zhSrc = sourceFolder(src, "zh");
+  const zhNotesDir = path.join(notesDir, "zh");
+  const zhDiagramsDir = path.join(diagramsDir, "zh");
+  const zhSources = zhSrc ? readSources(zhSrc, false) : new Map();
+  const zhDiagramFolder = zhSrc ? diagramFolder(zhSrc) : undefined;
+  const existingNotes = listFiles(notesDir);
+  const existingDiagrams = listFiles(diagramsDir);
+  const inChinese = (rel) => rel.startsWith(`zh${path.sep}`);
+  const chineseRel = (rel) => path.relative("zh", rel);
+  const existingZhNotes = existingNotes.filter(inChinese).map(chineseRel);
+  const existingZhDiagrams = existingDiagrams.filter(inChinese).map(chineseRel);
+  if (!zhSources.size && (existingZhNotes.length || existingZhDiagrams.length))
+    throw new Error(`No Chinese DevLog notes found in ${path.join(src, "zh")}; nothing was changed`);
+
+  const zhHeld = new Set(held);
+  const zhHeldNames = new Set(heldNames);
+  const zhEligible = new Map();
+  const reviewHeld = [];
+  for (const [rel, source] of zhSources) {
+    const twin = publish.get(rel);
+    if (!twin) {
+      const slug = slugify(source.stem);
+      if (!publicSlugs.has(slug)) {
+        zhHeld.add(slug);
+        zhHeldNames.add(source.stem.toLowerCase()).add(slug);
+      }
+      continue;
+    }
+    if (source.reason) continue;
+    const needsReview =
+      total(twin.stats) > 0 || [...twin.refs].some((name) => total(svgs.get(name)?.stats) > 0);
+    if (needsReview && !source.approved) reviewHeld.push(rel);
+    else zhEligible.set(rel, source);
+  }
+
+  const chineseNames = heldNamePattern(zhHeldNames);
+  const zhPublish = new Map(
+    [...zhEligible].map(([rel, source]) => [
+      rel, prepareNote(source, patterns, zhHeld, chineseNames, true),
+    ]),
+  );
+  const zhCandidateSvgs = prepareDiagrams(zhDiagramFolder, zhPublish, patterns);
+  const originalSvgs = new Map(svgs);
+  if (enDiagramFolder) {
+    for (const { refs } of zhPublish.values()) {
+      for (const name of refs) {
+        if (originalSvgs.has(name)) continue;
+        const file = path.join(enDiagramFolder, name);
+        // An extra localized figure can also have a same-name English source.
+        const original = checkedStat(file)?.isFile()
+          ? redactDiagram(readVaultFile(file), patterns)
+          : undefined;
+        originalSvgs.set(name, original);
+      }
+    }
+  }
+  const parityHeld = [];
+  for (const [rel, candidate] of zhPublish) {
+    const twin = publish.get(rel);
+    const refs = diagramRefs(candidate.out);
+    // Each figure must meet parity on its own. A missing or dropped figure
+    // contributes zero matches, regardless of the matches in other files.
+    const lacksFigureMatches = [...new Set([...twin.refs, ...refs])].some((name) =>
+      hasDeficit(originalSvgs.get(name), refs.has(name) ? zhCandidateSvgs.get(name) : undefined),
+    );
+    if (hasDeficit(twin, candidate) || lacksFigureMatches) {
+      parityHeld.push(rel);
+      zhPublish.delete(rel);
     }
   }
 
-  for (const [name, file] of svgs) {
-    if (matchesAny(name.replace(/\.svg$/, ""), patterns)) throw nameError(file);
-    const text = fs.readFileSync(file, "utf8");
-    if (text.includes(SHADE)) throw shadeError(file);
-    const before = total();
-    const out = maskText(stripSvg(text), patterns, stats, true);
-    if (total() > before) touched.diagrams++;
-    if (DATA_URI.test(out))
-      throw new Error(
-        `${file} still embeds a data: URI after redaction; nothing was changed`,
-      );
-    assertClean(path.join(diagramsDir, name), out, patterns, [...heldNames]);
-    svgs.set(name, out);
-  }
+  const zhSvgs = new Map();
+  for (const { out } of zhPublish.values())
+    for (const name of diagramRefs(out))
+      if (zhCandidateSvgs.has(name)) zhSvgs.set(name, zhCandidateSvgs.get(name));
 
-  for (const [rel, text] of publish) {
-    fs.mkdirSync(path.join(notesDir, path.dirname(rel)), { recursive: true });
-    fs.writeFileSync(path.join(notesDir, rel), text);
-    notes.copied++;
-  }
-  notes.removed = prune(notesDir, new Set(publish.keys()));
+  const { stats, touched } = checkEdition(
+    notesDir, diagramsDir, publish, svgs, patterns, [...heldNames],
+  );
+  const zh = checkEdition(
+    zhNotesDir, zhDiagramsDir, zhPublish, zhSvgs, patterns, [...zhHeldNames],
+  );
 
-  if (svgs.size) fs.mkdirSync(diagramsDir, { recursive: true });
-  for (const [name, text] of svgs) {
-    fs.writeFileSync(path.join(diagramsDir, name), text);
-    diagrams.copied++;
-  }
-  diagrams.removed = prune(diagramsDir, new Set(svgs.keys()));
+  const notes = {
+    copied: publish.size,
+    skipped,
+    removed: writeEdition(notesDir, publish, existingNotes.filter((rel) => !inChinese(rel))),
+  };
+  const diagrams = {
+    copied: svgs.size,
+    removed: writeEdition(diagramsDir, svgs, existingDiagrams.filter((rel) => !inChinese(rel))),
+  };
+  const chinese = {
+    notes: {
+      copied: zhPublish.size,
+      skipped: zhSources.size - zhPublish.size,
+      removed: writeEdition(zhNotesDir, zhPublish, existingZhNotes),
+    },
+    diagrams: { copied: zhSvgs.size, removed: writeEdition(zhDiagramsDir, zhSvgs, existingZhDiagrams) },
+    reviewHeld,
+    parityHeld,
+  };
 
   // Line numbers and counts only: never the pattern, the matched text or a held-back note.
   const perPattern = Object.fromEntries(
@@ -484,7 +753,7 @@ export function syncDevlog({
   );
   console.log(`held for review: ${heldForReview}`);
   console.log(
-    `redacted: ${total()} matches in ${touched.notes} notes and ${touched.diagrams} diagrams ` +
+    `redacted: ${total(stats)} matches in ${touched.notes} notes and ${touched.diagrams} diagrams ` +
       `(${stats.encoded} entity-encoded in SVGs)`,
   );
   console.log(
@@ -492,8 +761,24 @@ export function syncDevlog({
   );
   for (const [line, n] of Object.entries(perPattern))
     console.log(`pattern #${line}: ${n}`);
+  console.log(
+    `Chinese notes: ${chinese.notes.copied} copied, ${chinese.notes.skipped} skipped, ${chinese.notes.removed} removed; ` +
+      `Chinese diagrams: ${chinese.diagrams.copied} copied, ${chinese.diagrams.removed} removed`,
+  );
+  console.log(`Chinese held for review: ${reviewHeld.length}`);
+  for (const rel of reviewHeld) console.log(`  ${rel}`);
+  console.log(`Chinese held for redaction parity: ${parityHeld.length}`);
+  for (const rel of parityHeld) console.log(`  ${rel}`);
+  console.log(
+    `Chinese redacted: ${total(zh.stats)} matches in ${zh.touched.notes} notes and ${zh.touched.diagrams} diagrams ` +
+      `(${zh.stats.encoded} entity-encoded in SVGs)`,
+  );
+  console.log(
+    `Chinese held-back links: ${zh.stats.hidden.lines} list lines dropped, ${zh.stats.hidden.links} links masked, ${zh.stats.hidden.sections} sections removed`,
+  );
   return {
     notes,
+    chinese,
     heldForReview,
     diagrams,
     redactions: { ...touched, entityEncoded: stats.encoded, perPattern },

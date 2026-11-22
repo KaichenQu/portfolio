@@ -69,6 +69,12 @@ describe("syncDevlog", () => {
     expect(tree(diagramsDir)).toEqual(["case.flow.svg"]);
     expect(counts).toEqual({
       notes: { copied: 3, skipped: 1, removed: 0 },
+      chinese: {
+        notes: { copied: 0, skipped: 0, removed: 0 },
+        diagrams: { copied: 0, removed: 0 },
+        reviewHeld: [],
+        parityHeld: [],
+      },
       heldForReview: 0,
       diagrams: { copied: 1, removed: 0 },
       redactions: {
@@ -608,5 +614,343 @@ describe("assertClean", () => {
 
   it("passes text no view joins into a match", () => {
     expect(check("Acme Inc, Corp")).not.toThrow();
+  });
+});
+
+describe("Chinese edition", () => {
+  const rel = "Cases/Debug/case.md";
+  const zhWrite = (rel, text) => write(path.join(src, "zh", rel), text);
+  const zhRead = (dir, rel) => fs.readFileSync(path.join(dir, "zh", rel), "utf8");
+  const sync = () => syncDevlog({ src, notesDir, diagramsDir });
+  const patterns = (...lines) =>
+    write(path.join(src, "_meta", "redactions.txt"), lines.join("\n") + "\n");
+  const figure = (name) => `![图](../../Diagrams/${name}.svg)`;
+  const shade = "▒".repeat(8);
+  const figureRel = "case.flow.svg";
+
+  it("requires an exact published English twin and honors the translation's opt-out", () => {
+    zhWrite(rel, caseNote("", "有英文原文。"));
+    zhWrite("Techniques/kept.md", note("publish: 'FALSE'\n"));
+    zhWrite("Glossary/hidden.md", note("publish: true\n"));
+    zhWrite("Glossary/plain.md", note());
+    zhWrite("Cases/Debug/for-review.md", caseNote("publish: true\n"));
+    write(path.join(src, "Cases/Debug/for-review.md"), caseNote());
+    zhWrite("Agents/INDEX.md", note());
+
+    const { chinese, notes } = sync();
+    expect(tree(path.join(notesDir, "zh"))).toEqual([rel]);
+    expect(notes).toEqual({ copied: 3, skipped: 2, removed: 0 });
+    expect(chinese).toMatchObject({
+      notes: { copied: 1, skipped: 4, removed: 0 },
+      parityHeld: [],
+    });
+    expect(console.log).toHaveBeenCalledWith(
+      "Chinese notes: 1 copied, 4 skipped, 0 removed; Chinese diagrams: 0 copied, 0 removed",
+    );
+    expect(JSON.stringify(vi.mocked(console.log).mock.calls)).not.toMatch(
+      /hidden\.md|plain\.md|for-review\.md|INDEX\.md/,
+    );
+  });
+
+  it("requires parity for every pattern and counts only publishable frontmatter and body", () => {
+    patterns("Orchid", "/Quartz/i");
+    write(path.join(src, "Techniques/kept.md"), note("status: Orchid\n", "Orchid and Quartz."));
+    zhWrite("Techniques/kept.md", note("publish: true\nproject: Orchid\n", "Orchid 与 quartz、QUARTZ。"));
+
+    const { chinese } = sync();
+    expect(chinese.parityHeld).toEqual(["Techniques/kept.md"]);
+    expect(fs.existsSync(path.join(notesDir, "zh"))).toBe(false);
+    expect(console.log).toHaveBeenCalledWith("Chinese held for redaction parity: 1");
+    expect(console.log).toHaveBeenCalledWith("  Techniques/kept.md");
+    expect(JSON.stringify(vi.mocked(console.log).mock.calls)).not.toMatch(/Orchid|Quartz/i);
+
+    zhWrite("Techniques/kept.md", note("publish: true\nproject: Orchid\nstatus: Orchid\n", "Orchid 与 quartz。"));
+    expect(sync().chinese.parityHeld).toEqual([]);
+    expect(zhRead(notesDir, "Techniques/kept.md")).toBe(
+      `---\ntype: pattern\npublish: true\nstatus: ${shade}\n---\n# Note\n\n${shade} 与 ${shade}。\n`,
+    );
+  });
+
+  it("compares each referenced figure independently, including encoded labels", () => {
+    patterns("Orchid", "Jade");
+    write(path.join(src, "Diagrams", figureRel), "<svg><text>&#79;rchid Jade</text></svg>");
+    zhWrite(rel, caseNote("publish: true\n", `${figure("case.flow")} ${figure("extra")}. Orchid Jade`));
+    zhWrite("Diagrams/extra.svg", "<svg><text>Orchid Jade Orchid Jade</text></svg>");
+    expect(sync().chinese.parityHeld).toEqual([rel]);
+
+    zhWrite("Diagrams/case.flow.svg", "<svg><text>&#79;rchid Orchid</text></svg>");
+    expect(sync().chinese.parityHeld).toEqual([rel]);
+
+    zhWrite(
+      "Diagrams/case.flow.svg",
+      '<!-- Jade --><svg content="Orchid"><switch><foreignObject><div>&#79;rchid Jade</div></foreignObject>' +
+        '<image href="data:image/png;base64,QUJD"/></switch></svg>',
+    );
+    zhWrite("Diagrams/orphan.svg", "<svg/>");
+
+    const { chinese } = sync();
+    expect(chinese.parityHeld).toEqual([]);
+    expect(tree(path.join(diagramsDir, "zh"))).toEqual([figureRel, "extra.svg"]);
+    expect(zhRead(diagramsDir, figureRel)).toBe(
+      `<svg><switch><foreignObject><div>${shade} ▒▒▒▒</div></foreignObject></switch></svg>`,
+    );
+    expect(fs.readFileSync(path.join(diagramsDir, figureRel), "utf8")).toBe(
+      `<svg><text>${shade} ▒▒▒▒</text></svg>`,
+    );
+  });
+
+  it("checks an extra localized figure against a same-name English source", () => {
+    patterns("Orchid");
+    write(path.join(src, "Diagrams/extra.svg"), "<svg><text>Orchid</text></svg>");
+    zhWrite(rel, caseNote("", figure("extra")));
+    zhWrite("Diagrams/extra.svg", "<svg><text>兰花</text></svg>");
+
+    expect(sync().chinese.parityHeld).toEqual([rel]);
+    expect(tree(diagramsDir)).toEqual([figureRel]);
+    expect(fs.existsSync(path.join(notesDir, "zh"))).toBe(false);
+  });
+
+  it("hides path links to held notes while retaining links that can fall back to English", () => {
+    patterns("Orchid");
+    write(path.join(src, "Techniques/kept.md"), note("", "Orchid."));
+    write(path.join(src, "Glossary/english-only.md"), note());
+    write(path.join(src, "Cases/Debug/review-case.md"), caseNote());
+    zhWrite("Techniques/kept.md", note("", "缺少词语。"));
+    zhWrite("Glossary/no-twin.md", note());
+    zhWrite("Maps/plain.md", "# 地图\n\n## 私有条目\n\n" +
+      "- [[zh/Glossary/hidden|hidden]]\n- [[zh/Cases/Debug/review-case|review-case]]\n" +
+      "- [[zh/Glossary/no-twin|no-twin]]\n\n## 公开条目\n\n" +
+      "- [[zh/Glossary/english-only|english-only]]\n\n" +
+      "参见 [[zh/Techniques/kept|kept]] 和 [[zh/Glossary/hidden|hidden]]。文件 review-case。\n");
+
+    sync();
+    expect(zhRead(notesDir, "Maps/plain.md")).toBe(
+      "# 地图\n\n## 公开条目\n\n- [[zh/Glossary/english-only|english-only]]\n\n" +
+      `参见 [[zh/Techniques/kept|kept]] 和 ${shade}。文件 ${shade}。\n`,
+    );
+    expect(console.log).toHaveBeenCalledWith(
+      "Chinese held-back links: 3 list lines dropped, 1 links masked, 1 sections removed",
+    );
+  });
+
+  it("retains links to public English twins when translations are opted out, under review or held for parity", () => {
+    patterns("Orchid");
+    write(path.join(src, "Glossary/fountain.md"), note());
+    write(path.join(src, "Glossary/bell.md"), note("", "Orchid."));
+    write(path.join(src, "Techniques/kept.md"), note("", "Orchid."));
+    zhWrite("Glossary/fountain.md", note("publish: false\n"));
+    zhWrite("Glossary/bell.md", note("", "兰花。"));
+    zhWrite("Techniques/kept.md", note("publish: true\n", "缺少词语。"));
+    const map = "# 地图\n\n" +
+      "- [[zh/Glossary/fountain|fountain]]\n" +
+      "- [[zh/Glossary/bell|bell]]\n" +
+      "- [[zh/Techniques/kept|kept]]\n";
+    zhWrite("Maps/plain.md", map);
+
+    expect(sync().chinese).toMatchObject({
+      reviewHeld: ["Glossary/bell.md"],
+      parityHeld: ["Techniques/kept.md"],
+    });
+    expect(zhRead(notesDir, "Maps/plain.md")).toBe(map);
+    expect(tree(path.join(notesDir, "zh"))).toEqual(["Maps/plain.md"]);
+  });
+
+  it("requires review even when the translated name and its original preserve parity", () => {
+    const rel = "Techniques/kept.md";
+    patterns("Orchid");
+    write(path.join(src, rel), note("", "Orchid was rolled out."));
+    zhWrite(rel, note("", "奥奇德（Orchid）上线。"));
+
+    expect(sync().chinese).toMatchObject({ reviewHeld: [rel], parityHeld: [] });
+    expect(console.log).toHaveBeenCalledWith("Chinese held for review: 1");
+    expect(console.log).toHaveBeenCalledWith(`  ${rel}`);
+    expect(JSON.stringify(vi.mocked(console.log).mock.calls)).not.toMatch(/Orchid|奥奇德/);
+    expect(fs.existsSync(path.join(notesDir, "zh"))).toBe(false);
+
+    zhWrite(rel, note("publish: 'TRUE'\n", "奥奇德（Orchid）上线。"));
+    expect(sync().chinese).toMatchObject({ reviewHeld: [], parityHeld: [] });
+    expect(zhRead(notesDir, rel)).toContain(`奥奇德（${shade}）上线。`);
+  });
+
+  it("requires review when the English match is only in a figure and still enforces figure parity", () => {
+    patterns("Orchid");
+    write(path.join(src, "Diagrams", figureRel), "<svg><text>&#79;rchid</text></svg>");
+    zhWrite(rel, caseNote("", figure("case.flow")));
+    zhWrite("Diagrams/case.flow.svg", "<svg><text>Orchid</text></svg>");
+    expect(sync().chinese).toMatchObject({ reviewHeld: [rel], parityHeld: [] });
+
+    zhWrite(rel, caseNote("publish: true\n", figure("case.flow")));
+    zhWrite("Diagrams/case.flow.svg", "<svg><text>兰花</text></svg>");
+    expect(sync().chinese).toMatchObject({ reviewHeld: [], parityHeld: [rel] });
+  });
+
+  it.each([
+    "zh/Glossary/hidden#时间线",
+    "zh/Glossary/hidden.md",
+    "zh/Glossary/hidden.md^block",
+    "zh/Glossary/hidden\\",
+    "Glossary/Hidden",
+    "hidden",
+  ])("removes the whole held wikilink with target %s in both editions", (target) => {
+    const rel = "Maps/plain.md";
+    const body = `- [[${target}|Alias in list]]\n- Keep this line\n\n| [[${target}|Alias in table]] | column |\n`;
+    write(path.join(src, rel), "# Map\n\n" + body);
+    zhWrite(rel, "# 地图\n\n" + body);
+
+    sync();
+    expect(fs.readFileSync(path.join(notesDir, rel), "utf8")).toBe(`# Map\n\n- Keep this line\n\n| ${shade} | column |\n`);
+    expect(zhRead(notesDir, rel)).toBe(`# 地图\n\n- Keep this line\n\n| ${shade} | column |\n`);
+  });
+
+  it.each([
+    "[[hi%64den|private alias]]",
+    "[[hidden.md|]]",
+    "[[Techniques/kept|hidden]]",
+    "&#91;[hidden|private alias]]",
+  ])("aborts when a residual wikilink still names a held note: %s", (link) => {
+    zhWrite("Maps/plain.md", `# 地图\n\n参见 ${link}。\n`);
+    expect(sync).toThrow(/still names a held-back note/);
+    expect(fs.existsSync(notesDir)).toBe(false);
+  });
+
+  it.each(["`hidden`", "~~~text\nhidden\n~~~", "    hidden"])(
+    "fails closed on a literal held name inside code: %s",
+    (text) => {
+      zhWrite("Maps/plain.md", `# 地图\n\n${text}\n`);
+      expect(sync).toThrow(/still names a held-back note/);
+      expect(fs.existsSync(notesDir)).toBe(false);
+    },
+  );
+
+  it("masks only complete prose mentions and ignores Chinese drafts with a public English slug", () => {
+    write(path.join(src, "Techniques/retry-budget.md"), note());
+    write(path.join(src, "Techniques/fountain.md"), note());
+    zhWrite("Glossary/retry.md", note());
+    zhWrite("Glossary/Fountain.md", note());
+    zhWrite("Maps/plain.md", "# 地图\n\n" +
+      "见 [[zh/Techniques/retry-budget|retry-budget]] 和 [[zh/Techniques/fountain|fountain]]。\n" +
+      "retry-budget、retries、fountain 和 /notes/retry.md。\n");
+
+    sync();
+    expect(zhRead(notesDir, "Maps/plain.md")).toBe("# 地图\n\n" +
+      "见 [[zh/Techniques/retry-budget|retry-budget]] 和 [[zh/Techniques/fountain|fountain]]。\n" +
+      `retry-budget、retries、fountain 和 /notes/${shade}.md。\n`);
+  });
+
+  it.each(["missing", "empty"])("keeps both mirrors when the Chinese source is %s", (state) => {
+    zhWrite(rel, caseNote("", figure("case.flow")));
+    zhWrite("Diagrams/case.flow.svg", "<svg>中文</svg>");
+    sync();
+    if (state === "missing") fs.rmSync(path.join(src, "zh"), { recursive: true });
+    else fs.rmSync(path.join(src, "zh", rel));
+    write(path.join(src, "Techniques/kept.md"), note("", "English changed."));
+
+    expect(sync).toThrow(/No Chinese DevLog notes found/);
+    expect(fs.readFileSync(path.join(notesDir, "Techniques/kept.md"), "utf8")).toBe(note());
+    expect(zhRead(notesDir, rel)).toBe(caseNote("", figure("case.flow")));
+    expect(zhRead(diagramsDir, figureRel)).toBe("<svg>中文</svg>");
+  });
+
+  it.each(["Techniques/Zh.md", "zh/Techniques/ZH.md"])("rejects the reserved slug at %s", (file) => {
+    write(path.join(src, file), note());
+
+    expect(sync).toThrow(/Reserved DevLog slug "zh"/);
+    expect(fs.existsSync(notesDir)).toBe(false);
+  });
+
+  it.each([
+    ["Techniques/link.md", "file"],
+    ["zh/Techniques/kept.md", "file"],
+    ["Diagrams/link.svg", "file"],
+    ["zh/Diagrams/link.svg", "file"],
+    ["Cases", "dir"],
+    ["zh/Cases", "dir"],
+    ["Diagrams", "dir"],
+    ["zh/Diagrams", "dir"],
+    ["zh", "dir"],
+  ])("rejects a symlink at %s before writing", (rel, type) => {
+    const outside = path.join(tmp, "outside");
+    write(path.join(outside, "file"), "---\ninvalid\n---\n");
+    const link = path.join(src, rel);
+    fs.rmSync(link, { recursive: true, force: true });
+    fs.mkdirSync(path.dirname(link), { recursive: true });
+    fs.symlinkSync(path.join(outside, type === "file" ? "file" : ""), link, type);
+
+    expect(sync).toThrow(/Symbolic link at/);
+    expect(fs.existsSync(notesDir)).toBe(false);
+    expect(fs.existsSync(diagramsDir)).toBe(false);
+  });
+
+  it("writes nothing in either mirror after an English SVG fails validation", () => {
+    zhWrite(rel, caseNote("", figure("case.flow")));
+    zhWrite("Diagrams/case.flow.svg", "<svg>原图</svg>");
+    sync();
+    zhWrite(rel, caseNote("", "中文改动。"));
+    zhWrite("Diagrams/case.flow.svg", "<svg>新图</svg>");
+    write(path.join(src, "Techniques/kept.md"), note("", "English changed."));
+    write(path.join(src, "Diagrams", figureRel), '<svg><image href="data:image/png;base64,QUJD"/></svg>');
+
+    expect(sync).toThrow(/still embeds a data: URI/);
+    expect(fs.readFileSync(path.join(notesDir, "Techniques/kept.md"), "utf8")).toBe(note());
+    expect(fs.readFileSync(path.join(diagramsDir, figureRel), "utf8")).toBe("<svg/>");
+    expect(zhRead(notesDir, rel)).toBe(caseNote("", figure("case.flow")));
+    expect(zhRead(diagramsDir, figureRel)).toBe("<svg>原图</svg>");
+  });
+
+  it("prunes stale files in each edition and removes a translation whose twin stops publishing", () => {
+    zhWrite(rel, caseNote("", figure("case.flow")));
+    zhWrite("Diagrams/case.flow.svg", "<svg>中文</svg>");
+    sync();
+    write(path.join(notesDir, "Techniques/stale.md"), note());
+    write(path.join(notesDir, "zh", "Techniques/stale.md"), note());
+    write(path.join(diagramsDir, "stale.svg"), "<svg/>");
+    write(path.join(diagramsDir, "zh", "stale.svg"), "<svg/>");
+
+    const counts = sync();
+    expect(counts.notes.removed).toBe(1);
+    expect(counts.diagrams.removed).toBe(1);
+    expect(counts.chinese.notes.removed).toBe(1);
+    expect(counts.chinese.diagrams.removed).toBe(1);
+    expect(tree(diagramsDir)).toEqual([figureRel, `zh/${figureRel}`]);
+
+    write(path.join(src, rel), caseNote("publish: false\n"));
+    expect(sync().chinese).toMatchObject({
+      notes: { copied: 0, skipped: 1, removed: 1 },
+      diagrams: { copied: 0, removed: 1 },
+    });
+    expect(tree(notesDir)).toEqual(["Maps/plain.md", "Techniques/kept.md"]);
+    expect(tree(diagramsDir)).toEqual([]);
+  });
+
+  it.each([
+    ["malformed frontmatter", rel, "---\nvalue\n---\n", /Malformed frontmatter/],
+    ["invalid publish value", rel, caseNote("publish: later\n"), /Invalid publish value/],
+    ["a pre-existing note mask", rel, caseNote("", "已经▒"), /already contains/],
+    ["a pre-existing diagram mask", `Diagrams/${figureRel}`, "<svg>▒</svg>", /already contains/],
+    ["a data URI", `Diagrams/${figureRel}`, '<svg><image href="data:image/png;base64,QUJD"/></svg>', /still embeds a data: URI/],
+    ["a split pattern in a note", rel, caseNote("", "Or**chid**"), /Pattern on line 1 still matches/],
+    ["a split pattern in an SVG", `Diagrams/${figureRel}`, "<svg><text>Or<tspan>chid</tspan></text></svg>", /Pattern on line 1 still matches/],
+    ["an encoded held name", "Maps/plain.md", "# 目录\n\n参见 hi%64den。\n", /still names a held-back note/],
+  ])("fails before writing either edition for %s", (_, file, text, error) => {
+    sync();
+    patterns("Orchid");
+    write(path.join(src, "Techniques/kept.md"), note("", "changed"));
+    zhWrite(rel, caseNote("", figure("case.flow")));
+    zhWrite(file, text);
+
+    expect(sync).toThrow(error);
+    expect(fs.readFileSync(path.join(notesDir, "Techniques/kept.md"), "utf8")).toBe(note());
+    expect(tree(notesDir)).toEqual([rel, "Maps/plain.md", "Techniques/kept.md"]);
+    expect(tree(diagramsDir)).toEqual([figureRel]);
+  });
+
+  it("checks a name that occurs only on a Chinese diagram", () => {
+    patterns("Orchid");
+    zhWrite(rel, caseNote("", figure("Orchid")));
+    zhWrite("Diagrams/Orchid.svg", "<svg/>");
+
+    expect(sync).toThrow(/A redaction pattern matches the file name/);
+    expect(fs.existsSync(notesDir)).toBe(false);
+    expect(fs.existsSync(diagramsDir)).toBe(false);
   });
 });
