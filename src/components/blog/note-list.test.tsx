@@ -23,7 +23,6 @@ const notes: Note[] = [
     cover: {
       kind: "diagram",
       src: "/blog/diagrams/w.svg",
-      alt: "w",
       width: 600,
       height: 400,
     },
@@ -35,7 +34,6 @@ const notes: Note[] = [
     cover: {
       kind: "art",
       src: "/blog/covers/art.webp",
-      alt: "",
       width: 1200,
       height: 800,
     },

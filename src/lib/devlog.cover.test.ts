@@ -51,7 +51,6 @@ describe("cover", () => {
     expect(cover("several")).toEqual({
       kind: "diagram",
       src: "/blog/diagrams/first.svg",
-      alt: "first",
       width: 617,
       height: 442,
     });
@@ -75,7 +74,6 @@ describe("cover", () => {
     const art = {
       kind: "art",
       src: "/blog/covers/art-wins.webp",
-      alt: "",
       width: 1200,
       height: 800,
     };
