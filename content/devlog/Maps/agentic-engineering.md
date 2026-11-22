@@ -4,7 +4,7 @@ tags: [moc, claude-code, multi-agent, context-engineering, hooks, mcp, llm]
 ---
 # Agentic engineering
 
-24 notes. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
+26 notes. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
 
 ## Declared config vs config in effect
 
@@ -36,6 +36,9 @@ A guard that is too broad and a guard that silently does nothing fail identicall
 - [[2026-07-10-quiet-desk-redesign-four-parallel-agents]] — four agents split by file ownership, and the boundary that leaked
 - [[multi-agent-dead-code-deletion-needs-repo-wide-grep]] — the lesson that came out of it
 - [[parallel-claude-code-sessions-with-git-worktrees]] — the isolation mechanism
+
+- [[2026-11-21-acceptance-gates-for-a-delegated-ui-redesign]] — a Codex team rebuilt a web UI in one 5773-line PR; the controller's screenshot review found five defects that 248 pairs and six review rounds had passed
+- [[review-delegated-visual-work-by-opening-the-screenshots]] — the lesson: open the `after` files before merging, then one bounded second round
 
 ## Guardrails that live in the server, not the prompt
 

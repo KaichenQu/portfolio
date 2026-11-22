@@ -4,7 +4,7 @@ tags: [moc, frontend, react, css, three]
 ---
 # Frontend
 
-20 notes. The smallest cluster, and its threads are about state that outlives the render.
+22 notes. The smallest cluster, and its threads are about state that outlives the render.
 
 ## Cached failure
 
@@ -30,6 +30,13 @@ The baseline was already red and the build was not repeatable, so "no change" ha
 
 - [[baseline-diff-verification-on-a-red-baseline]] — compare exit status and failure lists against the baseline run instead of requiring green
 - [[check-build-determinism-before-comparing-bundle-bytes]] — one commit built five times gave two outputs; dropping `export` stopped rolldown inlining a constant
+
+## Capability queries in headless browsers
+
+Hover and pointer media are reported by the platform, so a test that toggles them is tied to the machine it ran on.
+
+- [[2026-11-21-acceptance-gates-for-a-delegated-ui-redesign]] — the case: two motion tests green on macOS, red on the Linux runner, found only by the full tier on the integration branch
+- [[pointer-media-after-touch-emulation-differs-on-linux-headless]] — after touch emulation ends, Linux headless Chromium reports `pointer: none`; emulate a media feature instead
 
 ## Publishing private content
 
