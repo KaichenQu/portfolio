@@ -31,7 +31,7 @@ fd -t d <name>                 # directories only
 
 ## ast-grep（sg）语法结构搜索
 
-它查的是代码结构，比按文本跑正则更精准。
+比正则更准：它搜的是代码结构，不是纯文本。
 
 ```bash
 sg -p 'console.log($A)'        # find all console.log calls, $A is a wildcard
@@ -40,9 +40,9 @@ sg -p 'await $A' -l ts
 
 ## 定义与用法
 
-- 从 `rg -w "function-name"` 开始，先看所有出现位置。
+- 先用 `rg -w "function-name"` 看一遍所有出现位置。
 - 定义处通常是 `function name`、`def name`、`const name =` 或 `class name`。
-- 匹配太多时，用 `-t` 限定语言，或用 `-g` 排除测试和构建产物。
+- 命中太多时，用 `-t` 限定语言，或用 `-g` 排掉测试和构建产物。
 
 ## 相关
 

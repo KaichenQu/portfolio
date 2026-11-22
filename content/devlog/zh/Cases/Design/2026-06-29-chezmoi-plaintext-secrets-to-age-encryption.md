@@ -8,47 +8,47 @@ status: solved
 
 ## 背景与约束
 
-本来想用 `chezmoi status` 检查本地改动，再同步回 dotfiles 源仓库。结果有 5 个文件在本地更新了，源仓库的 git 工作树却是干净的。`chezmoi diff` 显示本地 `.zshrc` 多了 `APIROUTER_API_KEY` 那一行，顺带查出源仓库的 `dot_zshrc` 一直用明文存 `DEEPSEEK_API_KEY` 和 `ODYSSEUS_API_TOKEN`。
+本来想跑 `chezmoi status` 查本地改动、同步回 dotfiles 源仓库，结果发现本地有 5 个文件比源仓库新，源仓库的 git 工作树却是干净的。`chezmoi diff` 显示本地 `.zshrc` 多了一行 `APIROUTER_API_KEY`，顺带翻出源仓库的 `dot_zshrc` 一直明文存着 `DEEPSEEK_API_KEY` 和 `ODYSSEUS_API_TOKEN`。
 
 用 `gh repo view` 确认 `github.com:KaichenQu/dotfiles.git` 是私有仓库，没有正在发生的公开泄露，但 git 历史里的明文 key 始终是隐患。
 
-约束如下。
+约束：
 
-- 只有 1 台 macOS 机器，不想为这件事装一堆工具。
-- key 要随 dotfiles 一起走，换机器还能恢复。
-- `.zshrc` 大部分是普通配置，只有 3 行是 key。整份文件变成看不懂的密文，diff 也没法看，不能接受。
+- 只有 1 台 macOS 机器，不想为此装一堆工具。
+- key 要跟着 dotfiles 走，换机器能恢复。
+- `.zshrc` 大部分是普通配置，只有 3 行是 key。整份文件变成密文、没法看 diff，不能接受。
 
 ## 候选方案
 
-3 个方向都可行。
+有 3 个可行方向：
 
 ### 方案 A：macOS 钥匙串加 chezmoi 模板
 
-- 做法：用 `security add-generic-password` 把 key 存到登录钥匙串，再用 chezmoi 内置的 `keyring` 函数在 `dot_zshrc.tmpl` 里取出来。
-- 好处：系统原生支持，不用另外装工具。
-- 代价：key 不跟仓库走，换机器得重新填钥匙串，key 本身也没备份介质。
+- 做法：用 `security add-generic-password` 把 key 存进登录钥匙串，在 `dot_zshrc.tmpl` 里用 chezmoi 内置 `keyring` 函数读取。
+- 好处：系统原生支持，不用多装工具。
+- 代价：key 不跟仓库走，换机器得重新填钥匙串，也没有备份介质。
 
 ### 方案 B：age 加密
 
-- 做法：`brew install age`，生成 age 密钥对，在 chezmoi 配置 `encryption = "age"`，以密文把 key 放进仓库，age 私钥留在机器上。
-- 好处：密文跟仓库同步，换机器只需 age 私钥就能解密，chezmoi 原生支持。
-- 代价：多装个工具，还要保管 age 私钥。
+- 做法：`brew install age`，生成 age 密钥对，在 chezmoi 配 `encryption = "age"`，key 以密文进仓库，age 私钥留在本地。
+- 好处：密文随仓库同步，换机器只要有 age 私钥就能解开，chezmoi 原生支持。
+- 代价：多装个工具，还得另行保管 age 私钥。
 
 ### 方案 C：拆到 `~/.zshrc.local`，让 chezmoi 忽略
 
-- 做法：key 移到本地文件，从 `.zshrc` 用 source 加载，再用 `.chezmoiignore` 排除它。
-- 好处：工作量最小，key 不会进 git。
-- 代价：chezmoi 不再管理 key，换机器要手动重建，本地仍是明文。
+- 做法：key 挪到本地文件，`.zshrc` 里 source 它，`.chezmoiignore` 排除掉。
+- 好处：改动最小，key 不进 git。
+- 代价：脱离 chezmoi 管理，换机器要手动重建，本地仍是明文。
 
 ## 决定
 
-==选方案 B，用 age 加密。== 决定因素是「key 要跟仓库走，换机器能恢复」。A 和 C 都把 key 留在同一台机器上，无法同步也没有备份。B 把密文放进仓库，只需另存 age 私钥，正好符合要求。多装 `age` 可以接受。
+==选方案 B，用 age 加密。== 拍板的条件是「key 要跟仓库走，换机器能恢复」。A 和 C 都把 key 留在单机上，既不随仓库同步也没备份；B 把密文放进仓库，只需单独留好 age 私钥，正好满足要求。多装 `age` 可以接受。
 
-对历史里已经出现过的 key，选择了重写历史（`git filter-repo`），没有重新签发。代价见下文「未做事项」。
+历史里已经暴露过的旧 key，选择重写历史（`git filter-repo`），没重新签发。代价见下文「未做事项」。
 
 ## 实现
 
-目标只加密文件中的几行，其余照常保留。所以没有用 `chezmoi add --encrypt`，它会把整个 `.zshrc` 变成密文。把 3 行 `export` 抽成独立的加密片段，模板渲染时解密并拼回去。
+只想加密文件里的几行，其余照常保留，所以没用 `chezmoi add --encrypt`（它会把整份 `.zshrc` 加密）。把 3 行 `export` 拆成独立加密片段，模板渲染时解密拼回去：
 
 ```bash
 # 1. Tooling and keys
@@ -83,18 +83,18 @@ flowchart LR
 
 ## 弯路：缺失的 pathspec 让整次 git add 失效
 
-执行 `git mv dot_zshrc dot_zshrc.tmpl` 后，习惯性地把新旧文件名放进同一次 add：
+跑完 `git mv dot_zshrc dot_zshrc.tmpl`，习惯性地把新旧文件名写进了同一条 add：
 
 ```
 git add dot_zshrc dot_zshrc.tmpl encrypted_secrets.sh.age
 # fatal: pathspec 'dot_zshrc' did not match any files
 ```
 
-`dot_zshrc` 已经改名，旧路径不存在。==这处匹配不到的 pathspec 让整条 `git add` 报 fatal，另外两个文件也没暂存。== 没人留意那行 fatal，接着就提交了，提交里只有 `git mv` 留在 index 里的内容，明文还在，加密文件完全没进去。直到用 `git show HEAD:dot_zshrc.tmpl | grep` 才发现明文还在。
+`dot_zshrc` 已经改名，旧路径不存在。==这一个匹配不到的 pathspec 让整条 `git add` 报 fatal，另外两个文件也没暂存。== 没留意那行 fatal 就直接提交了，提交里只剩 `git mv` 留在 index 里的旧内容，明文还在，加密文件没进去。直到跑 `git show HEAD:dot_zshrc.tmpl | grep` 才发现明文还在。
 
-修法是单独跑 `git add dot_zshrc.tmpl encrypted_secrets.sh.age`，然后 `git commit --amend`。最后用 `git show HEAD:` 确认模板没有明文，用 `git ls-tree HEAD` 确认提交里有加密文件。
+修法是单独跑 `git add dot_zshrc.tmpl encrypted_secrets.sh.age` 再 `git commit --amend`，最后用 `git show HEAD:` 核对模板里没了明文，用 `git ls-tree HEAD` 确认加密文件已入库。
 
-还有个小坑：`git filter-repo` 跑完会移除 `origin` remote，防止误推回原仓库。先存 URL，跑完用 `git remote add` 加回来，再 force push。
+还有个小坑：`git filter-repo` 跑完会删掉 `origin` remote，防误推回原仓库。先记下 URL，跑完用 `git remote add` 加回再 force push。
 
 清理历史并验证：
 
@@ -104,20 +104,20 @@ git log --all -S '<key string>' --oneline | wc -l         # all three should be 
 git push --force origin main
 ```
 
-重写了全部 17 个 commit。逐个检查 3 个明文字符串，结果都是 0 个 commit。force push 也完成了。
+重写了全部 17 个 commit。逐个搜 3 个明文字符串，结果全是 0 个 commit，force push 完成。
 
 ## 未做事项（YAGNI）
 
-- 没有重新签发 key。重写历史和 force push 只覆盖分支，==旧 commit 仍可能在一段时间内通过旧 SHA 从 GitHub 访问==，这些值确实曾以明文存在。要彻底消除这个隐患，只能轮换 key。这次明确接受了这个剩余风险。
-- `.claude/plugins/*.json` 这类日常变化没进 commit，只改了 key 相关文件。
-- 没接钥匙串或 1Password CLI。单机加 age 足够，等真有多机或团队场景再看。
+- 没重新签发 key。重写历史和 force push 只管得到分支，==旧 commit 在一段时间内仍可能按旧 SHA 从 GitHub 访问到==，这些值确实曾以明文存在过。想彻底放心只能轮换 key，这里明确接受了剩余风险。
+- `.claude/plugins/*.json` 这类日常状态变动没进提交，只改了 key 相关文件。
+- 没接钥匙串或 1Password CLI。单机加 age 已经够用，真有多机或团队需求再看。
 
 ## 经验
 
-- 用 chezmoi 加密文件的*一部分*时，把秘密单独抽成加密片段（`chezmoi encrypt` → `encrypted_*.age`），再在模板里用 `{{ include "..." | decrypt }}` 拼回去。对整份文件用 `--encrypt` 会让整份文件的 diff 都看不懂。
-- age 私钥 `key.txt` 是唯一能解密的东西，必须单独备份，不能进 git。放在 `~/.config/chezmoi/` 而不放源目录，chezmoi 就不会管理它。
-- 改完先用 `chezmoi cat` 检查渲染结果，确认后再用 `chezmoi apply` 写盘。见 [[zh/Techniques/reproduce-before-fixing-verify-after|reproduce-before-fixing-verify-after]]。
-- 多个 pathspec 里只要有一个匹配不到，整次 `git add` 就报 fatal，什么也不暂存。提交前先看 `git status`，或者 add 时别带已经改掉的旧名。详见 [[zh/Agents/git-add-multi-pathspec-fails-atomically|git-add-multi-pathspec-fails-atomically]]。
+- 用 chezmoi 加密文件的*一部分*，正确做法是把秘密拆成独立加密片段（`chezmoi encrypt` → `encrypted_*.age`），模板里用 `{{ include "..." | decrypt }}` 拼回去。对整份文件用 `--encrypt` 会让整份文件的 diff 都没法看。
+- age 私钥 `key.txt` 是唯一能解密的东西，必须单独备份、绝不进 git。放到 `~/.config/chezmoi/` 而不是源目录，chezmoi 就不会托管它。
+- 改完先用 `chezmoi cat` 看渲染结果，确认后再 `chezmoi apply` 写盘，不要直接应用。见 [[zh/Techniques/reproduce-before-fixing-verify-after|reproduce-before-fixing-verify-after]]。
+- 多个 pathspec 里只要有一个匹配不到，整条 `git add` 就报 fatal、什么也不暂存。提交前先看 `git status`，或者 add 时别带已经改掉的旧名。详见 [[zh/Agents/git-add-multi-pathspec-fails-atomically|git-add-multi-pathspec-fails-atomically]]。
 
 ## 相关
 

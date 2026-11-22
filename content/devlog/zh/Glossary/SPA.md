@@ -6,7 +6,7 @@ tags: [glossary, frontend]
 
 **全称**：Single-Page Application
 
-单页应用。浏览器只加载 1 份 HTML/JS，切换页面走客户端路由和局部渲染，不整页刷新，也不用重新请求服务端渲染的页面。对应的是传统多页应用（每次导航都由服务端发新的 HTML）或 SSR 框架。
+单页应用。浏览器只加载 1 份 HTML/JS，切换页面靠客户端路由和局部渲染，不整页刷新，也不用重新向服务端要渲染好的页面。对应的是传统多页应用（每次导航都由服务端发新 HTML）或 SSR 框架。
 
 ![客户端路由切换 React 视图，首次加载的 HTML 和 JavaScript 外壳仍留在浏览器中。](../Diagrams/spa.client-navigation.svg)
 

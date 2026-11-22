@@ -7,7 +7,7 @@ tags: [glossary, llm, infra]
 **全称**：new-api（也写作 new api，fork 自 one-api）
 **类别**：LLM API 聚合与分发网关
 
-开源 LLM API 聚合网关，把不同供应商的模型（OpenAI / Claude / Gemini / 国产模型）收进兼容 OpenAI、也兼容 Claude 和 Gemini 的接口，负责 key 管理、分组、计费以及渠道（distributor）路由。不少卖「代理 API」的供应商只是拿 newapi 实例给各种上游套了层入口，后面接官方 API、其他代理，以及东拼西凑的订阅额度。
+开源 LLM API 聚合网关，把各家供应商的模型（OpenAI / Claude / Gemini / 国产模型）统一接到兼容 OpenAI、Claude 和 Gemini 的接口后面，负责 key 管理、分组、计费和渠道（distributor）路由。不少卖「代理 API」的商家其实就是拿 newapi 给各种上游套了层入口，后面混着官方 API、其他代理以及东拼西凑的订阅额度。
 
 ![Gemini 模型 ID 出现在 newapi 目录中，但上游返回 HTML，实际补全得到 bad_response_body。](../Diagrams/newapi.catalogue-and-routing.svg)
 
@@ -17,11 +17,11 @@ tags: [glossary, llm, infra]
 - 响应头含 `x-new-api-version`、`x-oneapi-request-id`。
 - 常见错误码：`503` 没有可用渠道（distributor），`403` 无权访问 X 分组，`402 Insufficient USD balance`，`500 bad_response_body`。
 
-`/v1/models` 只是声明式列表，和后端有没有可用渠道无关。能列出来不代表调得通。
+`/v1/models` 只是声明式清单，跟后端有没有可用渠道没关系：列出来了不代表调得通。
 
 用例：
 
-> 这个 newapi 网关对整个 gemini 系列都报 `bad_response_body`，上游返回的是 HTML，没有返回 JSON。
+> 这个 newapi 网关对整个 gemini 系列全报 `bad_response_body`，上游回的是 HTML，不是 JSON。
 
 ## 相关
 

@@ -6,7 +6,7 @@ tags: [glossary]
 
 **全称**：Service Level Agreement
 
-服务等级协议，对外承诺的服务指标，例如「99.9% 可用率」。99.9% 对应每年停机不超过约 8.7 小时。比 SLA 更严格的内部目标是 [[zh/Glossary/SLO|SLO]]，实际测得的数值是 [[zh/Glossary/SLI|SLI]]。
+服务等级协议，对外承诺的服务指标，比如「99.9% 可用率」，折算下来每年停机不超过约 8.7 小时。比 SLA 更严的内部目标是 [[zh/Glossary/SLO|SLO]]，实际测出的数值是 [[zh/Glossary/SLI|SLI]]。
 
 ![年度可用性承诺为 99.9% 时，对应约 8.7 小时的停机额度。](../Diagrams/sla.availability-budget.svg)
 

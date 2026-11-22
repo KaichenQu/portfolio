@@ -6,11 +6,11 @@ tags: [glossary, infra, security]
 
 **全称**：age（文件加密工具）
 
-简洁的现代文件加密工具（`brew install age`），定位是在「加密单个文件」这件事上替代 gpg。它用密钥对：公钥用来加密，叫 recipient，形如 `age1...`；私钥用来解密，叫 identity，存在 `key.txt` 里。没有 gpg 的钥匙环、信任网和子密钥那套复杂结构。
+轻量的现代文件加密工具（`brew install age`），定位是在「加密单个文件」这件事上替代 gpg。它用一对密钥：公钥叫 recipient（`age1...`），用来加密；私钥叫 identity（存在 `key.txt` 里），用来解密。没有 gpg 的钥匙环、信任网和子密钥那套包袱。
 
 ![age 用接收方公钥把 x 加密成 x.age，再由对应的 key.txt 私钥解密。](../Diagrams/age.recipient-and-identity.svg)
 
-搭配 [[zh/Glossary/chezmoi|chezmoi]] 时，在 `chezmoi.toml` 设 `encryption = "age"`，配好 identity/recipient，`chezmoi encrypt` 产出的密文（`encrypted_*.age`）就可以安全放进 git。`age` 私钥 `key.txt` 要另存，绝不提交。只有它能解密，丢了就再也解不开密文。
+搭配 [[zh/Glossary/chezmoi|chezmoi]] 时，在 `chezmoi.toml` 里设 `encryption = "age"` 并配好 identity/recipient，`chezmoi encrypt` 生成的密文（`encrypted_*.age`）就能放心提交进 git。`age` 私钥 `key.txt` 要另存，绝不入库：只有它能解密，丢了密文就再也解不开。
 
 ```bash
 age-keygen -o key.txt          # generate a keypair; the public key is in the comment line

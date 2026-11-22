@@ -5,7 +5,7 @@ tags: [react, three, frontend]
 ---
 # useLoader 会永久缓存加载失败
 
-[[zh/Glossary/R3F|R3F]] 的 `useLoader` 底层用 suspend-react。加载失败会永久留在模块级缓存里，同一 key 此后每次调用都会同步抛出旧错误。「重试」需要先清缓存，再重置错误边界的状态：
+[[zh/Glossary/R3F|R3F]] 的 `useLoader` 底层走 suspend-react。加载失败会永久留在模块级缓存里，此后同一 key 每次调用都会同步重抛旧错误。做「重试」必须先清缓存，再重置错误边界状态：
 
 ![先清除 STLLoader 缓存条目，再重置错误边界，才会真正发起重新请求。](../Diagrams/useloader-failures-are-cached-forever.retry-cache.svg)
 

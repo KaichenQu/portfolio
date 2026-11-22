@@ -4,7 +4,7 @@ tags: [cheatsheet, system, network]
 ---
 # 进程、端口与网络速查表
 
-应对「端口已占用」「服务连不上」「进程卡住」这类场景，以 macOS 为主。
+处理「端口已占用」「服务连不上」「进程卡住」这类问题，以 macOS 为主。
 
 ![从当前症状决定先查本地监听进程、解析域名、测 TCP 端口，还是读取 HTTP 响应。](../Diagrams/process-network.symptom-selection.svg)
 
@@ -41,7 +41,7 @@ dig <domain>                   # resolve to an IP
 nc -zv <host> <port>           # test whether a port is reachable (no data sent)
 ```
 
-## 下载限速：按连接或按总量
+## 测慢下载：按连接限速还是按总量限速
 
 ```bash
 curl -s --max-time 20 -r 0-9999999 -o /dev/null -w '%{size_download}\n' "$url"   # one flow, 20 s
