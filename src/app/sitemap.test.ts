@@ -2,11 +2,16 @@ import { describe, it, expect, vi } from "vitest";
 import sitemap from "./sitemap";
 
 vi.mock("@/lib/devlog", () => ({
-  getNotes: () => [
+  getNotes: ({ locale = "en" } = {}) => locale === "zh-Hans" ? [
+    { slug: "dated-note", date: "2026-03-04" },
+  ] : [
     { slug: "dated-note", date: "2026-03-04" },
     { slug: "undated-note" },
   ],
-  getTags: () => [{ tag: "cache", count: 2 }],
+  getTags: ({ locale = "en" } = {}) => [
+    { tag: "cache", count: 2 },
+    { tag: locale === "en" ? "en-only" : "zh only", count: 1 },
+  ],
 }));
 
 describe("sitemap", () => {
@@ -24,6 +29,13 @@ describe("sitemap", () => {
       "https://kelsonqu.com/blog/dated-note",
       "https://kelsonqu.com/blog/undated-note",
       "https://kelsonqu.com/blog/tags/cache",
+      "https://kelsonqu.com/blog/tags/en-only",
+      "https://kelsonqu.com/blog/tags/zh%20only",
+      "https://kelsonqu.com/blog/zh",
+      "https://kelsonqu.com/blog/zh/dated-note",
+      "https://kelsonqu.com/blog/zh/tags/cache",
+      "https://kelsonqu.com/blog/zh/tags/en-only",
+      "https://kelsonqu.com/blog/zh/tags/zh%20only",
     ]);
   });
 
@@ -31,6 +43,9 @@ describe("sitemap", () => {
     expect(byUrl("/blog/dated-note")?.lastModified).toBe("2026-03-04");
     expect(
       entries.filter((e) => "lastModified" in e).map((e) => e.url),
-    ).toEqual(["https://kelsonqu.com/blog/dated-note"]);
+    ).toEqual([
+      "https://kelsonqu.com/blog/dated-note",
+      "https://kelsonqu.com/blog/zh/dated-note",
+    ]);
   });
 });

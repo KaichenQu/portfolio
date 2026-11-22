@@ -17,6 +17,7 @@ import type {
 } from "mdast";
 import type { Root as HastRoot, Element, ElementContent } from "hast";
 import { REDACTED_RUN } from "@/components/blog/mosaic";
+import { blogPath, redactedLabel, type BlogLocale } from "./blog-locale";
 
 export const DEVLOG_DIR = path.join(process.cwd(), "content", "devlog");
 export const DIAGRAMS_DIR = path.join(
@@ -111,6 +112,10 @@ export function parseFrontmatter(
 }
 
 const WIKILINK = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
+const linkStem = (target: string) =>
+  path.posix.basename(
+    target.trim().replace(/\\$/, "").split(/[#^]/, 1)[0].trim().replace(/\.md$/i, ""),
+  );
 
 // A private-use character stands in for `=` inside inline code, so `a == b`
 // never reads as a highlight marker; built from its code point so it stays visible here.
@@ -130,20 +135,31 @@ const HIGHLIGHT = /==(\S(?:.*?\S)?)==/;
 const SENTENCE = /^.+?(?:[.!?](?=\s|$)|[。！？])/;
 
 /** The first highlight (the notebook marks its conclusion that way), else the first sentence. */
-function summarize(para: string): string {
+function summarize(para: string, locale: BlogLocale): string {
   const text = HIGHLIGHT.exec(para)?.[1] ?? SENTENCE.exec(para)?.[0] ?? para;
   return truncate(
     text.replace(/==/g, "").replace(new RegExp(CODE_EQ, "g"), "=").trim(),
     180,
+    locale,
   );
 }
 
 const parser = unified().use(remarkParse).use(remarkGfm);
 
-/** Public URL of an image that points into the vault's Diagrams folder. */
-function diagramUrl(url: string): string | undefined {
+/** Undefined for ordinary images, null for an unavailable Chinese vault figure. */
+function diagramAsset(url: string, locale: BlogLocale, diagrams: string) {
   const m = /(?:^|\/)Diagrams\/([^/]+\.svg)$/.exec(url);
-  return m ? `/blog/diagrams/${m[1]}` : undefined;
+  if (!m) return undefined;
+  const name = m[1];
+  if (locale === "zh-Hans") {
+    const file = path.join(diagrams, "zh", name);
+    if (fs.statSync(file, { throwIfNoEntry: false })?.isFile())
+      return { file, src: `/blog/diagrams/zh/${name}` };
+  }
+  const file = path.join(diagrams, name);
+  return locale === "en" || fs.statSync(file, { throwIfNoEntry: false })?.isFile()
+    ? { file, src: `/blog/diagrams/${name}` }
+    : null;
 }
 
 /** Root `width` and `height` (`617px` → 617), else the `viewBox` size. */
@@ -174,6 +190,7 @@ function readNote(
   section: Section,
   diagrams: string,
   covers: string,
+  locale: BlogLocale,
 ): Note {
   const { data, content } = parseFrontmatter(
     fs.readFileSync(file, "utf8"),
@@ -206,7 +223,7 @@ function readNote(
   const slug = slugify(stem);
   const targets = new Set<string>();
   visit(tree, "text", (t) => {
-    for (const m of t.value.matchAll(WIKILINK)) targets.add(slugify(m[1]));
+    for (const m of t.value.matchAll(WIKILINK)) targets.add(slugify(linkStem(m[1])));
   });
   // The card's title already names the note, so the illustration carries no alt text.
   let cover: Note["cover"] = fs.existsSync(path.join(covers, `${slug}.webp`))
@@ -220,17 +237,20 @@ function readNote(
     : undefined;
   visit(tree, "image", (img) => {
     if (cover) return EXIT;
-    const src = diagramUrl(img.url);
-    if (!src) return;
-    const svg = path.join(diagrams, path.basename(src));
-    const size = fs.existsSync(svg)
-      ? svgSize(fs.readFileSync(svg, "utf8"))
-      : undefined;
+    const diagram = diagramAsset(img.url, locale, diagrams);
+    if (!diagram || !fs.existsSync(diagram.file)) return;
+    const size = svgSize(fs.readFileSync(diagram.file, "utf8"));
     if (!size) return;
-    cover = { kind: "diagram", src, alt: img.alt ?? "", ...size };
+    cover = { kind: "diagram", src: diagram.src, alt: img.alt ?? "", ...size };
     return EXIT;
   });
-  const words = body.split(/\s+/).filter(Boolean).length;
+  let minutes = body.split(/\s+/).filter(Boolean).length / 200;
+  if (locale === "zh-Hans") {
+    const han = /\p{Script=Han}/gu;
+    const characters = body.match(han)?.length ?? 0;
+    const words = body.replace(han, " ").match(/[\p{L}\p{N}]+/gu)?.length ?? 0;
+    minutes = characters / 400 + words / 200;
+  }
   const str = (k: string) =>
     typeof data[k] === "string" ? (data[k] as string) : undefined;
   const tags = data.tags;
@@ -244,14 +264,18 @@ function readNote(
     status: str("status") || undefined,
     description,
     summary,
-    readingMinutes: Math.max(1, Math.ceil(words / 200)),
+    readingMinutes: Math.max(1, Math.ceil(minutes)),
     links: [...targets],
     body,
     cover,
   };
 }
 
-function truncate(s: string, max: number): string {
+function truncate(s: string, max: number, locale: BlogLocale): string {
+  if (locale === "zh-Hans") {
+    const chars = [...s];
+    return chars.length > max ? chars.slice(0, max - 1).join("") + "…" : s;
+  }
   if (s.length <= max) return s;
   const cut = s.slice(0, max - 1);
   return (
@@ -262,18 +286,40 @@ function truncate(s: string, max: number): string {
 
 const cache = new Map<string, Note[]>();
 
-/** All notes, newest first (undated notes after dated ones, then by title). */
-export function getNotes(
-  dir: string = DEVLOG_DIR,
-  diagrams: string = DIAGRAMS_DIR,
-  covers: string = COVERS_DIR,
-): Note[] {
-  const key = `${dir}\n${diagrams}\n${covers}`;
+type NoteSource = {
+  locale?: BlogLocale;
+  /** Root of the mirrored content and diagrams, before the locale subfolders. */
+  dir?: string;
+  diagrams?: string;
+  covers?: string;
+};
+
+type LinkTarget = { title: string; locale: BlogLocale };
+type LinkTargets = Map<string, LinkTarget>;
+
+function linkTargets(notes: Note[], locale: BlogLocale, source: NoteSource): LinkTargets {
+  const targets: LinkTargets = new Map();
+  if (locale === "zh-Hans")
+    for (const note of getNotes({ ...source, locale: "en" }))
+      targets.set(note.slug, { title: note.title, locale: "en" });
+  for (const note of notes) targets.set(note.slug, { title: note.title, locale });
+  return targets;
+}
+
+/** All notes in one edition, newest first (undated notes after dated ones, then by title). */
+export function getNotes({
+  locale = "en",
+  dir = DEVLOG_DIR,
+  diagrams = DIAGRAMS_DIR,
+  covers = COVERS_DIR,
+}: NoteSource = {}): Note[] {
+  const key = JSON.stringify([locale, dir, diagrams, covers]);
   const hit = cache.get(key);
   if (hit) return hit;
   const notes: Note[] = [];
+  const subdir = locale === "zh-Hans" ? "zh" : "";
   for (const [folder, section] of SECTIONS) {
-    const abs = path.join(dir, folder);
+    const abs = path.join(dir, subdir, folder);
     if (!fs.existsSync(abs)) continue;
     for (const name of fs.readdirSync(abs).sort()) {
       if (!name.endsWith(".md")) continue;
@@ -284,52 +330,50 @@ export function getNotes(
           section,
           diagrams,
           covers,
+          locale,
         ),
       );
     }
   }
-  const seen = new Map<string, Note>();
+  const seen = new Set<string>();
   for (const n of notes) {
     if (seen.has(n.slug)) throw new Error(`Duplicate DevLog slug "${n.slug}"`);
-    seen.set(n.slug, n);
+    seen.add(n.slug);
   }
-  const titles = new Map(notes.map((n) => [n.slug, n.title]));
-  const resolve = (s: string) =>
-    s.replace(WIKILINK, (_, t: string, a?: string) =>
-      wikilinkLabel(t, a, titles),
-    );
-  for (const n of notes) {
-    // Keep only links that resolve, so the graph and the counts agree.
-    n.links = n.links.filter((s) => seen.has(s) && s !== n.slug);
-    n.description = truncate(resolve(n.description), 160);
-    n.summary = summarize(resolve(n.summary));
+  if (notes.length > 0) {
+    const targets = linkTargets(notes, locale, { dir, diagrams, covers });
+    const resolve = (s: string) =>
+      s.replace(WIKILINK, (_, t: string, a?: string) =>
+        wikilinkLabel(t, a, targets.get(slugify(linkStem(t))), locale),
+      );
+    for (const n of notes) {
+      // Keep only links that resolve, so the counts reflect the rendered links.
+      n.links = n.links.filter((s) => targets.has(s) && s !== n.slug);
+      n.description = truncate(resolve(n.description), 160, locale);
+      n.summary = summarize(resolve(n.summary), locale);
+    }
   }
   notes.sort(
     (a, b) =>
       (b.date ?? "").localeCompare(a.date ?? "") ||
-      a.title.localeCompare(b.title),
+      a.title.localeCompare(b.title, locale),
   );
   cache.set(key, notes);
   return notes;
 }
 
-export function getNote(
-  slug: string,
-  dir: string = DEVLOG_DIR,
-): Note | undefined {
-  return getNotes(dir).find((n) => n.slug === slug);
+export function getNote(slug: string, source?: NoteSource): Note | undefined {
+  return getNotes(source).find((n) => n.slug === slug);
 }
 
-export function getBacklinks(slug: string, dir: string = DEVLOG_DIR): Note[] {
-  return getNotes(dir).filter((n) => n.links.includes(slug));
+export function getBacklinks(slug: string, source?: NoteSource): Note[] {
+  return getNotes(source).filter((n) => n.links.includes(slug));
 }
 
 /** Every tag with its note count, alphabetical. */
-export function getTags(
-  dir: string = DEVLOG_DIR,
-): { tag: string; count: number }[] {
+export function getTags(source?: NoteSource): { tag: string; count: number }[] {
   const counts = new Map<string, number>();
-  for (const n of getNotes(dir))
+  for (const n of getNotes(source))
     for (const t of n.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
   return [...counts]
     .map(([tag, count]) => ({ tag, count }))
@@ -344,31 +388,37 @@ type Mark = {
   data: { hName: "mark" };
 };
 
-/** An alias wins, then the resolved note's title, then the link's own text. */
+/** Chinese vault links often use the stem as a placeholder alias. */
 function wikilinkLabel(
   target: string,
   alias: string | undefined,
-  titles: Map<string, string>,
+  note: LinkTarget | undefined,
+  locale: BlogLocale,
 ): string {
-  return (alias ?? titles.get(slugify(target)) ?? target).trim();
+  const stem = linkStem(target);
+  if (alias && (locale === "en" || slugify(alias) !== slugify(stem)))
+    return alias.trim();
+  return note?.title ?? stem;
 }
 
 function splitWikilinks(
   value: string,
-  titles: Map<string, string>,
+  targets: LinkTargets,
+  locale: BlogLocale,
 ): PhrasingContent[] {
   const out: PhrasingContent[] = [];
   let last = 0;
   for (const m of value.matchAll(WIKILINK)) {
     if (m.index > last)
       out.push({ type: "text", value: value.slice(last, m.index) });
-    const slug = slugify(m[1]);
-    const label = wikilinkLabel(m[1], m[2], titles);
+    const slug = slugify(linkStem(m[1]));
+    const target = targets.get(slug);
+    const label = wikilinkLabel(m[1], m[2], target, locale);
     out.push(
-      titles.has(slug)
+      target
         ? {
             type: "link",
-            url: `/blog/${slug}`,
+            url: blogPath(target.locale, `/${slug}`),
             children: [{ type: "text", value: label }],
           }
         : { type: "text", value: label },
@@ -426,7 +476,7 @@ function applyHighlights(children: PhrasingContent[]): PhrasingContent[] {
   return out;
 }
 
-function remarkDevlog(titles: Map<string, string>) {
+function remarkDevlog(targets: LinkTargets, locale: BlogLocale, diagrams: string) {
   return (tree: MdRoot) => {
     visit(tree, (node, index, parent) => {
       // Raw HTML (e.g. a `<file>` placeholder in prose) renders as literal text.
@@ -458,7 +508,14 @@ function remarkDevlog(titles: Map<string, string>) {
         };
         return SKIP;
       }
-      if (node.type === "image") node.url = diagramUrl(node.url) ?? node.url;
+      if (node.type === "image") {
+        const diagram = diagramAsset(node.url, locale, diagrams);
+        if (diagram) node.url = diagram.src;
+        if (diagram === null && parent && index !== undefined) {
+          parent.children[index] = { type: "text", value: node.alt ?? "" };
+          return SKIP;
+        }
+      }
     });
     // Code and inlineCode carry `value`, not children, so text rewriting never reaches them.
     visit(tree, (node) => {
@@ -467,7 +524,7 @@ function remarkDevlog(titles: Map<string, string>) {
       if (!p.children.some((c) => c.type === "text")) return;
       // A parent with text children holds phrasing content only.
       const kids = (p.children as PhrasingContent[]).flatMap((c) =>
-        c.type === "text" ? splitWikilinks(c.value, titles) : [c],
+        c.type === "text" ? splitWikilinks(c.value, targets, locale) : [c],
       );
       p.children = applyHighlights(kids) as Parent["children"];
     });
@@ -508,7 +565,7 @@ function rehypeDevlog(toc: TocEntry[]) {
  * Wraps each `▒` run the sync left in place of redacted text, code included
  * (runs after Shiki). Mermaid source stays plain: the client parses it as text.
  */
-function rehypeMosaic() {
+function rehypeMosaic(locale: BlogLocale) {
   return (tree: HastRoot) => {
     visit(tree, "text", (node, index, parent) => {
       if (!parent || index === undefined || !REDACTED_RUN.test(node.value))
@@ -533,7 +590,7 @@ function rehypeMosaic() {
                     properties: {
                       className: ["redacted"],
                       role: "img",
-                      ariaLabel: "redacted",
+                      ariaLabel: redactedLabel(locale),
                     },
                     children: [{ type: "text", value }],
                   },
@@ -548,14 +605,15 @@ function rehypeMosaic() {
 
 export async function renderNote(
   note: Note,
-  dir: string = DEVLOG_DIR,
+  source: NoteSource = {},
 ): Promise<{ html: string; toc: TocEntry[]; hasMermaid: boolean }> {
-  const titles = new Map(getNotes(dir).map((n) => [n.slug, n.title]));
+  const locale = source.locale ?? "en";
+  const targets = linkTargets(getNotes(source), locale, source);
   const toc: TocEntry[] = [];
   const file = await unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(() => remarkDevlog(titles))
+    .use(() => remarkDevlog(targets, locale, source.diagrams ?? DIAGRAMS_DIR))
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(() => rehypeDevlog(toc))
@@ -565,7 +623,7 @@ export async function renderNote(
       lazy: true,
       fallbackLanguage: "text",
     })
-    .use(rehypeMosaic)
+    .use(() => rehypeMosaic(locale))
     .use(rehypeStringify)
     .process(note.body);
   const html = String(file);

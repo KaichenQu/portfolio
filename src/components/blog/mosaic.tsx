@@ -1,14 +1,15 @@
 import type { ReactNode } from "react";
+import { redactedLabel, type BlogLocale } from "@/lib/blog-locale";
 
 /** A run of the glyph the sync writes in place of redacted text. */
 export const REDACTED_RUN = /(▒+)/;
 
 /** Wraps every redacted run in a title in the same span the note body gets. */
-export function mosaic(text: string): ReactNode {
+export function mosaic(text: string, locale: BlogLocale = "en"): ReactNode {
   if (!REDACTED_RUN.test(text)) return text;
   return text.split(REDACTED_RUN).map((part, i) =>
     i % 2 ? (
-      <span key={i} className="redacted" role="img" aria-label="redacted">
+      <span key={i} className="redacted" role="img" aria-label={redactedLabel(locale)}>
         {part}
       </span>
     ) : (
@@ -23,7 +24,7 @@ const SVG_NS = "http://www.w3.org/2000/svg";
  * Wraps runs in a rendered diagram's HTML text (Mermaid's `foreignObject`
  * labels). SVG `<text>`/`<tspan>` cannot hold a span, so runs there stay glyphs.
  */
-export function wrapRedactedRuns(root: Element): void {
+export function wrapRedactedRuns(root: Element, locale: BlogLocale = "en"): void {
   const doc = root.ownerDocument;
   const walker = doc.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const found: Text[] = [];
@@ -42,7 +43,7 @@ export function wrapRedactedRuns(root: Element): void {
           const span = doc.createElement("span");
           span.className = "redacted";
           span.setAttribute("role", "img");
-          span.setAttribute("aria-label", "redacted");
+          span.setAttribute("aria-label", redactedLabel(locale));
           span.textContent = part;
           return span;
         })

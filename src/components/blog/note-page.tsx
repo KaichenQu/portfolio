@@ -2,43 +2,53 @@ import type { Metadata } from "next";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
+import { LanguageLink, languageAlternates } from "@/components/blog/language-link";
 import Mermaid from "@/components/blog/mermaid";
 import { mosaic } from "@/components/blog/mosaic";
 import { StatusBadge, TagList } from "@/components/blog/note-list";
-import { getBacklinks, getNote, getNotes, renderNote } from "@/lib/devlog";
+import { getBacklinks, getNote, renderNote } from "@/lib/devlog";
+import { blogPath, readingTime, sectionLabel, type BlogLocale } from "@/lib/blog-locale";
 import { pageMetadata, SITE_URL } from "@/lib/seo";
-
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return getNotes().map((n) => ({ slug: n.slug }));
-}
 
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const note = getNote((await params).slug);
+export async function noteMetadata({ params }: Props, locale: BlogLocale): Promise<Metadata> {
+  const { slug } = await params;
+  const note = getNote(slug, { locale });
   if (!note) return {};
-  // Explicit images outrank this segment's opengraph-image file, so name it here.
-  return pageMetadata(
-    `/blog/${note.slug}`,
+  const suffix = `/${note.slug}`;
+  const twin = getNote(slug, { locale: locale === "en" ? "zh-Hans" : "en" });
+  // Both editions use the English route's generated Open Graph image.
+  const metadata = pageMetadata(
+    blogPath(locale, suffix),
     note.title,
     note.description,
-    { type: "article", publishedTime: note.date, tags: note.tags },
+    {
+      type: "article",
+      locale: locale === "zh-Hans" ? "zh_CN" : "en_US",
+      publishedTime: note.date,
+      tags: note.tags,
+    },
     {
       url: `/blog/${note.slug}/opengraph-image`,
       width: 1200,
       height: 630,
-      alt: note.title,
+      alt: locale === "en" ? note.title : twin?.title ?? note.title,
     },
   );
+  if (twin)
+    metadata.alternates = { ...metadata.alternates, languages: languageAlternates(suffix) };
+  return metadata;
 }
 
-export default async function NotePage({ params }: Props) {
-  const note = getNote((await params).slug);
+export default async function NotePage({ params, locale }: Props & { locale: BlogLocale }) {
+  const { slug } = await params;
+  const note = getNote(slug, { locale });
   if (!note) notFound();
-  const { html, toc, hasMermaid } = await renderNote(note);
-  const backlinks = getBacklinks(note.slug);
+  const zh = locale === "zh-Hans";
+  const twin = getNote(slug, { locale: zh ? "en" : "zh-Hans" });
+  const { html, toc, hasMermaid } = await renderNote(note, { locale });
+  const backlinks = getBacklinks(note.slug, { locale });
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -47,7 +57,8 @@ export default async function NotePage({ params }: Props) {
     description: note.description,
     ...(note.date && { datePublished: note.date }),
     keywords: note.tags.join(", "),
-    url: `${SITE_URL}/blog/${note.slug}`,
+    url: SITE_URL + blogPath(locale, `/${note.slug}`),
+    inLanguage: locale,
     author: {
       "@type": "Person",
       "@id": `${SITE_URL}/#person`,
@@ -66,29 +77,34 @@ export default async function NotePage({ params }: Props) {
       />
       <article className="min-w-0">
         <nav
-          aria-label="Breadcrumb"
+          aria-label={zh ? "面包屑导航" : "Breadcrumb"}
           className="flex flex-wrap items-center gap-1 font-mono text-[12px] text-gray-500 dark:text-white/45"
         >
           <NextLink
-            href="/blog"
+            href={blogPath(locale)}
             className="hover:text-gray-900 dark:hover:text-white/85"
           >
-            DevLog
+            {zh ? "工程笔记" : "DevLog"}
           </NextLink>
           <ChevronRight className="h-3 w-3" />
-          <span>{note.section}</span>
+          <span>{sectionLabel(note.section, locale)}</span>
+          {twin && (
+            <span className="ml-2">
+              <LanguageLink locale={locale} suffix={`/${slug}`} />
+            </span>
+          )}
         </nav>
 
         <h1 className="mt-3 text-[1.9rem] font-bold leading-tight tracking-[-0.02em] text-gray-950 sm:text-[2.25rem] dark:text-white">
-          {mosaic(note.title)}
+          {mosaic(note.title, locale)}
         </h1>
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[12px] text-gray-500 dark:text-white/50">
           {note.date && <time dateTime={note.date}>{note.date}</time>}
-          <span>{note.readingMinutes} min read</span>
-          <StatusBadge status={note.status} />
+          <span>{readingTime(note.readingMinutes, locale)}</span>
+          <StatusBadge status={note.status} locale={locale} />
         </div>
         <div className="mt-3">
-          <TagList tags={note.tags} />
+          <TagList tags={note.tags} locale={locale} />
         </div>
 
         <div
@@ -96,7 +112,7 @@ export default async function NotePage({ params }: Props) {
           className="prose prose-gray mt-8 max-w-none dark:prose-invert prose-headings:scroll-mt-14 prose-headings:tracking-[-0.01em] prose-a:text-sky-700 prose-a:decoration-sky-400/40 prose-a:underline-offset-2 hover:prose-a:decoration-sky-500 dark:prose-a:text-sky-300 prose-code:font-mono prose-code:before:content-none prose-code:after:content-none prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-white/10 prose-img:rounded-lg"
           dangerouslySetInnerHTML={{ __html: html }}
         />
-        {hasMermaid && <Mermaid />}
+        {hasMermaid && <Mermaid locale={locale} />}
       </article>
 
       {(toc.length > 0 || backlinks.length > 0) && (
@@ -108,7 +124,7 @@ export default async function NotePage({ params }: Props) {
                   id="toc-title"
                   className="font-mono text-[11px] uppercase tracking-[0.14em] text-gray-500 dark:text-white/45"
                 >
-                  On this page
+                  {zh ? "目录" : "On this page"}
                 </h2>
                 <ul className="mt-2 space-y-1.5">
                   {toc.map((t) => (
@@ -120,7 +136,7 @@ export default async function NotePage({ params }: Props) {
                         href={`#${t.id}`}
                         className="leading-snug text-gray-600 hover:text-sky-700 dark:text-white/60 dark:hover:text-sky-300"
                       >
-                        {mosaic(t.text)}
+                        {mosaic(t.text, locale)}
                       </a>
                     </li>
                   ))}
@@ -133,16 +149,16 @@ export default async function NotePage({ params }: Props) {
                   id="backlinks-title"
                   className="font-mono text-[11px] uppercase tracking-[0.14em] text-gray-500 dark:text-white/45"
                 >
-                  Backlinks
+                  {zh ? "反向链接" : "Backlinks"}
                 </h2>
                 <ul className="mt-2 space-y-1.5">
                   {backlinks.map((b) => (
                     <li key={b.slug}>
                       <NextLink
-                        href={`/blog/${b.slug}`}
+                        href={blogPath(locale, `/${b.slug}`)}
                         className="leading-snug text-gray-600 hover:text-sky-700 dark:text-white/60 dark:hover:text-sky-300"
                       >
-                        {mosaic(b.title)}
+                        {mosaic(b.title, locale)}
                       </NextLink>
                     </li>
                   ))}

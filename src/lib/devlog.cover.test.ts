@@ -42,7 +42,7 @@ write(path.join(COVERS, "art-wins.webp"), "webp");
 write(path.join(COVERS, "art-only.webp"), "webp");
 
 const cover = (slug: string, covers = COVERS) =>
-  getNotes(DIR, DIAGRAMS, covers).find((n) => n.slug === slug)!.cover;
+  getNotes({ dir: DIR, diagrams: DIAGRAMS, covers }).find((n) => n.slug === slug)!.cover;
 
 afterAll(() => fs.rmSync(root, { recursive: true, force: true }));
 

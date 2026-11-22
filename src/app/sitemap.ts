@@ -1,8 +1,11 @@
 import { MetadataRoute } from "next";
-import { getNotes, getTags } from "@/lib/devlog";
+import { tagParams } from "@/components/blog/tag-page";
+import { getNotes } from "@/lib/devlog";
+import { blogPath } from "@/lib/blog-locale";
 import { SITE_URL as baseUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const tags = tagParams();
   return [
     {
       url: baseUrl,
@@ -34,8 +37,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ...(n.date && { lastModified: n.date }),
       priority: 0.6,
     })),
-    ...getTags().map(({ tag }) => ({
-      url: `${baseUrl}/blog/tags/${tag}`,
+    ...tags.map(({ tag }) => ({
+      url: baseUrl + blogPath("en", `/tags/${encodeURIComponent(tag)}`),
+      priority: 0.3,
+    })),
+    {
+      url: baseUrl + blogPath("zh-Hans"),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    ...getNotes({ locale: "zh-Hans" }).map((n) => ({
+      url: baseUrl + blogPath("zh-Hans", `/${n.slug}`),
+      ...(n.date && { lastModified: n.date }),
+      priority: 0.6,
+    })),
+    ...tags.map(({ tag }) => ({
+      url: baseUrl + blogPath("zh-Hans", `/tags/${encodeURIComponent(tag)}`),
       priority: 0.3,
     })),
   ];

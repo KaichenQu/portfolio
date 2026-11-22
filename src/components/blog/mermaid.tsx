@@ -2,12 +2,13 @@
 
 import { useEffect } from "react";
 import { wrapRedactedRuns } from "@/components/blog/mosaic";
+import type { BlogLocale } from "@/lib/blog-locale";
 import { useTheme } from "@/containers/theme-context";
 
 let seq = 0;
 
 /** Renders every `.mermaid` block inside `#note-body`; mounted only on pages that have one. */
-export default function Mermaid() {
+export default function Mermaid({ locale = "en" }: { locale?: BlogLocale }) {
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function Mermaid() {
           );
           if (cancelled) return;
           el.innerHTML = svg;
-          wrapRedactedRuns(el);
+          wrapRedactedRuns(el, locale);
           el.dataset.rendered = "true";
         } catch {
           // Leave the source visible when a diagram fails to parse.
@@ -49,7 +50,7 @@ export default function Mermaid() {
     return () => {
       cancelled = true;
     };
-  }, [theme]);
+  }, [theme, locale]);
 
   return null;
 }

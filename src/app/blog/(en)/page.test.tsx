@@ -25,7 +25,10 @@ const NOTES = [
   note("term", "Glossary"),
 ];
 
-vi.mock("@/lib/devlog", () => ({ getNotes: () => NOTES }));
+vi.mock("@/lib/devlog", async (importActual) => ({
+  ...(await importActual<typeof import("@/lib/devlog")>()),
+  getNotes: () => NOTES,
+}));
 
 describe("BlogIndex", () => {
   it("lists every case once, newest first, in one grid before the maps", () => {

@@ -2,6 +2,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 import clsx from "clsx";
 import type { Note } from "@/lib/devlog";
+import { blogPath, readingTime, sectionLabel, type BlogLocale } from "@/lib/blog-locale";
 import { mosaic } from "@/components/blog/mosaic";
 import { StatusDot } from "@/components/blog/note-list";
 
@@ -58,9 +59,9 @@ const KIND: Partial<Record<Note["section"], string>> = {
 };
 
 /** One case on the index: cover, type and status, title, summary, then date and reading time. */
-export function NoteCard({ note }: { note: Note }) {
+export function NoteCard({ note, locale = "en" }: { note: Note; locale?: BlogLocale }) {
   return (
-    <NextLink href={`/blog/${note.slug}`} className={CARD_SHELL}>
+    <NextLink href={blogPath(locale, `/${note.slug}`)} className={CARD_SHELL}>
       <Cover cover={note.cover} />
       <div className="flex flex-1 flex-col p-4">
         <div
@@ -68,19 +69,20 @@ export function NoteCard({ note }: { note: Note }) {
           className="flex items-center justify-between gap-3 whitespace-nowrap font-mono text-[11px] font-medium uppercase leading-none tracking-[0.14em]"
         >
           <span className="min-w-0 truncate text-sky-600 dark:text-sky-400">
-            {KIND[note.section] ?? note.section}
+            {locale === "en" ? KIND[note.section] ?? note.section : sectionLabel(note.section, locale)}
           </span>
           <StatusDot
             status={note.status}
+            locale={locale}
             className="text-gray-500 dark:text-white/50"
           />
         </div>
         <h3 className="mt-3 line-clamp-2 text-[17px] font-semibold leading-[1.3] tracking-tight text-gray-900 dark:text-white">
-          {mosaic(note.title)}
+          {mosaic(note.title, locale)}
         </h3>
         {note.summary && (
           <p className="mt-2 line-clamp-3 text-[14px] leading-[1.6] text-gray-600 dark:text-white/60">
-            {mosaic(note.summary)}
+            {mosaic(note.summary, locale)}
           </p>
         )}
         <div className="mt-auto flex gap-2 pt-4 font-mono text-[12px] leading-none text-gray-500 dark:text-white/45">
@@ -90,7 +92,7 @@ export function NoteCard({ note }: { note: Note }) {
               <span aria-hidden>·</span>
             </>
           )}
-          <span>{note.readingMinutes} min read</span>
+          <span>{readingTime(note.readingMinutes, locale)}</span>
         </div>
       </div>
     </NextLink>
