@@ -1,23 +1,26 @@
 import NextLink from "next/link";
 import { mosaic } from "@/components/blog/mosaic";
-import { NoteList } from "@/components/blog/note-list";
 import { LanguageLink, languageAlternates } from "@/components/blog/language-link";
 import { CARD_SHELL, NoteCard } from "@/components/blog/note-card";
-import { getNotes, SECTIONS } from "@/lib/devlog";
-import { blogPath, sectionLabel, noteCount, type BlogLocale } from "@/lib/blog-locale";
+import { getNotes, type Note } from "@/lib/devlog";
+import { blogPath, noteCount, type BlogLocale } from "@/lib/blog-locale";
 import { pageMetadata } from "@/lib/seo";
-
-const CASE_SECTIONS = ["Debug cases", "Design cases"] as const;
 
 const COPY = {
   en: {
     title: "DevLog",
     description:
       "An engineering notebook: how a bug was tracked down step by step, and how architecture and design trade-offs were made.",
+    casesTitle: "Cases",
+    mapsTitle: "Topic maps",
+    empty: "No notes yet.",
   },
   "zh-Hans": {
     title: "工程笔记",
     description: "记录软件故障的排查过程，以及架构和设计中的取舍。",
+    casesTitle: "案例",
+    mapsTitle: "知识地图",
+    empty: "暂无笔记。",
   },
 };
 
@@ -35,17 +38,19 @@ export function indexMetadata(locale: BlogLocale) {
 
 export default function BlogIndex({ locale }: { locale: BlogLocale }) {
   const zh = locale === "zh-Hans";
-  const { title, description } = COPY[locale];
+  const { title, description, casesTitle, mapsTitle, empty } = COPY[locale];
   const notes = getNotes({ locale });
   const maps = notes.filter((n) => n.section === "Maps");
-  const cases = notes.filter((n) => CASE_SECTIONS.some((section) => n.section === section));
-  const caseGroups = zh
-    ? CASE_SECTIONS.map((section, i) => ({
-        id: `cases-${i}`,
-        title: sectionLabel(section, locale),
-        items: cases.filter((n) => n.section === section),
-      }))
-    : [{ id: "cases", title: "Cases", items: cases }];
+  const cases = notes.filter(
+    (n) => n.section === "Debug cases" || n.section === "Design cases",
+  );
+  if (zh && (cases.length > 0 || maps.length > 0)) {
+    // Use the English index order even when translated titles sort differently.
+    const order = new Map(getNotes({ locale: "en" }).map(({ slug }, i) => [slug, i]));
+    const index = (note: Note) => order.get(note.slug) ?? order.size;
+    cases.sort((a, b) => index(a) - index(b));
+    maps.sort((a, b) => index(a) - index(b));
+  }
 
   return (
     <main>
@@ -62,27 +67,27 @@ export default function BlogIndex({ locale }: { locale: BlogLocale }) {
 
       {notes.length === 0 ? (
         <p className="mt-10 text-gray-500 dark:text-white/50">
-          {zh ? "暂无笔记。" : "No notes yet."}
+          {empty}
         </p>
       ) : (
         <>
-          {caseGroups.filter(({ items }) => items.length > 0).map(({ id, title, items }) => (
-            <section key={id} className="mt-10" aria-labelledby={id}>
+          {cases.length > 0 && (
+            <section className="mt-10" aria-labelledby="cases">
               <h2
-                id={id}
+                id="cases"
                 className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-sky-600 dark:text-sky-400"
               >
-                {title}
+                {casesTitle}
               </h2>
               <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                {items.map((n) => (
+                {cases.map((n) => (
                   <li key={n.slug}>
                     <NoteCard note={n} locale={locale} />
                   </li>
                 ))}
               </ul>
             </section>
-          ))}
+          )}
 
           {maps.length > 0 && (
             <section className="mt-10" aria-labelledby="maps">
@@ -90,7 +95,7 @@ export default function BlogIndex({ locale }: { locale: BlogLocale }) {
                 id="maps"
                 className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-sky-600 dark:text-sky-400"
               >
-                {zh ? sectionLabel("Maps", locale) : "Topic maps"}
+                {mapsTitle}
               </h2>
               <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 {maps.map((m) => (
@@ -111,22 +116,6 @@ export default function BlogIndex({ locale }: { locale: BlogLocale }) {
               </ul>
             </section>
           )}
-          {zh && SECTIONS.map(([folder, section]) => {
-            if (folder === "Maps" || folder.startsWith("Cases/")) return null;
-            const items = notes.filter((n) => n.section === section);
-            if (items.length === 0) return null;
-            return (
-              <section key={folder} className="mt-10" aria-labelledby={`section-${folder}`}>
-                <h2
-                  id={`section-${folder}`}
-                  className="mb-4 font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-sky-600 dark:text-sky-400"
-                >
-                  {sectionLabel(section, locale)}
-                </h2>
-                <NoteList notes={items} locale={locale} />
-              </section>
-            );
-          })}
         </>
       )}
     </main>

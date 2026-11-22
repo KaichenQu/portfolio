@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import ActiveSectionContextProvider from "@/containers/active-section";
 import NotePage from "@/components/blog/note-page";
 import TagPage from "@/components/blog/tag-page";
@@ -60,7 +60,7 @@ const params = (slug: string) => ({ params: Promise.resolve({ slug }) });
 const tag = (name: string) => ({ params: Promise.resolve({ tag: name }) });
 
 describe("Chinese blog routes", () => {
-  it("marks the shared chrome as Chinese and links all Chinese index sections", () => {
+  it("marks the shared chrome as Chinese and keeps glossary notes in the explorer", () => {
     render(
       <ActiveSectionContextProvider>
         <Layout><Index /></Layout>
@@ -70,12 +70,14 @@ describe("Chinese blog routes", () => {
     expect(main.closest("[lang]")).toHaveAttribute("lang", "zh-Hans");
     expect(within(main).getByRole("heading", { level: 1, name: "工程笔记" })).toBeInTheDocument();
     expect(within(main).getByRole("link", { name: "English" })).toHaveAttribute("href", "/blog");
-    expect(within(main).getByRole("region", { name: "排错案例" })).toHaveTextContent("水泵故障");
-    expect(within(main).getByRole("region", { name: "术语" })).toHaveTextContent("阀门");
+    expect(within(main).getByRole("region", { name: "案例" })).toHaveTextContent("水泵故障");
+    expect(within(main).queryByRole("link", { name: /阀门/ })).not.toBeInTheDocument();
 
     const explorer = screen.getByRole("navigation", { name: "工程笔记" });
     expect(within(explorer).getByRole("searchbox", { name: "按标题或标签筛选笔记" })).toBeInTheDocument();
     expect(within(explorer).getByRole("link", { name: "水泵故障" })).toHaveAttribute("aria-current", "page");
+    fireEvent.click(within(explorer).getByRole("button", { name: /^术语/ }));
+    expect(within(explorer).getByRole("link", { name: "阀门" })).toHaveAttribute("href", "/blog/zh/valve");
   });
 
   it("offers the English index when the Chinese mirror is empty", () => {
