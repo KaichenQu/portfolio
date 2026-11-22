@@ -40,7 +40,7 @@ const DOT: Record<string, string> = {
 };
 
 /** The status as a coloured dot and its word, sized to sit inside a line of meta text. */
-export function StatusDot({
+function StatusDot({
   status,
   className,
   locale = "en",

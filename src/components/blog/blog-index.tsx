@@ -1,10 +1,16 @@
+import { ChevronDown } from "lucide-react";
 import NextLink from "next/link";
-import { mosaic } from "@/components/blog/mosaic";
-import { LanguageLink, languageAlternates } from "@/components/blog/language-link";
-import { CARD_SHELL, NoteCard } from "@/components/blog/note-card";
-import { getNotes, type Note } from "@/lib/devlog";
+import { Suspense } from "react";
 import { blogPath, noteCount, type BlogLocale } from "@/lib/blog-locale";
+import { getNotes } from "@/lib/devlog";
 import { pageMetadata } from "@/lib/seo";
+import BlogIndexInteractions from "./blog-index-interactions";
+import CommitGraph from "./commit-graph";
+import { LanguageLink, languageAlternates } from "./language-link";
+import LineMap from "./line-map";
+import { caseKind } from "./line-map-layout";
+import { mosaic } from "./mosaic";
+import "./blog-index.css";
 
 const COPY = {
   en: {
@@ -14,6 +20,24 @@ const COPY = {
     casesTitle: "Cases",
     mapsTitle: "Topic maps",
     empty: "No notes yet.",
+    noMatches: "No matching cases.",
+    caseName: "Case",
+    date: "Date",
+    type: "Type",
+    status: "Status",
+    path: "Path",
+    out: "Out",
+    in: "In",
+    graphNotes: "notes",
+    graphLinks: "links",
+    all: "All",
+    unset: "Unset",
+    types: {
+      moc: "Topic map", "case-debug": "Debug case", "case-design": "Design case",
+      pattern: "Pattern", trick: "Trick", "agent-lesson": "Lesson",
+      cheatsheet: "Cheatsheet", glossary: "Glossary term",
+    },
+    statuses: { solved: "Solved", wip: "WIP", open: "Open" },
   },
   "zh-Hans": {
     title: "工程笔记",
@@ -21,6 +45,24 @@ const COPY = {
     casesTitle: "案例",
     mapsTitle: "知识地图",
     empty: "暂无笔记。",
+    noMatches: "没有匹配的案例。",
+    caseName: "案例",
+    date: "日期",
+    type: "类型",
+    status: "状态",
+    path: "路径",
+    out: "出链",
+    in: "入链",
+    graphNotes: "篇笔记",
+    graphLinks: "条链接",
+    all: "全部",
+    unset: "未设置",
+    types: {
+      moc: "知识地图", "case-debug": "排错案例", "case-design": "设计案例",
+      pattern: "模式", trick: "技巧", "agent-lesson": "教训",
+      cheatsheet: "速查", glossary: "术语",
+    },
+    statuses: { solved: "已解决", wip: "进行中", open: "待处理" },
   },
 };
 
@@ -37,85 +79,77 @@ export function indexMetadata(locale: BlogLocale) {
 }
 
 export default function BlogIndex({ locale }: { locale: BlogLocale }) {
-  const zh = locale === "zh-Hans";
-  const { title, description, casesTitle, mapsTitle, empty } = COPY[locale];
-  const notes = getNotes({ locale });
-  const maps = notes.filter((n) => n.section === "Maps");
-  const cases = notes.filter(
-    (n) => n.section === "Debug cases" || n.section === "Design cases",
-  );
-  if (zh && (cases.length > 0 || maps.length > 0)) {
-    // Use the English index order even when translated titles sort differently.
+  const copy = COPY[locale];
+  const notes = [...getNotes({ locale })];
+  if (locale === "zh-Hans" && notes.length) {
     const order = new Map(getNotes({ locale: "en" }).map(({ slug }, i) => [slug, i]));
-    const index = (note: Note) => order.get(note.slug) ?? order.size;
-    cases.sort((a, b) => index(a) - index(b));
-    maps.sort((a, b) => index(a) - index(b));
+    notes.sort((a, b) => (order.get(a.slug) ?? order.size) - (order.get(b.slug) ?? order.size));
   }
+  const topics = notes.filter(note => note.section === "Maps");
+  const cases = notes.filter(caseKind);
+  const types = [...new Set(notes.flatMap(({ type }) => type ? [type] : []))].sort();
+  const caseTypes = new Set(cases.map(note => note.type));
 
   return (
-    <main>
-      <h1 className="text-[2.25rem] font-bold tracking-[-0.02em] text-gray-950 dark:text-white">
-        {title}
-      </h1>
-      <p className="mt-3 max-w-[60ch] text-[16px] leading-[1.65] text-gray-600 dark:text-white/65">
-        {description}
-      </p>
-
-      <div className="mt-3">
+    <main className="blog-index min-w-0 border" data-blog-index>
+      <header className="flex flex-wrap items-baseline gap-x-4 gap-y-2 border-b px-4 py-3 md:px-5 md:py-4">
+        <div className="flex flex-1 flex-wrap items-baseline justify-between gap-x-3">
+          <h1 className="text-[27px] font-bold leading-tight tracking-[-0.04em] md:text-[32px]">{copy.title}</h1>
+          <span className="index-muted font-mono text-xs tabular-nums">{noteCount(notes.length, locale)}</span>
+        </div>
         <LanguageLink locale={locale} />
-      </div>
-
+      </header>
       {notes.length === 0 ? (
-        <p className="mt-10 text-gray-500 dark:text-white/50">
-          {empty}
-        </p>
+        <p className="index-muted px-4 py-6 text-sm">{copy.empty}</p>
       ) : (
         <>
-          {cases.length > 0 && (
-            <section className="mt-10" aria-labelledby="cases">
-              <h2
-                id="cases"
-                className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-sky-600 dark:text-sky-400"
-              >
-                {casesTitle}
-              </h2>
-              <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                {cases.map((n) => (
-                  <li key={n.slug}>
-                    <NoteCard note={n} locale={locale} />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {maps.length > 0 && (
-            <section className="mt-10" aria-labelledby="maps">
-              <h2
-                id="maps"
-                className="font-mono text-[12px] font-medium uppercase leading-none tracking-[0.18em] text-sky-600 dark:text-sky-400"
-              >
-                {mapsTitle}
-              </h2>
-              <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                {maps.map((m) => (
-                  <li key={m.slug}>
-                    <NextLink
-                      href={blogPath(locale, `/${m.slug}`)}
-                      className={`${CARD_SHELL} p-4`}
-                    >
-                      <span className="text-[15px] font-semibold leading-[1.4] text-gray-900 dark:text-white">
-                        {mosaic(m.title, locale)}
-                      </span>
-                      <span className="mt-1.5 font-mono text-[12px] leading-none text-gray-500 dark:text-white/45">
-                        {zh ? noteCount(m.links.length, locale) : `${m.links.length} notes`}
-                      </span>
+          <div className="index-filters flex flex-wrap gap-x-4 gap-y-2 border-b px-4 py-2 font-mono text-xs" data-index-filters>
+            {[false, true].map(casesOnly => (
+              <label key={String(casesOnly)} className={`items-center gap-2 ${casesOnly ? "flex md:hidden" : "hidden md:flex"}`}>
+                {copy.type}
+                <span className="relative">
+                  <select data-index-filter="type" data-case-filter={casesOnly ? "" : undefined} defaultValue="" disabled>
+                    <option value="">{copy.all}</option>
+                    {types.filter(type => !casesOnly || caseTypes.has(type)).map(type => (
+                      <option key={type} value={type}>{copy.types[type as keyof typeof copy.types] ?? type}</option>
+                    ))}
+                  </select>
+                  <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-2 top-1/2 size-3.5 -translate-y-1/2" />
+                </span>
+              </label>
+            ))}
+            <label className="flex items-center gap-2">
+              {copy.status}
+              <span className="relative">
+                <select data-index-filter="status" defaultValue="" disabled>
+                  <option value="">{copy.all}</option>
+                  {Object.entries(copy.statuses).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                  <option value="none">{copy.unset}</option>
+                </select>
+                <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-2 top-1/2 size-3.5 -translate-y-1/2" />
+              </span>
+            </label>
+          </div>
+          <LineMap notes={notes} topics={topics} locale={locale} copy={copy} />
+          {topics.length > 0 && (
+            <nav aria-label={copy.mapsTitle} className="index-topic-strip border-b md:hidden">
+              <ul className="flex items-stretch overflow-x-auto font-mono">
+                {topics.map(topic => (
+                  <li key={topic.slug} className="shrink-0">
+                    <NextLink href={blogPath(locale, `/${topic.slug}`)} prefetch={false} className="flex min-h-11 items-center gap-2 whitespace-nowrap border-r px-3 text-xs">
+                      {mosaic(topic.title, locale)}
+                      <span className="index-topic-count tabular-nums">{topic.links.length}</span>
                     </NextLink>
                   </li>
                 ))}
               </ul>
-            </section>
+            </nav>
           )}
+          {cases.length > 0 && (
+            <CommitGraph cases={cases} locale={locale} title={copy.casesTitle} date={copy.date}
+              caseName={copy.caseName} noMatches={copy.noMatches} />
+          )}
+          <Suspense fallback={null}><BlogIndexInteractions /></Suspense>
         </>
       )}
     </main>

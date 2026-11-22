@@ -45,6 +45,8 @@ export type Section = (typeof SECTIONS)[number][1];
 export type Note = {
   slug: string;
   title: string;
+  /** Markdown path relative to the synced DevLog root. */
+  sourcePath?: string;
   section: Section;
   type?: string;
   date?: string;
@@ -62,7 +64,6 @@ export type Note = {
   cover?: {
     kind: "art" | "diagram";
     src: string;
-    alt: string;
     width: number;
     height: number;
   };
@@ -225,12 +226,10 @@ function readNote(
   visit(tree, "text", (t) => {
     for (const m of t.value.matchAll(WIKILINK)) targets.add(slugify(linkStem(m[1])));
   });
-  // The card's title already names the note, so the illustration carries no alt text.
   let cover: Note["cover"] = fs.existsSync(path.join(covers, `${slug}.webp`))
     ? {
         kind: "art",
         src: `/blog/covers/${slug}.webp`,
-        alt: "",
         width: 1200,
         height: 800,
       }
@@ -241,7 +240,7 @@ function readNote(
     if (!diagram || !fs.existsSync(diagram.file)) return;
     const size = svgSize(fs.readFileSync(diagram.file, "utf8"));
     if (!size) return;
-    cover = { kind: "diagram", src: diagram.src, alt: img.alt ?? "", ...size };
+    cover = { kind: "diagram", src: diagram.src, ...size };
     return EXIT;
   });
   let minutes = body.split(/\s+/).filter(Boolean).length / 200;
@@ -257,6 +256,7 @@ function readNote(
   return {
     slug,
     title,
+    sourcePath: rel,
     section,
     type: str("type"),
     date: str("date") || undefined,
@@ -326,7 +326,7 @@ export function getNotes({
       notes.push(
         readNote(
           path.join(abs, name),
-          `${folder}/${name}`,
+          `${subdir ? subdir + "/" : ""}${folder}/${name}`,
           section,
           diagrams,
           covers,

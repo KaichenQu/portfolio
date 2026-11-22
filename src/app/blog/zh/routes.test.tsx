@@ -53,6 +53,7 @@ vi.mock("@/lib/devlog", async (importActual) => ({
 }));
 vi.mock("next/navigation", () => ({
   usePathname: () => "/blog/zh/pump",
+  useSearchParams: () => null,
   notFound: () => { throw new Error("Not found"); },
 }));
 
@@ -71,7 +72,8 @@ describe("Chinese blog routes", () => {
     expect(within(main).getByRole("heading", { level: 1, name: "工程笔记" })).toBeInTheDocument();
     expect(within(main).getByRole("link", { name: "English" })).toHaveAttribute("href", "/blog");
     expect(within(main).getByRole("region", { name: "案例" })).toHaveTextContent("水泵故障");
-    expect(within(main).queryByRole("link", { name: /阀门/ })).not.toBeInTheDocument();
+    const map = within(main).getByRole("region", { name: "知识地图" });
+    expect(within(map).getByRole("link", { name: "阀门" })).toHaveAttribute("href", "/blog/zh/valve");
 
     const explorer = screen.getByRole("navigation", { name: "工程笔记" });
     expect(within(explorer).getByRole("searchbox", { name: "按标题或标签筛选笔记" })).toBeInTheDocument();

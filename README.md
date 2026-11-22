@@ -42,11 +42,13 @@ Open [http://localhost:3000](http://localhost:3000).
 
 `/blog` is built at compile time from Markdown notes in `content/devlog/` and SVG diagrams in `public/blog/diagrams/`, both mirrored from an Obsidian vault (`DEVLOG_DIR`, default `~/Obsidian/DevLog`). The Simplified Chinese edition at `/blog/zh` uses the same relative note paths under `zh/` in the vault, with localized figures in `zh/Diagrams/`. Sync writes them to `content/devlog/zh/` and `public/blog/diagrams/zh/`.
 
+The index pairs a topic line map with a newest-first, two-lane case log. Below 768 px, the topic links replace the visible map. The sidebar explorer lists the rest of the notebook.
+
 Case-note cover illustrations live at `public/blog/covers/<slug>.webp`, where `<slug>` is the note’s file stem processed by `slugify()` in `src/lib/devlog.ts`.
 
 - Read the note and illustrate one concrete metaphor for its mechanism. Use generic nouns and blank surfaces. Keep text, letters, numbers, logos, brand marks, interface screenshots and faces out of the image.
 - Use a white or near-white ground (`#FFFFFF` to `#FAFAF7`). Leave a continuous clear margin of at least 6% on all four sides of the final WebP. That is 72 px on the left and right and 48 px on the top and bottom. Keep shadows inside the margin and omit frames and vignettes.
-- Export a 1200 × 800 px WebP of at most 150,000 bytes. Start at Sharp quality 80 and check the finished image at 400 px and 96 px wide. Leave room for the card’s 4% hover zoom.
+- Export a 1200 × 800 px WebP of at most 150,000 bytes. Start at Sharp quality 80 and check the finished image at 400 px and 96 px wide. The build creates transparent WebP derivatives at `/blog/art/<slug>` for the index map and case log.
 - Use one of the six prompt blocks below, followed by the scene. Vary the composition within each direction. Keep neighboring covers in different directions by avoiding repeats within three positions of the newest-first index order.
 
 | Direction | Reusable prompt block |

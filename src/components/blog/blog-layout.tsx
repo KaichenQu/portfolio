@@ -22,7 +22,10 @@ export default function BlogLayout({
   })).filter((g) => g.notes.length > 0);
 
   return (
-    <div lang={locale === "zh-Hans" ? locale : undefined} className="mx-auto w-full max-w-screen-xl px-6 pb-16 pt-4 lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-10 lg:px-20 lg:pt-14">
+    <div lang={locale === "zh-Hans" ? locale : undefined} className="blog-frame relative mx-auto w-full max-w-screen-xl px-6 pb-16 pt-4 lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-10 lg:px-20 lg:pt-14">
+      <a href="#index-cases-title" className="blog-index-skip hidden">
+        {locale === "zh-Hans" ? "跳到案例" : "Skip to cases"}
+      </a>
       <aside className="mb-6 lg:mb-0">
         {/* -m-1 p-1 keeps focus outlines inside the scrolling box. */}
         <div className="lg:sticky lg:top-14 lg:-m-1 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:p-1 scrollbar-hide">
