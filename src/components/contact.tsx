@@ -201,7 +201,7 @@ export default function Contact() {
           required
           placeholder="Your name or company"
           aria-label="Your name"
-          className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.03] text-sm text-gray-800 dark:text-white/85 placeholder:text-gray-400 dark:placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500/40 transition-all"
+          className="w-full px-3 py-2 rounded-[10px] border-0 bg-[rgb(118_118_128_/_0.12)] dark:bg-[rgb(118_118_128_/_0.24)] text-sm text-gray-800 dark:text-white/85 caret-current placeholder:text-neutral-600 dark:placeholder:text-neutral-300 focus:bg-[rgb(118_118_128_/_0.27)] dark:focus:bg-[rgb(118_118_128_/_0.44)] focus:outline-none transition-none"
         />
         <textarea
           name="message"
@@ -209,7 +209,7 @@ export default function Contact() {
           maxLength={5000}
           placeholder="Tell me about your project, role, or just say hi..."
           aria-label="Your message"
-          className="w-full min-h-[110px] px-3 py-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.03] text-sm text-gray-800 dark:text-white/85 placeholder:text-gray-400 dark:placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-sky-300 dark:focus:ring-sky-500/40 transition-all resize-none leading-relaxed"
+          className="w-full min-h-[110px] px-3 py-2 rounded-[10px] border-0 bg-[rgb(118_118_128_/_0.12)] dark:bg-[rgb(118_118_128_/_0.24)] text-sm text-gray-800 dark:text-white/85 caret-current placeholder:text-neutral-600 dark:placeholder:text-neutral-300 focus:bg-[rgb(118_118_128_/_0.27)] dark:focus:bg-[rgb(118_118_128_/_0.44)] focus:outline-none transition-none resize-none leading-relaxed"
         />
         <div className="flex justify-end">
           <button
