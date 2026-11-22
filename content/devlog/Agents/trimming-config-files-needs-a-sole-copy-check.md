@@ -14,6 +14,8 @@ kind of edit and nearly went out unchecked. Reading `/devlog` first showed it ne
 mentions `Agents/` at all: the "after writing a case, distill an English lesson into
 `Agents/`" workflow existed nowhere but `AGENTS.md:22-26`.
 
+![Dropping an import can erase the only copy of a workflow. Account for each imported section and relocate unique instructions first.](../Diagrams/trimming-config-files-needs-a-sole-copy-check.import-contents.svg)
+
 **Root cause**: removing redundant content and removing an import are different operations
 that look identical in a diff. Redundant content has a copy elsewhere, so deleting it is
 free. An import is a container — dropping it removes everything inside, including whatever

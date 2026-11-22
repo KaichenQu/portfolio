@@ -7,6 +7,8 @@ tags: [network, ci-cd, deploy]
 
 **Mistake**: a 96 MB artifact download to a deploy server died at a 15-minute deadline. The first fix added per-range resume and raised the deadline to 40 minutes (PR ▒▒▒▒). It was tested, bootstrapped and merged, and the next deploy still failed: the resume fired at minute 12 and its new request was refused.
 
+![A signed URL is checked per request. A stream can continue past expiry, while a reconnect that starts after expiry receives HTTP 403.](../Diagrams/check-signed-url-lifetime-before-designing-resume.request-expiry.svg)
+
 **Root cause**: GitHub artifact download URLs are Azure [[SAS]] links valid for 10 minutes (`st=` to `se=`). Azure checks the signature per request, so existing streams continue but any reconnect after expiry is 403. Resume and a longer deadline addressed a constraint that was not the binding one. One `curl -I` on the artifact endpoint would have shown `se=` ten minutes after `st=`.
 
 **Rule going forward**:

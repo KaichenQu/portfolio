@@ -10,6 +10,8 @@ tags: [claude-code, hooks, python, ruff]
 used them. The test run then failed with
 `NameError: name 'ModelRun' is not defined` in a test far from the import.
 
+![An edit hook can remove an import before the next edit adds its use. Put the import and its first use in the same patch.](../Diagrams/post-edit-formatter-drops-an-import-added-before-its-use.import-timing.svg)
+
 **Root cause**: the repository's PostToolUse hook runs `ruff check --fix` and
 `ruff format` after every `Edit`/`Write`. Between the two edits the import was
 unused, so ruff's F401 autofix removed it. The harness note "PostToolUse hook

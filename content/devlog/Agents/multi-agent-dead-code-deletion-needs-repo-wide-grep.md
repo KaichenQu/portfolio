@@ -12,6 +12,8 @@ it owned. `SectorHeatmap.tsx`, owned by a different agent, still used those
 classes; `heatmap.css` only carried override rules on top of them. Once the
 base rules were gone, the heatmap's mode switcher rendered as unstyled boxes.
 
+![A search limited to one agent's files misses other consumers of shared CSS. Removing the base rules left another pane's controls unstyled.](../Diagrams/multi-agent-dead-code-deletion-needs-repo-wide-grep.shared-css.svg)
+
 A later cleanup PR in a team repo found the opposite case: code that was
 provably dead (no caller anywhere in the repo) but not the owner's to delete.
 A symbol with no caller was listed as the owner's because `git blame` on its

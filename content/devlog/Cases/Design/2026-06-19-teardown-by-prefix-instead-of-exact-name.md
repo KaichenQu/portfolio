@@ -43,6 +43,8 @@ Constraints:
 
 **Option B.** The root cause is AWS's random suffix, and prefix matching addresses exactly that; and "delete cleanly under any name I choose" is, at bottom, a request to relax matching down to the prefix.
 
+![Deployment and teardown share a stable resource prefix. Cleanup skips unmatched names and service-linked roles before deleting.](../../Diagrams/2026-06-19-teardown-by-prefix-instead-of-exact-name.deletion-boundary.svg)
+
 Two safety boundaries:
 
 1. Only delete resources starting with the given prefix. `str.startswith` accepts a tuple, so when assignment1's leftovers (prefix `size-tracking-lambda-`) later needed cleaning too, adding one more prefix to the tuple was enough — no logic change.

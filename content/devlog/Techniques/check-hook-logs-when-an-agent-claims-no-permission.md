@@ -6,6 +6,8 @@ tags: [debug, hooks, agent]
 
 When an agent reports "I can't read this file" or "my runtime forbids reads," that sentence is its own **paraphrase** of some block message — the wording is made up by the model on the spot. It often turns "a hook rule blocked me" into "the sandbox doesn't allow this" or "the container isn't mounted," sending you off in a completely wrong direction.
 
+![The hook's own log identifies the tool, input and rule behind a reported permission denial.](../Diagrams/check-hook-logs-when-an-agent-claims-no-permission.denial-evidence.svg)
+
 Don't guess from the wording — go straight to the blocking side's own log, which has `tool_name` and the full `tool_input`:
 
 ```bash

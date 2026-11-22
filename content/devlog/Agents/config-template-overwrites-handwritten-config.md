@@ -7,6 +7,8 @@ tags: [chezmoi, config]
 
 **Mistake**: Added `.chezmoi.toml.tmpl` to a chezmoi source whose config was previously hand-written at `~/.config/chezmoi/chezmoi.toml` and contained an `[age]` encryption block. Ran `chezmoi init` to pick up new `[data]` vars; init regenerated the whole config from the template, which had only `[data]`, silently dropping `[age]`. Result: `decrypt: encryption not configured` on every apply. The old config was not tracked by git, so it could not be recovered from history.
 
+![chezmoi init replaces the entire generated configuration. A template with only data drops the handwritten age section.](../Diagrams/config-template-overwrites-handwritten-config.source-of-truth.svg)
+
 **Root cause**: A config template is the sole source of the generated config. `chezmoi init` rewrites the target config entirely from it. Any section not present in the template is lost.
 
 **Rule going forward**:

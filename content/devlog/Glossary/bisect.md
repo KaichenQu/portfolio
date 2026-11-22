@@ -8,6 +8,8 @@ tags: [glossary]
 
 Binary search through history to quickly find which commit introduced a [[regression]]. Mark a known-good and a known-bad version; git bisects automatically, and at each step you just answer whether that version is good or bad. N commits take about log2(N) steps.
 
+![git bisect takes a known-good and known-bad commit, tests a midpoint and retains the half containing the regression.](../Diagrams/bisect.midpoint-verdict.svg)
+
 Example usage:
 > Found the regression in 200 commits — bisect nailed it in 8 steps.
 

@@ -6,6 +6,8 @@ tags: [moc, infra, chezmoi, config, shell, cron, macos, security]
 
 41 notes, the largest cluster. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
 
+![Distinguish what configuration took effect, what happened to the running process or network, and what can be recovered during delivery.](../Diagrams/dotfiles-and-infra.mechanism-groups.svg)
+
 ## chezmoi and templated dotfiles
 
 - [[2026-06-29-chezmoi-plaintext-secrets-to-age-encryption]] — plaintext API keys moved behind age

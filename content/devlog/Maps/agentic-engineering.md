@@ -6,6 +6,8 @@ tags: [moc, claude-code, multi-agent, context-engineering, hooks, mcp, llm]
 
 26 notes. Cross-cuts `Cases/`, `Techniques/`, `Agents/`, `Glossary/`.
 
+![Agent failures cluster around effective runtime state, enforcement and coordination. The map links each group to the evidence that exposes it.](../Diagrams/agentic-engineering.control-surfaces.svg)
+
 ## Declared config vs config in effect
 
 The single most repeated root cause here. Four notes, four different layers, same shape.

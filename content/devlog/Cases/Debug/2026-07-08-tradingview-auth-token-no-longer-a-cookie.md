@@ -11,6 +11,8 @@ publish: true
 
 In `al-brooks-realtime` (PriceAction-AB), the Python sidecar (`src/kairotrade_pa/data_sources/tradingview_feed.py`) authenticates against TradingView's realtime feed using an `auth_token` cookie pulled out of the local browser with `browser_cookie3`. I wanted a standalone script that reproduced that logic. No browser and no profile would give up an `auth_token`.
 
+![An empty cookie lookup first pointed at the wrong browser profile. The active profile confirmed the expected token was absent from cookies.](../../Diagrams/2026-07-08-tradingview-auth-token-no-longer-a-cookie.cookie-assumption.svg)
+
 ## Reproduction
 
 ```bash

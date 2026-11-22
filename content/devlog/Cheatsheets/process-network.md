@@ -6,6 +6,8 @@ tags: [cheatsheet, system, network]
 
 Covers issues like "a port is already in use," "a service won't connect," or "a process is hung." macOS-focused.
 
+![Choose the first command based on whether the symptom is a busy local port, a DNS problem, an unreachable port or a bad HTTP response.](../Diagrams/process-network.symptom-selection.svg)
+
 ## Finding the process using a port
 ```bash
 lsof -i :3000                  # who's using port 3000

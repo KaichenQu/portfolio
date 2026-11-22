@@ -7,6 +7,8 @@ tags: [frontend, build, bundler, verification]
 
 **Mistake**: in a behaviour-preserving cleanup, an un-export commit showed total JS +5 bytes and 53 changed content hashes against the baseline build. A bisect over the un-exports in that commit blamed three of them, and they were reverted. The next build of the trimmed commit showed +5 bytes again. Five builds of one unchanged commit then alternated between two outputs: one with every baseline content hash, one where rolldown ordered the minified export aliases of the vtk vendor chunks differently (53 hashes changed, JS +5 bytes). The bisect verdict was void, and the three un-exports went back in. Separately, one un-export was a real growth: dropping `export` from `const END_LABEL_LIMIT = 8` stopped rolldown inlining it (`e.length>8` became `var ap=8;…e.length>ap`), and its chunk grew 10 bytes.
 
+![Five builds of one unchanged commit produced two outputs. Establish repeatability before blaming a commit for changed bytes or hashes.](../Diagrams/check-build-determinism-before-comparing-bundle-bytes.alternating-builds.svg)
+
 **Root cause**: ==the build was nondeterministic on that machine, so a single build's bytes and hashes could not tell a change from noise.== A bisect needs a judge that gives the same answer twice. And a bundler inlines exported constants differently from module-private ones, so removing `export` is not always size-neutral.
 
 **Rule going forward**:

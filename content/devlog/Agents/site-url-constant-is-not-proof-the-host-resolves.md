@@ -7,6 +7,8 @@ tags: [seo, dns, nextjs, deploy]
 
 **Mistake**: the portfolio's `SITE_URL` was `https://www.kelsonqu.com`, and every canonical link, `og:url`, `og:image` and sitemap entry was built from it. Three PRs, two reviews and 185 tests passed. The tests compared URLs against the constant, so they agreed with it. Post-deploy verification found the host does not resolve: `dig +short www.kelsonqu.com` printed nothing and `curl` exited with code 6, `Could not resolve host`. The apex `kelsonqu.com` serves the site.
 
+![Tests can agree with SITE_URL while DNS for its host is broken. Resolve and fetch the host before shipping generated URLs.](../Diagrams/site-url-constant-is-not-proof-the-host-resolves.dns-verification.svg)
+
 **Root cause**: the constant predated the work and was trusted as a fact about DNS. Nothing in the build or the tests resolves a host. The session's first `dig` had timed out inside the command sandbox and was never rerun.
 
 **Rule going forward**:

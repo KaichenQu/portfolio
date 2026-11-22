@@ -7,6 +7,8 @@ tags: [debug, method]
 
 The most common mistake when troubleshooting a bug is changing things by gut feel — you make a bunch of edits, the bug isn't fixed, and you don't even know which change did what. The approach below is more reliable.
 
+![A reproducible expected-versus-actual difference leads to one hypothesis and one small observation that can falsify it.](../Diagrams/systematic-troubleshooting.falsifiable-observation.svg)
+
 ## When to use
 Any bug, test failure, or behavior that doesn't match expectations. The more a bug "looks simple," the more this process matters, because the assumption you're taking for granted is usually exactly where the problem is.
 

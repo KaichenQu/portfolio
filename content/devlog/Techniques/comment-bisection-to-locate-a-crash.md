@@ -7,6 +7,8 @@ tags: [debug]
 
 For a large block of code that throws somewhere you can't pinpoint, comment out the second half and run it: still crashes → the bug is in the first half; no crash → it's in the second half. Repeat on whichever half fails. Two or three rounds narrows it to a handful of lines.
 
+![Commenting out the second half of a block gives a quick test of which half still contains the crash.](../Diagrams/comment-bisection-to-locate-a-crash.crash-half.svg)
+
 The crudest but fastest application of [[binary-search-fault-localization]] — no debugger required.
 
 ## Related

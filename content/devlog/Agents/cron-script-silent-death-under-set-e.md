@@ -7,6 +7,8 @@ tags: [shell, cron, macos]
 
 **Mistake**: a cron-driven script (`~/bin/cc-ping.sh`) "stopped triggering" for weeks. Cron was actually firing every time; the script died silently right after its first log line, and nobody noticed because stderr went to discarded cron mail.
 
+![Cron can start a job that exits at a failed assignment before any visible work. An early stderr redirect makes the failure observable.](../Diagrams/cron-script-silent-death-under-set-e.cron-exit.svg)
+
 **Root cause**: `set -euo pipefail` + command substitution. `result="$(security dump-keychain | grep ... | head -n1)"` — under cron there is no GUI security session, so `security` fails (and even when it works, `grep` with no match returns 1); with `pipefail` the whole pipeline is non-zero, the assignment fails, and `set -e` kills the script before it does anything visible.
 
 **Rule going forward**:

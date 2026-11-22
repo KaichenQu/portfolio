@@ -7,6 +7,8 @@ tags: [react, frontend, error-handling]
 
 **Mistake**: Added an error boundary around an R3F `useLoader(STLLoader, url)` viewer with a retry button whose onClick only did `setState({hasError: false})`. Shipped it with lint/tests/build all green. The button was non-functional: the error card flashed and reappeared, and no new request was ever issued.
 
+![The error boundary and the loader cache are separate. Resetting only the boundary rethrows the same cached error.](../Diagrams/retry-ui-must-evict-suspense-error-cache.side-effect-retry.svg)
+
 **Root cause**: `useLoader` is built on suspend-react, whose module-level cache stores a failed promise's error permanently (`entry.error = error`, no eviction on the error path) and synchronously re-throws it for every later call with the same `[loader, url]` key. Resetting React component state does not invalidate that external cache.
 
 **Rule going forward**:

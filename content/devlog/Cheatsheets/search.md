@@ -6,6 +6,8 @@ tags: [cheatsheet, search]
 
 For finding where something lives and who uses it, in an unfamiliar codebase.
 
+![Pick a search tool by the object you know. Use rg for literal occurrences, fd for filenames and ast-grep for syntax structure.](../Diagrams/search.search-target.svg)
+
 ## ripgrep (rg) — finding content
 ```bash
 rg "<regex>"                   # recursive search, auto-skips .gitignore and binaries

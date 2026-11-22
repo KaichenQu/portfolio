@@ -6,6 +6,8 @@ tags: [moc, frontend, react, css, three]
 
 22 notes. The smallest cluster, and its threads are about state that outlives the render.
 
+![Frontend behavior depends on state that can outlive a render, code shared across panes, and what the verification actually exercises.](../Diagrams/frontend.state-boundaries.svg)
+
 ## Cached failure
 
 A failed load that gets cached looks exactly like a UI bug, because the retry path never reaches the loader.

@@ -9,6 +9,8 @@ tags: [glossary, llm, infra]
 
 An open-source LLM API aggregation gateway that unifies models from different vendors (OpenAI / Claude / Gemini / domestic Chinese models) behind an OpenAI-compatible (and Claude-, Gemini-compatible) interface, handling key management, grouping, billing, and channel (distributor) routing. Many vendors selling "proxy API" access are just running a newapi instance in front of assorted upstreams — official APIs, other proxies, scraped-together subscription quota.
 
+![The gateway lists model IDs separately from completion routing. A completion still needs permission, balance and a working upstream channel.](../Diagrams/newapi.catalogue-and-routing.svg)
+
 Identifying marks:
 
 - Error JSON shaped like `{"error":{...,"type":"new_api_error"}}`, with a `request id`.

@@ -14,6 +14,8 @@ ahead, and it committed the index from the earlier `git mv` step — which still
 held the pre-edit content (plaintext secrets) and omitted the new encrypted
 file entirely.
 
+![One stale pathspec makes git add stage nothing in the batch. A later commit still uses the previous index.](../Diagrams/git-add-multi-pathspec-fails-atomically.index-unchanged.svg)
+
 **Root cause**: `git add` treats its pathspec list atomically. If any one
 argument matches nothing, the whole command aborts with a fatal error and
 stages nothing — the other valid paths are not added. Mixing an

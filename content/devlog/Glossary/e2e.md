@@ -8,6 +8,8 @@ tags: [glossary, testing]
 
 Drives the whole chain from a user-visible entry point (a real browser, real clicks and input) through to the final result, rather than testing a single function or component in isolation. Its counterpart is the unit test — e2e buys confidence that "the whole chain actually works," at the cost of running slower and being more fragile to unrelated changes.
 
+![An end-to-end test begins with real user actions, exercises the whole chain and checks the final result.](../Diagrams/e2e.user-to-outcome.svg)
+
 Example usage:
 > After the UI changes, run the Playwright e2e suite to confirm the new settings dialog and watchlist drawer still work end to end.
 

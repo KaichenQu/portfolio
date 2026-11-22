@@ -7,6 +7,8 @@ tags: [verification, refactoring, ci-cd, method]
 
 ==When the baseline already fails some checks, "no behaviour change" is proved by matching the baseline, not by reaching green.== Run every check at the baseline commit once, then run the same script after every commit and compare exit status and the failure list of each check against that baseline run.
 
+![Run the same checks on the baseline and each change. Compare exit status and failure identities before accepting a change on a red baseline.](../Diagrams/baseline-diff-verification-on-a-red-baseline.comparison.svg)
+
 ## Trigger scenario
 
 A refactor, cleanup or dependency-neutral change must not change behaviour, and the unchanged tree already has red checks on the machine you work on: failing tests, a missing browser binary, a sandbox that breaks some suites. Requiring green would mean fixing those failures, which is a behaviour change of its own and outside the task.

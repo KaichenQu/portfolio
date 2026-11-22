@@ -7,6 +7,8 @@ tags: [claude-code, hooks, config]
 
 **Mistake**: Two custom PreToolUse guard hooks in Claude Code settings.json (block `.env` writes, block `rm -rf /`) read `$CLAUDE_TOOL_INPUT` and had never fired once — the variable is empty, grep misses, exit 0, tool call proceeds. Separately, 9 of 13 claudekit hooks had zero executions ever but still spawned a process on every edit/stop.
 
+![Claude Code supplies hook input on standard input. A guard that reads an empty environment variable can silently allow every call.](../Diagrams/verify-hooks-fire-before-trusting-them.hook-input.svg)
+
 **Root cause**: Claude Code delivers hook input as JSON on stdin only; there is no `CLAUDE_TOOL_INPUT` env var. A guard hook has no positive signal: "no match, allow" and "broken, allow" produce the same observable result, so the breakage is invisible until you check execution logs.
 
 **Rule going forward**:

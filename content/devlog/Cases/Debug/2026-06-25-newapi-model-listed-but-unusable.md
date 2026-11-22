@@ -9,6 +9,8 @@ publish: true
 
 Testing a handful of keys on a [[newapi]] aggregation gateway (`https://xinghuapi.com`) to find out whether gpt-5.5, gemini-3, claude and grok actually work. The result: most of the ids `/v1/models` returns cannot be called, and they fail in different ways; the ones that do answer are not necessarily the model they claim to be — grok-4 turned out to be a rebadged Llama. Judging whether a proxy is usable means running chat/completions for real and classifying by the shape of the failure, not reading the model list.
 
+![A gateway catalogue lists model names. A completion request distinguishes an unreachable upstream from a missing channel and an HTML response.](../../Diagrams/2026-06-25-newapi-model-listed-but-unusable.response-paths.svg)
+
 ## Symptom
 
 `GET /v1/models` returns a long and comprehensive-looking catalogue:

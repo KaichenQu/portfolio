@@ -11,6 +11,8 @@ The web UI of `kairotrade-desk` was redone with four depth levels and a motion k
 
 ==The worker's evidence was 248 screenshot pairs, six review rounds and a green local run, and it still carried five visible defects and two tests that fail on the CI platform.== Three gates caught what the worker's own checks missed: the controller opening the screenshots, the full test tier on Linux, and a byte comparison of the vendored kit. This note records which gate caught what, and the two decisions that went against the plan.
 
+![Three controller checks after local verification. Screenshot review found five defects, the Linux full tier found two failing tests, and SHA-256 verified the vendored kit.](../../Diagrams/2026-11-21-acceptance-gates-for-a-delegated-ui-redesign.evidence-gates.svg)
+
 ## Background and constraints
 
 The request was one sentence: redo the pages after the ▒▒▒▒ Design site (Motion Kit 0.1.0, 26 effects and two exploded figures), using Codex only, then merge and deploy without asking.

@@ -7,6 +7,8 @@ tags: [frontend, playwright, ci, testing]
 
 **Mistake**: two new Playwright tests passed in the full tier on macOS and failed on the Linux arm64 CI runner. One switched touch emulation on and off over the DevTools protocol and waited for the `(hover: hover) and (pointer: fine)` query to fire `change` a second time. The other treated a non-empty `#root` as proof that React had mounted, then clicked and counted ripples: expected 1, received 0. The pull request check ran the smoke tier only, so both reached the integration branch.
 
+![Ending touch emulation restores a fine pointer on macOS but leaves headless Chromium on Linux at hover: none and pointer: none.](../Diagrams/pointer-media-after-touch-emulation-differs-on-linux-headless.pointer-state.svg)
+
 **Root cause**:
 - After touch emulation ends, headless Chromium on Linux reports `hover: none` and `pointer: none`. macOS goes back to `hover: hover` and `pointer: fine`. The second `change` event never fires on Linux.
 - The entry file wrote a placeholder into `#root` before an async config call resolved, so the root was non-empty while nothing was mounted.

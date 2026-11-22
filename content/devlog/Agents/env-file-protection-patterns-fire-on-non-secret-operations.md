@@ -8,6 +8,8 @@ tags: [claude-code, sandbox, tooling, git]
 **Mistake**: two separate blocks in one repo-cleanup session, both from env-file
 protection, neither involving an actual secret.
 
+![A filename-based guard can reject quoted prose and a metadata walk even when neither operation reads a secret.](../Diagrams/env-file-protection-patterns-fire-on-non-secret-operations.name-match.svg)
+
 1. `orca orchestration task-create --spec "<long agent task spec>"` was rejected with
    `Access denied: '.env.example,' is protected by default patterns`. The spec was prose
    describing a deletion batch; it merely *mentioned* `.env.example` as a file the batch

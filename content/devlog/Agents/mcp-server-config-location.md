@@ -10,6 +10,8 @@ tags: [mcp, claude-code, config]
 Claude Code never reads that path for global (user-scope) servers. No error
 was raised — the server simply never appeared in `/mcp` or the tool list.
 
+![The user-scope MCP registration command selects the configuration for its active account. A valid file at a guessed path can be ignored silently.](../Diagrams/mcp-server-config-location.effective-account.svg)
+
 **Root cause**: global MCP config lives in the top-level `mcpServers` field
 of `CLAUDE_CONFIG_DIR/.claude.json` (default `~/.claude/.claude.json`), not
 in a `.mcp.json` file placed manually under `~/.claude/`.

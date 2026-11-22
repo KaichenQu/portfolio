@@ -7,6 +7,8 @@ tags: [design, method]
 
 YAGNI = You Aren't Gonna Need It. Don't add abstractions, config options, or extension points now for something you might need later.
 
+![Solve today's concrete requirement directly. A second real use case gives the evidence needed to choose a useful abstraction.](../Diagrams/yagni-and-designing-for-present-requirements.abstraction-trigger.svg)
+
 ## When to use
 When designing or writing code, any time you think "let's make this configurable/pluggable now, for future extensibility."
 
