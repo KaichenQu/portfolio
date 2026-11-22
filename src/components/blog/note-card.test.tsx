@@ -64,7 +64,10 @@ describe("NoteCard", () => {
     const { container, rerender } = render(
       <NoteCard note={{ ...note, cover: art }} />,
     );
-    expect(container.querySelector("img")).toHaveClass("object-cover");
+    const cover = container.querySelector('[data-cover="art"]');
+    expect(cover).not.toHaveClass("border-b");
+    expect(cover?.nextElementSibling).toHaveClass("bg-white", "dark:bg-transparent");
+    expect(container.querySelector("img")).toHaveClass("object-cover", "dark:brightness-90");
     expect(container.querySelector("img")).toHaveAttribute("src", art.src);
     rerender(<NoteCard note={{ ...note, cover: diagram }} />);
     expect(container.querySelector("img")).toHaveClass("object-contain");
@@ -72,7 +75,9 @@ describe("NoteCard", () => {
     expect(container.querySelector("[data-cover]")).toHaveClass(
       "aspect-[3/2]",
       "bg-white",
+      "border-b",
     );
+    expect(container.querySelector("img")).not.toHaveClass("dark:brightness-90");
   });
 
   it("draws a placeholder and requests no image without a cover", () => {

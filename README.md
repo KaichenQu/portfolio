@@ -42,9 +42,21 @@ Open [http://localhost:3000](http://localhost:3000).
 
 `/blog` is built at compile time from Markdown notes in `content/devlog/` and SVG diagrams in `public/blog/diagrams/`, both mirrored from an Obsidian vault (`DEVLOG_DIR`, default `~/Obsidian/DevLog`). The Simplified Chinese edition at `/blog/zh` uses the same relative note paths under `zh/` in the vault, with localized figures in `zh/Diagrams/`. Sync writes them to `content/devlog/zh/` and `public/blog/diagrams/zh/`.
 
-Case-note cover illustrations live at `public/blog/covers/<slug>.webp`, where `<slug>` is the note's file stem processed by `slugify()` in `src/lib/devlog.ts`. Each cover is 1200 × 800 px and at most 150 KB. Generate one concrete scene for the note's mechanism, using generic nouns only, with this shared style block followed by one subject sentence:
+Case-note cover illustrations live at `public/blog/covers/<slug>.webp`, where `<slug>` is the note’s file stem processed by `slugify()` in `src/lib/devlog.ts`.
 
-> Flat isometric technical illustration, clean vector look with soft depth. Deep navy background (#0b1220) with a faint grid. Line work and surfaces in white and sky blue (#38bdf8), one small warm accent in amber (#f59e0b) or coral (#f87171) on the element that fails or matters most. Generous empty space, subject centred, soft glow under the main object. No text, no letters, no numbers, no logos, no user interface screenshots, no people's faces. Landscape 3:2.
+- Read the note and illustrate one concrete metaphor for its mechanism. Use generic nouns and blank surfaces. Keep text, letters, numbers, logos, brand marks, interface screenshots and faces out of the image.
+- Use a white or near-white ground (`#FFFFFF` to `#FAFAF7`). Leave a continuous clear margin of at least 6% on all four sides of the final WebP. That is 72 px on the left and right and 48 px on the top and bottom. Keep shadows inside the margin and omit frames and vignettes.
+- Export a 1200 × 800 px WebP of at most 150,000 bytes. Start at Sharp quality 80 and check the finished image at 400 px and 96 px wide. Leave room for the card’s 4% hover zoom.
+- Use one of the six prompt blocks below, followed by the scene. Vary the composition within each direction. Keep neighboring covers in different directions by avoiding repeats within three positions of the newest-first index order.
+
+| Direction | Reusable prompt block |
+|---------|-----------------------|
+| Exploded instrument | Technical pen-and-gouache instrument plate on white. Use charcoal contour, graphite shading, oxidized teal and one vermilion diagnostic detail. Choose an exploded, sectional or offset view of one instrument. Separate parts on a mechanically meaningful axis. Give the silhouette and the detail that changes the outcome more weight than the fine linework. |
+| Cut-paper collage | Hand-cut matte cardstock on white, photographed from overhead. Use ultramarine, salmon, dark plum and white, with visible cut edges, paper fibers and tight cast shadows. Compose one layered silhouette around an overlap, void or interruption that explains the scene. |
+| Two-ink risograph | Two-ink risograph printed in dense violet and tangerine on white. Use coarse halftones, limited overprint and slight registration drift within the shapes. Build the composition around one clear silhouette or repeated shape, with large deliberate white counterspaces. |
+| Ink and wash | Editorial pen drawing with elastic black contours, broken dry-brush edges and concentrated indigo and ochre watercolor. Use one decisive line or gesture in a sparse composition. Keep washes inside the objects and keep the surrounding paper white. |
+| Geometric poster | A collectible modernist screen-printed poster. Use at most carbon-black, saffron and electric cyan as the three spot inks on white. Align a few large modular shapes, countershapes and parallel edges to a hidden construction grid. Use a planned overlap, slight offset or dramatic change in scale where the main action occurs. The silhouette and the rhythm should carry the subject. Pure flat ink, with fine print grain only inside inked areas. No gradients, pictogram panels, drop shadows, outlines, or visible grid. |
+| Stop-motion clay | Photograph hand-sculpted plasticine props in raspberry, mint and warm apricot on a white seamless. Keep the material matte, with thumb-pressed planes, tight contact shadows and readable silhouettes. Group props so that a physical action or tension is visible even without the surface texture. |
 
 | Command | What it does |
 |---------|--------------|
