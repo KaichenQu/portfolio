@@ -63,13 +63,13 @@ export default function Explorer({
       <div className={clsx("mt-3 lg:mt-0 lg:block", !mobileOpen && "hidden")}>
         <label className="relative block">
           <span className="sr-only">{zh ? "按标题或标签筛选笔记" : "Filter notes by title or tag"}</span>
-          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400 dark:text-white/35" />
+          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-600 dark:text-neutral-300" />
           <input
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={zh ? "按标题或标签筛选" : "Filter by title or tag"}
-            className="w-full rounded-lg border border-gray-200/70 bg-white/70 py-1.5 pl-8 pr-2 text-[13px] text-gray-800 placeholder:text-gray-400 focus:border-sky-400 focus:outline-none dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-white/85 dark:placeholder:text-white/30"
+            className="w-full min-h-8 py-1.5 pl-8 pr-2 rounded-[10px] border-0 bg-[rgb(118_118_128_/_0.12)] dark:bg-[rgb(118_118_128_/_0.24)] text-[13px] text-gray-800 dark:text-white/85 caret-current placeholder:text-neutral-600 dark:placeholder:text-neutral-300 focus:bg-[rgb(118_118_128_/_0.27)] dark:focus:bg-[rgb(118_118_128_/_0.44)] focus:outline-none transition-none [&::-webkit-search-cancel-button]:grayscale"
           />
         </label>
 
