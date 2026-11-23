@@ -2,100 +2,75 @@ import NextLink from "next/link";
 import type { CSSProperties } from "react";
 import { blogPath, type BlogLocale } from "@/lib/blog-locale";
 import type { Note } from "@/lib/devlog";
-import { mosaic } from "./mosaic";
 import CoverArt from "./cover-art";
-import { angledLink, COVER_GAP, COVER_WIDTH, layoutLineMap, MAP_WIDTH } from "./line-map-layout";
+import { caseKind, layoutLineMap, MAP_COVER_GAP, MAP_COVER_WIDTH, type TopicCounts } from "./line-map-layout";
+import { mosaic } from "./mosaic";
 
-type LineMapCopy = {
-  mapsTitle: string;
-  graphNotes: string;
-  graphLinks: string;
-  path: string;
-  type: string;
-  status: string;
-  date: string;
-  out: string;
-  in: string;
-};
-
-const POS = (value: number) => (100 * value / MAP_WIDTH).toFixed(5);
-const railColor = (rail: number) => rail % 5;
-
-export default function LineMap({ notes, topics, locale, copy }: {
+export default function LineMap({ notes, topics, locale, title, countLabels }: {
   notes: Note[];
   topics: Note[];
   locale: BlogLocale;
-  copy: LineMapCopy;
+  title: string;
+  countLabels: Record<keyof TopicCounts, [singular: string, plural: string]>;
 }) {
-  const { stations, rails, edges, branches, linkCount, height } = layoutLineMap(notes, topics);
+  const rails = layoutLineMap(notes, topics);
+  const columns = Math.max(1, ...rails.map(rail => rail.cases.length));
+
   return (
-    <section aria-label={copy.mapsTitle} className="index-map hidden md:block">
-      <div
-        className="index-map-board"
-        style={{
-          aspectRatio: `${MAP_WIDTH} / ${height}`,
-          "--map-cover": `${POS(COVER_WIDTH)}cqw`,
-          "--map-cover-gap": `${POS(COVER_GAP)}cqw`,
-        } as CSSProperties}
-      >
-        <svg className="index-map-lines" viewBox={`0 0 ${MAP_WIDTH} ${height}`} aria-hidden="true">
-          {rails.map(({ slug, rail, y }) => (
-            <path key={slug} className="index-map-rail" data-rail-color={railColor(rail)}
-              d={`M34 ${y}H91l14 14h17l14 -14H809`} />
-          ))}
-          {branches.map(({ from, to }) => (
-            <path key={to.id} className="index-map-branch" data-rail-color={railColor(from.rail)}
-              data-from={from.id} data-to={to.id} d={angledLink(from, to)} />
-          ))}
-          {edges.map(({ from, to }) => (
-            <path key={`${from.id}:${to.id}`} className="index-map-edge"
-              data-from={from.id} data-to={to.id} d={angledLink(from, to)} />
-          ))}
-        </svg>
-        {stations.map(({ id, x, y, note, rail, coverSide, memberships, incoming }) => {
-          const topic = note.section === "Maps";
-          const share = 100 / memberships.length;
-          const titleId = `index-station-title-${id}`;
+    <section aria-labelledby="index-map-title" className="index-map hidden border-b md:block" data-line-map
+      style={{ "--map-columns": columns, "--map-cover-width": `${MAP_COVER_WIDTH}px`, "--map-cover-gap": `${MAP_COVER_GAP}px` } as CSSProperties}>
+      <h2 id="index-map-title" className="index-section-title">{title}</h2>
+      <ul>
+        {rails.map(({ topic, counts, cases }, rail) => {
+          const countId = `index-topic-counts-${rail}`;
+          const summary = (Object.entries(counts) as [keyof TopicCounts, number][])
+            .filter(([, count]) => count > 0)
+            .map(([kind, count]) => `${count} ${countLabels[kind][count === 1 ? 0 : 1]}`)
+            .join(" · ");
           return (
-            <NextLink key={note.slug} className="index-map-station" href={blogPath(locale, `/${note.slug}`)} prefetch={false}
-              aria-labelledby={titleId} data-station={id} data-x={x} data-rail={rail}
-              data-rail-color={rail < topics.length ? railColor(rail) : undefined}
-              data-type={note.type} data-status={note.status} data-date={note.date}
-              data-path={note.sourcePath} data-out={note.links.length} data-in={incoming}
-              data-topic={topic ? "" : undefined} data-cover-side={coverSide}
-              data-label-side={x < 145 ? "start" : x > 695 ? "end" : undefined}
-              data-interchange={memberships.length > 1 ? "" : undefined}
-              style={{
-                left: `${POS(x)}%`,
-                top: `${(100 * y / height).toFixed(5)}%`,
-                "--map-ring": memberships.length > 1
-                  ? `conic-gradient(${memberships.map((member, i) => `var(--rail-${railColor(member)}) ${i * share}% ${(i + 1) * share}%`).join(",")})`
-                  : undefined,
-              } as CSSProperties}
-            >
-              <span className="index-station-dot" aria-hidden="true" />
-              <span id={titleId} className={`index-station-title ${topic ? "index-topic-name font-mono" : "sr-only"}`}>
-                {mosaic(note.title, locale)}
-              </span>
-              {coverSide && (
-                <span className="index-map-cover" data-depth>
-                  <span className="index-cover-object"><CoverArt note={note} /></span>
-                </span>
+            <li key={topic.slug} className="index-map-rail" data-rail-color={rail % 5}>
+              <div className="index-map-topic font-mono">
+                <NextLink className="index-topic-name" href={blogPath(locale, `/${topic.slug}`)} prefetch={false}
+                  aria-describedby={summary ? countId : undefined} data-map-link data-rail={rail}>
+                  {mosaic(topic.title, locale)}
+                </NextLink>
+                {summary && <span id={countId} className="index-topic-count tabular-nums">{summary}</span>}
+              </div>
+              {cases.length > 0 && (
+                <ol className="index-map-covers">
+                  {cases.map(note => {
+                    const id = `index-map-${rail}-${note.slug}`;
+                    const meta = [note.date, note.status].filter(Boolean).join(" · ");
+                    return (
+                      <li key={note.slug} data-map-case={note.slug} data-type={`case-${caseKind(note)}`} data-status={note.status}>
+                        <NextLink className="index-map-station" href={blogPath(locale, `/${note.slug}`)} prefetch={false}
+                          aria-labelledby={id} aria-describedby={meta ? `${id}-meta` : undefined}
+                          data-map-link data-rail={rail} data-links={note.links.join(" ")} data-date={note.date}>
+                          <span id={id} className={note.cover ? "index-map-note-title sr-only" : "index-map-note-title index-map-cover-fallback"}>
+                            {mosaic(note.title, locale)}
+                          </span>
+                          {meta && <span id={`${id}-meta`} className="sr-only">{meta}</span>}
+                          {note.cover && (
+                            <span className="index-map-cover" data-depth>
+                              <span className="index-cover-object"><CoverArt note={note} /></span>
+                            </span>
+                          )}
+                        </NextLink>
+                      </li>
+                    );
+                  })}
+                </ol>
               )}
-            </NextLink>
+            </li>
           );
         })}
-        <span className="index-map-tooltip" aria-hidden="true" hidden data-map-tooltip />
-      </div>
-      <div className="index-map-status font-mono">
-        <span data-map-idle>{notes.length} {copy.graphNotes}<span className="index-status-divider" />{linkCount} {copy.graphLinks}</span>
-        <span data-map-detail hidden>
-          {(["path", "type", "status", "date", "out", "in"] as const).map(field => (
-            <span key={field} className={field === "path" ? "index-map-path" : undefined}>
-              {copy[field]} <span data-map-value={field}>—</span>
-            </span>
-          ))}
-        </span>
+      </ul>
+      <div className="index-map-tooltip" aria-hidden="true" hidden data-map-tooltip>
+        <div className="index-map-tooltip-title" />
+        <div className="index-map-tooltip-meta font-mono">
+          <time />
+          <span />
+        </div>
       </div>
     </section>
   );

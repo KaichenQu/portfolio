@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { CASE_FILTERS, caseMatchSelector, INITIAL_FILTER_STYLE } from "./case-filters";
 
 const MAP_KEYS = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"];
 
@@ -12,23 +13,22 @@ export default function BlogIndexInteractions() {
   useEffect(() => {
     const root = document.querySelector<HTMLElement>("[data-blog-index]");
     if (!root) return;
-    const stations = [...root.querySelectorAll<HTMLAnchorElement>("[data-station]")];
-    const paths = [...root.querySelectorAll<SVGPathElement>("[data-from][data-to]")];
+    const map = root.querySelector<HTMLElement>("[data-line-map]");
+    const mapLinks = [...root.querySelectorAll<HTMLAnchorElement>("[data-map-link]")];
+    const stations = [...root.querySelectorAll<HTMLElement>("[data-map-case]")].map(item => {
+      const link = item.querySelector<HTMLAnchorElement>("a")!;
+      return { item, link, slug: item.dataset.mapCase!, links: link.dataset.links!.split(" ") };
+    });
     const rows = [...root.querySelectorAll<HTMLElement>("[data-case-row]")];
-    const controls = root.querySelector<HTMLElement>("[data-index-filters]")!;
-    const filters = [...controls.querySelectorAll<HTMLSelectElement>("select")];
-    const [mapType, caseType, status] = filters;
+    const filters = [...root.querySelectorAll<HTMLButtonElement>("[data-index-filter]")];
     const empty = root.querySelector<HTMLElement>("[data-empty-cases]");
-    const tooltip = root.querySelector<HTMLElement>("[data-map-tooltip]")!;
-    const idle = root.querySelector<HTMLElement>("[data-map-idle]")!;
-    const detail = root.querySelector<HTMLElement>("[data-map-detail]")!;
-    const fields = [...detail.querySelectorAll<HTMLElement>("[data-map-value]")];
-    const byId = new Map(stations.map(node => [node.dataset.station!, node]));
+    const tooltip = map?.querySelector<HTMLElement>("[data-map-tooltip]");
+    const tooltipTitle = tooltip?.querySelector<HTMLElement>(".index-map-tooltip-title");
+    const date = tooltip?.querySelector<HTMLTimeElement>("time");
+    const status = tooltip?.querySelector<HTMLElement>(".index-map-tooltip-meta > span");
     const motion = window.matchMedia?.("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
-    const desktop = window.matchMedia?.("(min-width: 768px)");
     let appliedSearch: string | undefined;
-    let appliedDesktop: boolean | undefined;
-    let visibleStations = stations;
+    let visibleMapLinks = mapLinks;
     let visibleRows: HTMLAnchorElement[] = [];
     let mapTabStop: HTMLAnchorElement | undefined;
     let hover: HTMLAnchorElement | null = null;
@@ -37,115 +37,118 @@ export default function BlogIndexInteractions() {
     let depth: HTMLElement | null = null;
     let frame = 0;
 
-    function setMapTabStop(station?: HTMLAnchorElement) {
+    function setMapTabStop(link?: HTMLAnchorElement) {
       if (mapTabStop) mapTabStop.tabIndex = -1;
-      mapTabStop = station;
-      if (station) station.tabIndex = 0;
+      mapTabStop = link;
+      if (link) link.tabIndex = 0;
     }
 
-    function inspect(station: HTMLAnchorElement | null, force = false) {
-      if (station?.hasAttribute("data-filtered")) station = null;
-      if (active === station && !force) return;
-      active = station;
-      root!.toggleAttribute("data-map-active", Boolean(station));
-      const id = station?.dataset.station;
-      const neighbours = new Set<string>();
-      for (const path of paths) {
-        const from = path.dataset.from!;
-        const to = path.dataset.to!;
-        const visible = !byId.get(from)!.hasAttribute("data-filtered") &&
-          !byId.get(to)!.hasAttribute("data-filtered");
-        const related = visible && (from === id || to === id);
-        path.toggleAttribute("data-filtered", !visible);
-        path.toggleAttribute("data-related", related);
-        if (related) neighbours.add(from === id ? to : from);
+    function placeTooltip() {
+      if (!active || !map || !tooltip) return;
+      const anchor = active.getBoundingClientRect();
+      const board = map.getBoundingClientRect();
+      const rail = active.closest(".index-map-rail")!;
+      const railBox = rail.getBoundingClientRect();
+      const covers = [...rail.querySelectorAll("[data-map-case]:not([hidden])")];
+      const last = covers.at(-1)!.getBoundingClientRect();
+      const label = rail.querySelector(".index-map-topic")!.lastElementChild!.getBoundingClientRect();
+      const side = Math.max(last.right, label.right) - board.left + 12;
+      const inset = railBox.left - board.left;
+      if (side + tooltip.offsetWidth <= board.width - inset) {
+        tooltip.style.left = `${side}px`;
+        tooltip.style.top = `${Math.max(railBox.top, railBox.bottom - tooltip.offsetHeight - 3) - board.top}px`;
+      } else {
+        tooltip.style.removeProperty("left");
+        tooltip.style.setProperty("--tooltip-x", `${anchor.left - board.left + anchor.width / 2}px`);
+        tooltip.style.top = `${anchor.bottom - board.top + 6}px`;
       }
-      for (const item of stations) {
-        item.toggleAttribute("data-current", item === station);
-        item.toggleAttribute("data-related", neighbours.has(item.dataset.station!));
+    }
+
+    function inspect(link: HTMLAnchorElement | null) {
+      const current = stations.find(station => station.link === link && !station.item.hidden);
+      const next = current?.link ?? null;
+      if (active === next) {
+        placeTooltip();
+        return;
       }
-      tooltip.hidden = !station || station.hasAttribute("data-topic");
-      if (station && !tooltip.hidden) {
-        const title = station.querySelector(".index-station-title")!;
-        tooltip.replaceChildren(...Array.from(title.childNodes, node => node.cloneNode(true)));
-        tooltip.style.left = station.style.left;
-        tooltip.style.top = station.style.top;
-        tooltip.dataset.side = station.dataset.labelSide ?? "";
+      active = next;
+      map?.toggleAttribute("data-map-active", Boolean(current));
+      for (const station of stations) {
+        const sameCase = station.slug === current?.slug;
+        station.item.toggleAttribute("data-current", station === current);
+        station.item.toggleAttribute("data-duplicate", sameCase && station !== current);
+        station.item.toggleAttribute("data-related", Boolean(current && (
+          sameCase || current.links.includes(station.slug) || station.links.includes(current.slug)
+        )));
       }
-      idle.hidden = Boolean(station);
-      detail.hidden = !station;
-      if (station) {
-        for (const field of fields) {
-          const value = station.dataset[field.dataset.mapValue!] || "—";
-          field.textContent = value;
-          if (field.dataset.mapValue === "path") field.title = value;
-          if (field.dataset.mapValue === "status") field.dataset.ref = value;
-        }
-      }
+
+      if (!tooltip || !tooltipTitle || !date || !status) return;
+      tooltip.hidden = !current;
+      if (!current) return;
+      const title = current.link.querySelector(".index-map-note-title")!;
+      tooltipTitle.replaceChildren(...Array.from(title.childNodes, node => node.cloneNode(true)));
+      date.textContent = date.dateTime = current.link.dataset.date ?? "";
+      date.hidden = !date.dateTime;
+      status.textContent = status.dataset.ref = current.item.dataset.status ?? "";
+      status.hidden = !status.textContent;
+      placeTooltip();
     }
 
     function sync() {
       const { search } = location;
-      const showMap = desktop?.matches ?? true;
-      if (search === appliedSearch && showMap === appliedDesktop) return;
+      if (search === appliedSearch) return;
       appliedSearch = search;
-      appliedDesktop = showMap;
       const params = new URLSearchParams(search);
       for (const filter of filters) {
-        const value = params.get(filter.dataset.indexFilter!) ?? "";
-        filter.value = [...filter.options].some(option => option.value === value) ? value : "";
+        const pressed = params.getAll(filter.name).includes(filter.value);
+        filter.setAttribute("aria-pressed", String(pressed));
       }
-      const type = showMap ? mapType : caseType;
-      const matches = ({ dataset }: HTMLElement) =>
-        (!type.value || dataset.type === type.value) &&
-        (!status.value || (dataset.status ?? "none") === status.value);
+      const selector = caseMatchSelector(search, CASE_FILTERS);
+      const matches = (item: HTMLElement) => !selector || item.matches(selector);
 
-      visibleStations = stations.filter(station => {
-        const show = matches(station);
-        station.toggleAttribute("data-filtered", !show);
-        if (show) station.removeAttribute("aria-hidden");
-        else station.setAttribute("aria-hidden", "true");
-        station.tabIndex = -1;
-        return show;
-      });
-      setMapTabStop(visibleStations.find(station => station === mapTabStop) ??
-        visibleStations.find(station => station.hasAttribute("data-topic")) ?? visibleStations[0]);
+      for (const { item } of stations) item.hidden = !matches(item);
+      visibleMapLinks = mapLinks.filter(link => !link.closest("[hidden]"));
+      setMapTabStop(mapTabStop && visibleMapLinks.includes(mapTabStop) ? mapTabStop : visibleMapLinks[0]);
 
       visibleRows = [];
       for (const row of rows) {
-        const show = matches(row);
-        row.hidden = !show;
-        row.toggleAttribute("data-lead", show && visibleRows.length === 0);
-        if (show) visibleRows.push(row.firstElementChild as HTMLAnchorElement);
+        row.hidden = !matches(row);
+        if (!row.hidden) visibleRows.push(row.firstElementChild as HTMLAnchorElement);
       }
       if (empty) empty.hidden = visibleRows.length > 0;
-      inspect(hover ?? focused, true);
+      inspect(hover ?? focused);
     }
 
-    function change(event: Event) {
-      const filter = filters.find(filter => filter === event.target);
+    function toggleFilter(event: MouseEvent) {
+      if (!(event.target instanceof Element)) return;
+      const filter = event.target.closest<HTMLButtonElement>("[data-index-filter]");
       if (!filter) return;
       const url = new URL(location.href);
-      const key = filter.dataset.indexFilter!;
-      if (filter.value) url.searchParams.set(key, filter.value);
-      else url.searchParams.delete(key);
-      if (url.href !== location.href) history.pushState(null, "", url);
+      const pressed = filter.getAttribute("aria-pressed") === "true";
+      url.searchParams.delete(filter.name);
+      for (const button of filters) {
+        if (button.name !== filter.name) continue;
+        if (button === filter ? !pressed : button.getAttribute("aria-pressed") === "true") {
+          url.searchParams.append(button.name, button.value);
+        }
+      }
+      history.pushState(null, "", url);
       sync();
     }
 
-    function stationAt(target: EventTarget | null) {
-      return target instanceof Element ? target.closest<HTMLAnchorElement>("[data-station]") : null;
+    function mapLinkAt(target: EventTarget | null) {
+      return target instanceof Element ? target.closest<HTMLAnchorElement>("[data-map-link]") : null;
     }
 
     function focusIn(event: FocusEvent) {
-      focused = stationAt(event.target);
+      focused = mapLinkAt(event.target);
       if (focused) setMapTabStop(focused);
       hover = null;
       inspect(focused);
     }
 
     function focusOut(event: FocusEvent) {
-      if (!stationAt(event.target)) return;
+      if (!mapLinkAt(event.target)) return;
       focused = null;
       inspect(hover);
     }
@@ -159,14 +162,14 @@ export default function BlogIndexInteractions() {
 
     function pointerMove(event: PointerEvent) {
       if (event.pointerType === "touch" || !(event.target instanceof Element)) return;
-      const station = stationAt(event.target);
-      if (hover !== station) {
-        hover = station;
+      const link = mapLinkAt(event.target);
+      if (hover !== link) {
+        hover = link;
         inspect(hover ?? focused);
       }
       if (!motion?.matches) return;
       const row = event.target.closest<HTMLElement>("[data-case-link]");
-      const target = (station ?? row)?.querySelector<HTMLElement>("[data-depth]") ?? null;
+      const target = (link ?? row)?.querySelector<HTMLElement>("[data-depth]") ?? null;
       if (target !== depth) clearDepth();
       if (!target) return;
       depth = target;
@@ -185,20 +188,16 @@ export default function BlogIndexInteractions() {
       clearDepth();
     }
 
-    function moveStation(current: HTMLAnchorElement, key: string) {
+    function moveMapFocus(current: HTMLAnchorElement, key: string) {
       const rail = Number(current.dataset.rail);
-      const x = Number(current.dataset.x);
-      const order = (a: HTMLAnchorElement, b: HTMLAnchorElement) => Number(a.dataset.x) - Number(b.dataset.x);
+      const linksOn = (line: number) => visibleMapLinks.filter(link => Number(link.dataset.rail) === line);
+      const line = linksOn(rail);
+      const column = line.indexOf(current);
       if (key === "ArrowUp" || key === "ArrowDown") {
-        const direction = key === "ArrowUp" ? -1 : 1;
-        const candidates = visibleStations.filter(node => (Number(node.dataset.rail) - rail) * direction > 0);
-        candidates.sort((a, b) => direction * (Number(a.dataset.rail) - Number(b.dataset.rail)) ||
-          Math.abs(Number(a.dataset.x) - x) - Math.abs(Number(b.dataset.x) - x) || order(a, b));
-        candidates[0]?.focus();
+        const next = linksOn(rail + (key === "ArrowUp" ? -1 : 1));
+        next[Math.min(column, next.length - 1)]?.focus();
       } else {
-        const line = visibleStations.filter(node => Number(node.dataset.rail) === rail).sort(order);
-        const index = line.indexOf(current);
-        const next = key === "Home" ? 0 : key === "End" ? line.length - 1 : index + (key === "ArrowLeft" ? -1 : 1);
+        const next = key === "Home" ? 0 : key === "End" ? line.length - 1 : column + (key === "ArrowLeft" ? -1 : 1);
         line[next]?.focus();
       }
     }
@@ -217,10 +216,10 @@ export default function BlogIndexInteractions() {
         return;
       }
       if (event.shiftKey) return;
-      const station = stationAt(target);
-      if (station && MAP_KEYS.includes(event.key)) {
+      const link = mapLinkAt(target);
+      if (link && MAP_KEYS.includes(event.key)) {
         event.preventDefault();
-        moveStation(station, event.key);
+        moveMapFocus(link, event.key);
         return;
       }
       if (event.key !== "j" && event.key !== "k") return;
@@ -235,22 +234,28 @@ export default function BlogIndexInteractions() {
     }
 
     syncFilters.current = sync;
+    for (const link of mapLinks) link.tabIndex = -1;
+    sync();
+    const initialStyle = root.querySelector<HTMLStyleElement>(`#${INITIAL_FILTER_STYLE}`)?.sheet;
+    while (initialStyle?.cssRules.length) initialStyle.deleteRule(0);
     for (const filter of filters) filter.disabled = false;
-    root.addEventListener("change", change);
+    root.addEventListener("click", toggleFilter);
     root.addEventListener("focusin", focusIn);
     root.addEventListener("focusout", focusOut);
     root.addEventListener("pointermove", pointerMove);
     root.addEventListener("pointerleave", pointerLeave);
     window.addEventListener("keydown", keyDown);
-    desktop?.addEventListener("change", sync);
+    window.addEventListener("resize", placeTooltip);
+    window.addEventListener("popstate", sync);
     return () => {
-      root.removeEventListener("change", change);
+      root.removeEventListener("click", toggleFilter);
       root.removeEventListener("focusin", focusIn);
       root.removeEventListener("focusout", focusOut);
       root.removeEventListener("pointermove", pointerMove);
       root.removeEventListener("pointerleave", pointerLeave);
       window.removeEventListener("keydown", keyDown);
-      desktop?.removeEventListener("change", sync);
+      window.removeEventListener("resize", placeTooltip);
+      window.removeEventListener("popstate", sync);
       syncFilters.current = null;
       clearDepth();
     };

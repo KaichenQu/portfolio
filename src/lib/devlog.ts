@@ -45,8 +45,6 @@ export type Section = (typeof SECTIONS)[number][1];
 export type Note = {
   slug: string;
   title: string;
-  /** Markdown path relative to the synced DevLog root. */
-  sourcePath?: string;
   section: Section;
   type?: string;
   date?: string;
@@ -256,7 +254,6 @@ function readNote(
   return {
     slug,
     title,
-    sourcePath: rel,
     section,
     type: str("type"),
     date: str("date") || undefined,

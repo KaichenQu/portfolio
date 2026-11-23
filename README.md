@@ -42,7 +42,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 `/blog` is built at compile time from Markdown notes in `content/devlog/` and SVG diagrams in `public/blog/diagrams/`, both mirrored from an Obsidian vault (`DEVLOG_DIR`, default `~/Obsidian/DevLog`). The Simplified Chinese edition at `/blog/zh` uses the same relative note paths under `zh/` in the vault, with localized figures in `zh/Diagrams/`. Sync writes them to `content/devlog/zh/` and `public/blog/diagrams/zh/`.
 
-The index pairs a topic line map with a newest-first, two-lane case log. Below 768 px, the topic links replace the visible map. The sidebar explorer lists the rest of the notebook.
+The index pairs topic rails of linked case covers and note counts with a newest-first, two-lane case log. Case type and status filters apply to both views. Below 768 px, the topic links replace the map. Each topic page lists its linked notes, and the sidebar explorer lists the whole notebook.
 
 Case-note cover illustrations live at `public/blog/covers/<slug>.webp`, where `<slug>` is the note’s file stem processed by `slugify()` in `src/lib/devlog.ts`.
 
