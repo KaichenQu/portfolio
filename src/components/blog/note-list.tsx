@@ -1,8 +1,8 @@
-import Image from "next/image";
 import NextLink from "next/link";
 import clsx from "clsx";
 import type { Note } from "@/lib/devlog";
 import { blogPath, sectionLabel, type BlogLocale } from "@/lib/blog-locale";
+import CoverArt from "@/components/blog/cover-art";
 import { mosaic } from "@/components/blog/mosaic";
 
 const STATUS: Record<string, string> = {
@@ -156,16 +156,13 @@ export function NoteList({ notes, locale = "en" }: { notes: Note[]; locale?: Blo
                 <span className="block min-w-0 flex-1">
                   <RowText note={n} locale={locale} />
                 </span>
-                <Image
-                  src={n.cover.src}
-                  alt=""
-                  width={n.cover.width}
-                  height={n.cover.height}
-                  unoptimized
+                <CoverArt
+                  note={n}
+                  decorative
                   className={clsx(
                     "hidden h-16 w-24 shrink-0 rounded-md border border-gray-200 sm:block dark:border-white/15",
                     n.cover.kind === "art"
-                      ? "object-cover dark:brightness-90"
+                      ? "object-cover"
                       : "bg-white object-contain p-1",
                   )}
                 />

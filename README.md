@@ -44,21 +44,31 @@ Open [http://localhost:3000](http://localhost:3000).
 
 The index has one newest-first, two-lane case log. The topic links show case counts and filter the log using the `topic` query parameter. A selected topic links to its page and shows counts of other linked notes. With JavaScript disabled, the topic links open those pages directly. The sidebar explorer lists the whole notebook.
 
-Case-note cover illustrations live at `public/blog/covers/<slug>.webp`, where `<slug>` is the note’s file stem processed by `slugify()` in `src/lib/devlog.ts`.
+### Case covers
 
-- Read the note and illustrate one concrete metaphor for its mechanism. Use generic nouns and blank surfaces. Keep text, letters, numbers, logos, brand marks, interface screenshots and faces out of the image.
-- Use a white or near-white ground (`#FFFFFF` to `#FAFAF7`). Leave a continuous clear margin of at least 6% on all four sides of the final WebP. That is 72 px on the left and right and 48 px on the top and bottom. Keep shadows inside the margin and omit frames and vignettes.
-- Export a 1200 × 800 px WebP of at most 150,000 bytes. Start at Sharp quality 80 and check the finished image at 400 px and 96 px wide. The build creates transparent WebP derivatives at `/blog/art/<slug>` for the case log.
-- Use one of the six prompt blocks below, followed by the scene. Vary the composition within each direction. Keep neighboring covers in different directions by avoiding repeats within three positions of the newest-first index order.
+The English cover lives at `public/blog/covers/<slug>.webp` and the Chinese cover at `public/blog/covers/zh/<slug>.webp`. Both are 1200 × 800 WebP files capped at 150,000 bytes. A missing edition cover falls back to the first synced diagram for that edition.
 
-| Direction | Reusable prompt block |
-|---------|-----------------------|
-| Exploded instrument | Technical pen-and-gouache instrument plate on white. Use charcoal contour, graphite shading, oxidized teal and one vermilion diagnostic detail. Choose an exploded, sectional or offset view of one instrument. Separate parts on a mechanically meaningful axis. Give the silhouette and the detail that changes the outcome more weight than the fine linework. |
-| Cut-paper collage | Hand-cut matte cardstock on white, photographed from overhead. Use ultramarine, salmon, dark plum and white, with visible cut edges, paper fibers and tight cast shadows. Compose one layered silhouette around an overlap, void or interruption that explains the scene. |
-| Two-ink risograph | Two-ink risograph printed in dense violet and tangerine on white. Use coarse halftones, limited overprint and slight registration drift within the shapes. Build the composition around one clear silhouette or repeated shape, with large deliberate white counterspaces. |
-| Ink and wash | Editorial pen drawing with elastic black contours, broken dry-brush edges and concentrated indigo and ochre watercolor. Use one decisive line or gesture in a sparse composition. Keep washes inside the objects and keep the surrounding paper white. |
-| Geometric poster | A collectible modernist screen-printed poster. Use at most carbon-black, saffron and electric cyan as the three spot inks on white. Align a few large modular shapes, countershapes and parallel edges to a hidden construction grid. Use a planned overlap, slight offset or dramatic change in scale where the main action occurs. The silhouette and the rhythm should carry the subject. Pure flat ink, with fine print grain only inside inked areas. No gradients, pictogram panels, drop shadows, outlines, or visible grid. |
-| Stop-motion clay | Photograph hand-sculpted plasticine props in raspberry, mint and warm apricot on a white seamless. Keep the material matte, with thumb-pressed planes, tight contact shadows and readable silhouettes. Group props so that a physical action or tension is visible even without the surface texture. |
+1. Read the published note in `content/devlog/` and its translation in `content/devlog/zh/`. Write each two-line hook in its own language. Use roughly 2–6 English words or 4–12 Chinese characters. Use names only when the note publishes them, and preserve their spelling. Pick an expression that matches the hook.
+2. Use `scripts/blog-covers/duck.webp` as the identity sheet for every scene. Keep the two-point tuft, lemon body, coral bill, oversized brows and dark rim. Choose one or two literal props. Alternate among a wide group below the headline, duck on the left, duck on the right and an oversized prop. Rotate the five grounds in the newest-first list so each layout and ground is separated from its next use by at least three covers.
+3. Save the text-free artwork with alpha to `scripts/blog-covers/illustrations/<slug>.webp`, around 100,000 bytes or less. Add the slug, scene, emotion, layout, ground and English and Chinese line arrays to `scripts/blog-covers/manifest.json`.
+
+```text
+Draw one flat-cartoon vignette on a genuinely transparent background. Use the supplied expression sheet as the identity reference for a single original debugging duck. Keep its round lemon-yellow body, swept two-point tuft, short coral bill, large expressive eyes and brows, coral webbed feet and three-lobed wings. Use thick dark outlines and flat solid fills. Show one or two literal objects with simple, blank surfaces and one small comic effect where useful. Keep the whole group inside a small transparent gutter. Omit lettering, numbers, punctuation, logos, textures, shadows, and fake writing. Use pale equipment shells on the night-indigo ground.
+```
+
+Append the arrangement and its scene to the prompt using generic nouns. Code sets the headline in Resource Han Rounded CN Heavy. The first line sits on the ground and the second line reverses on a solid panel. The compositor fits each edition separately and gives the longer line a wider slot in side layouts. Aim for roughly 70–85% of the width on that line where the scene allows it. Preview each finished cover at 180 px wide and at full size.
+
+The grounds rotate through mint `#53E3B4`, guava `#FF7894`, ultramarine `#484ADC`, sky `#69D9F7` and night indigo `#1A1740`. Night indigo pairs yellow type with a cyan panel.
+
+With `uv` and 7-Zip installed, rebuild both editions of one cover from the repository root.
+
+```sh
+uv run scripts/blog-covers/compose.py --slug 2026-11-05-requests-hang-then-fail-in-500-batches
+```
+
+Omit `--slug` to rebuild the manifest, or pass `--locale en` or `--locale zh` for one edition. On first use the compositor fetches the pinned upstream archive, checks its SHA-256 and the extracted font's SHA-256, and caches the font in `scripts/blog-covers/.font-cache/`. The font license is at `scripts/blog-covers/font/OFL.txt`. [Pinned Resource Han Rounded release](https://github.com/CyanoHao/Resource-Han-Rounded/releases/tag/v0.990)
+
+### Notebook sync
 
 | Command | What it does |
 |---------|--------------|

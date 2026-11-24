@@ -11,9 +11,8 @@
   --index-solved: #28613f;
   --index-wip: #805911;
   --index-open: #a04445;
-  --index-art-shadow: rgb(39 56 79 / 12%);
   --index-gutter: 16px;
-  --case-tracks: 98px 88px minmax(0, 1fr) clamp(122px, 24%, 188px);
+  --case-tracks: 98px 88px minmax(0, 1fr) clamp(122px, 24%, 196px);
   background: var(--index-page);
   border-color: var(--index-stroke);
   color: var(--index-ink);
@@ -32,7 +31,6 @@
   --index-solved: #9adcaa;
   --index-wip: #f2cd88;
   --index-open: #f2aaa9;
-  --index-art-shadow: rgb(212 228 239 / 23%);
 }
 
 /* A filtered index can expose the footer before the clock hydrates. */
@@ -108,14 +106,6 @@ body:has([data-blog-index]) > footer .font-mono > .font-mono {
   line-height: 1.25;
 }
 
-.index-cover-object { position: absolute; inset: 0; }
-.index-cover-object img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 4px var(--index-art-shadow));
-}
-
 .index-graph-head,
 .index-case-link {
   display: grid;
@@ -178,23 +168,26 @@ body:has([data-blog-index]) > footer .font-mono > .font-mono {
 .index-ref { border: 1px solid var(--index-stroke); padding: 0 4px; }
 .index-case-cover {
   position: relative;
-  height: 116px;
-  margin-right: var(--index-gutter);
-  perspective: 760px;
+  min-width: 0;
+  aspect-ratio: 3 / 2;
+  margin: 6px var(--index-gutter) 6px 0;
+  overflow: hidden;
+  border-radius: 7px;
 }
-@media (prefers-reduced-motion: no-preference) {
-  .index-cover-object { transition: transform 190ms cubic-bezier(.22, 1, .36, 1); }
-  .index-case-link:focus-visible .index-cover-object { transform: translate3d(0, -4px, 12px); }
+.index-case-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .index-case-link:hover .index-cover-object {
-    transform: translate3d(calc(var(--pointer-x, 0) * 4px), -5px, 20px)
-      rotateX(calc(var(--pointer-y, 0) * -7deg)) rotateY(calc(var(--pointer-x, 0) * 10deg));
-  }
+.index-case-cover[data-cover-kind="diagram"] img {
+  background: #fff;
+  padding: 4px;
 }
 
 @media (max-width: 639px) {
-  .blog-index { --index-gutter: 12px; --case-tracks: 34px minmax(0, 1fr) minmax(76px, 28%); }
+  .blog-index { --index-gutter: 12px; --case-tracks: 34px minmax(0, 1fr) minmax(76px, 33%); }
   .index-graph-head { display: none; }
   .index-case-link { padding-right: 6px; }
   .index-case-date { grid-area: 1 / 2 / 2 / 3; align-self: end; padding: 10px 0 0; }
@@ -202,5 +195,5 @@ body:has([data-blog-index]) > footer .font-mono > .font-mono {
   .index-case-copy { grid-area: 2 / 2 / 3 / 3; align-self: start; padding: 4px 5px 10px 0; }
   .index-case-title { font-size: 16px; }
   .index-case-meta { margin-top: 5px; }
-  .index-case-cover { grid-area: 1 / 3 / 3 / 4; height: 80px; margin: 0; }
+  .index-case-cover { grid-area: 1 / 3 / 3 / 4; margin: 6px 0; }
 }
