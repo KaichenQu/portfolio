@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { render, screen, within } from "@testing-library/react";
 import type { Note } from "@/lib/devlog";
 import BlogIndex from "./page";
 import ChineseBlogIndex from "../zh/page";
@@ -51,70 +51,55 @@ vi.mock("next/navigation", async (importActual) => ({
 const hrefs = (element: HTMLElement) =>
   within(element).getAllByRole("link").map(a => a.getAttribute("href"));
 
+beforeEach(() => history.replaceState(null, "", "/blog"));
+
+const caseHrefs = (name = "Cases") => hrefs(screen.getByRole("region", { name }).querySelector("ol")!);
+
 describe("BlogIndex", () => {
-  it("puts named topic rails and their case links above the newest-first case graph", () => {
+  it("shows named topic links with case counts above the newest-first list", () => {
     render(<BlogIndex />);
-    const map = screen.getByRole("region", { name: "Topic maps" });
-    const cases = screen.getByRole("region", { name: "Cases" });
-    expect(map.compareDocumentPosition(cases) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(hrefs(map)).toEqual([
-      "/blog/map", "/blog/debug-mid", "/blog/design-new", "/blog/second-map", "/blog/design-new",
-    ]);
-    expect(hrefs(cases)).toEqual([
+    const topics = screen.getByRole("navigation", { name: "Case topics" });
+    const list = screen.getByRole("region", { name: "Cases" }).querySelector("ol")!;
+    expect(topics.compareDocumentPosition(list) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(hrefs(topics)).toEqual(["/blog", "/blog?topic=map", "/blog?topic=second-map"]);
+    expect(within(topics).getByRole("link", { name: "All 4", current: "page" })).toBeInTheDocument();
+    expect(within(topics).getByRole("link", { name: "Title map 2" })).toBeInTheDocument();
+    expect(within(topics).getByRole("link", { name: "Title second-map 1" })).toBeInTheDocument();
+    expect(caseHrefs()).toEqual([
       "/blog/design-new", "/blog/debug-mid", "/blog/design-mid", "/blog/debug-old",
     ]);
-    expect(within(map).getByRole("link", { name: "Title map" }))
-      .toHaveAccessibleDescription("2 cases · 2 techniques · 1 lesson");
-    expect(within(map).getByRole("link", { name: "Title second-map" }))
-      .toHaveAccessibleDescription("1 case · 1 term");
-    expect(map.querySelectorAll("a[tabindex='0']")).toHaveLength(1);
-    expect(hrefs(screen.getByRole("navigation", { name: "Topic maps" })))
-      .toEqual(["/blog/map", "/blog/second-map"]);
   });
 
-  it("localizes the rails and preserves a focused case across its topic memberships", () => {
+  it("shows a shared case in either topic and all cases for an unknown topic", () => {
+    history.replaceState(null, "", "/blog?topic=map");
+    const { rerender } = render(<BlogIndex />);
+    const topics = screen.getByRole("navigation", { name: "Case topics" });
+    expect(within(topics).getByRole("link", { name: "Title map 2", current: "page" })).toBeInTheDocument();
+    expect(caseHrefs()).toEqual(["/blog/design-new", "/blog/debug-mid"]);
+    expect(screen.getByRole("link", { name: "View topic Title map" })).toHaveAttribute("href", "/blog/map");
+    expect(screen.getByText("1 technique · 1 lesson · 1 cheatsheet")).toBeVisible();
+
+    history.replaceState(null, "", "/blog?topic=second-map");
+    rerender(<BlogIndex />);
+    expect(within(topics).getByRole("link", { name: "Title second-map 1", current: "page" })).toBeInTheDocument();
+    expect(caseHrefs()).toEqual(["/blog/design-new"]);
+
+    history.replaceState(null, "", "/blog?topic=unknown");
+    rerender(<BlogIndex />);
+    expect(within(topics).getByRole("link", { name: "All 4", current: "page" })).toBeInTheDocument();
+    expect(caseHrefs()).toEqual([
+      "/blog/design-new", "/blog/debug-mid", "/blog/design-mid", "/blog/debug-old",
+    ]);
+  });
+
+  it("localizes the topic links and preserves the case order and redacted title", () => {
+    history.replaceState(null, "", "/blog/zh?topic=map");
     render(<ChineseBlogIndex />);
-    const map = screen.getByRole("region", { name: "知识地图" });
-    const cases = screen.getByRole("region", { name: "案例" });
-    expect(hrefs(map)).toEqual([
-      "/blog/zh/map", "/blog/zh/debug-mid", "/blog/zh/design-new", "/blog/zh/second-map", "/blog/zh/design-new",
-    ]);
-    expect(hrefs(cases)).toEqual([
-      "/blog/zh/design-new", "/blog/zh/debug-mid", "/blog/zh/design-mid", "/blog/zh/debug-old",
-    ]);
-    const [station, duplicate] = within(map).getAllByRole("link", { name: "译文 已遮盖 term" });
-    fireEvent.focusIn(station);
-    expect(station.parentElement).toHaveAttribute("data-current");
-    expect(duplicate.parentElement).toHaveAttribute("data-duplicate");
-    expect(map.querySelector("[data-map-tooltip] .redacted")).toHaveAttribute("aria-label", "已遮盖");
-    expect(map.querySelector("[data-map-tooltip]")).toHaveTextContent("2026-11-04wip");
-    expect(within(cases).getByRole("group", { name: "案例状态" })).toBeInTheDocument();
-  });
-
-  it("applies URL-backed type and status toggles to map cases and list rows together", () => {
-    render(<BlogIndex />);
-    const map = screen.getByRole("region", { name: "Topic maps" });
-    const cases = screen.getByRole("region", { name: "Cases" });
-    const toggle = (name: string) => within(cases).getByRole("button", { name });
-    try {
-      fireEvent.click(toggle("debug"));
-      fireEvent.click(toggle("solved"));
-      expect(toggle("debug")).toHaveAttribute("aria-pressed", "true");
-      expect(hrefs(map)).toEqual(["/blog/map", "/blog/debug-mid", "/blog/second-map"]);
-      expect(hrefs(cases)).toEqual(["/blog/debug-mid"]);
-      expect(location.search).toBe("?type=case-debug&status=solved");
-
-      fireEvent.click(toggle("open"));
-      expect(location.search).toBe("?type=case-debug&status=solved&status=open");
-      expect(hrefs(cases)).toEqual(["/blog/debug-mid", "/blog/debug-old"]);
-
-      history.replaceState(null, "", location.pathname);
-      fireEvent.popState(window);
-      expect(toggle("debug")).toHaveAttribute("aria-pressed", "false");
-      expect(hrefs(map)).toHaveLength(5);
-      expect(hrefs(cases)).toHaveLength(4);
-    } finally {
-      history.replaceState(null, "", location.pathname);
-    }
+    const topics = screen.getByRole("navigation", { name: "案例主题" });
+    expect(hrefs(topics)).toEqual(["/blog/zh", "/blog/zh?topic=map", "/blog/zh?topic=second-map"]);
+    expect(within(topics).getByRole("link", { name: "译文 map 2", current: "page" })).toBeInTheDocument();
+    expect(caseHrefs("案例")).toEqual(["/blog/zh/design-new", "/blog/zh/debug-mid"]);
+    expect(screen.getByRole("link", { name: "译文 已遮盖 term" })).toHaveAttribute("href", "/blog/zh/design-new");
+    expect(screen.getByText("1 项技术 · 1 篇教训 · 1 份速查")).toBeVisible();
   });
 });
