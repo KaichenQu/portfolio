@@ -44,8 +44,8 @@ export default function CommitGraph({ cases, caseTopics, locale, title, date, no
                     {note.status && <span className="index-ref" data-ref={note.status}>{note.status}</span>}
                   </div>
                 </div>
-                <div className="index-case-cover" data-depth>
-                  <div className="index-cover-object"><CoverArt note={note} priority={index === 0} /></div>
+                <div className="index-case-cover" data-cover-kind={note.cover?.kind}>
+                  <CoverArt note={note} decorative priority={index === 0} />
                 </div>
               </NextLink>
             </li>

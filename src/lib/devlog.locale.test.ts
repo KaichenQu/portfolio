@@ -82,14 +82,18 @@ describe("DevLog locales", () => {
     expect(html).toContain('<td><a href="/blog/zh/pump">水泵</a></td>');
   });
 
-  it("uses localized diagrams in body and covers, and shares a cover illustration by slug", async () => {
+  it("resolves cover illustrations by edition and falls back to a localized diagram", async () => {
+    const slug = "2026-11-05-requests-hang-then-fail-in-500-batches";
     for (const folder of ["notes", "notes/zh"]) {
       write(`${folder}/Techniques/pump.md`, "# Pump\n\n![示意图](../Diagrams/pump.svg)\n");
       write(`${folder}/Techniques/valve.md`, "# Valve\n\n![配图](../Diagrams/pump.svg)\n");
+      write(`${folder}/Cases/Debug/${slug}.md`, "# Requests\n\n![配图](../../Diagrams/pump.svg)\n");
     }
     write("diagrams/pump.svg", '<svg width="120" height="80"/>');
     write("diagrams/zh/pump.svg", '<svg width="240" height="100"/>');
     write("covers/valve.webp", "");
+    write(`covers/${slug}.webp`, "");
+    write(`covers/zh/${slug}.webp`, "");
     const zh = source("zh-Hans");
     const en = source("en");
     const note = getNote("pump", zh)!;
@@ -101,8 +105,14 @@ describe("DevLog locales", () => {
     expect(getNote("pump", en)?.cover).toMatchObject({
       src: "/blog/diagrams/pump.svg", width: 120,
     });
-    expect(getNote("valve", zh)?.cover).toEqual(getNote("valve", en)?.cover);
-    expect(getNote("valve", zh)?.cover?.src).toBe("/blog/covers/valve.webp");
+    expect(getNote("valve", en)?.cover?.src).toBe("/blog/covers/valve.webp");
+    expect(getNote("valve", zh)?.cover?.src).toBe("/blog/diagrams/zh/pump.svg");
+    expect(getNote(slug, en)?.cover).toMatchObject({
+      kind: "art", src: `/blog/covers/${slug}.webp`, alt: "Requests Hang, Then 500?",
+    });
+    expect(getNote(slug, zh)?.cover).toMatchObject({
+      kind: "art", src: `/blog/covers/zh/${slug}.webp`, alt: "请求卡住 又报 500？",
+    });
   });
 
   it("uses an existing English SVG when the Chinese figure is missing, and keeps unavailable figures as text", async () => {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronRight } from "lucide-react";
+import CoverArt from "@/components/blog/cover-art";
 import { LanguageLink, languageAlternates } from "@/components/blog/language-link";
 import Mermaid from "@/components/blog/mermaid";
 import { mosaic } from "@/components/blog/mosaic";
@@ -106,6 +107,9 @@ export default async function NotePage({ params, locale }: Props & { locale: Blo
         <div className="mt-3">
           <TagList tags={note.tags} locale={locale} />
         </div>
+        {note.cover?.kind === "art" && (
+          <CoverArt note={note} priority className="mt-6 block h-auto w-full max-w-xl rounded-xl" />
+        )}
 
         <div
           id="note-body"

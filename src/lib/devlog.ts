@@ -18,6 +18,7 @@ import type {
 import type { Root as HastRoot, Element, ElementContent } from "hast";
 import { REDACTED_RUN } from "@/components/blog/mosaic";
 import { blogPath, redactedLabel, type BlogLocale } from "./blog-locale";
+import coverManifest from "../../scripts/blog-covers/manifest.json";
 
 export const DEVLOG_DIR = path.join(process.cwd(), "content", "devlog");
 export const DIAGRAMS_DIR = path.join(
@@ -26,8 +27,9 @@ export const DIAGRAMS_DIR = path.join(
   "blog",
   "diagrams",
 );
-/** One generated illustration per note, `<slug>.webp` at 1200 x 800. */
+/** Localized 1200 x 800 illustrations, with Chinese covers under zh/. */
 export const COVERS_DIR = path.join(process.cwd(), "public", "blog", "covers");
+const coverHeadlines = new Map(coverManifest.map(({ slug, headline }) => [slug, headline]));
 
 // Explorer order; the key is the note's folder relative to the content root.
 export const SECTIONS = [
@@ -64,6 +66,7 @@ export type Note = {
     src: string;
     width: number;
     height: number;
+    alt?: string;
   };
 };
 
@@ -224,12 +227,15 @@ function readNote(
   visit(tree, "text", (t) => {
     for (const m of t.value.matchAll(WIKILINK)) targets.add(slugify(linkStem(m[1])));
   });
-  let cover: Note["cover"] = fs.existsSync(path.join(covers, `${slug}.webp`))
+  const coverPath = locale === "zh-Hans" ? `zh/${slug}.webp` : `${slug}.webp`;
+  const headline = coverHeadlines.get(slug)?.[locale === "zh-Hans" ? "zh" : "en"];
+  let cover: Note["cover"] = fs.existsSync(path.join(covers, coverPath))
     ? {
         kind: "art",
-        src: `/blog/covers/${slug}.webp`,
+        src: `/blog/covers/${coverPath}`,
         width: 1200,
         height: 800,
+        ...(headline && { alt: headline.join(" ") }),
       }
     : undefined;
   visit(tree, "image", (img) => {

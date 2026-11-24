@@ -15,33 +15,6 @@ export default function BlogIndexInteractions() {
     const root = document.querySelector<HTMLElement>("[data-blog-index]");
     if (!root) return;
     const rows = [...root.querySelectorAll<HTMLAnchorElement>("[data-case-link]")];
-    const motion = window.matchMedia?.("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
-    let depth: HTMLElement | null = null;
-    let frame = 0;
-
-    function clearDepth() {
-      cancelAnimationFrame(frame);
-      depth?.style.removeProperty("--pointer-x");
-      depth?.style.removeProperty("--pointer-y");
-      depth = null;
-    }
-
-    function pointerMove(event: PointerEvent) {
-      if (event.pointerType === "touch" || !(event.target instanceof Element)) return;
-      if (!motion?.matches) return;
-      const row = event.target.closest<HTMLElement>("[data-case-link]");
-      const target = row?.querySelector<HTMLElement>("[data-depth]") ?? null;
-      if (target !== depth) clearDepth();
-      if (!row || !target) return;
-      depth = target;
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const { left, top, width, height } = row.getBoundingClientRect();
-        const unit = (offset: number, size: number) => Math.max(-1, Math.min(1, 2 * offset / size - 1));
-        target.style.setProperty("--pointer-x", String(unit(event.clientX - left, width)));
-        target.style.setProperty("--pointer-y", String(unit(event.clientY - top, height)));
-      });
-    }
 
     function keyDown(event: KeyboardEvent) {
       if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
@@ -69,15 +42,8 @@ export default function BlogIndexInteractions() {
       visibleRows[next].scrollIntoView({ block: "nearest", behavior: "instant" });
     }
 
-    root.addEventListener("pointermove", pointerMove);
-    root.addEventListener("pointerleave", clearDepth);
     window.addEventListener("keydown", keyDown);
-    return () => {
-      root.removeEventListener("pointermove", pointerMove);
-      root.removeEventListener("pointerleave", clearDepth);
-      window.removeEventListener("keydown", keyDown);
-      clearDepth();
-    };
+    return () => window.removeEventListener("keydown", keyDown);
   }, []);
 
   return null;

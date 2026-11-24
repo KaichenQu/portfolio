@@ -1,0 +1,427 @@
+[
+  {
+    "slug": "2026-11-21-acceptance-gates-for-a-delegated-ui-redesign",
+    "scene": "the duck grimaces in disbelief at two large overlapping browser screenshot cards, one with a neat green status strip and one with an obviously cropped coral panel. A small pair of sweat drops off its cheek. No logos, text, checkmarks or error glyphs.",
+    "emotion": "Alarmed scrutiny",
+    "arrangement": "Wide group below",
+    "ground": "#53E3B4",
+    "headline": {
+      "en": [
+        "Green Tests,",
+        "Bad UI?"
+      ],
+      "zh": [
+        "测试都绿了",
+        "界面还翻车？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-11-09-publishing-a-private-notebook-with-redaction-at-sync",
+    "scene": "the duck holds up an open notebook page with three solid dark redaction bands and a plain purple cover.",
+    "emotion": "Focused resolve",
+    "arrangement": "Host left",
+    "ground": "#FF7894",
+    "headline": {
+      "en": [
+        "Redact First,",
+        "Then Publish"
+      ],
+      "zh": [
+        "先给笔记脱敏",
+        "再公开"
+      ]
+    }
+  },
+  {
+    "slug": "2026-11-05-requests-hang-then-fail-in-500-batches",
+    "scene": "Duck throws both wings up in panic, with two red shock rays, next to a monitor with a large empty coral error pane and a teal database cylinder.",
+    "emotion": "Startled frustration",
+    "arrangement": "Host right",
+    "ground": "#484ADC",
+    "headline": {
+      "en": [
+        "Requests Hang,",
+        "Then 500?"
+      ],
+      "zh": [
+        "请求卡住",
+        "又报 500？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-11-04-structure-assistant-submit-recovery-and-abandon",
+    "scene": "A giant submission form in a generic browser panel is center stage. A sequence of three simple filled progress rectangles on the large form changes from muted coral to vivid mint. duck peeks over its lower right side and presses the plain mint button with one finger, with a determined relieved smile. Plain form slots and color rectangles only.",
+    "emotion": "Determined relief",
+    "arrangement": "Oversized prop",
+    "ground": "#69D9F7",
+    "headline": {
+      "en": [
+        "Submit Failed?",
+        "Resume It."
+      ],
+      "zh": [
+        "提交断了",
+        "接着跑"
+      ]
+    }
+  },
+  {
+    "slug": "2026-10-26-self-hosted-ci-on-shared-mac-mini",
+    "scene": "the duck proudly holds up a small generic low-profile silver desktop computer with a small dark power light and two ports. A dark test dashboard beside him shows three large bright mint progress cells. its raised eyebrow, lopsided grin, and free thumbs-up make the result feel funny. No branding on the computer.",
+    "emotion": "Proud confidence",
+    "arrangement": "Wide group below",
+    "ground": "#1A1740",
+    "headline": {
+      "en": [
+        "Run CI",
+        "on a Mac mini"
+      ],
+      "zh": [
+        "CI 测试",
+        "搬上 Mac mini"
+      ]
+    }
+  },
+  {
+    "slug": "2026-10-26-tradingview-intraday-snapshots-stuck-pending",
+    "scene": "The exhausted duck slumps with its cheek resting in one wing on a bare terminal ledge, eyelids heavy. Beside it a generic price chart monitor has an empty cream plot area and one nearly empty coral loading bar. One sweat bead.",
+    "emotion": "Exhausted impatience",
+    "arrangement": "Host left",
+    "ground": "#53E3B4",
+    "headline": {
+      "en": [
+        "Intraday Charts",
+        "Still Loading?"
+      ],
+      "zh": [
+        "日内行情",
+        "怎么还没到？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-10-24-plaid-item-removal-retry-after-verification",
+    "scene": "duck leans forward with a determined smile as it grips a chunky unplugged data connector next to a generic phone showing two plain account-card panels. The actions and expressions keep the prop distinct from a charger. Use bright indigo and mint contrasting fills, no directional arrows or text.",
+    "emotion": "Focused confidence",
+    "arrangement": "Host right",
+    "ground": "#FF7894",
+    "headline": {
+      "en": [
+        "Retry the",
+        "Account Unlink"
+      ],
+      "zh": [
+        "账户解绑失败",
+        "自动重试"
+      ]
+    }
+  },
+  {
+    "slug": "2026-10-24-yahoo-request-budget-and-daily-bar-store",
+    "scene": "The pleased duck points at large coral and jade candlesticks on a plain monitor beside a database cylinder.",
+    "emotion": "Pleased relief",
+    "arrangement": "Oversized prop",
+    "ground": "#484ADC",
+    "headline": {
+      "en": [
+        "Batch the",
+        "Quote Requests"
+      ],
+      "zh": [
+        "行情合批拉",
+        "少撞限流"
+      ]
+    }
+  },
+  {
+    "slug": "2026-10-16-requested-values-empty-after-pair-translation",
+    "scene": "Two little steel plates with coral circular weld marks and a large simple result monitor with empty cream measurement cells. duck leans forward to peer at the blank cells, both palms up in comic disbelief. Slate metal, cream screens and coral highlights. No scale markings.",
+    "emotion": "Incredulous confusion",
+    "arrangement": "Wide group below",
+    "ground": "#69D9F7",
+    "headline": {
+      "en": [
+        "Moved Both,",
+        "Values Blank?"
+      ],
+      "zh": [
+        "俩焊印都动了",
+        "要求值呢？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-10-15-structure-run-parallelism-capacity",
+    "scene": "An exasperated duck presses one wing over its eyes in a facepalm while leaning on a pale settings panel with a horizontal slider near its maximum. Three empty job cells sit together at the bottom. One tiny coral heat wisp.",
+    "emotion": "Frustrated alarm",
+    "arrangement": "Host left",
+    "ground": "#1A1740",
+    "headline": {
+      "en": [
+        "More Parallelism,",
+        "Every Run Fails?"
+      ],
+      "zh": [
+        "并发一加",
+        "任务全挂？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-10-13-mac-mini-ci-runners-in-an-isolated-orbstack-vm",
+    "scene": "the duck carefully lowers a tiny server chassis into a slightly larger see-through rectangular virtual machine enclosure on top of a low-profile generic desktop computer. Bold outlines clearly separate the frames. its eyebrows are focused with a small satisfied grin. No hardware logos.",
+    "emotion": "Pleased concentration",
+    "arrangement": "Host right",
+    "ground": "#53E3B4",
+    "headline": {
+      "en": [
+        "Isolate the",
+        "CI Runners"
+      ],
+      "zh": [
+        "CI 跑进",
+        "隔离虚拟机"
+      ]
+    }
+  },
+  {
+    "slug": "2026-08-13-feishu-image-blocked-by-overbroad-guard",
+    "scene": "Make a giant tilted image attachment, with an actual tiny stylized mountain and warm sun depicted inside it, center stage. the duck peeks around the left edge, puzzled and sweating. A little desk robot helper with a plain dark faceplate and two round cream eyes peers at the image from the bottom, wing-hands helplessly raised. The small robot is an object, subordinate to the duck and image.",
+    "emotion": "Baffled concern",
+    "arrangement": "Oversized prop",
+    "ground": "#FF7894",
+    "headline": {
+      "en": [
+        "Group Image",
+        "Won’t Open?"
+      ],
+      "zh": [
+        "群里发图",
+        "机器人看不了？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-07-25-subagents-disabled-by-stale-subscription-cache",
+    "scene": "the duck pokes a small inactive robot helper sitting at a blank dark job dashboard. The robot's plain eyes are dim round bulbs and its head hangs forward. duck's raised eyebrow and large sweat bead sell the joke. One duck, one desktop robot prop, one blank dash with colored rows.",
+    "emotion": "Puzzled impatience",
+    "arrangement": "Wide group below",
+    "ground": "#484ADC",
+    "headline": {
+      "en": [
+        "Why Won’t",
+        "Subagents Spawn?"
+      ],
+      "zh": [
+        "子代理",
+        "怎么不启动？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-07-25-trimming-claude-md-and-splitting-agents-index",
+    "scene": "duck on the left holds a thin cream document with clearly visible blank colored index tabs, while an old tall stack of paper sags behind it. it gives a little smug thumbs-up. No writing, only blank sheets and large index tabs. Keep the group compact and nearly square.",
+    "emotion": "Satisfied resolve",
+    "arrangement": "Host left",
+    "ground": "#69D9F7",
+    "headline": {
+      "en": [
+        "Trim the",
+        "Agent Instructions"
+      ],
+      "zh": [
+        "指令文件",
+        "砍短再拆索引"
+      ]
+    }
+  },
+  {
+    "slug": "2026-07-13-stl-viewer-retry-button-does-nothing",
+    "scene": "Furious duck pokes the large blank coral retry button of a cream 3D viewport with a wing. Inside the viewport is a clearly recognizable gray L-shaped mechanical bracket with two round bolt holes. One small coral heat wisp. Beak clenched.",
+    "emotion": "Furious disbelief",
+    "arrangement": "Host right",
+    "ground": "#1A1740",
+    "headline": {
+      "en": [
+        "STL Retry",
+        "Does Nothing?"
+      ],
+      "zh": [
+        "STL 加载失败",
+        "重试也没用？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-07-10-quiet-desk-redesign-four-parallel-agents",
+    "scene": "One giant widescreen dashboard, center stage, with four visibly different but well-integrated pane motifs in teal, cream and indigo. duck peeks up behind its left corner and thinks with a wing on its chin and one raised eyebrow. Panels use large flat shapes only. The dashboard is much bigger than the duck.",
+    "emotion": "Thoughtful worry",
+    "arrangement": "Oversized prop",
+    "ground": "#53E3B4",
+    "headline": {
+      "en": [
+        "Four Agents,",
+        "One Redesign?"
+      ],
+      "zh": [
+        "四个代理",
+        "一起改界面？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-07-08-tradingview-auth-token-no-longer-a-cookie",
+    "scene": "Baffled duck spreads its wings while looking at a blank browser storage panel, with a plain credential card just outside the window and one sweat drop at the eyebrow.",
+    "emotion": "Baffled frustration",
+    "arrangement": "Wide group below",
+    "ground": "#FF7894",
+    "headline": {
+      "en": [
+        "Where’s the",
+        "Auth Cookie?"
+      ],
+      "zh": [
+        "行情登录",
+        "cookie 哪去了？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-07-07-cron-job-appears-untriggered-script-died-silently",
+    "scene": "A baffled duck scratches its tuft with one wing. An unnumbered coral twin-bell alarm clock and almost empty cream terminal are the only props; avoid any punctuation-like swirls.",
+    "emotion": "Anxious confusion",
+    "arrangement": "Host left",
+    "ground": "#484ADC",
+    "headline": {
+      "en": [
+        "Did cron",
+        "Even Run?"
+      ],
+      "zh": [
+        "cron",
+        "怎么没跑？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-07-07-unifying-dual-account-claude-config",
+    "scene": "The smug duck gives a thumbs-up while presenting a shared settings sheet beside two overlapping, blank account panels.",
+    "emotion": "Proud relief",
+    "arrangement": "Host right",
+    "ground": "#69D9F7",
+    "headline": {
+      "en": [
+        "One Config,",
+        "Two Accounts"
+      ],
+      "zh": [
+        "两个账号",
+        "共用一套配置"
+      ]
+    }
+  },
+  {
+    "slug": "2026-06-29-chezmoi-platform-template-breaks-decryption",
+    "scene": "An oversized mint configuration sheet occupies the middle behind a big closed coral padlock. duck peeks in from one side sweating and tugs at its key with both wing-hands; exaggerated strain. The configuration sheet is decorated with two blank tinted content blocks and blank margins. No writing or code.",
+    "emotion": "Perplexed strain",
+    "arrangement": "Oversized prop",
+    "ground": "#1A1740",
+    "headline": {
+      "en": [
+        "Template Added,",
+        "Decryption Broke?"
+      ],
+      "zh": [
+        "刚加模板",
+        "怎么解不了密？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-06-29-chezmoi-plaintext-secrets-to-age-encryption",
+    "scene": "One closed coral padlock on top of a pale file folder. The duck lowers the lock with one wing and grins smugly, raising a three-lobed thumbs-up with its free wing. Two coral emphasis rays.",
+    "emotion": "Confident relief",
+    "arrangement": "Wide group below",
+    "ground": "#53E3B4",
+    "headline": {
+      "en": [
+        "Encrypt the",
+        "API Keys"
+      ],
+      "zh": [
+        "明文 API key",
+        "加密再同步"
+      ]
+    }
+  },
+  {
+    "slug": "2026-06-25-newapi-model-listed-but-unusable",
+    "scene": "Duck on the left jabs one wing at a model-catalog browser window with three chunky violet options and a coral failed response rectangle. The duck clenches its beak and has two small heat wisps at its tuft.",
+    "emotion": "Exasperated anger",
+    "arrangement": "Host left",
+    "ground": "#FF7894",
+    "headline": {
+      "en": [
+        "Listed Models",
+        "Won’t Run?"
+      ],
+      "zh": [
+        "模型列出来",
+        "怎么调不通？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-06-22-tradingview-mcp-not-registering",
+    "scene": "the duck shrugs at a compact terminal window containing several blank colored list slots and one conspicuously empty large space. A single chunky unused connector plug rests directly by the empty panel. Pose: mouth open, a wing raised incredulously. No symbols or text on the terminal.",
+    "emotion": "Alarmed confusion",
+    "arrangement": "Host right",
+    "ground": "#484ADC",
+    "headline": {
+      "en": [
+        "Configured MCP",
+        "Still Missing?"
+      ],
+      "zh": [
+        "MCP 配好了",
+        "怎么找不到？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-06-19-lambda-succeeds-but-writes-no-data",
+    "scene": "A huge plot monitor center stage shows a clean empty plot area with two plain thin axes and no data or labels. A small cream database cylinder is at its foot. duck peeks up lower right with huge eyes and mouth dropped, one wing on the screen edge. Two coral shock rays, no punctuation.",
+    "emotion": "Dismayed surprise",
+    "arrangement": "Oversized prop",
+    "ground": "#69D9F7",
+    "headline": {
+      "en": [
+        "Job Succeeded,",
+        "Chart Empty?"
+      ],
+      "zh": [
+        "任务跑完",
+        "图表还是空的？"
+      ]
+    }
+  },
+  {
+    "slug": "2026-06-19-teardown-by-prefix-instead-of-exact-name",
+    "scene": "Delighted duck with closed happy eyes moves two little pale server boxes with identical bright indigo top strips into a shallow teal cleanup tray. One matching closed server is tucked behind the two. Two coral eureka rays by its head.",
+    "emotion": "Pleased certainty",
+    "arrangement": "Wide group below",
+    "ground": "#1A1740",
+    "headline": {
+      "en": [
+        "Delete by",
+        "Name Prefix"
+      ],
+      "zh": [
+        "资源清理",
+        "按前缀删"
+      ]
+    }
+  }
+]
